@@ -23,7 +23,7 @@
             align-items: center;
             position: relative;
         }
-        
+
         body::before {
             content: '';
             position: absolute;
@@ -31,92 +31,96 @@
             right: 0;
             bottom: 0;
             left: 0;
-            /* Updated gradient colors to warm orange/amber theme for pet adoption */
-            background: linear-gradient(135deg, rgba(251, 146, 60, 0.9) 0%, rgba(245, 101, 101, 0.9) 100%);
+            /* Fondo degradado cálido en tonos beige */
+            background: linear-gradient(135deg, rgba(233, 222, 207, 0.95) 0%, rgba(214, 188, 165, 0.9) 100%);
             z-index: 0;
         }
-        
+
         .container {
             position: relative;
             z-index: 1;
         }
-        
+
         .card {
             border: none;
             border-radius: 15px;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
             backdrop-filter: blur(10px);
-            background-color: rgba(255, 255, 255, 0.95);
+            background-color: rgba(255, 255, 255, 0.97);
         }
-        
+
         .card-header {
-            /* Updated header gradient to warm pet-friendly colors */
-            background: linear-gradient(to right, #f59e0b, #ea580c);
+            /* Degradado neutro en beige/marrón claro */
+            background: linear-gradient(to right, #d6baa5, #bfa48b);
             border-radius: 15px 15px 0 0 !important;
             padding: 25px;
         }
-        
+
         .form-control {
             border-radius: 10px;
             padding: 12px;
-            border: 2px solid #e9ecef;
+            border: 2px solid #e6e2dd;
             background-color: rgba(255, 255, 255, 0.9);
         }
-        
+
         .form-control:focus {
-            /* Updated focus color to match pet theme */
-            border-color: #f59e0b;
-            box-shadow: 0 0 0 0.2rem rgba(245, 158, 11, 0.25);
+            /* Beige dorado en foco */
+            border-color: #c4a484;
+            box-shadow: 0 0 0 0.2rem rgba(196, 164, 132, 0.25);
             background-color: #ffffff;
         }
-        
+
         .btn-primary {
-            /* Updated button gradient to match pet theme */
-            background: linear-gradient(to right, #f59e0b, #ea580c);
+            /* Botón con beige arena */
+            background: linear-gradient(to right, #d6baa5, #c4a484);
             border: none;
-            border-radius: 10px;
+            border-radius: 100px;
             padding: 12px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 1px;
             transition: all 0.3s ease;
+            color: #fff;
         }
-        
+
         .btn-primary:hover {
-            /* Updated hover gradient */
-            background: linear-gradient(to right, #ea580c, #f59e0b);
+            background: linear-gradient(to right, #c4a484, #d6baa5);
             transform: translateY(-2px);
-            box-shadow: 0 7px 14px rgba(0,0,0,0.2), 0 3px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 7px 14px rgba(0,0,0,0.15), 0 3px 6px rgba(0,0,0,0.1);
         }
-        
+
         .card-body {
             padding: 40px;
         }
-        
+
         .form-label {
             font-weight: 600;
-            color: #495057;
+            color: #5c4b3b;
             margin-bottom: 10px;
         }
-        
+
         .text-muted {
             font-size: 0.9rem;
+            color: #7a6f67 !important;
         }
-        
+
         .invalid-feedback {
             font-size: 0.85rem;
         }
-        
+
         .card-header h2 {
             font-size: 2rem;
             font-weight: 700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            color: #fff;
         }
-        
+
         .opacity-75 {
             font-size: 1.1rem;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            color: #6b5a49 !important;
         }
+
     </style>
 </head>
 <body>

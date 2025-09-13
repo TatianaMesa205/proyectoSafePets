@@ -4,6 +4,8 @@ session_start();
 
 include "view/modules/cabecera.php";
 
+// include_once "view/modules/inicioAdp.php";
+
 
 if (isset($_SESSION["iniciarSesion"]) == "ok"){
 
