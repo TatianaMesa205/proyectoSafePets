@@ -1,24 +1,33 @@
 <?php
-session_start();
 
 
-include "view/modules/cabecera.php";
+// include_once "view/modules/cabecera.php";
 
-// include_once "view/modules/inicioAdp.php";
+include_once "view/modules/menu.php";
 
 
-if (isset($_SESSION["iniciarSesion"]) == "ok"){
 
-    $listaRutas = array("inicio", "adopta", "citas", "donaciones", "publicaciones");
+// if (isset($_SESSION["iniciarSesion"]) == "ok"){
 
-    if (isset($_GET["ruta"]) && in_array($_GET["ruta"], $listaRutas)){
-        include "view/modules/".$_GET["ruta"].".php";
-    } else {
-        include "view/modules/login.php";
-    }
+$listaRutas = array("inicioAdp", "adopta","detalleMascota","citas", "donaciones", "publicaciones");
 
-} else {
-    include "view/modules/login.php";
+
+if (isset($_GET["ruta"]) && in_array($_GET["ruta"],$listaRutas)){
+    include_once "view/modules/".$_GET["ruta"].".php";
+}else{
+    include_once "view/modules/inicioAdp.php";
 }
+
+
+
+//     if (isset($_GET["ruta"]) && in_array($_GET["ruta"], $listaRutas)){
+//         include "view/modules/".$_GET["ruta"].".php";
+//     } else {
+//         include "view/modules/login.php";
+//     }
+
+// } else {
+//     include "view/modules/login.php";
+// }
 
 include "view/modules/pie.php";

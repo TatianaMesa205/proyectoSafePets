@@ -10,70 +10,43 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
   <style>
-    .navbar {
-      background-color: #f0e4d8ff; /* Beige suave */
-    }
-    .navbar-brand {
-      font-weight: bold;
-      font-size: 1.7rem;
-      color: #8b5e3c !important; /* Marrón cálido */
-    }
-    .nav-link {
-      color: #5a4633 !important; /* Marrón más oscuro */
-      font-weight: 500;
-      transition: 0.3s;
-    }
-    .nav-link:hover {
-      color: #a67856 !important; /* Marrón claro al pasar */
-    }
-    .navbar-toggler {
-      border-color: #8b5e3c;
-    }
-    .navbar-toggler-icon {
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgb(139,94,60)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-    }
 
-    /* Ajustes carrusel */
-    .carousel-inner img {
-      height: 350px;
-      object-fit: cover;
-      border-radius: 250px;
-    }
-
+    /* fondo general y tipografía. */
     body {
-      margin: 0;
-      font-family: "Poppins", sans-serif;
-      background-color: #f9f6f6;
+      margin: 0; /* Elimina márgenes por defecto */
+      font-family: "Poppins", sans-serif; /* Fuente moderna */
+      background-color: #f9f6f6; /* Fondo gris muy claro */
     }
 
+
+    /* sección descriptiva con imagen + texto. */
     .about {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
-      padding: 50px;
-      background-color: #f9f4f3;
-      border-radius: 20px;
-      margin: 30px;
+      display: flex; /* Organiza imagen + texto en fila */
+      justify-content: center; /* Centra horizontalmente */
+      align-items: center; /* Centra verticalmente */
+      gap: 30px; /* Espacio entre imagen y texto */
+      padding: 50px; /* Espaciado interno */
+      background-color: #f9f4f3; /* Fondo beige claro */
+      border-radius: 20px; /* Bordes redondeados */
+      margin: 30px; /* Espaciado externo */
     }
-
     .about img {
-      width: 300px;
-      border-radius: 15px;
-      height: 300px;
-      object-fit: cover;
+      width: 300px; /* Tamaño fijo de ancho */
+      height: 300px; /* Tamaño fijo de alto */
+      border-radius: 15px; /* Bordes redondeados */
+      object-fit: cover; /* Recorta la imagen sin deformarla */
     }
-
     .about-text {
-      max-width: 600px;
-      text-align: justify;
+      max-width: 600px; /* Ancho máximo del texto */
+      text-align: justify; /* Texto justificado */
     }
-
     .about-text h2 {
-      text-align: center;
-      margin-bottom: 20px;
+      text-align: center; /* Centrado */
+      margin-bottom: 20px; /* Espacio inferior */
     }
 
+
+    /* primer pie de página con logo, info y redes. */
     .footer {
       background-color: #f0e4d8ff;
       padding: 40px;
@@ -124,6 +97,8 @@
       color: #c0a18bff;
     }
 
+
+    /* segundo pie de página con línea y copyright. */
     .footer1 {
       background: #f0e4d8ff;
       padding: 3px 20px 10px;
@@ -162,115 +137,6 @@
 </head>
 <body>
 
-<!-- Navbar -->
-<nav class="navbar navbar-expand-lg shadow-sm">
-  <div class="container">
-    <a class="navbar-brand" href="#">𝓢𝓪𝓯𝓮 𝓟𝓮𝓽𝓼</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto align-items-center">
-        <!-- Imagen de perfil -->
-        <li class="nav-item">
-          <img src="https://i.pinimg.com/736x/56/0b/d8/560bd8e051730a69576a5cd0dd24978b.jpg" alt="Perfil" class="rounded-circle me-2" width="38" height="40">
-        </li>
-        <!-- Nombre usuario -->
-        <li class="nav-item">
-          <span class="nav-link fw-bold">𝐇𝐨𝐥𝐚 𝐓𝐚𝐭𝐢𝐚𝐧𝐚</span>
-        </li>
-      </ul>
-    </div>
-
-  </div>
-</nav>
-
-<!-- Carrusel -->
-<div id="carruselSafePets" class="carousel slide container mt-4" data-bs-ride="carousel">
-  <div class="carousel-inner">
-    <!-- Imagen 1 -->
-    <div class="carousel-item active">
-      <img src="https://images.pexels.com/photos/2145878/pexels-photo-2145878.jpeg" class="d-block w-100" alt="Gatito tierno">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Encuentra tu mejor amigo 🤎</h5>
-        <p>Adopta y cambia una vida hoy.</p>
-      </div>
-    </div>
-    <!-- Imagen 2 -->
-    <div class="carousel-item">
-      <img src="https://images.pexels.com/photos/140134/pexels-photo-140134.jpeg" class="d-block w-100" alt="Perrito feliz">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Brinda un hogar lleno de amor 🤎</h5>
-        <p>Cada adopción es una nueva oportunidad.</p>
-      </div>
-    </div>
-    <!-- Imagen 3 -->
-    <div class="carousel-item">
-      <img src="https://images.pexels.com/photos/16395150/pexels-photo-16395150.jpeg" class="d-block w-100" alt="Mascotas felices">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>Conéctate con Safe Pets 🤎</h5>
-        <p>Un puente entre adoptantes y fundaciones.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Controles -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#carruselSafePets" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon"></span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carruselSafePets" data-bs-slide="next">
-    <span class="carousel-control-next-icon"></span>
-  </button>
-</div>
-
-
-<!-- Menú de accesos rápidos -->
-<div class="container text-center my-4">
-  <div class="row row-cols-5 g-3">
-    
-    <!-- Inicio -->
-    <div class="col">
-      <a href="#" class="text-decoration-none text-dark d-flex flex-column align-items-center">
-        <i class="fa-solid fa-house"></i>
-        <span class="small">𝐼𝓃𝒾𝒸𝒾𝑜</span>
-      </a>
-    </div>
-
-    <!-- Adopta -->
-    <div class="col">
-      <a href="#" class="text-decoration-none text-dark d-flex flex-column align-items-center">
-        <i class="fa-solid fa-paw"></i>
-        <span class="small">𝒜𝒹𝑜𝓅𝓉𝒶</span>
-      </a>
-    </div>
-
-    <!-- Citas -->
-    <div class="col">
-      <a href="#" class="text-decoration-none text-dark d-flex flex-column align-items-center">
-        <i class="fa-solid fa-calendar"></i>
-        <span class="small">𝒞𝒾𝓉𝒶𝓈</span>
-      </a>
-    </div>
-
-    <!-- Donaciones -->
-    <div class="col">
-      <a href="#" class="text-decoration-none text-dark d-flex flex-column align-items-center">
-        <i class="fa-solid fa-heart"></i>
-        <span class="small">𝒟𝑜𝓃𝒶𝒸𝒾𝑜𝓃𝑒𝓈</span>
-      </a>
-    </div>
-
-    <!-- Publicaciones -->
-    <div class="col">
-      <a href="#" class="text-decoration-none text-dark d-flex flex-column align-items-center">
-        <i class="fa-solid fa-bell"></i>
-        <span class="small">𝒫𝓊𝒷𝓁𝒾𝒸𝒶𝒸𝒾𝑜𝓃𝑒𝓈</span>
-      </a>
-    </div>
-  </div>
-</div>
-
 
 <section class="about">
     <img src="https://images.pexels.com/photos/4012470/pexels-photo-4012470.jpeg" alt="gatitos">
@@ -292,15 +158,17 @@
     </div>
   </section>
 
+
+
   <!-- Footer -->
   <footer class="footer">
     <div class="logo">
       <i class="fa-solid fa-paw"></i>
-      <p><strong>𝒮𝒶𝒻𝑒 𝒫𝑒𝓉𝓈</strong></p>
+      <p><strong>𝒮𝒶𝒻𝑒 𝒫𝑒𝓉𝓈</strong></p> 
     </div>
 
     <div class="info">
-      <h3>Información</h3>
+      <h5>Información</h5>
       <ul>
         <li><i class="fa-solid fa-location-dot"></i> Calle 45B #23 - 76</li>
         <li><i class="fa-solid fa-envelope"></i> contacto@corazonpeludito.com</li>
@@ -310,7 +178,7 @@
     </div>
 
     <div class="social">
-      <h3>Síguenos</h3>
+      <h5>Síguenos</h5>
       <div class="social-icons">
         <a href="#"><i class="fa-brands fa-whatsapp"></i></i></a>
         <a href="#"><i class="fa-brands fa-facebook"></i></a>
