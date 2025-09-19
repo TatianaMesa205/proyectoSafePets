@@ -6,7 +6,7 @@
     <title>Login - Safe Pets</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="vista/img/paw.png">
+    <link rel="icon" type="image/png" href="view/img/paw.png">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -16,8 +16,7 @@
     
     <style>
         body {
-            background: url('vista/img/pets-background.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -59,6 +58,7 @@
             padding: 12px;
             border: 2px solid #e6e2dd;
             background-color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
         }
 
         .form-control:focus {
@@ -79,10 +79,15 @@
             color: #fff;
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             background: linear-gradient(to right, #c4a484, #d6baa5);
             transform: translateY(-2px);
             box-shadow: 0 7px 14px rgba(0,0,0,0.15), 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
         .card-body {
@@ -114,7 +119,28 @@
         .opacity-75 {
             font-size: 1.1rem;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            color: #6b5a49 !important;
+            color: #fff !important;
+        }
+
+        .text-primary {
+            color: #d6baa5 !important;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .text-primary:hover {
+            color: #c4a484 !important;
+            text-decoration: underline;
+        }
+
+        .text-secondary {
+            color: #8d7b6b !important;
+            text-decoration: none;
+        }
+
+        .text-secondary:hover {
+            color: #7a6f67 !important;
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -140,7 +166,8 @@
                                        id="nombre_usuario" 
                                        name="nombre_usuario" 
                                        placeholder="Ingrese su usuario"
-                                       required>
+                                       required
+                                       maxlength="50">
                                 <div class="invalid-feedback">
                                     Por favor ingrese su nombre de usuario.
                                 </div>
@@ -154,7 +181,8 @@
                                        id="contrasena" 
                                        name="contrasena" 
                                        placeholder="Ingrese su contraseña"
-                                       required>
+                                       required
+                                       minlength="6">
                                 <div class="invalid-feedback">
                                     Por favor ingrese su contraseña.
                                 </div>

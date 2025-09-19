@@ -6,7 +6,7 @@
     <title>Registro - Safe Pets</title>
     
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="vista/img/paw.png">
+    <link rel="icon" type="image/png" href="view/img/paw.png">
     
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -16,8 +16,7 @@
     
     <style>
         body {
-            background: url('vista/img/pets-background.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -59,6 +58,7 @@
             padding: 12px;
             border: 2px solid #e6e2dd;
             background-color: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
         }
 
         .form-control:focus {
@@ -79,10 +79,15 @@
             color: #fff;
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover:not(:disabled) {
             background: linear-gradient(to right, #c4a484, #d6baa5);
             transform: translateY(-2px);
             box-shadow: 0 7px 14px rgba(0,0,0,0.15), 0 3px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
         }
 
         .btn-secondary {
@@ -97,7 +102,7 @@
             color: #fff;
         }
 
-        .btn-secondary:hover {
+        .btn-secondary:hover:not(:disabled) {
             background: linear-gradient(to right, #6c6c6c, #8d8d8d);
             transform: translateY(-2px);
         }
@@ -131,8 +136,17 @@
         .opacity-75 {
             font-size: 1.1rem;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            color: #6b5a49 !important;
+            color: #fff !important;
         }
+
+        .password-strength {
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+
+        .strength-weak { color: #dc3545; }
+        .strength-medium { color: #ffc107; }
+        .strength-strong { color: #28a745; }
     </style>
 </head>
 <body>
@@ -158,9 +172,12 @@
                                            id="nombre_usuario" 
                                            name="nombre_usuario" 
                                            placeholder="Usuario"
-                                           required>
+                                           required
+                                           maxlength="50"
+                                           pattern="[a-zA-Z0-9_]{3,50}"
+                                           title="Solo letras, números y guiones bajos. Mínimo 3 caracteres.">
                                     <div class="invalid-feedback">
-                                        Por favor ingrese un nombre de usuario.
+                                        Por favor ingrese un nombre de usuario válido (3-50 caracteres, solo letras, números y _).
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
@@ -172,7 +189,8 @@
                                            id="email" 
                                            name="email" 
                                            placeholder="correo@ejemplo.com"
-                                           required>
+                                           required
+                                           maxlength="100">
                                     <div class="invalid-feedback">
                                         Por favor ingrese un email válido.
                                     </div>
@@ -188,9 +206,11 @@
                                            id="contrasena" 
                                            name="contrasena" 
                                            placeholder="Contraseña"
-                                           required>
+                                           required
+                                           minlength="6">
+                                    <div class="password-strength" id="password-strength"></div>
                                     <div class="invalid-feedback">
-                                        Por favor ingrese una contraseña.
+                                        Por favor ingrese una contraseña de al menos 6 caracteres.
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
@@ -202,7 +222,8 @@
                                            id="confirmar_contrasena" 
                                            name="confirmar_contrasena" 
                                            placeholder="Confirmar contraseña"
-                                           required>
+                                           required
+                                           minlength="6">
                                     <div class="invalid-feedback">
                                         Por favor confirme su contraseña.
                                     </div>
@@ -241,5 +262,48 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="view/js/login.js"></script>
+    
+    <script>
+        // Password strength indicator
+        document.getElementById('contrasena').addEventListener('input', function() {
+            const password = this.value;
+            const strengthDiv = document.getElementById('password-strength');
+            
+            if (password.length === 0) {
+                strengthDiv.textContent = '';
+                return;
+            }
+            
+            let strength = 0;
+            if (password.length >= 6) strength++;
+            if (password.match(/[a-z]/)) strength++;
+            if (password.match(/[A-Z]/)) strength++;
+            if (password.match(/[0-9]/)) strength++;
+            if (password.match(/[^a-zA-Z0-9]/)) strength++;
+            
+            if (strength < 2) {
+                strengthDiv.textContent = 'Contraseña débil';
+                strengthDiv.className = 'password-strength strength-weak';
+            } else if (strength < 4) {
+                strengthDiv.textContent = 'Contraseña media';
+                strengthDiv.className = 'password-strength strength-medium';
+            } else {
+                strengthDiv.textContent = 'Contraseña fuerte';
+                strengthDiv.className = 'password-strength strength-strong';
+            }
+        });
+
+        // Password confirmation validation
+        document.getElementById('confirmar_contrasena').addEventListener('input', function() {
+            const password = document.getElementById('contrasena').value;
+            const confirmPassword = this.value;
+            
+            if (confirmPassword && password !== confirmPassword) {
+                this.setCustomValidity('Las contraseñas no coinciden');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    </script>
 </body>
 </html>
