@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Tarjetas Mascotas</title>
+  <title>Adopta una Mascota - Safe Pets</title>
   <style>
     body {
       margin: 0;
@@ -10,34 +10,41 @@
       background-color: #f9f6f6;
     }
 
-    /* Contenedor en columna */
+    /* Contenedor principal de las tarjetas */
     .cards-container {
       display: flex;
       flex-wrap: wrap;
-      gap: 25px;
+      gap: 25px; /* Espacio entre tarjetas */
       padding: 30px;
       justify-content: center;
-      max-width: calc(220px * 5 + 25px * 4); /* ancho para 4 tarjetas */
+      max-width: 1200px; /* Ancho máximo para 5 tarjetas por fila */
       margin: auto;
     }
 
-
-    /* Carta */
+    /* Estilo de cada tarjeta */
     .card {
       width: 220px;
       height: 220px;
       perspective: 1000px;
-      cursor: pointer; /* 👈 Para que se vea clickeable */
+      cursor: pointer;
       border-radius: 15px; 
-      background-color: #f9f6f6;
+      background-color: transparent; /* Hacemos el fondo transparente */
+      border: none;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Sombra sutil */
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+        transform: translateY(-5px); /* Efecto al pasar el mouse */
     }
 
     .card-inner {
       position: relative;
       width: 100%;
       height: 100%;
-      transition: transform 0.3s ease-in-out;
+      transition: transform 0.5s;
       transform-style: preserve-3d;
+      border-radius: 15px;
     }
 
     .card:hover .card-inner {
@@ -51,15 +58,16 @@
       backface-visibility: hidden;
       border-radius: 15px;
       overflow: hidden;
-      box-shadow: none;
     }
 
+    /* Cara frontal con la imagen de la mascota */
     .card-front img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
     }
 
+    /* Cara trasera con la información */
     .card-back {
       background: #f0e4d8;
       color: #a07b61;
@@ -71,21 +79,21 @@
       padding: 15px;
       text-align: center;
     }
-
-    .card, .card-front img {
-      border: none;
-      outline: none;
-      box-shadow: none;
-    }
   </style>
 </head>
 <body>
 
-<?php include 'menu.php'; ?>
+<?php 
+  // Se incluye el menú de navegación. 
+  // Este archivo debe estar en la misma carpeta (view/modules/).
+  include 'menu.php'; 
+?>
 
 <div class="cards-container">
   <?php
-    // Mascotas de ejemplo
+    // Array con la información de las mascotas.
+    // Las rutas de las imágenes son correctas porque el proyecto se ejecuta desde el 'index.php' en la raíz.
+    // El navegador buscará la carpeta 'uploads' desde la raíz del proyecto.
     $mascotas = [
       ["id"=>1, "nombre"=>"Zeus", "edad"=>"2 años", "sexo"=>"Macho", "imagen"=>"uploads/p1.jpeg"],
       ["id"=>2, "nombre"=>"Luna", "edad"=>"3 años", "sexo"=>"Hembra", "imagen"=>"uploads/g1.jpeg"],
@@ -101,17 +109,18 @@
       ["id"=>12, "nombre"=>"Lucy", "edad"=>"3 años", "sexo"=>"Hembra", "imagen"=>"uploads/g5.jpeg"],
     ];
 
-    foreach ($mascotas as $m) {
+    // Se recorre el array para generar una tarjeta por cada mascota.
+    foreach ($mascotas as $mascota) {
       echo '
-      <div class="card" onclick="goTo(\'detalleMascota.php?id='.$m["id"].'\')">
+      <div class="card" onclick="goTo(\'detalleMascota.php?id='.$mascota["id"].'\')">
         <div class="card-inner">
           <div class="card-front">
-            <img src="'.$m["imagen"].'" alt="'.$m["nombre"].'">
+            <img src="'.$mascota["imagen"].'" alt="Foto de '.$mascota["nombre"].'">
           </div>
           <div class="card-back">
-            <h3>'.$m["nombre"].'</h3>
-            <p>Edad: '.$m["edad"].'</p>
-            <p>Sexo: '.$m["sexo"].'</p>
+            <h3>'.$mascota["nombre"].'</h3>
+            <p>Edad: '.$mascota["edad"].'</p>
+            <p>Sexo: '.$mascota["sexo"].'</p>
           </div>
         </div>
       </div>
@@ -121,13 +130,16 @@
 </div>
 
 <script>
-  // Redirige al detalle
+  // Función de JavaScript para redirigir a la página de detalles de la mascota.
   function goTo(url) {
     window.location.href = url;
   }
 </script>
 
-<?php include 'flooter.php'; ?>
+<?php 
+  // Se incluye el pie de página.
+  include 'flooter.php'; 
+?>
 
 </body>
 </html>
