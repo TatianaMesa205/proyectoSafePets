@@ -34,7 +34,7 @@
     .container.text-center.my-4 {
       position: sticky;
       top: 0; /* se pega arriba cuando llega */
-      background: #f9f6f6; /* fondo para que no se mezcle con el carrusel o el contenido */
+      background: #fff; /* fondo para que no se mezcle con el carrusel o el contenido */
       z-index: 1000; /* para que quede por encima del contenido */
       padding: 10px 0;
     }
