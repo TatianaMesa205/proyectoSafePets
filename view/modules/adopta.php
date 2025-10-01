@@ -81,6 +81,8 @@
 </head>
 <body>
 
+<?php include 'menu.php'; ?>
+
 <div class="cards-container">
   <?php
     // Mascotas de ejemplo
@@ -124,6 +126,8 @@
     window.location.href = url;
   }
 </script>
+
+<?php include 'flooter.php'; ?>
 
 </body>
 </html>

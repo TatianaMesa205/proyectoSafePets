@@ -85,6 +85,8 @@
 </head>
 <body>
 
+<?php include 'menu.php'; ?>
+
   <h1>🐾 Mascotas en adopción</h1>
 
   <!-- Tarjetas -->
@@ -165,5 +167,8 @@
       document.getElementById("modal").style.display = "none";
     }
   </script>
+
+  <?php include 'flooter.php'; ?>
+
 </body>
 </html>

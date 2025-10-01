@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -10,8 +8,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-
 
   <style>
 
@@ -48,13 +44,13 @@
       text-align: center; /* Centrado */
       margin-bottom: 20px; /* Espacio inferior */
     }
-  
+
+
+
 
   </style>
 </head>
 <body>
-
-<?php include 'menu.php'; ?>
 
 <section class="about">
     <img src="https://images.pexels.com/photos/4012470/pexels-photo-4012470.jpeg" alt="gatitos">
@@ -76,13 +72,7 @@
     </div>
   </section>
 
-<!-- Botón de cerrar sesión -->
-<button id="btnLogout" class="btn-logout">Cerrar sesión</button>
-
-
   <?php include 'flooter.php'; ?>
   
-  <script src="view/js/login.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>

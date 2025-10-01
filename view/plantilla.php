@@ -1,33 +1,89 @@
 <?php
+session_start();
 
+// Obtener la ruta
+$ruta = isset($_GET["ruta"]) ? $_GET["ruta"] : "";
 
-// include_once "view/modules/cabecera.php";
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
+header('X-XSS-Protection: 1; mode=block');
 
-include_once "view/modules/menu.php";
+// Rutas públicas (no requieren sesión)
+$rutasPublicas = array("registro", "preview", "login");
 
+// Rutas privadas para adoptantes
+$rutasAdoptante = array("inicio", "adopta", "citas", "donaciones", "inicioAdp");
 
+// Rutas privadas para administradores
+$rutasAdmin = array("admin", "usuarios", "mascotas", "reportes");
 
-// if (isset($_SESSION["iniciarSesion"]) == "ok"){
+// Verificar si es una ruta pública
+if (in_array($ruta, $rutasPublicas)) {
+    $archivo = "view/modules/" . $ruta . ".php";
+    if (file_exists($archivo)) {
+        include $archivo;
+    } else {
+        include "view/modules/404.php";
+    }
+} 
+// Verificar si hay sesión activa
+elseif (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] === "ok") {
+    
+    if (!isset($_SESSION["rol"]) || !isset($_SESSION["id"])) {
+        session_destroy();
+        header("Location: index.php?ruta=login");
+        exit();
+    }
 
-$listaRutas = array("inicioAdp", "adopta","detalleMascota","citas", "donaciones", "publicaciones");
+    // Incluye cabecera SOLO cuando hay sesión
+    include "view/modules/cabecera.php";
 
-
-if (isset($_GET["ruta"]) && in_array($_GET["ruta"],$listaRutas)){
-    include_once "view/modules/".$_GET["ruta"].".php";
-}else{
-    include_once "view/modules/inicioAdp.php";
+    // Rutas para adoptantes
+    if ($_SESSION["rol"] === "adoptante" && in_array($ruta, $rutasAdoptante)) {
+        $archivo = "view/modules/" . $ruta . ".php";
+        if (file_exists($archivo)) {
+            include $archivo;
+        } else {
+            include "view/modules/404.php";
+        }
+    }
+    // Rutas para administradores
+    elseif ($_SESSION["rol"] === "admin" && in_array($ruta, $rutasAdmin)) {
+        $archivo = "view/modules/" . $ruta . ".php";
+        if (file_exists($archivo)) {
+            include $archivo;
+        } else {
+            include "view/modules/404.php";
+        }
+    }
+    elseif ($ruta === "" || $ruta === "inicio") {
+        if ($_SESSION["rol"] === "admin") {
+            $archivo = "view/modules/admin.php";
+        } elseif ($_SESSION["rol"] === "adoptante") {
+            $archivo = "view/modules/inicioAdp.php";
+        } else {
+            $archivo = "view/modules/inicio.php";
+        }
+        if (file_exists($archivo)) {
+            include $archivo;
+        } else {
+            echo "<div class='alert alert-warning'>Módulo no encontrado</div>";
+        }
+    }
+    else {
+        include "view/modules/404.php";
+    }
+} 
+// Sin sesión, mostrar login o página pública
+else {
+    if ($ruta === "" || $ruta === "login") {
+        include "view/modules/login.php";
+    } elseif ($ruta === "registro") {
+        include "view/modules/registro.php";
+    } else {
+        include "view/modules/login.php";
+    }
 }
 
-
-
-//     if (isset($_GET["ruta"]) && in_array($_GET["ruta"], $listaRutas)){
-//         include "view/modules/".$_GET["ruta"].".php";
-//     } else {
-//         include "view/modules/login.php";
-//     }
-
-// } else {
-//     include "view/modules/login.php";
-// }
-
 include "view/modules/pie.php";
+?>

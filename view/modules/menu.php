@@ -13,9 +13,6 @@
 
 <!-- Navbar -->
 <style>
-
-     
-
     .navbar {
       background-color: #f0e4d8ff; /* Fondo beige suave */
     }
@@ -177,8 +174,5 @@
     </div>
   </div>
 </div>
-
-
-
 </body>
 </html>
