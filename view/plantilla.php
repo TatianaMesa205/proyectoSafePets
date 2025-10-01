@@ -40,6 +40,7 @@ elseif (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] === "ok"
 
     // Rutas para adoptantes
     if ($_SESSION["rol"] === "adoptante" && in_array($ruta, $rutasAdoptante)) {
+
         $archivo = "view/modules/" . $ruta . ".php";
         if (file_exists($archivo)) {
             include $archivo;
@@ -59,17 +60,29 @@ elseif (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] === "ok"
     elseif ($ruta === "" || $ruta === "inicio") {
         if ($_SESSION["rol"] === "admin") {
             $archivo = "view/modules/admin.php";
+
+            if (file_exists($archivo)) {
+                include $archivo;
+            } else {
+                echo "<div class='alert alert-warning'>Módulo de administración no encontrado</div>";
+            }
         } elseif ($_SESSION["rol"] === "adoptante") {
             $archivo = "view/modules/inicioAdp.php";
+            if (file_exists($archivo)) {
+                include $archivo;
+            } else {
+                echo "<div class='alert alert-warning'>Módulo de inicio para adoptantes no encontrado</div>";
+            }
         } else {
             $archivo = "view/modules/inicio.php";
-        }
-        if (file_exists($archivo)) {
-            include $archivo;
-        } else {
-            echo "<div class='alert alert-warning'>Módulo no encontrado</div>";
+            if (file_exists($archivo)) {
+                include $archivo;
+            } else {
+                echo "<div class='alert alert-warning'>Módulo de inicio no encontrado</div>";
+            }
         }
     }
+    // Ruta no válida para el rol actual
     else {
         include "view/modules/404.php";
     }
