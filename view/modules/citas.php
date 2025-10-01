@@ -76,7 +76,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         .citas-page button {
         padding: 14px;
-        background: #a07b61;
         color: #fff;
         border: none;
         border-radius: 12px;
@@ -86,9 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         transition: 0.3s;
         }
 
-        .citas-page button:hover {
-        background: #c0a18b;
-        }
+      
 
         /* Filas y grupos de formulario personalizados */
         .citas-page .form-row {
