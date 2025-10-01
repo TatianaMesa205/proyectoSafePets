@@ -22,6 +22,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
   <title>Agendar Cita - Safe Pets</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+
+      body {
+        margin: 0;
+        font-family: "Poppins", sans-serif;
+        background-color: #f9f6f6;
+      }
         /* --- SOLO afecta a citas.php --- */
         .citas-page .containerCita {
         max-width: 700px;

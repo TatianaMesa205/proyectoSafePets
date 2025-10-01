@@ -29,12 +29,12 @@
     .carousel-inner img {
       height: 350px; /* Altura fija */
       object-fit: cover; /* La imagen se recorta sin deformarse */
-      border-radius: 20px;
+      border-radius: 200px;
     }
     .container.text-center.my-4 {
       position: sticky;
       top: 0; /* se pega arriba cuando llega */
-      background: #fff; /* fondo para que no se mezcle con el carrusel o el contenido */
+      background: #f9f6f6; /* fondo para que no se mezcle con el carrusel o el contenido */
       z-index: 1000; /* para que quede por encima del contenido */
       padding: 10px 0;
     }
