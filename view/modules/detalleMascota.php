@@ -1,51 +1,14 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Mascotas</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f8f2f0;
-      margin: 0;
-      padding: 20px;
-      text-align: center;
+<style>
+    /* Estilos para las tarjetas y el modal de detalles */
+    .detalle-container {
+        padding: 20px;
+        text-align: center;
     }
-
-    /* Tarjetas */
-    .cards-container {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
-      justify-items: center;
-    }
-
-    .card {
-      width: 220px;
-      cursor: pointer;
-      border-radius: 15px;
-      overflow: hidden;
-      box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
-      transition: transform 0.2s ease;
-    }
-    .card:hover {
-      transform: scale(1.05);
-    }
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    .card h3 {
-      margin: 10px;
-      font-size: 18px;
-    }
-
-    /* Modal */
+    /* ... (puedes agregar más estilos específicos aquí si los necesitas) ... */
     .modal {
-      display: none; /* oculto por defecto */
+      display: none; 
       position: fixed;
-      z-index: 999;
+      z-index: 1050; /* Z-index alto para estar sobre todo */
       left: 0;
       top: 0;
       width: 100%;
@@ -71,9 +34,6 @@
       object-fit: cover;
       border-radius: 15px;
     }
-    .modal-content h2 {
-      text-align: center;
-    }
     .close {
       position: absolute;
       top: 10px;
@@ -81,70 +41,35 @@
       font-size: 24px;
       cursor: pointer;
     }
-  </style>
-</head>
-<body>
+</style>
 
-<?php include 'menu.php'; ?>
+<div class="detalle-container">
+    <h1>🐾 Conoce más sobre tu futuro amigo</h1>
+    <p>Haz clic en una mascota para ver sus detalles.</p>
 
-  <h1>🐾 Mascotas en adopción</h1>
-
-  <!-- Tarjetas -->
-  <div class="cards-container">
-    <div class="card" onclick="openModal('Thor')">
-      <img src="thor.jpg" alt="Thor">
-      <h3>Thor</h3>
     </div>
 
-    <div class="card" onclick="openModal('Luna')">
-      <img src="luna.jpg" alt="Luna">
-      <h3>Luna</h3>
-    </div>
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <img id="modal-img" src="" alt="Foto de la mascota">
+    <div id="modal-info"></div>
   </div>
+</div>
 
-  <!-- Modal -->
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <img id="modal-img" src="" alt="">
-      <div id="modal-info"></div>
-    </div>
-  </div>
-
-  <script>
-    // Datos de mascotas (simulación de base de datos)
+<script>
+    // Simulación de datos de la base de datos
     const mascotas = {
-      "Thor": {
-        img: "thor.jpg",
-        nombre: "Thor",
-        especie: "Perro",
-        raza: "Mezcla de pastor alemán con lobo siberiano",
-        edad: "2 años",
-        sexo: "Macho",
-        tamaño: "Grande",
-        fechaIngreso: "2023-05-14",
-        salud: "Desparasitado, vacunado y esterilizado",
-        estado: "Disponible",
-        historia: "Thor fue encontrado en las afueras de la ciudad..."
-      },
-      "Luna": {
-        img: "luna.jpg",
-        nombre: "Luna",
-        especie: "Perro",
-        raza: "Labrador Retriever",
-        edad: "3 años",
-        sexo: "Hembra",
-        tamaño: "Mediana",
-        fechaIngreso: "2024-01-20",
-        salud: "Vacunada, desparasitada",
-        estado: "En proceso",
-        historia: "Luna fue rescatada de un parque..."
-      }
+      "1": { img: "uploads/p1.jpeg", nombre: "Zeus", especie: "Perro", raza: "Mezcla", edad: "2 años", sexo: "Macho", tamaño: "Grande", historia: "Fue encontrado muy juguetón." },
+      "2": { img: "uploads/g1.jpeg", nombre: "Luna", especie: "Gato", raza: "Mezcla", edad: "3 años", sexo: "Hembra", tamaño: "Pequeño", historia: "Le encantan los mimos." }
+      // ... (Aquí cargarías todas las mascotas desde tu base de datos)
     };
 
     // Función para abrir el modal
-    function openModal(nombre) {
-      const m = mascotas[nombre];
+    function openModal(id) {
+      const m = mascotas[id];
+      if (!m) { console.error("Mascota no encontrada"); return; }
+      
       document.getElementById("modal-img").src = m.img;
       document.getElementById("modal-info").innerHTML = `
         <h2>${m.nombre}</h2>
@@ -153,9 +78,6 @@
         <p><b>Edad:</b> ${m.edad}</p>
         <p><b>Sexo:</b> ${m.sexo}</p>
         <p><b>Tamaño:</b> ${m.tamaño}</p>
-        <p><b>Fecha de ingreso:</b> ${m.fechaIngreso}</p>
-        <p><b>Estado de salud:</b> ${m.salud}</p>
-        <p><b>Estado:</b> ${m.estado}</p>
         <h3>Historia</h3>
         <p>${m.historia}</p>
       `;
@@ -166,9 +88,15 @@
     function closeModal() {
       document.getElementById("modal").style.display = "none";
     }
-  </script>
+    
+    // Simular la apertura del modal basado en el ID de la URL
+    window.onload = () => {
+        const urlParams = new URLSearchParams(window.location.search);
+        const id = urlParams.get('id');
+        if (id) {
+            openModal(id);
+        }
+    };
+</script>
 
-  <?php include 'flooter.php'; ?>
-
-</body>
-</html>
+<?php include 'flooter.php'; ?>
