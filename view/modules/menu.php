@@ -29,7 +29,7 @@
     .carousel-inner img {
       height: 350px; /* Altura fija */
       object-fit: cover; /* La imagen se recorta sin deformarse */
-      border-radius: 20px;
+      border-radius: 200px;
     }
     .container.text-center.my-4 {
       position: sticky;
