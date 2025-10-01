@@ -1,7 +1,4 @@
-<?php
-// ARCHIVO CORREGIDO: view/modules/menu.php
-// Este es un fragmento de código, no una página HTML completa.
-?>
+
 
 <style>
     .navbar {

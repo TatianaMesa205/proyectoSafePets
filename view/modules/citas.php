@@ -1,7 +1,21 @@
+<?php
+// Esta sección procesa los datos cuando el usuario envía el formulario.
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    // Es una buena práctica de seguridad limpiar los datos recibidos.
+    $nombre   = htmlspecialchars($_POST["nombre"]);
+    
+    // Aquí iría tu lógica para guardar la cita en la base de datos.
+    
+    // Se muestra un mensaje de confirmación al usuario.
+    echo "<script>alert('¡Tu cita ha sido registrada con éxito, $nombre!');</script>";
+}
+?>
+
 <div class="citas-page"> 
 
   <div class="containerCita">
     <h2><i class="fa-solid fa-calendar-check"></i> Agendar Cita</h2>
+    
     <form action="citas" method="POST">
       
       <div class="form-group">
@@ -9,7 +23,7 @@
         <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
       </div>
 
-      <div class="row">
+      <div class="form-row">
         <div class="form-group">
           <label for="email">Correo electrónico</label>
           <input type="email" id="email" name="email" placeholder="ejemplo@email.com" required>
@@ -20,7 +34,7 @@
         </div>
       </div>
 
-      <div class="row">
+      <div class="form-row">
         <div class="form-group">
           <label for="fecha">Fecha de la cita</label>
           <input type="date" id="fecha" name="fecha" required>
@@ -41,5 +55,3 @@
   </div>
   
 </div>
-
-<?php include 'flooter.php'; ?>
