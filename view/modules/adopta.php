@@ -45,4 +45,3 @@
   }
 </script>
 
-<?php include 'flooter.php'; ?>

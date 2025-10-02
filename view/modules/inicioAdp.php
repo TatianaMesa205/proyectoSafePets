@@ -56,4 +56,3 @@
 
 <button id="btnLogout" class="btn-logout">Cerrar sesión</button>
 
-<?php include 'flooter.php'; ?>
