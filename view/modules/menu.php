@@ -38,6 +38,17 @@
       z-index: 1000; /* para que quede por encima del contenido */
       padding: 10px 0;
     }
+    .btn-logout {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 15px;
+        background-color: #d6baa5;
+        color: white;
+        border: none;
+        border-radius: 100px;
+        cursor: pointer;
+        font-weight: bold;
+    }
 </style>
 
 <nav class="navbar navbar-expand-lg shadow-sm">
@@ -46,18 +57,30 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
+
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-center">
-        <li class="nav-item">
-          <img src="https://i.pinimg.com/736x/56/0b/d8/560bd8e051730a69576a5cd0dd24978b.jpg" alt="Perfil" class="rounded-circle me-2" width="38" height="40">
+
+        <!-- Dropdown perfil -->
+        <li class="nav-item dropdown">
+          <!-- Botón: imagen + nombre -->
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="https://i.pinimg.com/736x/56/0b/d8/560bd8e051730a69576a5cd0dd24978b.jpg" alt="Perfil" class="rounded-circle me-2" width="38" height="40">
+            <span class="fw-bold">𝐇𝐨𝐥𝐚 𝐓𝐚𝐭𝐢𝐚𝐧𝐚</span>
+          </a>
+
+          <!-- Menú desplegable -->
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
+            <li><a class="dropdown-item" href="perfil.php"><i class="fa-solid fa-user me-2"></i> Mi Perfil</a></li>
+            <button id="btnLogout" class="btn-logout"> <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar sesión</button>
+          </ul>
         </li>
-        <li class="nav-item">
-          <span class="nav-link fw-bold">𝐇𝐨𝐥𝐚 𝐓𝐚𝐭𝐢𝐚𝐧𝐚</span>
-        </li>
+
       </ul>
     </div>
   </div>
 </nav>
+
 
 <div id="carruselSafePets" class="carousel slide container mt-4" data-bs-ride="carousel">
   <div class="carousel-inner">

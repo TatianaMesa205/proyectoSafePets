@@ -24,17 +24,7 @@
       text-align: center;
       margin-bottom: 20px;
     }
-    .btn-logout {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 25px;
-        background-color: #d6baa5;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-weight: bold;
-    }
+    
 </style>
 
 <section class="about">
@@ -53,7 +43,5 @@
       </p>
     </div>
 </section>
-
-<button id="btnLogout" class="btn-logout">Cerrar sesión</button>
 
 <?php include 'flooter.php'; ?>
