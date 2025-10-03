@@ -1,10 +1,10 @@
 <?php
-// CÓDIGO COMPLETO Y CORREGIDO: controller/loginController.php
+
 
 session_start();
 include_once "../model/loginModel.php";
 
-// Nos aseguramos de que la respuesta sea siempre en formato JSON para la comunicación con JavaScript.
+
 header('Content-Type: application/json');
 
 class LoginControlador {
@@ -27,7 +27,7 @@ class LoginControlador {
                 $_SESSION['nombre_usuario'] = $respuesta['usuario']['nombre_usuario'];
                 $_SESSION['rol'] = $respuesta['usuario']['rol'];
                 
-                // ‼️ CORRECCIÓN DEFINITIVA: La redirección ahora apunta a "inicioAdmin" ‼️
+                
                 if ($respuesta['usuario']['rol'] === 'admin') {
                     $respuesta['redirect'] = 'index.php?ruta=inicioAdmin';
                 } else {
