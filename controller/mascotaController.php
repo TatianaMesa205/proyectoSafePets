@@ -1,12 +1,10 @@
 <?php
 
-include_once "../model/musuarioModelo.php";
+include_once "../model/mascotaModel.php";
 
-class MusuarioControlador
+class MascotaController
 {
-
     public $id_mascotas;
-    public $id_vacunas;
     public $nombre;
     public $especie;
     public $raza;
@@ -26,13 +24,6 @@ class MusuarioControlador
     }
 
 
-    public function ctrCargarUsuario(){
-        $objRespuesta = MascotaModel::mdlCargarUsuario($this->id_mascotas);
-        echo json_encode($objRespuesta);
-    }
-
-
-
     public function ctrEliminarMascota()
     {
         $objRespuestaMascota = MascotaModel::mdlEliminarMascota($this->id_mascotas);
@@ -42,7 +33,6 @@ class MusuarioControlador
     public function ctrRegistrarMascota()
     {
         $objRespuestaMascota = MascotaModel::mdlRegistrarMascota(
-            $this->id_vacuna,
             $this->nombre, 
             $this->especie, 
             $this->raza, 
@@ -60,41 +50,57 @@ class MusuarioControlador
 
     public function ctrEditarMascota()
     {
-        $objRespuestaMascota = MascotaModel::mldEditarMascota($this->id_mascotas, $this->id_vacuna, $this->nombre, $this->especie, $this->raza, 
+        $objRespuestaMascota = MascotaModel::mldEditarMascota($this->id_mascotas, $this->nombre, $this->especie, $this->raza, 
         $this->edad, $this->sexo, $this->tamaño, $this->fecha_ingreso, $this->estado_salud, $this->estado, $this->descripcion, $this->imagen);
         echo json_encode($objRespuestaMascota);
-
-
     }
 
 }
 
 if (isset($_POST["listarMascotas"]) == "ok") {
-    $objMusuarios = new MascotaController();
-    $objMusuarios->ctrListarMascotas();
+    $objMascotas = new MascotaController();
+    $objMascotas->ctrListarMascotas();
 }
 
-if (isset($_POST["eliminarMusuario"]) == "ok") {
-    $objMusuarios = new MascotaController();
-    $objMusuarios->id_mascotas = $_POST["id_mascotas"];
-    $objMusuarios->ctrEliminarMascota();
+if (isset($_POST["eliminarMascota"]) == "ok") {
+    $objMascotas = new MascotaController();
+    $objMascotas->id_mascotas = $_POST["id_mascotas"];
+    $objMascotas->ctrEliminarMascota();
 }
 
-if (isset($_POST["registrarMusuario"]) == "ok") {
-    $objMusuarios = new MascotaController();
-    $objMusuarios->nombreM = $_POST["nombreM"];
-    $objMusuarios->edadM = $_POST["edadM"];
-    $objMusuarios->usuario_id = $_POST["usuario_id"];
-    $objMusuarios->tipo_mascota_id = $_POST["tipo_mascota_id"];
-    $objMusuarios->ctrRegistrarMascota();
+if (isset($_POST["registrarMascota"]) == "ok") {
+    $objMascotas = new MascotaController();
+    
+    $objMascotas->nombre = $_POST["nombre"];
+    $objMascotas->especie = $_POST["especie"];
+    $objMascotas->raza = $_POST["raza"];
+    $objMascotas->edad = $_POST["edad"];
+    $objMascotas->sexo = $_POST["sexo"];
+    $objMascotas->tamaño = $_POST["tamaño"];
+    $objMascotas->fecha_ingreso = $_POST["fecha_ingreso"];
+    $objMascotas->estado_salud = $_POST["estado_salud"];
+    $objMascotas->estado = $_POST["estado"];
+    $objMascotas->descripcion = $_POST["descripcion"];
+    $objMascotas->imangen = $_POST["imangen"];  
+
+    $objMascotas->ctrRegistrarMascota();
 }
 
-if (isset($_POST["editarMusuario"]) == "ok") {
-    $objMusuarios = new MascotaController();
+if (isset($_POST["editarMascota"]) == "ok") {
+    $objMascotas = new MascotaController();
 
-    $objMusuarios->nombreM = $_POST["nombreM"];
-    $objMusuarios->edadM = $_POST["edadM"];
-    $objMusuarios->idMascota = $_POST["idMascota"];
+    $objMascotas->nombre = $_POST["nombre"];
+    $objMascotas->especie = $_POST["especie"];
+    $objMascotas->raza = $_POST["raza"];
+    $objMascotas->edad = $_POST["edad"];
+    $objMascotas->sexo = $_POST["sexo"];
+    $objMascotas->tamaño = $_POST["tamaño"];
+    $objMascotas->fecha_ingreso = $_POST["fecha_ingreso"];
+    $objMascotas->estado_salud = $_POST["estado_salud"];
+    $objMascotas->estado = $_POST["estado"];
+    $objMascotas->descripcion = $_POST["descripcion"];
+    $objMascotas->imangen = $_POST["imangen"];
+    $objMascotas->id_mascotas = $_POST["id_mascotas"];
 
-    $objMusuarios->ctrEditarMascota ();
+    $objMascotas->ctrEditarMascota ();
 }

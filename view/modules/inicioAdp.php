@@ -43,5 +43,3 @@
       </p>
     </div>
 </section>
-
-<?php include 'flooter.php'; ?>
