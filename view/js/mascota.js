@@ -1,33 +1,33 @@
 (function(){
 
-  listarTablaMusuarios();
+  listarTablaMascotas();
 
-  function listarTablaMusuarios(){
-      let objData = {"listarMusuarios":"ok"};
-      let objTablaMusuarios = new Musuario(objData);
-      objTablaMusuarios.listarMusuarios();
+  function listarTablaMascotas(){
+      let objData = {"listarMascotas":"ok"};
+      let objTablaMascotas = new Mascota(objData);
+      objTablaMascotas.listarMascotas();
   }
 
-  let btnAgregarMusuarios = document.getElementById("btn-AgregarMusuarios");
-  btnAgregarMusuarios.addEventListener("click",()=>{
-      $("#panelTablaMusuarios").hide();
-      $("#panelFormularioMusuarios").show();
+  let btnAgregarMascotas = document.getElementById("btn-AgregarMascotas");
+  btnAgregarMascotas.addEventListener("click",()=>{
+      $("#panelTablaMascotas").hide();
+      $("#panelFormularioMascotas").show();
       
       // Cargar los selects cuando se abre el formulario
-      let objMusuario = new Musuario({});
-      objMusuario.cargarSelects();
+      let objMascota = new Mascota({});
+      objMascota.cargarSelects();
   })
 
-  let btnRegresarMusuario = document.getElementById("btn-RegresarMusuario");
-  btnRegresarMusuario.addEventListener("click",()=>{
-      $("#panelFormularioMusuarios").hide();
-      $("#panelTablaMusuarios").show();
+  let btnRegresarMascota = document.getElementById("btn-RegresarMascota");
+  btnRegresarMascota.addEventListener("click",()=>{
+      $("#panelFormularioMascotas").hide();
+      $("#panelTablaMascotas").show();
   })
    
-  let btnRegresarEditarMusuario = document.getElementById('btn-RegresarEditarMusuario');
-  btnRegresarEditarMusuario.addEventListener("click",()=>{
-      $("#panelFormularioEditarMusuarios").hide();
-      $("#panelTablaMusuarios").show();
+  let btnRegresarEditarMascota = document.getElementById('btn-RegresarEditarMascota');
+  btnRegresarEditarMascota.addEventListener("click",()=>{
+      $("#panelFormularioEditarMascotas").hide();
+      $("#panelTablaMascotas").show();
   })
 
 
@@ -35,7 +35,7 @@
   
 
 
-  $("#tablaMusuarios").on("click","#btn-eliminarMusuario",function(){
+  $("#tablaMascotas").on("click","#btn-eliminarMascota",function(){
       Swal.fire({
           title: "Esta usted seguro?",
           text: "Si confirma esta opción no podra recuperar el registro!",
@@ -46,31 +46,49 @@
           confirmButtonText: "Aceptar"
         }).then((result) => {
           if (result.isConfirmed) {
-              let idMascota = $(this).attr("mascota");
-              let objData = {"eliminarMusuario":"ok","idMascota":idMascota,"listarMusuarios":"ok"};
-              let objMusuario = new Musuario(objData);
-              objMusuario.eliminarMusuario();
+              let id_mascotas = $(this).attr("mascota");
+              let objData = {"eliminarMascota":"ok","id_mascotas":id_mascotas,"listarMascotas":"ok"};
+              let objMascota = new Mascota(objData);
+              objMascota.eliminarMascota();
           }
         });
   })
 
-  $("#tablaMusuarios").on("click","#btn-editarMusuario",function(){
-    $("#panelTablaMusuarios").hide();
-    $("#panelFormularioEditarMusuarios").show();
+  $("#tablaMascotas").on("click","#btn-editarMascota",function(){
+    $("#panelTablaMascotas").hide();
+    $("#panelFormularioEditarMascotas").show();
 
     // sacamos los valores de los atributos del boton de editar de cada uno de los usuarios mostrando en la tabla
   
-    let idMascota = $(this).attr("mascota");
+    let id_mascotas = $(this).attr("mascota");
     let nombre = $(this).attr("nombre");
+    let especie = $(this).attr("especie");
+    let raza = $(this).attr("raza");
     let edad = $(this).attr("edad");
+    let sexo = $(this).attr("sexo");
+    let tamaño = $(this).attr("tamaño");
+    let fecha_ingreso = $(this).attr("fecha_ingreso");
+    let estado_salud = $(this).attr("estado_salud");
+    let estado = $(this).attr("estado");
+    let descripcion = $(this).attr("descripcion");
+    let imagen = $(this).attr("imagen");
     
 
     // agregar el valor de cada atributo al formulario
 
-    $("#txt_edit_nombreM").val(nombre);
-    $("#txt_edit_edadM").val(edad);
+    $("#txt_edit_nombre").val(nombre);
+    $("#txt_edit_especie").val(especie);
+    $("#txt_edit_raza").val(raza);
+    $("#txt_edit_edad").val(edad);
+    $("#txt_edit_sexo").val(sexo);
+    $("#txt_edit_tamaño").val(tamaño);
+    $("#txt_edit_fecha_ingreso").val(fecha_ingreso);
+    $("#txt_edit_estado_salud").val(estado_salud);
+    $("#txt_edit_estado").val(estado);
+    $("#txt_edit_descripcion").val(descripcion);
+    $("#txt_edit_imagen").val(imagen);
 
-    $("#btnEditarMusuario").attr("mascota",idMascota);
+    $("#btnEditarMascota").attr("mascota",id_mascotas);
 
 
   })
