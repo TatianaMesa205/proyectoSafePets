@@ -2,7 +2,7 @@
 
 include_once "conexion.php";
 
-class MascotaModel
+class MascotasModel
 {
 
     public static function mdlListarMascotas(){
