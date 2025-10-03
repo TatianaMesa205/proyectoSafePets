@@ -9,37 +9,6 @@
   <link rel="stylesheet" href="view/css/styles.css">
 </head>
 <body>
-<style>
-
-    .about {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 30px;
-      padding: 50px;
-      background-color: #f9f4f3;
-      border-radius: 20px;
-      margin: 30px;
-    }
-    .about img {
-      width: 300px;
-      height: 300px;
-      border-radius: 15px;
-      object-fit: cover;
-    }
-    .about-text {
-      max-width: 600px;
-      text-align: justify;
-    }
-    .about-text h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    
-</style>
-
-
-
 
 <nav class="navbar navbar-expand-lg shadow-sm" style="background-color: #f0e4d8ff;">
   <div class="container">
@@ -52,6 +21,7 @@
     </div>
   </div>
 </nav>
+
 <section class="about" style="margin-top: 30px;">
     <img src="https://images.pexels.com/photos/4012470/pexels-photo-4012470.jpeg" alt="gatitos">
     <div class="about-text">

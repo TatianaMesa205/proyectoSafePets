@@ -1,4 +1,4 @@
-class Mascota {
+class Mascotas {
     constructor(objData){
         this._objData = objData;
     }
@@ -6,7 +6,7 @@ class Mascota {
         let objData = new FormData();
         objData.append("listarMascotas",this._objData.listarMascotas);
 
-        fetch("controller/mascotaController.php",{
+        fetch("controller/mascotasController.php",{
             method: 'POST',
             body: objData
         })
@@ -115,7 +115,7 @@ class Mascota {
       objDataMascota.append("imagen",this._objData.imagen);
 
 
-      fetch('controller/mascotaController.php',{
+      fetch('controller/mascotasController.php',{
           method: 'POST',
           body:objDataMusuario
       })
@@ -167,10 +167,10 @@ class Mascota {
       objDataMascota.append("fecha_ingreso",this._objData.fecha_ingreso);
       objDataMascota.append("estado_salud",this._objData.estado_salud);
       objDataMascota.append("estado",this._objData.estado);
-      objDataMascota.append("descipcion",this._objData.descipcion);
+      objDataMascota.append("descripcion",this._objData.descripcion);
       objDataMascota.append("imagen",this._objData.imagen);
 
-      fetch('controller/mascotaController.php',{
+      fetch('controller/mascotasController.php',{
           method: 'POST',
           body:objDataMascota
       })
@@ -199,8 +199,6 @@ class Mascota {
                     no-repeat
                   `
                 });
-
-
           }else{
               Swal.fire(response["mensaje"]);
           }
