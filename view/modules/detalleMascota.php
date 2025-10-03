@@ -1,14 +1,14 @@
 <style>
-    /* Estilos para las tarjetas y el modal de detalles */
+
     .detalle-container {
         padding: 20px;
         text-align: center;
     }
-    /* ... (puedes agregar más estilos específicos aquí si los necesitas) ... */
+   
     .modal {
       display: none; 
       position: fixed;
-      z-index: 1050; /* Z-index alto para estar sobre todo */
+      z-index: 1050; 
       left: 0;
       top: 0;
       width: 100%;

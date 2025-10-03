@@ -293,7 +293,7 @@
             }
         });
 
-        // Password confirmation validation
+        
         document.getElementById('confirmar_contrasena').addEventListener('input', function() {
             const password = document.getElementById('contrasena').value;
             const confirmPassword = this.value;

@@ -1,12 +1,10 @@
 <?php
-// Esta sección procesa los datos cuando el usuario envía el formulario.
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Es una buena práctica de seguridad limpiar los datos recibidos.
+  
     $nombre   = htmlspecialchars($_POST["nombre"]);
     
-    // Aquí iría tu lógica para guardar la cita en la base de datos.
-    
-    // Se muestra un mensaje de confirmación al usuario.
+   
     echo "<script>alert('¡Tu cita ha sido registrada con éxito, $nombre!');</script>";
 }
 ?>

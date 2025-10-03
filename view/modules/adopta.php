@@ -1,8 +1,6 @@
 <div class="cards-container">
   <?php
-    // Array con la información de las mascotas.
-    // Las rutas a las imágenes son relativas a la raíz del proyecto (donde está index.php),
-    // por lo que "uploads/imagen.jpeg" es la forma correcta.
+
     $mascotas = [
       ["id"=>1, "nombre"=>"Zeus", "edad"=>"2 años", "sexo"=>"Macho", "imagen"=>"uploads/p1.jpeg"],
       ["id"=>2, "nombre"=>"Luna", "edad"=>"3 años", "sexo"=>"Hembra", "imagen"=>"uploads/g1.jpeg"],
@@ -39,7 +37,7 @@
 </div>
 
 <script>
-  // Función de JavaScript para redirigir a la página de detalles.
+
   function goTo(url) {
     window.location.href = url;
   }
