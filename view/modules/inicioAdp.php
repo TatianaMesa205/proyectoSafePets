@@ -1,5 +1,5 @@
 <style>
-    /* Estilos específicos para esta sección */
+
     .about {
       display: flex;
       justify-content: center;
@@ -43,5 +43,3 @@
       </p>
     </div>
 </section>
-
-
