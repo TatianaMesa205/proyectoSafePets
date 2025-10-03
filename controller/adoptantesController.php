@@ -63,18 +63,25 @@ if (isset($_POST["eliminarAdoptante"]) == "ok") {
 
 if (isset($_POST["registrarAdoptante"]) == "ok") {
     $objAdoptantes = new AdoptantesController();
-    $objAdoptantes->nombreM = $_POST["nombreM"];
-    $objMusuarios->edadM = $_POST["edadM"];
-    $objMusuarios->usuario_id = $_POST["usuario_id"];
+    $objAdoptantes->nombre_completo = $_POST["nombre_completo"];
+    $objAdoptantes->cedula = $_POST["cedula"];
+    $objAdoptantes->telefono = $_POST["telefono"];
+    $objAdoptantes->email = $_POST["email"];
+    $objAdoptantes->direccion = $_POST["direccion"];
+    $objAdoptantes->id_usuarios = $_POST["id_usuarios"];
     $objAdoptantes->ctrRegistrarAdoptante();
 }
 
 if (isset($_POST["editarAdoptante"]) == "ok") {
     $objAdoptantes = new AdoptantesController();
 
-    $objMusuarios->nombreM = $_POST["nombreM"];
-    $objMusuarios->edadM = $_POST["edadM"];
-    $objMusuarios->idMascota = $_POST["idMascota"];
+    $objAdoptantes->nombre_completo = $_POST["nombre_completo"];
+    $objAdoptantes->cedula = $_POST["cedula"];
+    $objAdoptantes->telefono = $_POST["telefono"];
+    $objAdoptantes->email = $_POST["email"];
+    $objAdoptantes->direccion = $_POST["direccion"];
+    $objAdoptantes->id_usuarios = $_POST["id_usuarios"];
+    $objAdoptantes->id_adoptantes = $_POST["id_adoptantes"];
 
     $objAdoptantes->ctrEditarAdoptante();
 }
