@@ -21,7 +21,7 @@ class Mascotas {
 
                 response["listaMascotas"].forEach(item => {
                     let objBotones = '<div class="btn-group" role="group" aria-label="Basic example">';
-                    objBotones += '<button id="btn-editarMascota" type="button" style="background-color:pink; border-color:pink; color:white" class="btn" mascota="'+item.id_mascotas+'" nombre="'+item.nombre+'" especie="'+item.especie+'" raza="'+item.raza+'" edad="'+item.edad+'" sexo="'+item.sexo+'" tamaño="'+item.tamaño+'" fecha_ingreso="'+item.fecha_ingreso+'" estado_salud="'+item.estado_salud+'" estado="'+item.estado+'" descripcion="'+item.descripcion+'" imagen="'+item.imagen+'"><i class="bi bi-pencil"></i></button>';
+                    objBotones += '<button id="btn-editarMascota" type="button" style="background-color:pink; border-color:pink; color:white" class="btn" mascota="'+item.id_mascotas+'" nombre="'+item.nombre+'" especie="'+item.especie+'" raza="'+item.raza+'" edad="'+item.edad+'" sexo="'+item.sexo+'" tamano="'+item.tamano+'" fecha_ingreso="'+item.fecha_ingreso+'" estado_salud="'+item.estado_salud+'" estado="'+item.estado+'" descripcion="'+item.descripcion+'" imagen="'+item.imagen+'"><i class="bi bi-pencil"></i></button>';
                     objBotones += '<button id="btn-eliminarMascota" type="button" style="background-color:rgb(158,147,223); color:white" class="btn" mascota="'+item.id_mascotas+'"><i class="bi bi-trash"></i></button>';
                     objBotones += '</div>';
 
@@ -31,7 +31,7 @@ class Mascotas {
                         item.raza,
                         item.edad,
                         item.sexo,
-                        item.tamaño,
+                        item.tamano,
                         item.fecha_ingreso,
                         item.estado_salud,
                         item.estado,
@@ -107,7 +107,7 @@ class Mascotas {
       objDataMascota.append("raza",this._objData.raza);
       objDataMascota.append("edad",this._objData.edad);
       objDataMascota.append("sexo",this._objData.sexo);
-      objDataMascota.append("tamaño",this._objData.tamaño);
+      objDataMascota.append("tamano",this._objData.tamano);
       objDataMascota.append("fecha_ingreso",this._objData.fecha_ingreso);
       objDataMascota.append("estado_salud",this._objData.estado_salud);
       objDataMascota.append("estado",this._objData.estado);
@@ -163,7 +163,7 @@ class Mascotas {
       objDataMascota.append("raza",this._objData.raza);
       objDataMascota.append("edad",this._objData.edad);
       objDataMascota.append("sexo",this._objData.sexo);
-      objDataMascota.append("tamaño",this._objData.tamaño);
+      objDataMascota.append("tamano",this._objData.tamano);
       objDataMascota.append("fecha_ingreso",this._objData.fecha_ingreso);
       objDataMascota.append("estado_salud",this._objData.estado_salud);
       objDataMascota.append("estado",this._objData.estado);

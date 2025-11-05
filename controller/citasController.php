@@ -2,78 +2,81 @@
 
 include_once "../model/citasModel.php";
 
-class MusuarioControlador
+class CitasController
 {
 
-    public $idMascota;
-    public $nombreM;
-    public $edadM;
-    public $usuario_id;
-    public $raza_id;
-    public $tipo_mascota_id;
+    public $id_citas;
+    public $id_adoptantes;
+    public $id_mascotas;
+    public $fecha_cita;
+    public $estado;
+    public $motivo;
 
-    public function ctrListarMusuarios()
+    public function ctrListarCitas()
     {
-        $objRespuestaMusuario = CitasModel::mdlListarCitas();
-        echo json_encode($objRespuestaMusuario);
+        $objRespuestaCitas = CitasModel::mdlListarCitas();
+        echo json_encode($objRespuestaCitas);
     }
 
 
-    public function ctrEliminarMusuario()
+    public function ctrEliminarCita()
     {
-        $objRespuestaMusuario = CitasModel::mdlEliminarCita($this->idMascota);
-        echo json_encode($objRespuestaMusuario);
+        $objRespuestaCitas = CitasModel::mdlEliminarCita($this->id_citas);
+        echo json_encode($objRespuestaCitas);
     }
 
-    public function ctrRegistrarMusuario()
+    public function ctrRegistrarCita()
     {
-        $objRespuestaMusuario = CitasModel::mdlRegistrarCita(
-            $this->nombreM, 
-            $this->edadM,
-            $this->usuario_id,
-            $this->raza_id,
-            $this->tipo_mascota_id
+        $objRespuestaCitas = CitasModel::mdlRegistrarCita(
+            $this->id_adoptantes,
+            $this->id_mascotas,
+            $this->fecha_cita,
+            $this->estado,
+            $this->motivo
         );
-        echo json_encode($objRespuestaMusuario);
+        echo json_encode($objRespuestaCitas);
     }
 
-    public function ctrEditarMusuario()
+    public function ctrEditarCita()
     {
-        $objRespuestaMusuario = CitasModel::mdlEditarCita($this->idMascota, $this->nombreM, $this->edadM);
-        echo json_encode($objRespuestaMusuario);
+        $objRespuestaCitas = CitasModel::mdlEditarCita($this->id_citas, $this->id_adoptantes, $this->id_mascotas, $this->fecha_cita, $this->estado, $this->motivo);
+        echo json_encode($objRespuestaCitas);
 
 
     }
 
 }
 
-if (isset($_POST["listarMusuarios"]) == "ok") {
-    $objMusuarios = new MusuarioControlador();
-    $objMusuarios->ctrListarMusuarios();
+if (isset($_POST["listarCitas"]) == "ok") {
+    $objCitas = new CitasController();
+    $objCitas->ctrListarCitas();
 }
 
-if (isset($_POST["eliminarMusuario"]) == "ok") {
-    $objMusuarios = new MusuarioControlador();
-    $objMusuarios->idMascota = $_POST["idMascota"];
-    $objMusuarios->ctrEliminarMusuario();
+if (isset($_POST["eliminarCita"]) == "ok") {
+    $objCitas = new CitasController();
+    $objCitas->id_citas = $_POST["id_citas"];
+    $objCitas->ctrEliminarCita();
 }
 
-if (isset($_POST["registrarMusuario"]) == "ok") {
-    $objMusuarios = new MusuarioControlador();
-    $objMusuarios->nombreM = $_POST["nombreM"];
-    $objMusuarios->edadM = $_POST["edadM"];
-    $objMusuarios->usuario_id = $_POST["usuario_id"];
-    $objMusuarios->raza_id = $_POST["raza_id"];
-    $objMusuarios->tipo_mascota_id = $_POST["tipo_mascota_id"];
-    $objMusuarios->ctrRegistrarMusuario();
+if (isset($_POST["registrarCita"]) == "ok") {
+    $objCitas = new CitasController();
+    $objCitas->id_adoptantes = $_POST["id_adoptantes"];
+    $objCitas->id_mascotas = $_POST["id_mascotas"];
+    $objCitas->fecha_cita = $_POST["fecha_cita"];
+    $objCitas->estado = $_POST["estado"];
+    $objCitas->motivo = $_POST["motivo"];
+    $objCitas->ctrRegistrarCita();
 }
 
-if (isset($_POST["editarMusuario"]) == "ok") {
-    $objMusuarios = new MusuarioControlador();
+if (isset($_POST["editarCita"]) == "ok") {
+    $objCitas = new CitasController();
 
-    $objMusuarios->nombreM = $_POST["nombreM"];
-    $objMusuarios->edadM = $_POST["edadM"];
-    $objMusuarios->idMascota = $_POST["idMascota"];
+    $objCitas->id_citas = $_POST["id_citas"];
+    $objCitas->id_adoptantes = $_POST["id_adoptantes"];
+    $objCitas->id_mascotas = $_POST["id_mascotas"];
+    $objCitas->fecha_cita = $_POST["fecha_cita"];
+    $objCitas->estado = $_POST["estado"];
+    $objCitas->motivo = $_POST["motivo"];
 
-    $objMusuarios->ctrEditarMusuario();
+    $objCitas->ctrEditarCita();
 }

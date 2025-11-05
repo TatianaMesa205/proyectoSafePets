@@ -66,7 +66,7 @@
     let raza = $(this).attr("raza");
     let edad = $(this).attr("edad");
     let sexo = $(this).attr("sexo");
-    let tamaño = $(this).attr("tamaño");
+    let tamano = $(this).attr("tamano");
     let fecha_ingreso = $(this).attr("fecha_ingreso");
     let estado_salud = $(this).attr("estado_salud");
     let estado = $(this).attr("estado");
@@ -81,7 +81,7 @@
     $("#txt_edit_raza").val(raza);
     $("#txt_edit_edad").val(edad);
     $("#txt_edit_sexo").val(sexo);
-    $("#txt_edit_tamaño").val(tamaño);
+    $("#txt_edit_tamano").val(tamano);
     $("#txt_edit_fecha_ingreso").val(fecha_ingreso);
     $("#txt_edit_estado_salud").val(estado_salud);
     $("#txt_edit_estado").val(estado);
@@ -111,7 +111,7 @@
         let  raza = document.getElementById('txt_raza').value;
         let  edad = document.getElementById('txt_edad').value;
         let  sexo = document.getElementById('txt_sexo').value;
-        let  tamaño = document.getElementById('txt_tamaño').value;
+        let  tamano = document.getElementById('txt_tamano').value;
         let  fecha_ingreso = document.getElementById('txt_fecha_ingreso').value;
         let  estado_salud = document.getElementById('txt_estado_salud').value;
         let  estado = document.getElementById('txt_estado').value;
@@ -125,7 +125,7 @@
           "raza": raza,
           "edad": edad,
           "sexo": sexo,
-          "tamaño": tamaño,
+          "tamano": tamano,
           "fecha_ingreso": fecha_ingreso,
           "estado_salud": estado_salud,
           "estado": estado,
@@ -156,7 +156,7 @@
         let  raza = document.getElementById('txt_raza').value;
         let  edad = document.getElementById('txt_edad').value;
         let  sexo = document.getElementById('txt_sexo').value;
-        let  tamaño = document.getElementById('txt_tamaño').value;
+        let  tamano = document.getElementById('txt_tamano').value;
         let  fecha_ingreso = document.getElementById('txt_fecha_ingreso').value;
         let  estado_salud = document.getElementById('txt_estado_salud').value;
         let  estado = document.getElementById('txt_estado').value;
@@ -171,7 +171,7 @@
           "raza": raza,
           "edad": edad,
           "sexo": sexo,
-          "tamaño": tamaño,
+          "tamano": tamano,
           "fecha_ingreso": fecha_ingreso,
           "estado_salud": estado_salud,
           "estado": estado,

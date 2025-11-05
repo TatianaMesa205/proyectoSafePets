@@ -1,41 +1,37 @@
 (function(){
 
-  listarTablaMusuarios();
+  listarTablaAdoptantes();
 
-  function listarTablaMusuarios(){
-      let objData = {"listarMusuarios":"ok"};
-      let objTablaMusuarios = new Musuario(objData);
-      objTablaMusuarios.listarMusuarios();
+  function listarTablaAdoptantes(){
+      let objData = {"listarAdoptantes":"ok"};
+      let objTablaAdoptantes = new Adoptantes(objData);
+      objTablaAdoptantes.listarAdoptantes();
   }
 
-  let btnAgregarMusuarios = document.getElementById("btn-AgregarMusuarios");
-  btnAgregarMusuarios.addEventListener("click",()=>{
-      $("#panelTablaMusuarios").hide();
-      $("#panelFormularioMusuarios").show();
+  let btnAgregarAdoptantes = document.getElementById("btn-AgregarAdoptantes");
+  btnAgregarAdoptantes.addEventListener("click",()=>{
+      $("#panelTablaAdoptantes").hide();
+      $("#panelFormularioAdoptantes").show();
       
       // Cargar los selects cuando se abre el formulario
-      let objMusuario = new Musuario({});
-      objMusuario.cargarSelects();
+      let objAdoptante = new Adoptantes({});
+      objAdoptante.cargarSelects();
   })
 
-  let btnRegresarMusuario = document.getElementById("btn-RegresarMusuario");
-  btnRegresarMusuario.addEventListener("click",()=>{
-      $("#panelFormularioMusuarios").hide();
-      $("#panelTablaMusuarios").show();
+  let btnRegresarAdoptante = document.getElementById("btn-RegresarAdoptante");
+  btnRegresarAdoptante.addEventListener("click",()=>{
+      $("#panelFormularioAdoptantes").hide();
+      $("#panelTablaAdoptantes").show();
   })
    
-  let btnRegresarEditarMusuario = document.getElementById('btn-RegresarEditarMusuario');
-  btnRegresarEditarMusuario.addEventListener("click",()=>{
-      $("#panelFormularioEditarMusuarios").hide();
-      $("#panelTablaMusuarios").show();
+  let btnRegresarEditarAdoptante = document.getElementById('btn-RegresarEditarAdoptante');
+  btnRegresarEditarAdoptante.addEventListener("click",()=>{
+      $("#panelFormularioEditarAdoptantes").hide();
+      $("#panelTablaAdoptantes").show();
   })
 
 
-
-  
-
-
-  $("#tablaMusuarios").on("click","#btn-eliminarMusuario",function(){
+  $("#tablaAdoptantes").on("click","#btn-eliminarAdoptante",function(){
       Swal.fire({
           title: "Esta usted seguro?",
           text: "Si confirma esta opción no podra recuperar el registro!",
@@ -46,103 +42,100 @@
           confirmButtonText: "Aceptar"
         }).then((result) => {
           if (result.isConfirmed) {
-              let idMascota = $(this).attr("mascota");
-              let objData = {"eliminarMusuario":"ok","idMascota":idMascota,"listarMusuarios":"ok"};
-              let objMusuario = new Musuario(objData);
-              objMusuario.eliminarMusuario();
+              let id_adoptantes = $(this).attr("adoptantes");
+              let objData = {"eliminarAdoptante":"ok","id_adoptantes":id_adoptantes,"listarAdoptantes":"ok"};
+              let objAdoptante = new Adoptantes(objData);
+              objAdoptante.eliminarAdoptante();
           }
         });
   })
 
-  $("#tablaMusuarios").on("click","#btn-editarMusuario",function(){
-    $("#panelTablaMusuarios").hide();
-    $("#panelFormularioEditarMusuarios").show();
+  $("#tablaAdoptantes").on("click","#btn-editarAdoptante",function(){
+    $("#panelTablaAdoptantes").hide();
+    $("#panelFormularioEditarAdoptantes").show();
 
     // sacamos los valores de los atributos del boton de editar de cada uno de los usuarios mostrando en la tabla
   
-    let idMascota = $(this).attr("mascota");
-    let nombre = $(this).attr("nombre");
-    let edad = $(this).attr("edad");
+    let id_adoptantes = $(this).attr("adoptantes");
+    let nombre_completo = $(this).attr("nombre_completo");
+    let cedula = $(this).attr("cedula");
+    let telefono = $(this).attr("telefono");
+    let email = $(this).attr("email");
+    let direccion = $(this).attr("direccion");
     
 
     // agregar el valor de cada atributo al formulario
 
-    $("#txt_edit_nombreM").val(nombre);
-    $("#txt_edit_edadM").val(edad);
-
-    $("#btnEditarMusuario").attr("mascota",idMascota);
+    $("#txt_edit_nombre_completo").val(nombre_completo);
+    $("#txt_edit_cedula").val(cedula);
+    $("#txt_edit_telefono").val(telefono);
+    $("#txt_edit_email").val(email);
+    $("#txt_edit_direccion").val(direccion);
+    $("#btnEditarAdoptante").attr("adoptantes",id_adoptantes);
 
 
   })
 
 
+  'use strict'
 
+  const forms = document.querySelectorAll('#formRegistroAdoptantes');
 
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
 
+    event.preventDefault()
+      if (!form.checkValidity()) {
+        event.stopPropagation()
+        form.classList.add('was-validated')
+      }else{
 
-'use strict'
+        let nombre_completo = document.getElementById('txt_nombre_completo').value;
+        let cedula = document.getElementById('txt_cedula').value;
+        let telefono = document.getElementById('txt_telefono').value;
+        let email = document.getElementById('txt_email').value;
+        let direccion = document.getElementById('txt_direccion').value;
 
-const forms = document.querySelectorAll('#formRegistroMusuarios');
+        let objData = {
+          "resgistrarAdoptante": "ok",
+          "nombre_completo": nombre_completo,
+          "cedula": cedula,
+          "telefono": telefono,
+          "email": email,
+          "direccion": direccion,
+          "listarAdoptantes": "ok"
+        }
+        let objAdoptante = new Adoptantes(objData);
+        objAdoptante.registrarAdoptante();
 
-Array.from(forms).forEach(form => {
-  form.addEventListener('submit', event => {
-
-  event.preventDefault()
-    if (!form.checkValidity()) {
-      event.stopPropagation()
-      form.classList.add('was-validated')
-    }else{
-
-      let  nombreM = document.getElementById('txt_nombreM').value;
-      let  edadM = document.getElementById('txt_edadM').value;
-      let usuario_id = document.getElementById('select_usuario').value;
-      let raza_id = document.getElementById('select_raza').value;
-      let tipo_mascota_id = document.getElementById('select_tipo_mascota').value;
-
-      let objData = {
-        "resgistrarMusuario": "ok",
-        "nombreM": nombreM,
-        "edadM": edadM,
-        "usuario_id": usuario_id,
-        "raza_id": raza_id,
-        "tipo_mascota_id": tipo_mascota_id,
-        "listarMusuarios": "ok"
       }
-      let objMusuario = new Musuario(objData);
-      objMusuario.registrarMusuario();
-
-    }
-  }, false)
-})
+    }, false)
+  })
 
 
+  const formsEditarAdoptante = document.querySelectorAll('#formEditarAdoptantes');
 
-const formsEditarMusuario = document.querySelectorAll('#formEditarMusuarios');
+  Array.from(formsEditarAdoptante).forEach(form => {
+    form.addEventListener('submit', event => {
 
-Array.from(formsEditarMusuario).forEach(form => {
-  form.addEventListener('submit', event => {
+    event.preventDefault()
+      if (!form.checkValidity()) {
+        event.stopPropagation()
+        form.classList.add('was-validated')
+      }else{
 
-  event.preventDefault()
-    if (!form.checkValidity()) {
-      event.stopPropagation()
-      form.classList.add('was-validated')
-    }else{
+        let nombre_completo = document.getElementById('txt_edit_nombre_completo').value;
+        let cedula = document.getElementById('txt_edit_cedula').value;
+        let telefono = document.getElementById('txt_edit_telefono').value;
+        let email = document.getElementById('txt_edit_email').value;
+        let direccion = document.getElementById('txt_edit_direccion').value;
+        let id_adoptantes = $("#btnEditarAdoptante").attr("adoptantes");
 
-      let  nombreM = document.getElementById('txt_edit_nombreM').value;
-      let  edadM = document.getElementById('txt_edit_edadM').value;
-      let idMascota = $("#btnEditarMusuario").attr("mascota");
+        let objData = {"editarAdoptante":"ok","nombre_completo":nombre_completo,"cedula":cedula,"telefono":telefono,"email":email,"direccion":direccion,"id_adoptantes":id_adoptantes,"listarAdoptantes":"ok"}
+        let objAdoptante = new Adoptantes(objData);
+        objAdoptante.editarAdoptante();
 
-      let objData = {"editarMusuario":"ok","nombreM":nombreM,"edadM":edadM,"idMascota":idMascota,"listarMusuarios":"ok"}
-      let objMusuario = new Musuario(objData);
-      objMusuario.editarMusuario();
-
-    }
-  }, false)
-})
-
-
-
+      }
+    }, false)
+  })
 })()
-    
-    
-    

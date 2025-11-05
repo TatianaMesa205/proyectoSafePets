@@ -1,12 +1,12 @@
-class Musuario {
+class Adoptantes {
     constructor(objData){
         this._objData = objData;
     }
-    listarMusuarios(){
+    listarAdoptantes(){
         let objData = new FormData();
-        objData.append("listarMusuarios",this._objData.listarMusuarios);
+        objData.append("listarAdoptantes",this._objData.listarAdoptantes);
 
-        fetch("controller/musuarioControlador.php",{
+        fetch("controller/adoptantesController.php",{
             method: 'POST',
             body: objData
         })
@@ -19,23 +19,23 @@ class Musuario {
             if (response["codigo"] == "200"){
                 let dataSet = [];
 
-                response["listaMusuarios"].forEach(item => {
+                response["listaAdoptantes"].forEach(item => {
                     let objBotones = '<div class="btn-group" role="group" aria-label="Basic example">';
-                    objBotones += '<button id="btn-editarMusuario" type="button" style="background-color:pink; border-color:pink; color:white" class="btn" mascota="'+item.idmascota+'" nombre="'+item.nombre+'"  edad="'+item.edad+'"><i class="bi bi-pencil"></i></button>';
-                    objBotones += '<button id="btn-eliminarMusuario" type="button" style="background-color:rgb(158,147,223); color:white" class="btn" mascota="'+item.idmascota+'"><i class="bi bi-trash"></i></button>';
+                    objBotones += '<button id="btn-editarAdoptante" type="button" style="background-color:pink; border-color:pink; color:white" class="btn" adoptantes="'+item.id_adoptantes+'" nombre_completo="'+item.nombre_completo+'" cedula="'+item.cedula+'" telefono="'+item.telefono+'" email="'+item.email+'" direccion="'+item.direccion+'"><i class="bi bi-pencil"></i></button>';
+                    objBotones += '<button id="btn-eliminarAdoptante" type="button" style="background-color:rgb(158,147,223); color:white" class="btn" adoptantes="'+item.id_adoptantes+'"><i class="bi bi-trash"></i></button>';
                     objBotones += '</div>';
 
                     dataSet.push([
-                        item.nombre,
-                        item.edad,
-                        item.usuario,
-                        item.tipo_mascota,
-                        item.raza,
+                        item.nombre_completo,
+                        item.cedula,
+                        item.telefono,
+                        item.email,
+                        item.direccion,
                         objBotones
                     ]);
                 });
 
-                $("#tablaMusuarios").DataTable({
+                $("#tablaAdoptantes").DataTable({
                     buttons:[{
                         extend: "colvis",
                         text: "Columnas"
@@ -57,222 +57,134 @@ class Musuario {
 
 
 
-  eliminarMusuario(){
-      let objData = new FormData();
-      objData.append("eliminarMusuario",this._objData.eliminarMusuario);
-      objData.append("idMascota",this._objData.idMascota);
-      fetch("controller/musuarioControlador.php",{
-          method: 'POST',
-          body: objData
-      })
-      .then(response => response.json()).catch(error => {
-          console.log(error);
-      })
-      .then(response =>{
-          if (response["codigo"] == "200"){
-              this.listarMusuarios();
-              Swal.fire({
-                  title: "Mascota eliminada correctamente :(",
-                  width: 600,
-                  padding: "3em",
-                  color: "#ba88d1",
-                  background: "#fff url(/images/trees.png)",
-                  backdrop: `
-                    rgba(0,0,123,0.4)
-                    url("https://i.pinimg.com/originals/ba/c1/cd/bac1cdc1522ec6e9305e9e9b38b20bfd.gif")
-                    left top
-                    no-repeat
-                  `,timer: 6000
-                });
-          }else{
-              Swal.fire(response["mensaje"]);
-          }
-      })
-  }
-
-  registrarMusuario(){
-
-      console.log(this._objData.registrarMusuario);
-
-      let objDataMusuario = new FormData();
-      objDataMusuario.append("registrarMusuario",this._objData.registrarMusuario);
-      objDataMusuario.append("nombreM",this._objData.nombreM);
-      objDataMusuario.append("edadM",this._objData.edadM);
-      objDataMusuario.append("usuario_id", this._objData.usuario_id);
-      objDataMusuario.append("raza_id", this._objData.raza_id);
-      objDataMusuario.append("tipo_mascota_id", this._objData.tipo_mascota_id);
-
-
-      fetch('controller/musuarioControlador.php',{
-          method: 'POST',
-          body:objDataMusuario
-      })
-      .then(response => response.json()).catch(error =>{
-          console.log(error);
-      })
-      .then(response =>{
-
-          if(response["codigo"] == "200"){
-              let formulario = document.getElementById('formRegistroMusuarios');
-              formulario.reset();
-              $("#panelFormularioMusuarios").hide();
-              $("#panelTablaMusuarios").show();
-              this.listarMusuarios();
-
+    eliminarAdoptante(){
+        let objData = new FormData();
+        objData.append("eliminarAdoptante",this._objData.eliminarAdoptante);
+        objData.append("id_adoptantes",this._objData.id_adoptantes);
+        fetch("controller/adoptantesController.php",{
+            method: 'POST',
+            body: objData
+        })
+        .then(response => response.json()).catch(error => {
+            console.log(error);
+        })
+        .then(response =>{
+            if (response["codigo"] == "200"){
+                this.listarAdoptantes();
                 Swal.fire({
-                  title: "Mascota registrada correctamente :D",
-                  width: 600,
-                  padding: "3em",
-                  color: "#716add",
-                  background: "#fff url(/images/trees.png)",
-                  backdrop: `
-                    rgba(0,0,123,0.4)
-                    url("https://i.pinimg.com/originals/3a/fb/fa/3afbfa4d4048a3dbbd56fac372de781f.gif")
-                    left top
-                    no-repeat
-                  `,timer: 1600
-                });
+                    title: "Adoptante eliminada correctamente :(",
+                    width: 600,
+                    padding: "3em",
+                    color: "#ba88d1",
+                    background: "#fff url(/images/trees.png)",
+                    backdrop: `
+                        rgba(0,0,123,0.4)
+                        url("https://i.pinimg.com/originals/ba/c1/cd/bac1cdc1522ec6e9305e9e9b38b20bfd.gif")
+                        left top
+                        no-repeat
+                    `,timer: 6000
+                    });
+            }else{
+                Swal.fire(response["mensaje"]);
+            }
+        })
+    }
+
+    registrarAdoptante(){
+
+        console.log(this._objData.registrarAdoptante);
+
+        let objDataAdoptante = new FormData();
+        objDataAdoptante.append("registrarAdoptante",this._objData.registrarAdoptante);
+        objDataAdoptante.append("nombre_completo",this._objData.nombre_completo);
+        objDataAdoptante.append("cedula",this._objData.cedula);
+        objDataAdoptante.append("telefono",this._objData.telefono);
+        objDataAdoptante.append("email",this._objData.email);
+        objDataAdoptante.append("direccion",this._objData.direccion);
 
 
-          }else{
-              Swal.fire(response["mensaje"]);
-          }
-      })
-  }
+        fetch('controller/adoptantesController.php',{
+            method: 'POST',
+            body:objDataAdoptante
+        })
+        .then(response => response.json()).catch(error =>{
+            console.log(error);
+        })
+        .then(response =>{
+
+            if(response["codigo"] == "200"){
+                let formulario = document.getElementById('formRegistroAdoptantes');
+                formulario.reset();
+                $("#panelFormularioAdoptantes").hide();
+                $("#panelTablaAdoptantes").show();
+                this.listarAdoptantes();
+
+                    Swal.fire({
+                    title: "Adoptante registrado correctamente :D",
+                    width: 600,
+                    padding: "3em",
+                    color: "#716add",
+                    background: "#fff url(/images/trees.png)",
+                    backdrop: `
+                        rgba(0,0,123,0.4)
+                        url("https://i.pinimg.com/originals/3a/fb/fa/3afbfa4d4048a3dbbd56fac372de781f.gif")
+                        left top
+                        no-repeat
+                    `,timer: 1600
+                    });
 
 
-  editarMusuario(){
-
-      let objDataMusuario = new FormData();
-      objDataMusuario.append("editarMusuario",this._objData.editarMusuario);
-      objDataMusuario.append("idMascota",this._objData.idMascota);
-      objDataMusuario.append("nombreM",this._objData.nombreM);
-      objDataMusuario.append("edadM",this._objData.edadM);
-      fetch('controller/musuarioControlador.php',{
-          method: 'POST',
-          body:objDataMusuario
-      })
-      .then(response => response.json()).catch(error =>{
-          console.log(error);
-      })
-      .then(response =>{
-
-          if(response["codigo"] == "200"){
-              let formulario = document.getElementById('formEditarMusuarios');
-              formulario.reset();
-              $("#panelFormularioEditarMusuarios").hide();
-              $("#panelTablaMusuarios").show();
-              this.listarMusuarios();
-
-                Swal.fire({
-                  title: "Mascota editada correctamente :D",
-                  width: 600,
-                  padding: "3em",
-                  color: "#716add",
-                  background: "#fff url(/images/trees.png)",
-                  backdrop: `
-                    rgba(0,0,123,0.4)
-                    url("https://i.pinimg.com/originals/3a/fb/fa/3afbfa4d4048a3dbbd56fac372de781f.gif")
-                    left top
-                    no-repeat
-                  `
-                });
+            }else{
+                Swal.fire(response["mensaje"]);
+            }
+        })
+    }
 
 
-          }else{
-              Swal.fire(response["mensaje"]);
-          }
-      })
-  }
+    editarAdoptante(){
+
+        let objDataAdoptante = new FormData();
+        objDataAdoptante.append("editarAdoptante",this._objData.editarAdoptante);
+        objDataAdoptante.append("id_adoptantes",this._objData.id_adoptantes);
+        objDataAdoptante.append("nombre_completo",this._objData.nombre_completo);
+        objDataAdoptante.append("cedula",this._objData.cedula);
+        objDataAdoptante.append("telefono",this._objData.telefono);
+        objDataAdoptante.append("email",this._objData.email);
+        objDataAdoptante.append("direccion",this._objData.direccion);
+        fetch('controller/adoptanteController.php',{
+            method: 'POST',
+            body:objDataAdoptante
+        })
+        .then(response => response.json()).catch(error =>{
+            console.log(error);
+        })
+        .then(response =>{
+
+            if(response["codigo"] == "200"){
+                let formulario = document.getElementById('formEditarAdoptantes');
+                formulario.reset();
+                $("#panelFormularioEditarAdoptantes").hide();
+                $("#panelTablaAdoptantes").show();
+                this.listarAdoptantes();
+
+                    Swal.fire({
+                    title: "Adoptante editado correctamente :D",
+                    width: 600,
+                    padding: "3em",
+                    color: "#716add",
+                    background: "#fff url(/images/trees.png)",
+                    backdrop: `
+                        rgba(0,0,123,0.4)
+                        url("https://i.pinimg.com/originals/3a/fb/fa/3afbfa4d4048a3dbbd56fac372de781f.gif")
+                        left top
+                        no-repeat
+                    `
+                    });
 
 
-
-
-
-
-
-
-//SELECTS FORMULARIO MASCOTAS:   USUARIOS - RAZAS - TIPOS //
-
-
-
-  cargarSelects() {
-      this.cargarUsuarios();
-      this.cargarRazas();
-      this.cargarTiposMascota();
-  }
-
-  cargarUsuarios() {
-      let objData = new FormData();
-      objData.append("listarUsuarios", "ok");
-
-      fetch("controller/usuarioControlador.php", {
-          method: 'POST',
-          body: objData
-      })
-      .then(response => response.json())
-      .then(response => {
-          if (response["codigo"] == "200") {
-              let select = document.getElementById('select_usuario');
-              select.innerHTML = '<option value="">Seleccione un usuario</option>';
-              
-              response["listaUsuarios"].forEach(usuario => {
-                  select.innerHTML += `<option value="${usuario.idusuario}">${usuario.nombre} ${usuario.apellido}</option>`;
-              });
-          }
-      })
-      .catch(error => console.log(error));
-  }
-
-  cargarRazas() {
-      let objData = new FormData();
-      objData.append("listarRaza", "ok");
-
-      fetch("controller/razaControlador.php", {
-          method: 'POST',
-          body: objData
-      })
-      .then(response => response.json())
-      .then(response => {
-          if (response["codigo"] == "200") {
-              let select = document.getElementById('select_raza');
-              select.innerHTML = '<option value="">Seleccione una raza</option>';
-              
-              response["listaRazas"].forEach(raza => {
-                  select.innerHTML += `<option value="${raza.idraza}">${raza.descripcion_raza}</option>`;
-              });
-          }
-      })
-      .catch(error => console.log(error));
-  }
-
-  cargarTiposMascota() {
-      let objData = new FormData();
-      objData.append("listarTmascotas", "ok");
-
-      fetch("controller/tmascotaControlador.php", {
-          method: 'POST',
-          body: objData
-      })
-      .then(response => response.json())
-      .then(response => {
-          if (response["codigo"] == "200") {
-              let select = document.getElementById('select_tipo_mascota');
-              select.innerHTML = '<option value="">Seleccione un tipo de mascota</option>';
-              
-              response["listaTmascotas"].forEach(tipo => {
-                  select.innerHTML += `<option value="${tipo.idtipo_mascota}">${tipo.descripcion}</option>`;
-              });
-          }
-      })
-      .catch(error => console.log(error));
-  }
-}
-    
-    
-    
-    
-    
-    
-    
-    
+            }else{
+                Swal.fire(response["mensaje"]);
+            }
+        })
+    }
+}   

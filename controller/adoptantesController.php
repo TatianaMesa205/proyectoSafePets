@@ -11,19 +11,18 @@ class AdoptantesController
     public $telefono;
     public $email;
     public $direccion;
-    public $id_usuarios;
 
     public function ctrListarAdoptantes()
     {
         $objRespuesta = AdoptantesModel::mdlListarAdoptantes();
-        echo json_encode($objRespuestaMusuario);
+        echo json_encode($objRespuesta);
     }
 
 
-    public function ctrEliminarMusuario()
+    public function ctrEliminarAdoptante()
     {
-        $objRespuesta = AdoptantesModel::mdlEliminarMusuario($this->id_adoptantes);
-        echo json_encode($objRespuestaMusuario);
+        $objRespuesta = AdoptantesModel::mdlEliminarAdoptante($this->id_adoptantes);
+        echo json_encode($objRespuesta);
     }
 
     public function ctrRegistrarAdoptante()
@@ -34,7 +33,6 @@ class AdoptantesController
             $this->telefono,
             $this->email,
             $this->direccion,
-            $this->id_usuarios,
 
         );
         echo json_encode($objRespuesta);

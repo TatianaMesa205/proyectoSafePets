@@ -10,7 +10,7 @@ class MascotasController
     public $raza;
     public $edad;
     public $sexo;
-    public $tamaño;
+    public $tamano;
     public $fecha_ingreso;
     public $estado_salud;
     public $estado;
@@ -38,7 +38,7 @@ class MascotasController
             $this->raza, 
             $this->edad,
             $this->sexo, 
-            $this->tamaño,
+            $this->tamano,
             $this->fecha_ingreso,
             $this->estado_salud, 
             $this->estado, 
@@ -51,7 +51,7 @@ class MascotasController
     public function ctrEditarMascota()
     {
         $objRespuestaMascota = MascotasModel::mldEditarMascota($this->id_mascotas, $this->nombre, $this->especie, $this->raza, 
-        $this->edad, $this->sexo, $this->tamaño, $this->fecha_ingreso, $this->estado_salud, $this->estado, $this->descripcion, $this->imagen);
+        $this->edad, $this->sexo, $this->tamano, $this->fecha_ingreso, $this->estado_salud, $this->estado, $this->descripcion, $this->imagen);
         echo json_encode($objRespuestaMascota);
     }
 
@@ -76,7 +76,7 @@ if (isset($_POST["registrarMascota"]) == "ok") {
     $objMascotas->raza = $_POST["raza"];
     $objMascotas->edad = $_POST["edad"];
     $objMascotas->sexo = $_POST["sexo"];
-    $objMascotas->tamaño = $_POST["tamaño"];
+    $objMascotas->tamano = $_POST["tamano"];
     $objMascotas->fecha_ingreso = $_POST["fecha_ingreso"];
     $objMascotas->estado_salud = $_POST["estado_salud"];
     $objMascotas->estado = $_POST["estado"];
@@ -94,7 +94,7 @@ if (isset($_POST["editarMascota"]) == "ok") {
     $objMascotas->raza = $_POST["raza"];
     $objMascotas->edad = $_POST["edad"];
     $objMascotas->sexo = $_POST["sexo"];
-    $objMascotas->tamaño = $_POST["tamaño"];
+    $objMascotas->tamano = $_POST["tamano"];
     $objMascotas->fecha_ingreso = $_POST["fecha_ingreso"];
     $objMascotas->estado_salud = $_POST["estado_salud"];
     $objMascotas->estado = $_POST["estado"];

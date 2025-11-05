@@ -1,33 +1,33 @@
 (function(){
 
-  listarTablaMusuarios();
+  listarTablaCitas();
 
-  function listarTablaMusuarios(){
-      let objData = {"listarMusuarios":"ok"};
-      let objTablaMusuarios = new Musuario(objData);
-      objTablaMusuarios.listarMusuarios();
+  function listarTablaCitas(){
+      let objData = {"listarCitas":"ok"};
+      let objTablaCitas = new Citas(objData);
+      objTablaCitas.listarCItas();
   }
 
-  let btnAgregarMusuarios = document.getElementById("btn-AgregarMusuarios");
-  btnAgregarMusuarios.addEventListener("click",()=>{
-      $("#panelTablaMusuarios").hide();
-      $("#panelFormularioMusuarios").show();
+  let btnAgregarCitas = document.getElementById("btn-AgregarCitas");
+  btnAgregarCitas.addEventListener("click",()=>{
+      $("#panelTablaCitas").hide();
+      $("#panelFormularioCitas").show();
       
       // Cargar los selects cuando se abre el formulario
-      let objMusuario = new Musuario({});
-      objMusuario.cargarSelects();
+      let objCita = new Citas({});
+      objCita.cargarSelects();
   })
 
-  let btnRegresarMusuario = document.getElementById("btn-RegresarMusuario");
-  btnRegresarMusuario.addEventListener("click",()=>{
-      $("#panelFormularioMusuarios").hide();
-      $("#panelTablaMusuarios").show();
+  let btnRegresarCita = document.getElementById("btn-RegresarCita");
+  btnRegresarCita.addEventListener("click",()=>{
+      $("#panelFormularioCitas").hide();
+      $("#panelTablaCitas").show();
   })
    
-  let btnRegresarEditarMusuario = document.getElementById('btn-RegresarEditarMusuario');
-  btnRegresarEditarMusuario.addEventListener("click",()=>{
-      $("#panelFormularioEditarMusuarios").hide();
-      $("#panelTablaMusuarios").show();
+  let btnRegresarEditarCita = document.getElementById('btn-RegresarEditarCita');
+  btnRegresarEditarCita.addEventListener("click",()=>{
+      $("#panelFormularioEditarCitas").hide();
+      $("#panelTablaCitas").show();
   })
 
 
@@ -35,7 +35,7 @@
   
 
 
-  $("#tablaMusuarios").on("click","#btn-eliminarMusuario",function(){
+  $("#tablaCitas").on("click","#btn-eliminarCita",function(){
       Swal.fire({
           title: "Esta usted seguro?",
           text: "Si confirma esta opción no podra recuperar el registro!",
@@ -47,42 +47,41 @@
         }).then((result) => {
           if (result.isConfirmed) {
               let idMascota = $(this).attr("mascota");
-              let objData = {"eliminarMusuario":"ok","idMascota":idMascota,"listarMusuarios":"ok"};
-              let objMusuario = new Musuario(objData);
-              objMusuario.eliminarMusuario();
+              let objData = {"eliminarCita":"ok","idMascota":idMascota,"listarCitas":"ok"};
+              let objCita = new Citas(objData);
+              objCita.eliminarCita();
           }
         });
   })
 
-  $("#tablaMusuarios").on("click","#btn-editarMusuario",function(){
-    $("#panelTablaMusuarios").hide();
-    $("#panelFormularioEditarMusuarios").show();
+  $("#tablaCitas").on("click","#btn-editarCita",function(){
+    $("#panelTablaCitas").hide();
+    $("#panelFormularioEditarCitas").show();
 
     // sacamos los valores de los atributos del boton de editar de cada uno de los usuarios mostrando en la tabla
   
-    let idMascota = $(this).attr("mascota");
-    let nombre = $(this).attr("nombre");
-    let edad = $(this).attr("edad");
+    let id_citas = $(this).attr("citas");
+    let fecha_cita = $(this).attr("fecha_hora");
+    let estado = $(this).attr("estado");
+    let motivo = $(this).attr("motivo");
     
 
     // agregar el valor de cada atributo al formulario
 
-    $("#txt_edit_nombreM").val(nombre);
-    $("#txt_edit_edadM").val(edad);
+    $("#txt_edit_fecha_cita").val(fecha_cita);
+    $("#select_edit_estado").val(estado);
+    $("#txt_edit_motivo").val(motivo);
 
-    $("#btnEditarMusuario").attr("mascota",idMascota);
+    $("#btnEditarCita").attr("citas",id_citas);
 
 
   })
-
-
-
 
 
 
 'use strict'
 
-const forms = document.querySelectorAll('#formRegistroMusuarios');
+const forms = document.querySelectorAll('#formRegistroCitas');
 
 Array.from(forms).forEach(form => {
   form.addEventListener('submit', event => {
@@ -93,23 +92,23 @@ Array.from(forms).forEach(form => {
       form.classList.add('was-validated')
     }else{
 
-      let  nombreM = document.getElementById('txt_nombreM').value;
-      let  edadM = document.getElementById('txt_edadM').value;
-      let usuario_id = document.getElementById('select_usuario').value;
-      let raza_id = document.getElementById('select_raza').value;
-      let tipo_mascota_id = document.getElementById('select_tipo_mascota').value;
+      let fecha_cita = document.getElementById('txt_fecha_hora').value;
+      let estado = document.getElementById('select_estado').value;
+      let motivo = document.getElementById('txt_motivo').value;
+      let adoptantes_id = document.getElementById('select_adoptantes').value;
+      let mascotas_id = document.getElementById('select_mascotas').value;
 
       let objData = {
-        "resgistrarMusuario": "ok",
-        "nombreM": nombreM,
-        "edadM": edadM,
-        "usuario_id": usuario_id,
-        "raza_id": raza_id,
-        "tipo_mascota_id": tipo_mascota_id,
-        "listarMusuarios": "ok"
+        "resgistrarCita": "ok",
+        "fecha_cita": fecha_cita,
+        "estado": estado,
+        "motivo": motivo,
+        "adoptantes_id": adoptantes_id,
+        "mascotas_id": mascotas_id,
+        "listarCitas": "ok"
       }
-      let objMusuario = new Musuario(objData);
-      objMusuario.registrarMusuario();
+      let objCita = new Citas(objData);
+      objCita.registrarCita();
 
     }
   }, false)
@@ -117,9 +116,9 @@ Array.from(forms).forEach(form => {
 
 
 
-const formsEditarMusuario = document.querySelectorAll('#formEditarMusuarios');
+const formsEditarCita = document.querySelectorAll('#formEditarCitas');
 
-Array.from(formsEditarMusuario).forEach(form => {
+Array.from(formsEditarCita).forEach(form => {
   form.addEventListener('submit', event => {
 
   event.preventDefault()
@@ -128,13 +127,14 @@ Array.from(formsEditarMusuario).forEach(form => {
       form.classList.add('was-validated')
     }else{
 
-      let  nombreM = document.getElementById('txt_edit_nombreM').value;
-      let  edadM = document.getElementById('txt_edit_edadM').value;
-      let idMascota = $("#btnEditarMusuario").attr("mascota");
+      let fecha_cita = document.getElementById('txt_edit_fecha_cita').value;
+      let estado = document.getElementById('select_edit_estado').value;
+      let motivo = document.getElementById('txt_edit_motivo').value;
+      let id_citas = $("#btnEditarCita").attr("citas");
 
-      let objData = {"editarMusuario":"ok","nombreM":nombreM,"edadM":edadM,"idMascota":idMascota,"listarMusuarios":"ok"}
-      let objMusuario = new Musuario(objData);
-      objMusuario.editarMusuario();
+      let objData = {"editarCita":"ok","fecha_hora":fecha_cita, "estado":estado, "motivo":motivo, "id_citas":id_citas,"listarCitas":"ok"}
+      let objCita = new Citas(objData);
+      objCita.editarCita();
 
     }
   }, false)
