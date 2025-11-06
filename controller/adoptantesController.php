@@ -27,7 +27,7 @@ class AdoptantesController
 
     public function ctrRegistrarAdoptante()
     {
-        $objRespuestaAdoptantes = AdoptantesModel::mdlRegistrarAdoptante(
+        $objRespuesta = AdoptantesModel::mdlRegistrarAdoptante(
             $this->nombre_completo,
             $this->cedula,
             $this->telefono,

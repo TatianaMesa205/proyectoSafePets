@@ -32,9 +32,6 @@
 
 
 
-  
-
-
   $("#tablaCitas").on("click","#btn-eliminarCita",function(){
       Swal.fire({
           title: "Esta usted seguro?",
@@ -79,70 +76,64 @@
 
 
 
-'use strict'
+  'use strict'
 
-const forms = document.querySelectorAll('#formRegistroCitas');
+  const forms = document.querySelectorAll('#formRegistroCitas');
 
-Array.from(forms).forEach(form => {
-  form.addEventListener('submit', event => {
+  Array.from(forms).forEach(form => {
+    form.addEventListener('submit', event => {
 
-  event.preventDefault()
-    if (!form.checkValidity()) {
-      event.stopPropagation()
-      form.classList.add('was-validated')
-    }else{
+    event.preventDefault()
+      if (!form.checkValidity()) {
+        event.stopPropagation()
+        form.classList.add('was-validated')
+      }else{
 
-      let fecha_cita = document.getElementById('txt_fecha_hora').value;
-      let estado = document.getElementById('select_estado').value;
-      let motivo = document.getElementById('txt_motivo').value;
-      let adoptantes_id = document.getElementById('select_adoptantes').value;
-      let mascotas_id = document.getElementById('select_mascotas').value;
+        let fecha_cita = document.getElementById('txt_fecha_hora').value;
+        let estado = document.getElementById('select_estado').value;
+        let motivo = document.getElementById('txt_motivo').value;
+        let adoptantes_id = document.getElementById('select_adoptantes').value;
+        let mascotas_id = document.getElementById('select_mascotas').value;
 
-      let objData = {
-        "resgistrarCita": "ok",
-        "fecha_cita": fecha_cita,
-        "estado": estado,
-        "motivo": motivo,
-        "adoptantes_id": adoptantes_id,
-        "mascotas_id": mascotas_id,
-        "listarCitas": "ok"
+        let objData = {
+          "resgistrarCita": "ok",
+          "fecha_cita": fecha_cita,
+          "estado": estado,
+          "motivo": motivo,
+          "adoptantes_id": adoptantes_id,
+          "mascotas_id": mascotas_id,
+          "listarCitas": "ok"
+        }
+        let objCita = new Citas(objData);
+        objCita.registrarCita();
+
       }
-      let objCita = new Citas(objData);
-      objCita.registrarCita();
-
-    }
-  }, false)
-})
+    }, false)
+  })
 
 
 
-const formsEditarCita = document.querySelectorAll('#formEditarCitas');
+  const formsEditarCita = document.querySelectorAll('#formEditarCitas');
 
-Array.from(formsEditarCita).forEach(form => {
-  form.addEventListener('submit', event => {
+  Array.from(formsEditarCita).forEach(form => {
+    form.addEventListener('submit', event => {
 
-  event.preventDefault()
-    if (!form.checkValidity()) {
-      event.stopPropagation()
-      form.classList.add('was-validated')
-    }else{
+    event.preventDefault()
+      if (!form.checkValidity()) {
+        event.stopPropagation()
+        form.classList.add('was-validated')
+      }else{
 
-      let fecha_cita = document.getElementById('txt_edit_fecha_cita').value;
-      let estado = document.getElementById('select_edit_estado').value;
-      let motivo = document.getElementById('txt_edit_motivo').value;
-      let id_citas = $("#btnEditarCita").attr("citas");
+        let fecha_cita = document.getElementById('txt_edit_fecha_cita').value;
+        let estado = document.getElementById('select_edit_estado').value;
+        let motivo = document.getElementById('txt_edit_motivo').value;
+        let id_citas = $("#btnEditarCita").attr("citas");
 
-      let objData = {"editarCita":"ok","fecha_hora":fecha_cita, "estado":estado, "motivo":motivo, "id_citas":id_citas,"listarCitas":"ok"}
-      let objCita = new Citas(objData);
-      objCita.editarCita();
+        let objData = {"editarCita":"ok","fecha_hora":fecha_cita, "estado":estado, "motivo":motivo, "id_citas":id_citas,"listarCitas":"ok"}
+        let objCita = new Citas(objData);
+        objCita.editarCita();
 
-    }
-  }, false)
-})
-
-
-
+      }
+    }, false)
+  })
 })()
-    
-    
-    

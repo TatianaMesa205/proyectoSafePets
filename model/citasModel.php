@@ -11,8 +11,8 @@ class CitasModel
         try {
             $objRespuesta = Conexion::conectar()->prepare("SELECT citas.id_citas, citas.fecha_cita, citas.estado, citas.motivo, adoptantes.nombre_completo as adoptantes, mascotas.nombre as mascotas
                 FROM citas 
-                JOIN adoptantes ON adoptantes.id_adoptantes = citas.adoptantes_id_adoptantes
-                JOIN mascotas ON mascotas.id_mascotas = citas.mascotas_id_mascotas");
+                JOIN adoptantes ON adoptantes.id_adoptantes = citas.id_adoptantes
+                JOIN mascotas ON mascotas.id_mascotas = citas.id_mascotas");
             $objRespuesta->execute();
             $listaCitas = $objRespuesta->fetchAll(PDO::FETCH_ASSOC);
             $objRespuesta = null;
