@@ -19,10 +19,9 @@ class MascotasController
 
     public function ctrListarMascotas()
     {
-        $objRespuestaMascota = MascotasModel::mdlListarMascota();
+        $objRespuestaMascota = MascotasModel::mdlListarMascotas();
         echo json_encode($objRespuestaMascota);
     }
-
 
     public function ctrEliminarMascota()
     {
@@ -50,27 +49,41 @@ class MascotasController
 
     public function ctrEditarMascota()
     {
-        $objRespuestaMascota = MascotasModel::mldEditarMascota($this->id_mascotas, $this->nombre, $this->especie, $this->raza, 
-        $this->edad, $this->sexo, $this->tamano, $this->fecha_ingreso, $this->estado_salud, $this->estado, $this->descripcion, $this->imagen);
+        $objRespuestaMascota = MascotasModel::mdlEditarMascota(
+            $this->id_mascotas, 
+            $this->nombre, 
+            $this->especie, 
+            $this->raza, 
+            $this->edad, 
+            $this->sexo, 
+            $this->tamano, 
+            $this->fecha_ingreso, 
+            $this->estado_salud, 
+            $this->estado, 
+            $this->descripcion, 
+            $this->imagen
+        );
         echo json_encode($objRespuestaMascota);
     }
-
 }
 
-if (isset($_POST["listarMascotas"]) == "ok") {
+/* =======================
+   PETICIONES AJAX
+======================= */
+
+if (isset($_POST["listarMascotas"]) && $_POST["listarMascotas"] == "ok") {
     $objMascotas = new MascotasController();
     $objMascotas->ctrListarMascotas();
 }
 
-if (isset($_POST["eliminarMascota"]) == "ok") {
+if (isset($_POST["eliminarMascota"])) {
     $objMascotas = new MascotasController();
     $objMascotas->id_mascotas = $_POST["id_mascotas"];
     $objMascotas->ctrEliminarMascota();
 }
 
-if (isset($_POST["registrarMascota"]) == "ok") {
+if (isset($_POST["registrarMascota"]) && $_POST["registrarMascota"] == "ok") {
     $objMascotas = new MascotasController();
-    
     $objMascotas->nombre = $_POST["nombre"];
     $objMascotas->especie = $_POST["especie"];
     $objMascotas->raza = $_POST["raza"];
@@ -81,14 +94,13 @@ if (isset($_POST["registrarMascota"]) == "ok") {
     $objMascotas->estado_salud = $_POST["estado_salud"];
     $objMascotas->estado = $_POST["estado"];
     $objMascotas->descripcion = $_POST["descripcion"];
-    $objMascotas->imangen = $_POST["imangen"];  
-
+    $objMascotas->imagen = $_POST["imagen"];
     $objMascotas->ctrRegistrarMascota();
 }
 
-if (isset($_POST["editarMascota"]) == "ok") {
+if (isset($_POST["editarMascota"])) {
     $objMascotas = new MascotasController();
-
+    $objMascotas->id_mascotas = $_POST["id_mascotas"];
     $objMascotas->nombre = $_POST["nombre"];
     $objMascotas->especie = $_POST["especie"];
     $objMascotas->raza = $_POST["raza"];
@@ -99,8 +111,7 @@ if (isset($_POST["editarMascota"]) == "ok") {
     $objMascotas->estado_salud = $_POST["estado_salud"];
     $objMascotas->estado = $_POST["estado"];
     $objMascotas->descripcion = $_POST["descripcion"];
-    $objMascotas->imangen = $_POST["imangen"];
-    $objMascotas->id_mascotas = $_POST["id_mascotas"];
-
-    $objMascotas->ctrEditarMascota ();
+    $objMascotas->imagen = $_POST["imagen"];
+    $objMascotas->ctrEditarMascota();
 }
+?>

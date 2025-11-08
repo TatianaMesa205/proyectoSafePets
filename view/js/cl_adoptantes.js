@@ -101,8 +101,7 @@ class Adoptantes {
         objDataAdoptante.append("telefono",this._objData.telefono);
         objDataAdoptante.append("email",this._objData.email);
         objDataAdoptante.append("direccion",this._objData.direccion);
-
-
+        
         fetch('controller/adoptantesController.php',{
             method: 'POST',
             body:objDataAdoptante
@@ -180,8 +179,6 @@ class Adoptantes {
                         no-repeat
                     `
                     });
-
-
             }else{
                 Swal.fire(response["mensaje"]);
             }

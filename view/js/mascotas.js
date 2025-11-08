@@ -12,10 +12,6 @@
   btnAgregarMascotas.addEventListener("click",()=>{
       $("#panelTablaMascotas").hide();
       $("#panelFormularioMascotas").show();
-      
-      // Cargar los selects cuando se abre el formulario
-      let objMascota = new Mascotas({});
-      objMascota.cargarSelects();
   })
 
   let btnRegresarMascota = document.getElementById("btn-RegresarMascota");
@@ -25,14 +21,13 @@
   })
    
   let btnRegresarEditarMascota = document.getElementById('btn-RegresarEditarMascota');
-  btnRegresarEditarMascota.addEventListener("click",()=>{
-      $("#panelFormularioEditarMascotas").hide();
-      $("#panelTablaMascotas").show();
-  })
+  if (btnRegresarEditarMascota) {
+    btnRegresarEditarMascota.addEventListener("click",()=>{
+        $("#panelFormularioEditarMascotas").hide();
+        $("#panelTablaMascotas").show();
+    });
+  }
 
-
-
-  
 
 
   $("#tablaMascotas").on("click","#btn-eliminarMascota",function(){
@@ -58,7 +53,6 @@
     $("#panelTablaMascotas").hide();
     $("#panelFormularioEditarMascotas").show();
 
-    // sacamos los valores de los atributos del boton de editar de cada uno de los usuarios mostrando en la tabla
   
     let id_mascotas = $(this).attr("mascotas");
     let nombre = $(this).attr("nombre");
@@ -73,8 +67,6 @@
     let descripcion = $(this).attr("descripcion");
     let imagen = $(this).attr("imagen");
     
-
-    // agregar el valor de cada atributo al formulario
 
     $("#txt_edit_nombre").val(nombre);
     $("#txt_edit_especie").val(especie);
@@ -106,20 +98,20 @@
         form.classList.add('was-validated')
       }else{
 
-        let  nombre = document.getElementById('txt_nombre').value;
-        let  especie = document.getElementById('txt_especie').value;
-        let  raza = document.getElementById('txt_raza').value;
-        let  edad = document.getElementById('txt_edad').value;
-        let  sexo = document.getElementById('txt_sexo').value;
-        let  tamano = document.getElementById('txt_tamano').value;
-        let  fecha_ingreso = document.getElementById('txt_fecha_ingreso').value;
-        let  estado_salud = document.getElementById('txt_estado_salud').value;
-        let  estado = document.getElementById('txt_estado').value;
-        let  descripcion = document.getElementById('txt_descripcion').value;
-        let  imagen = document.getElementById('txt_imagen').value;
+        let nombre = document.getElementById('txt_nombre').value;
+        let especie = document.getElementById('txt_especie').value;
+        let raza = document.getElementById('txt_raza').value;
+        let edad = document.getElementById('txt_edad').value;
+        let sexo = document.getElementById('select_sexo').value;
+        let tamano = document.getElementById('select_tamano').value;
+        let fecha_ingreso = document.getElementById('txt_fecha_ingreso').value;
+        let estado_salud = document.getElementById('txt_estado_salud').value;
+        let estado = document.getElementById('select_estado').value;
+        let descripcion = document.getElementById('txt_descripcion').value;
+        let imagen = document.getElementById('txt_imagen').value;
 
         let objData = {
-          "resgistrarMascota": "ok",
+          "registrarMascota": "ok",
           "nombre": nombre,
           "especie": especie,
           "raza": raza,
@@ -151,18 +143,18 @@
         form.classList.add('was-validated')
       }else{
 
-        let  nombre = document.getElementById('txt_nombre').value;
-        let  especie = document.getElementById('txt_especie').value;
-        let  raza = document.getElementById('txt_raza').value;
-        let  edad = document.getElementById('txt_edad').value;
-        let  sexo = document.getElementById('txt_sexo').value;
-        let  tamano = document.getElementById('txt_tamano').value;
-        let  fecha_ingreso = document.getElementById('txt_fecha_ingreso').value;
-        let  estado_salud = document.getElementById('txt_estado_salud').value;
-        let  estado = document.getElementById('txt_estado').value;
-        let  descripcion = document.getElementById('txt_descripcion').value;
-        let  imagen = document.getElementById('txt_imagen').value;
-        let id_mascotas = $("#btnEditarMascota").attr("mascotas");
+        let nombre = document.getElementById('txt_nombre').value;
+        let especie = document.getElementById('txt_especie').value;
+        let raza = document.getElementById('txt_raza').value;
+        let edad = document.getElementById('txt_edad').value;
+        let sexo = document.getElementById('txt_sexo').value;
+        let tamano = document.getElementById('txt_tamano').value;
+        let fecha_ingreso = document.getElementById('txt_fecha_ingreso').value;
+        let estado_salud = document.getElementById('txt_estado_salud').value;
+        let estado = document.getElementById('txt_estado').value;
+        let descripcion = document.getElementById('txt_descripcion').value;
+        let imagen = document.getElementById('txt_imagen').value;
+        let id_mascotas = $("#btnEditarMascota").attr("mascota");
 
         let objData = {
           "editarMascota":"ok",

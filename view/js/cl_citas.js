@@ -179,8 +179,6 @@ class Citas {
                         no-repeat
                     `
                     });
-
-
             }else{
                 Swal.fire(response["mensaje"]);
             }
@@ -190,8 +188,6 @@ class Citas {
 
 
 //SELECTS FORMULARIO DE LA MASCOTA //
-
-
 
   cargarSelects() {
       this.cargarMascotas();

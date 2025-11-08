@@ -91,7 +91,7 @@
     <h3 class="mb-3">Accesos Rápidos</h3>
     <div class="row g-4">
         <div class="col-md-4">
-            <a href="mascotas" class="quick-link">
+            <a href="mascotas" class="quick-link" onclick="mascotas()">
                 <i class="fas fa-dog"></i>
                 <span>Gestionar Mascotas</span>
             </a>
