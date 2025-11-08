@@ -21,8 +21,8 @@ class Mascotas {
 
                 response["listaMascotas"].forEach(item => {
                     let objBotones = '<div class="btn-group" role="group" aria-label="Basic example">';
-                    objBotones += '<button id="btn-editarMascota" type="button" style="background-color:pink; border-color:pink; color:white" class="btn" mascota="'+item.id_mascotas+'" nombre="'+item.nombre+'" especie="'+item.especie+'" raza="'+item.raza+'" edad="'+item.edad+'" sexo="'+item.sexo+'" tamano="'+item.tamano+'" fecha_ingreso="'+item.fecha_ingreso+'" estado_salud="'+item.estado_salud+'" estado="'+item.estado+'" descripcion="'+item.descripcion+'" imagen="'+item.imagen+'"><i class="bi bi-pencil"></i></button>';
-                    objBotones += '<button id="btn-eliminarMascota" type="button" style="background-color:rgb(158,147,223); color:white" class="btn" mascota="'+item.id_mascotas+'"><i class="bi bi-trash"></i></button>';
+                    objBotones += '<button id="btn-editarMascota" type="button" style="background-color:rgba(223, 179, 147, 1); border-color:pink; color:white" class="btn" mascota="'+item.id_mascotas+'" nombre="'+item.nombre+'" especie="'+item.especie+'" raza="'+item.raza+'" edad="'+item.edad+'" sexo="'+item.sexo+'" tamano="'+item.tamano+'" fecha_ingreso="'+item.fecha_ingreso+'" estado_salud="'+item.estado_salud+'" estado="'+item.estado+'" descripcion="'+item.descripcion+'" imagen="'+item.imagen+'"><i class="bi bi-pencil"></i></button>';
+                    objBotones += '<button id="btn-eliminarMascota" type="button" style="background-color:rgba(112, 110, 120, 1); color:white" class="btn" mascota="'+item.id_mascotas+'"><i class="bi bi-trash"></i></button>';
                     objBotones += '</div>';
 
                     dataSet.push([

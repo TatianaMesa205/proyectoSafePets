@@ -292,3 +292,85 @@ body {
   }
 }
 
+
+/* === Estilo del formulario de mascotas ADMIN === */
+body {
+  background-color: #f8f4ef;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* === Botones === */
+.btn-add {
+  background-color: #d5b292;
+  color: #fff;
+  border-radius: 25px;
+  padding: 10px 18px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+  background-color: #c4a07d;
+  transform: scale(1.05);
+}
+
+.btn-save {
+  background-color: #c79b77;
+  color: #fff;
+  border-radius: 25px;
+  padding: 10px 18px;
+  transition: all 0.3s ease;
+}
+
+.btn-save:hover {
+  background-color: #b68560;
+  transform: scale(1.05);
+}
+
+/* === Panel de tabla === */
+.panel-table {
+  background-color: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.table thead {
+  background-color: #f3e2d4;
+  color: #5b3923;
+  font-weight: 600;
+}
+
+.table tbody tr {
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background-color: #f8ede3;
+}
+
+/* === Formularios === */
+.form-panel {
+  background-color: #fff;
+  border-radius: 20px;
+}
+
+.form-control,
+.form-select {
+  border: 1px solid #e0d1c3;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #d5b292;
+  box-shadow: 0 0 5px #d5b29266;
+}
+
+label {
+  font-weight: 500;
+  color: #5a3f28;
+}
+
+textarea {
+  resize: none;
+}
