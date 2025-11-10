@@ -10,7 +10,7 @@ class AdoptantesModel
         try {
             $objRespuesta = Conexion::conectar()->prepare("SELECT * FROM adoptantes");
             $objRespuesta->execute();
-            $listaAdoptantes = $objRespuesta->fetchAll();
+            $listaAdoptantes = $objRespuesta->fetchAll(PDO::FETCH_ASSOC);
             $objRespuesta = null;
             $mensaje = array("codigo"=>"200","listaAdoptantes"=>$listaAdoptantes);
         } catch (Exception $e) {
@@ -45,7 +45,8 @@ class AdoptantesModel
     {
         $mensaje = array();
         try {
-            $objRespuesta = Conexion::conectar()->prepare("INSERT INTO adoptantes(nombre_completo, cedula, telefono, email, direccion) VALUES (:nombre_completo, :cedula, :telefono, :email, :direccion)");
+            $objRespuesta = Conexion::conectar()->prepare("INSERT INTO adoptantes(nombre_completo, cedula, telefono, email, direccion) 
+                VALUES (:nombre_completo, :cedula, :telefono, :email, :direccion)");
             $objRespuesta->bindParam(":nombre_completo", $nombre_completo);
             $objRespuesta->bindParam(":cedula", $cedula);
             $objRespuesta->bindParam(":telefono", $telefono);
@@ -57,39 +58,46 @@ class AdoptantesModel
             } else {
                 $mensaje = array("codigo" => "401", "mensaje" => "Error al registrar el adoptante");
             }
-
-            $objRespuesta = null;
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
         }
         return $mensaje;
     }
 
-    public static function mldEditarAdoptante($nombre_completo, $cedula, $telefono, $email, $direccion)
+    public static function mdlEditarAdoptante($id_adoptantes, $nombre_completo, $cedula, $telefono, $email, $direccion)
     {
         $mensaje = array();
-
         try {
-            $objRespuesta = Conexion::conectar()->prepare("UPDATE adoptantes SET nombre_completo=:nombre_completo,cedula=:cedula,telefono=:telefono,email=:email,direccion=:direccion WHERE id_adoptantes=:id_adoptantes");
+            $objRespuesta = Conexion::conectar()->prepare("
+                UPDATE adoptantes 
+                SET nombre_completo = :nombre_completo,
+                    cedula = :cedula,
+                    telefono = :telefono,
+                    email = :email,
+                    direccion = :direccion
+                WHERE id_adoptantes = :id_adoptantes
+            ");
+
+            $objRespuesta->bindParam(":id_adoptantes", $id_adoptantes);
             $objRespuesta->bindParam(":nombre_completo", $nombre_completo);
             $objRespuesta->bindParam(":cedula", $cedula);
             $objRespuesta->bindParam(":telefono", $telefono);
             $objRespuesta->bindParam(":email", $email);
             $objRespuesta->bindParam(":direccion", $direccion);
-            $objRespuesta->bindParam(":id_adoptantes", $id_adoptantes);
 
             if ($objRespuesta->execute()) {
-                $mensaje = array("codigo" => "200", "mensaje" => "El usuario se editó correctamente.");
+                if ($objRespuesta->rowCount() > 0) {
+                    $mensaje = array("codigo" => "200", "mensaje" => "El adoptante fue actualizado correctamente.");
+                } else {
+                    $mensaje = array("codigo" => "200", "mensaje" => "No se realizaron cambios (datos iguales).");
+                }
             } else {
-                $mensaje = array("codigo" => "401", "mensaje" => "Error al editar el usuario");
+                $mensaje = array("codigo" => "401", "mensaje" => "Error al editar el adoptante.");
             }
-            $objRespuesta = null;
-
-
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
         }
-
         return $mensaje;
     }
+
 }

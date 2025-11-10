@@ -97,9 +97,9 @@
             </a>
         </div>
         <div class="col-md-4">
-            <a href="usuarios" class="quick-link">
+            <a href="adoptantes" class="quick-link" onclick="adoptantes()">
                 <i class="fas fa-user-cog"></i>
-                <span>Gestionar Usuarios</span>
+                <span>Gestionar Adoptantes</span>
             </a>
         </div>
         <div class="col-md-4">

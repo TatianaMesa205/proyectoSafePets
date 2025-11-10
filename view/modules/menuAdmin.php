@@ -21,7 +21,7 @@
     <div class="collapse navbar-collapse" id="adminNav">
       <ul class="navbar-nav ms-auto align-items-center">
         <li class="nav-item">
-            <a class="nav-link" href="usuarios">Gestionar Usuarios</a>
+            <a class="nav-link" href="adoptantes">Gestionar Usuarios</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="mascotas">Gestionar Mascotas</a>

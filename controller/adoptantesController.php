@@ -5,7 +5,7 @@ include_once "../model/adoptantesModel.php";
 class AdoptantesController
 {
 
-    public $id_adaptantes;
+    public $id_adoptantes;
     public $nombre_completo;
     public $cedula;
     public $telefono;
@@ -40,7 +40,14 @@ class AdoptantesController
 
     public function ctrEditarAdoptante()
     {
-        $objRespuesta = AdoptantesModel::mldEditarAdoptante($this->id_adoptantes, $this->nombre_completo, $this->cedula, $this->telefono, $this->email, $this->direccion);
+        $objRespuesta = AdoptantesModel::mdlEditarAdoptante(
+            $this->id_adoptantes, 
+            $this->nombre_completo, 
+            $this->cedula, 
+            $this->telefono, 
+            $this->email, 
+            $this->direccion
+        );
         echo json_encode($objRespuesta);
 
 
@@ -48,7 +55,7 @@ class AdoptantesController
 
 }
 
-if (isset($_POST["listarAdoptantes"]) == "ok") {
+if (isset($_POST["listarAdoptantes"]) && $_POST["listarAdoptantes"] == "ok") {
     $objAdoptantes = new AdoptantesController();
     $objAdoptantes->ctrListarAdoptantes();
 }
@@ -59,14 +66,13 @@ if (isset($_POST["eliminarAdoptante"]) == "ok") {
     $objAdoptantes->ctrEliminarAdoptante();
 }
 
-if (isset($_POST["registrarAdoptante"]) == "ok") {
+if (isset($_POST["registrarAdoptante"]) && $_POST["registrarAdoptante"] == "ok") {
     $objAdoptantes = new AdoptantesController();
     $objAdoptantes->nombre_completo = $_POST["nombre_completo"];
     $objAdoptantes->cedula = $_POST["cedula"];
     $objAdoptantes->telefono = $_POST["telefono"];
     $objAdoptantes->email = $_POST["email"];
     $objAdoptantes->direccion = $_POST["direccion"];
-    $objAdoptantes->id_usuarios = $_POST["id_usuarios"];
     $objAdoptantes->ctrRegistrarAdoptante();
 }
 
@@ -78,7 +84,6 @@ if (isset($_POST["editarAdoptante"]) == "ok") {
     $objAdoptantes->telefono = $_POST["telefono"];
     $objAdoptantes->email = $_POST["email"];
     $objAdoptantes->direccion = $_POST["direccion"];
-    $objAdoptantes->id_usuarios = $_POST["id_usuarios"];
     $objAdoptantes->id_adoptantes = $_POST["id_adoptantes"];
 
     $objAdoptantes->ctrEditarAdoptante();

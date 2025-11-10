@@ -81,7 +81,7 @@
           <input type="text" class="form-control rounded-3" id="txt_estado_salud" required>
         </div>
         <div class="col-md-12">
-          <label>Descripción</label>
+          <label>Descripción de la mascota</label>
           <textarea class="form-control rounded-3" id="txt_descripcion" rows="3" required></textarea>
         </div>
         <div class="col-md-6">
@@ -92,7 +92,7 @@
             <option value="Adoptado">Adoptado</option>
           </select>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
           <label>Imagen URL</label>
           <input type="text" class="form-control rounded-3" id="txt_imagen" required>
         </div>
@@ -151,7 +151,7 @@
           <input type="text" class="form-control rounded-3" id="txt_edit_estado_salud" required>
         </div>
         <div class="col-md-12">
-          <label>Descripción</label>
+          <label>Descripción de la mascota</label>
           <textarea class="form-control rounded-3" id="txt_edit_descripcion" rows="3" required></textarea>
         </div>
         <div class="col-md-6">
@@ -162,7 +162,7 @@
             <option value="Adoptado">Adoptado</option>
           </select>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
           <label>Imagen URL</label>
           <input type="text" class="form-control rounded-3" id="txt_edit_imagen" required>
         </div>

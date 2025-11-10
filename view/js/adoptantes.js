@@ -12,10 +12,6 @@
   btnAgregarAdoptantes.addEventListener("click",()=>{
       $("#panelTablaAdoptantes").hide();
       $("#panelFormularioAdoptantes").show();
-      
-      // Cargar los selects cuando se abre el formulario
-      let objAdoptante = new Adoptantes({});
-      objAdoptante.cargarSelects();
   })
 
   let btnRegresarAdoptante = document.getElementById("btn-RegresarAdoptante");
@@ -54,8 +50,7 @@
     $("#panelTablaAdoptantes").hide();
     $("#panelFormularioEditarAdoptantes").show();
 
-    // sacamos los valores de los atributos del boton de editar de cada uno de los usuarios mostrando en la tabla
-  
+    
     let id_adoptantes = $(this).attr("adoptantes");
     let nombre_completo = $(this).attr("nombre_completo");
     let cedula = $(this).attr("cedula");
@@ -63,8 +58,6 @@
     let email = $(this).attr("email");
     let direccion = $(this).attr("direccion");
     
-
-    // agregar el valor de cada atributo al formulario
 
     $("#txt_edit_nombre_completo").val(nombre_completo);
     $("#txt_edit_cedula").val(cedula);
@@ -97,7 +90,7 @@
         let direccion = document.getElementById('txt_direccion').value;
 
         let objData = {
-          "resgistrarAdoptante": "ok",
+          "registrarAdoptante": "ok",
           "nombre_completo": nombre_completo,
           "cedula": cedula,
           "telefono": telefono,
@@ -131,10 +124,18 @@
         let direccion = document.getElementById('txt_edit_direccion').value;
         let id_adoptantes = $("#btnEditarAdoptante").attr("adoptantes");
 
-        let objData = {"editarAdoptante":"ok","nombre_completo":nombre_completo,"cedula":cedula,"telefono":telefono,"email":email,"direccion":direccion,"id_adoptantes":id_adoptantes,"listarAdoptantes":"ok"}
+        let objData = {
+          "editarAdoptante":"ok",
+          "nombre_completo":nombre_completo,
+          "cedula":cedula,
+          "telefono":telefono,
+          "email":email,
+          "direccion":direccion,
+          "id_adoptantes":id_adoptantes,
+          "listarAdoptantes":"ok"
+        }
         let objAdoptante = new Adoptantes(objData);
         objAdoptante.editarAdoptante();
-
       }
     }, false)
   })

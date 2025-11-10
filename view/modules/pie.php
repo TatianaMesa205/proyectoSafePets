@@ -19,5 +19,7 @@
     <script src="view/js/login.js"></script>
     <script src="view/js/cl_mascotas.js"></script>
     <script src="view/js/mascotas.js"></script>
+    <script src="view/js/cl_adoptantes.js"></script>
+    <script src="view/js/adoptantes.js"></script>
 </body>
 </html>

@@ -26,6 +26,7 @@ class Adoptantes {
                     objBotones += '</div>';
 
                     dataSet.push([
+                        item.id_adoptantes,
                         item.nombre_completo,
                         item.cedula,
                         item.telefono,
@@ -36,14 +37,6 @@ class Adoptantes {
                 });
 
                 $("#tablaAdoptantes").DataTable({
-                    buttons:[{
-                        extend: "colvis",
-                        text: "Columnas"
-                    },
-                    "excel",
-                    "pdf",
-                    "print"
-                    ],
                     dom: "Bfrtip",
                     responsive: true,
                     destroy:true,
@@ -150,7 +143,7 @@ class Adoptantes {
         objDataAdoptante.append("telefono",this._objData.telefono);
         objDataAdoptante.append("email",this._objData.email);
         objDataAdoptante.append("direccion",this._objData.direccion);
-        fetch('controller/adoptanteController.php',{
+        fetch('controller/adoptantesController.php',{
             method: 'POST',
             body:objDataAdoptante
         })
