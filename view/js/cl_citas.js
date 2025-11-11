@@ -22,7 +22,7 @@ class Citas {
                 response["listaCitas"].forEach(item => {
                     let objBotones = '<div class="btn-group" role="group" aria-label="Basic example">';
                     objBotones += '<button id="btn-editarCita" type="button" style="background-color:pink; border-color:pink; color:white" class="btn" citas="'+item.id_citas+'" adoptantes="'+item.id_adoptantes+'" mascotas="'+item.id_mascotas+'" fecha_cita="'+item.fecha_cita+'" estado="'+item.estado+'" motivo="'+item.motivo+'"><i class="bi bi-pencil"></i></button>';
-                    objBotones += '<button id="btn-eliminarCita" type="button" style="background-color:rgb(158,147,223); color:white" class="btn" citas="'+item.id_citas+'"><i class="bi bi-trash"></i></button>';
+                    objBotones += '<button id="btn-eliminarCita" type="button" style="background-color:rgba(112, 110, 120, 1); color:white" class="btn" citas="'+item.id_citas+'"><i class="bi bi-trash"></i></button>';
                     objBotones += '</div>';
 
                     dataSet.push([

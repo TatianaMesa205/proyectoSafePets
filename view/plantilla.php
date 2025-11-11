@@ -19,7 +19,6 @@ if (!isset($_SESSION["iniciarSesion"])) {
 }
 
 
-
 include "view/modules/cabecera.php";
 
 
