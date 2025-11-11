@@ -179,6 +179,7 @@ body {
   flex: 1;
   min-width: 250px;
   text-align: center;
+  padding-right: 100px;
 }
 
 .footer-logo i {

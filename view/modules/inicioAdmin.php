@@ -90,19 +90,56 @@
 
     <h3 class="mb-3">Accesos Rápidos</h3>
     <div class="row g-4">
-        <div class="col-md-4">
+        <div class="col-md-3">
             <a href="mascotas" class="quick-link" onclick="mascotas()">
                 <i class="fas fa-dog"></i>
                 <span>Gestionar Mascotas</span>
             </a>
         </div>
-        <div class="col-md-4">
+
+        <div class="col-md-3">
             <a href="adoptantes" class="quick-link" onclick="adoptantes()">
                 <i class="fas fa-user-cog"></i>
                 <span>Gestionar Adoptantes</span>
             </a>
         </div>
-        <div class="col-md-4">
+
+        <div class="col-md-3">
+            <a href="adopciones" class="quick-link" onclick="adopciones()">
+                <i class="fas fa-hand-holding-heart"></i>
+                <span>Gestión de Adopciones</span>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="citas" class="quick-link" onclick="citas()">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Gestión de Citas</span>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="vacunas" class="quick-link" onclick="vacunas()">
+                <i class="fas fa-syringe"></i>
+                <span>Control de Vacunas</span>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="publicaciones" class="quick-link" onclick="publicaciones()">
+                <i class="fas fa-bullhorn"></i>
+                <span>Publicaciones</span>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="seguimientos" class="quick-link" onclick="seguimientos()">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Seguimientos</span>
+            </a>
+        </div>
+        
+        <div class="col-md-3">
             <a href="#" class="quick-link" onclick="crearAdmin()">
                 <i class="fas fa-user-shield"></i>
                 <span>Crear Nuevo Admin</span>

@@ -20,19 +20,18 @@ if (!isset($_SESSION["iniciarSesion"])) {
 
 
 
-
 include "view/modules/cabecera.php";
 
 
 if ($_SESSION["rol"] === "admin") {
     include "view/modules/menuAdmin.php";
 } else {
-    include "view/modules/menu.php";
+    include "view/modules/menuAdp.php";
 }
 
 
-$rutasAdoptante = ["inicioAdp", "adopta", "citas", "donaciones", "detalleMascota"];
-$rutasAdmin = ["inicioAdmin", "adoptantes", "mascotas", "reportes"];
+$rutasAdoptante = ["inicioAdp", "adoptaAdp", "citasAdp", "donacionesAdp", "detalleMascota"];
+$rutasAdmin = ["inicioAdmin", "adoptantes", "mascotas", "adopciones", "vacunas", "citas", "donaciones", "publicaciones", "seguimientos"];
 $archivoModulo = "view/modules/404.php"; 
 
 if ($ruta === "" || $ruta === "inicio") {

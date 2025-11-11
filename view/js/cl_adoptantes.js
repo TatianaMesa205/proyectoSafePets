@@ -21,8 +21,8 @@ class Adoptantes {
 
                 response["listaAdoptantes"].forEach(item => {
                     let objBotones = '<div class="btn-group" role="group" aria-label="Basic example">';
-                    objBotones += '<button id="btn-editarAdoptante" type="button" style="background-color:pink; border-color:pink; color:white" class="btn" adoptantes="'+item.id_adoptantes+'" nombre_completo="'+item.nombre_completo+'" cedula="'+item.cedula+'" telefono="'+item.telefono+'" email="'+item.email+'" direccion="'+item.direccion+'"><i class="bi bi-pencil"></i></button>';
-                    objBotones += '<button id="btn-eliminarAdoptante" type="button" style="background-color:rgb(158,147,223); color:white" class="btn" adoptantes="'+item.id_adoptantes+'"><i class="bi bi-trash"></i></button>';
+                    objBotones += '<button id="btn-editarAdoptante" type="button" style="background-color:rgba(223, 179, 147, 1); border-color:pink; color:white" class="btn" adoptantes="'+item.id_adoptantes+'" nombre_completo="'+item.nombre_completo+'" cedula="'+item.cedula+'" telefono="'+item.telefono+'" email="'+item.email+'" direccion="'+item.direccion+'"><i class="bi bi-pencil"></i></button>';
+                    objBotones += '<button id="btn-eliminarAdoptante" type="button" style="background-color:rgba(112, 110, 120, 1); color:white" class="btn" adoptantes="'+item.id_adoptantes+'"><i class="bi bi-trash"></i></button>';
                     objBotones += '</div>';
 
                     dataSet.push([

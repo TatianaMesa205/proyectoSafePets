@@ -189,11 +189,12 @@ class Citas {
 
 //SELECTS FORMULARIO DE LA MASCOTA //
 
-  cargarSelects() {
-      this.cargarMascotas();
-  }
+    cargarSelects() {
+        this.cargarMascotas();
+        this.cargarAdoptantes();
+    }
 
-  cargarMascotas() {
+    cargarMascotas() {
         let objData = new FormData();
         objData.append("listarMascotas", "ok");
 
@@ -204,11 +205,33 @@ class Citas {
         .then(response => response.json())
         .then(response => {
             if (response["codigo"] == "200") {
-                let select = document.getElementById('select_usuario');
-                select.innerHTML = '<option value="">Seleccione un mascota</option>';
+                let select = document.getElementById('select_mascotas');
+                select.innerHTML = '<option value="">Seleccione una mascota</option>';
                 
                 response["listaMascotas"].forEach(usuario => {
                     select.innerHTML += `<option value="${mascotas.id_mascotas}">${mascotas.nombre} - ${usuario.especie}</option>`;
+                });
+            }
+        })
+        .catch(error => console.log(error));
+    }
+
+    cargarAdoptantes() {
+        let objData = new FormData();
+        objData.append("listarAdoptantes", "ok");
+
+        fetch("controller/adoptantesController.php", {
+            method: 'POST',
+            body: objData
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response["codigo"] == "200") {
+                let select = document.getElementById('select_adoptantes');
+                select.innerHTML = '<option value="">Seleccione un adoptante</option>';
+                
+                response["listaAdoptantes"].forEach(adoptantes => {
+                    select.innerHTML += `<option value="${adoptantes.id_adoptantes}">${adoptantes.nombre_completo}</option>`;
                 });
             }
         })

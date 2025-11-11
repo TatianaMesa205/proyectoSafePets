@@ -1,30 +1,33 @@
 <?php
-
 include_once "conexion.php";
 
 class AdopcionesModel
 {
-
+    /* ============================
+       LISTAR ADOPCIONES
+    ============================ */
     public static function mdlListarAdopciones()
     {
         $mensaje = array();
         try {
             $objRespuesta = Conexion::conectar()->prepare("
                 SELECT 
-                    adopciones.id_adopciones,
-                    adopciones.fecha_adopcion,
-                    adopciones.estado,
-                    adopciones.observaciones,
-                    adopciones.contrato,
-                    adoptantes.nombre_completo AS adoptante,
-                    mascotas.nombre AS mascota
-                FROM adopciones
-                JOIN adoptantes ON adoptantes.id_adoptantes = adopciones.id_adoptantes
-                JOIN mascotas ON mascotas.id_mascotas = adopciones.id_mascotas
+                    a.id_adopciones,
+                    a.id_mascotas,
+                    a.id_adoptantes,
+                    a.fecha_adopcion,
+                    a.estado,
+                    a.observaciones,
+                    a.contrato,
+                    m.nombre AS nombre_mascota,
+                    ad.nombre_completo AS nombre_adoptante
+                FROM adopciones a
+                INNER JOIN mascotas m ON a.id_mascotas = m.id_mascotas
+                INNER JOIN adoptantes ad ON a.id_adoptantes = ad.id_adoptantes
+                ORDER BY a.id_adopciones DESC
             ");
             $objRespuesta->execute();
             $listaAdopciones = $objRespuesta->fetchAll(PDO::FETCH_ASSOC);
-            $objRespuesta = null;
             $mensaje = array("codigo" => "200", "listaAdopciones" => $listaAdopciones);
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
@@ -33,6 +36,9 @@ class AdopcionesModel
     }
 
 
+    /* ============================
+       ELIMINAR ADOPCIÓN
+    ============================ */
     public static function mdlEliminarAdopcion($id_adopciones)
     {
         $mensaje = array();
@@ -40,23 +46,22 @@ class AdopcionesModel
             $objRespuesta = Conexion::conectar()->prepare("
                 DELETE FROM adopciones WHERE id_adopciones = :id_adopciones
             ");
-            $objRespuesta->bindParam(":id_adopciones", $id_adopciones);
+            $objRespuesta->bindParam(":id_adopciones", $id_adopciones, PDO::PARAM_INT);
 
             if ($objRespuesta->execute()) {
-                $mensaje = array("codigo" => "200", "mensaje" => "La adopción se eliminó correctamente.");
+                $mensaje = array("codigo" => "200", "mensaje" => "La adopción fue eliminada correctamente.");
             } else {
                 $mensaje = array("codigo" => "401", "mensaje" => "Error al eliminar la adopción.");
             }
-
-            $objRespuesta = null;
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
         }
-
         return $mensaje;
     }
 
-
+    /* ============================
+       REGISTRAR ADOPCIÓN
+    ============================ */
     public static function mdlRegistrarAdopcion($id_mascotas, $id_adoptantes, $fecha_adopcion, $estado, $observaciones, $contrato)
     {
         $mensaje = array();
@@ -65,9 +70,8 @@ class AdopcionesModel
                 INSERT INTO adopciones (id_mascotas, id_adoptantes, fecha_adopcion, estado, observaciones, contrato)
                 VALUES (:id_mascotas, :id_adoptantes, :fecha_adopcion, :estado, :observaciones, :contrato)
             ");
-
-            $objRespuesta->bindParam(":id_mascotas", $id_mascotas);
-            $objRespuesta->bindParam(":id_adoptantes", $id_adoptantes);
+            $objRespuesta->bindParam(":id_mascotas", $id_mascotas, PDO::PARAM_INT);
+            $objRespuesta->bindParam(":id_adoptantes", $id_adoptantes, PDO::PARAM_INT);
             $objRespuesta->bindParam(":fecha_adopcion", $fecha_adopcion);
             $objRespuesta->bindParam(":estado", $estado);
             $objRespuesta->bindParam(":observaciones", $observaciones);
@@ -78,16 +82,15 @@ class AdopcionesModel
             } else {
                 $mensaje = array("codigo" => "401", "mensaje" => "Error al registrar la adopción.");
             }
-
-            $objRespuesta = null;
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
         }
-
         return $mensaje;
     }
 
-
+    /* ============================
+       EDITAR ADOPCIÓN
+    ============================ */
     public static function mdlEditarAdopcion($id_adopciones, $id_mascotas, $id_adoptantes, $fecha_adopcion, $estado, $observaciones, $contrato)
     {
         $mensaje = array();
@@ -104,25 +107,22 @@ class AdopcionesModel
                 WHERE id_adopciones = :id_adopciones
             ");
 
-            $objRespuesta->bindParam(":id_mascotas", $id_mascotas);
-            $objRespuesta->bindParam(":id_adoptantes", $id_adoptantes);
+            $objRespuesta->bindParam(":id_mascotas", $id_mascotas, PDO::PARAM_INT);
+            $objRespuesta->bindParam(":id_adoptantes", $id_adoptantes, PDO::PARAM_INT);
             $objRespuesta->bindParam(":fecha_adopcion", $fecha_adopcion);
             $objRespuesta->bindParam(":estado", $estado);
             $objRespuesta->bindParam(":observaciones", $observaciones);
             $objRespuesta->bindParam(":contrato", $contrato);
-            $objRespuesta->bindParam(":id_adopciones", $id_adopciones);
+            $objRespuesta->bindParam(":id_adopciones", $id_adopciones, PDO::PARAM_INT);
 
             if ($objRespuesta->execute()) {
-                $mensaje = array("codigo" => "200", "mensaje" => "La adopción se editó correctamente.");
+                $mensaje = array("codigo" => "200", "mensaje" => "La adopción fue editada correctamente.");
             } else {
                 $mensaje = array("codigo" => "401", "mensaje" => "Error al editar la adopción.");
             }
-
-            $objRespuesta = null;
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
         }
-
         return $mensaje;
     }
 }

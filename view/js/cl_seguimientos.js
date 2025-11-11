@@ -7,7 +7,7 @@ class SeguimientosMascotas {
         let objData = new FormData();
         objData.append("listarSeguimientos", this._objData.listarSeguimientos);
 
-        fetch("controller/seguimientosMascotasController.php", {
+        fetch("controller/seguimientosController.php", {
             method: "POST",
             body: objData
         })
@@ -56,7 +56,7 @@ class SeguimientosMascotas {
         objData.append("eliminarSeguimiento", this._objData.eliminarSeguimiento);
         objData.append("id_seguimientos", this._objData.id_seguimientos);
 
-        fetch("controller/seguimientosMascotasController.php", {
+        fetch("controller/seguimientosController.php", {
             method: "POST",
             body: objData
         })
@@ -83,7 +83,7 @@ class SeguimientosMascotas {
         objData.append("fecha_visita", this._objData.fecha_visita);
         objData.append("observacion", this._objData.observacion);
 
-        fetch("controller/seguimientosMascotasController.php", {
+        fetch("controller/seguimientosController.php", {
             method: "POST",
             body: objData
         })
@@ -112,7 +112,7 @@ class SeguimientosMascotas {
         objData.append("fecha_visita", this._objData.fecha_visita);
         objData.append("observacion", this._objData.observacion);
 
-        fetch("controller/seguimientosMascotasController.php", {
+        fetch("controller/seguimientosController.php", {
             method: "POST",
             body: objData
         })
