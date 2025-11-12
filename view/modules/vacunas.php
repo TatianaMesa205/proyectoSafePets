@@ -3,6 +3,7 @@
     <i class="fas fa-syringe"></i> Gestión de Vacunas
   </h2>
 
+
   <!-- Botón agregar -->
   <div class="d-flex justify-content-end mb-3">
     <button id="btn-AgregarVacuna" class="btn btn-add">
@@ -16,11 +17,8 @@
       <thead>
         <tr>
           <th>ID</th>
-          <th>Mascota</th>
-          <th>Nombre Vacuna</th>
-          <th>Fecha Aplicación</th>
-          <th>Próxima Dosis</th>
-          <th>Observaciones</th>
+          <th>Nombre de la Vacuna</th>
+          <th>Tiempo de la aplicación</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -34,24 +32,12 @@
     <form id="formRegistroVacuna" novalidate>
       <div class="row g-3">
         <div class="col-md-6">
-          <label>Mascota</label>
-          <select id="select_mascota_vacuna" class="form-select rounded-3" required></select>
-        </div>
-        <div class="col-md-6">
           <label>Nombre Vacuna</label>
           <input type="text" id="txt_nombre_vacuna" class="form-control rounded-3" required>
         </div>
         <div class="col-md-6">
-          <label>Fecha Aplicación</label>
-          <input type="date" id="txt_fecha_aplicacion" class="form-control rounded-3" required>
-        </div>
-        <div class="col-md-6">
-          <label>Próxima Dosis</label>
-          <input type="date" id="txt_proxima_dosis" class="form-control rounded-3">
-        </div>
-        <div class="col-md-12">
-          <label>Observaciones</label>
-          <textarea id="txt_observaciones_vacuna" class="form-control rounded-3" rows="3"></textarea>
+          <label>Tiempo de la aplicación</label>
+          <input type="text" id="txt_tiempo_aplicacion" class="form-control rounded-3" required>
         </div>
       </div>
       <div class="d-flex gap-2 mt-4 justify-content-center">
@@ -67,24 +53,12 @@
     <form id="formEditarVacuna" novalidate>
       <div class="row g-3">
         <div class="col-md-6">
-          <label>Mascota</label>
-          <select id="select_edit_mascota_vacuna" class="form-select rounded-3" required></select>
-        </div>
-        <div class="col-md-6">
           <label>Nombre Vacuna</label>
           <input type="text" id="txt_edit_nombre_vacuna" class="form-control rounded-3" required>
         </div>
         <div class="col-md-6">
-          <label>Fecha Aplicación</label>
-          <input type="date" id="txt_edit_fecha_aplicacion" class="form-control rounded-3" required>
-        </div>
-        <div class="col-md-6">
-          <label>Próxima Dosis</label>
-          <input type="date" id="txt_edit_proxima_dosis" class="form-control rounded-3">
-        </div>
-        <div class="col-md-12">
-          <label>Observaciones</label>
-          <textarea id="txt_edit_observaciones_vacuna" class="form-control rounded-3" rows="3"></textarea>
+          <label>Tiempo de la aplicación</label>
+          <input type="text" id="txt_edit_tiempo_aplicacion" class="form-control rounded-3" required>
         </div>
       </div>
       <div class="d-flex gap-2 mt-4 justify-content-center">

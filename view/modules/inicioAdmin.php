@@ -126,6 +126,13 @@
         </div>
 
         <div class="col-md-3">
+            <a href="vacunasMascotas" class="quick-link" onclick="vacunasMascotas()">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Vacunas de la mascota</span>
+            </a>
+        </div>
+
+        <div class="col-md-3">
             <a href="publicaciones" class="quick-link" onclick="publicaciones()">
                 <i class="fas fa-bullhorn"></i>
                 <span>Publicaciones</span>

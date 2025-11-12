@@ -34,6 +34,7 @@ class VacunasMascotas {
                         </div>
                     `;
                     dataSet.push([
+                        item.id_vacunas_mascotas,
                         item.id_mascotas,
                         item.id_vacunas,
                         item.fecha_aplicacion,
