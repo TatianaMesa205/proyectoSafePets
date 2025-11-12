@@ -68,7 +68,7 @@ if (isset($_POST["registrarVacunaMascota"]) == "ok") {
     $obj->ctrRegistrarVacunaMascota();
 }
 
-if (isset($_POST["editarVacunaMascota"]) == "ok") {
+if (isset($_POST["editarVacunaMascota"]) && $_POST["editarVacunaMascota"] == "ok") {
     $obj = new VacunasMascotasController();
     $obj->id_vacunas_mascotas = $_POST["id_vacunas_mascotas"];
     $obj->id_mascotas = $_POST["id_mascotas"];
@@ -77,4 +77,5 @@ if (isset($_POST["editarVacunaMascota"]) == "ok") {
     $obj->proxima_dosis = $_POST["proxima_dosis"];
     $obj->ctrEditarVacunaMascota();
 }
+
 ?>

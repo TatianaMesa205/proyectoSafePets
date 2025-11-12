@@ -34,23 +34,19 @@
       <div class="row g-3">
         <div class="col-md-6">
           <label>Mascota</label>
-          <select id="select_mascota_vacuna" class="form-select rounded-3" required></select>
+          <select id="select_mascota" class="form-select" required></select>
         </div>
         <div class="col-md-6">
-          <label>Nombre Vacuna</label>
-          <input id="select_nombre_vacuna" class="form-control rounded-3" required>
+          <label>Nombre de la Vacuna</label>
+          <select id="select_vacuna" class="form-select" required></select>
         </div>
         <div class="col-md-6">
           <label>Fecha Aplicación</label>
-          <input type="date" id="txt_fecha_aplicacion" class="form-control rounded-3" required>
+          <input type="date" id="txt_fecha_aplicacion" class="form-control" required>
         </div>
         <div class="col-md-6">
           <label>Próxima Dosis</label>
-          <input type="date" id="txt_proxima_dosis" class="form-control rounded-3">
-        </div>
-        <div class="col-md-12">
-          <label>Observaciones</label>
-          <textarea id="txt_observaciones_vacuna" class="form-control rounded-3" rows="3"></textarea>
+          <input type="date" id="txt_proxima_dosis" class="form-control" required>
         </div>
       </div>
       <div class="d-flex gap-2 mt-4 justify-content-center">
@@ -67,12 +63,12 @@
       <div class="row g-3">
         <div class="col-md-6">
           <label>Mascota</label>
-          <select id="select_edit_mascota_vacuna" class="form-select rounded-3" required></select>
+          <select id="select_edit_mascota" class="form-select rounded-3" required></select>
         </div>
         <div class="col-md-6">
-          <label>Nombre Vacuna</label>
-          <input type="text" id="txt_edit_nombre_vacuna" class="form-control rounded-3" required>
-        </div>
+          <label>Nombre de la Vacuna</label>
+          <select id="select_edit_vacuna" class="form-select rounded-3" required></select>
+        </div>  
         <div class="col-md-6">
           <label>Fecha Aplicación</label>
           <input type="date" id="txt_edit_fecha_aplicacion" class="form-control rounded-3" required>
@@ -80,10 +76,6 @@
         <div class="col-md-6">
           <label>Próxima Dosis</label>
           <input type="date" id="txt_edit_proxima_dosis" class="form-control rounded-3">
-        </div>
-        <div class="col-md-12">
-          <label>Observaciones</label>
-          <textarea id="txt_edit_observaciones_vacuna" class="form-control rounded-3" rows="3"></textarea>
         </div>
       </div>
       <div class="d-flex gap-2 mt-4 justify-content-center">

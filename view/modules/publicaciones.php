@@ -15,9 +15,10 @@
         <tr>
           <th>ID</th>
           <th>Título</th>
-          <th>Contenido</th>
+          <th>Descripción</th>
           <th>Fecha</th>
-          <th>Imagen</th>
+          <th>Contacto</th>
+          <th>Foto</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -38,12 +39,16 @@
           <input type="date" id="txt_fecha_publicacion" class="form-control rounded-3" required>
         </div>
         <div class="col-md-12">
-          <label>Contenido</label>
-          <textarea id="txt_contenido" class="form-control rounded-3" rows="4" required></textarea>
+          <label>Descripción</label>
+          <textarea id="txt_descripcion" class="form-control rounded-3" rows="4" required></textarea>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
+          <label>Contacto</label>
+          <input type="text" id="txt_contacto" class="form-control rounded-3" required>
+        </div>
+        <div class="col-md-6">
           <label>Imagen</label>
-          <input type="file" id="file_imagen_publicacion" class="form-control rounded-3" accept=".jpg,.jpeg,.png">
+          <input type="file" id="txt_foto" class="form-control rounded-3" accept=".jpg,.jpeg,.png">
         </div>
       </div>
       <div class="d-flex gap-2 mt-4 justify-content-center">
@@ -59,19 +64,23 @@
       <div class="row g-3">
         <div class="col-md-6">
           <label>Título</label>
-          <input type="text" id="txt_edit_titulo" class="form-control rounded-3" required>
+          <input type="text" id="txt_edit_tipo" class="form-control rounded-3" required>
         </div>
         <div class="col-md-6">
           <label>Fecha</label>
           <input type="date" id="txt_edit_fecha_publicacion" class="form-control rounded-3" required>
         </div>
         <div class="col-md-12">
-          <label>Contenido</label>
-          <textarea id="txt_edit_contenido" class="form-control rounded-3" rows="4" required></textarea>
+          <label>Descripción</label>
+          <textarea id="txt_edit_descripcion" class="form-control rounded-3" rows="4" required></textarea>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-6">
+          <label>Contacto</label>
+          <input type="text" id="txt_edit_contacto" class="form-control rounded-3" required>
+        </div>
+        <div class="col-md-6">
           <label>Imagen (opcional)</label>
-          <input type="file" id="file_edit_imagen_publicacion" class="form-control rounded-3" accept=".jpg,.jpeg,.png">
+          <input type="file" id="txt_edit_foto" class="form-control rounded-3" accept=".jpg,.jpeg,.png">
         </div>
       </div>
       <div class="d-flex gap-2 mt-4 justify-content-center">
