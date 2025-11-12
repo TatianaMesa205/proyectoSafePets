@@ -2,7 +2,6 @@ class Adopciones {
     constructor(objData){
         this._objData = objData;
     }
-
     listarAdopciones(){
         let objData = new FormData();
         objData.append("listarAdopciones", this._objData.listarAdopciones);

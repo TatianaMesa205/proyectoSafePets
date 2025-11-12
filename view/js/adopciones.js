@@ -15,7 +15,7 @@
     $("#panelFormularioAdopciones").show();
 
     let objAdopcion = new Adopciones({});
-    objAdopcion.cargarSelects(); // carga mascotas y adoptantes
+    objAdopcion.cargarSelects(); 
   });
 
   let btnRegresarAdopcion = document.getElementById("btn-RegresarAdopcion");
@@ -62,8 +62,8 @@
     let estado = $(this).attr("estado");
     let observaciones = $(this).attr("observaciones");
 
-    let objAdopcion = new Adopciones({});
-    objAdopcion.cargarSelectsEditar(mascotas_id, adoptantes_id);
+    let objCita = new Citas({});
+    objCita.cargarSelectsEditar(mascotas_id, adoptantes_id);
 
     $("#txt_edit_fecha_adopcion").val(fecha_adopcion);
     $("#select_edit_estado").val(estado);

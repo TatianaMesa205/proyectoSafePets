@@ -100,7 +100,7 @@ body {
   text-align: center;
 }
 
-/* --- Estilos de Citas (citas.php) --- */
+/* --- Estilos de Citas (citasAdp.php) --- */
 .citas-page .containerCita {
   max-width: 700px;
   margin: 60px auto;
@@ -347,6 +347,26 @@ body {
 
 .table tbody tr:hover {
   background-color: #f8ede3;
+}
+
+#tablaVacunas th {
+  text-align: center;
+}
+
+#tablaMascotas th {
+  text-align: center;
+}
+
+#tablaAdoptantes th {
+  text-align: center;
+}
+
+#tablaAdopciones th {
+  text-align: center;
+}
+
+#tablaCitas th {
+  text-align: center;
 }
 
 /* === Formularios === */

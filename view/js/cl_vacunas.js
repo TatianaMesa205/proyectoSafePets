@@ -20,10 +20,10 @@ class Vacunas {
 
                 response["listaVacunas"].forEach(item => {
                     let objBotones = '<div class="btn-group" role="group" aria-label="Basic example">';
-                    objBotones += `<button id="btn-editarVacuna" type="button" style="background-color:pink; border-color:pink; color:white" class="btn"
+                    objBotones += `<button id="btn-editarVacuna" type="button" style="background-color:rgba(223, 179, 147, 1); border-color:pink; color:white" class="btn"
                         vacuna="${item.id_vacunas}" nombre="${item.nombre_vacuna}" tiempo="${item.tiempo_aplicacion}">
                         <i class="bi bi-pencil"></i></button>`;
-                    objBotones += `<button id="btn-eliminarVacuna" type="button" style="background-color:rgb(158,147,223); color:white" class="btn"
+                    objBotones += `<button id="btn-eliminarVacuna" type="button" style="background-color:rgba(112, 110, 120, 1); color:white" class="btn"
                         vacuna="${item.id_vacunas}"><i class="bi bi-trash"></i></button>`;
                     objBotones += '</div>';
 
@@ -36,14 +36,6 @@ class Vacunas {
                 });
 
                 $("#tablaVacunas").DataTable({
-                    buttons:[{
-                        extend: "colvis",
-                        text: "Columnas"
-                    },
-                    "excel",
-                    "pdf",
-                    "print"
-                    ],
                     dom: "Bfrtip",
                     responsive: true,
                     destroy:true,

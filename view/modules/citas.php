@@ -19,8 +19,8 @@
           <th>Mascota</th>
           <th>Adoptante</th>
           <th>Fecha de cita</th>
-          <th>Motivo</th>
           <th>Estado</th>
+          <th>Motivo</th>
           <th>Acciones</th>
         </tr>
       </thead>
@@ -35,11 +35,11 @@
       <div class="row g-3">
         <div class="col-md-6">
           <label>Mascota</label>
-          <select id="select_mascota" class="form-select rounded-3" required></select>
+          <select id="select_mascotas" class="form-select rounded-3" required></select>
         </div>
         <div class="col-md-6">
           <label>Adoptante</label>
-          <select id="select_adoptante" class="form-select rounded-3" required></select>
+          <select id="select_adoptantes" class="form-select rounded-3" required></select>
         </div>
         <div class="col-md-6">
           <label>Fecha de cita</label>
@@ -73,11 +73,11 @@
       <div class="row g-3">
         <div class="col-md-6">
           <label>Mascota</label>
-          <select id="select_edit_mascota" class="form-select rounded-3" required></select>
+          <select id="select_edit_mascotas" class="form-select rounded-3" required></select>
         </div>
         <div class="col-md-6">
           <label>Adoptante</label>
-          <select id="select_edit_adoptante" class="form-select rounded-3" required></select>
+          <select id="select_edit_adoptantes" class="form-select rounded-3" required></select>
         </div>
         <div class="col-md-6">
           <label>Fecha de cita</label>
