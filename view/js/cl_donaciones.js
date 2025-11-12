@@ -1,7 +1,65 @@
 class Donaciones {
+    
+    // 1. EL CONSTRUCTOR (Esto faltaba y es clave)
     constructor(objData){
         this._objData = objData;
     }
+
+    // 2. LA NUEVA FUNCIÓN DE STRIPE (La que ya tenías)
+    registrarDonacion(){
+        
+        // !! RECUERDA PONER TU CLAVE PUBLICABLE (pk_test_...) !!
+        const stripe_public_key = "pk_test_51SSSa5KPG83aCazK8rud8iuNSmoKTpmPnv4ROZhgb0hhJkANFa9koFTyZ5vvKZuVFaAdSAKvnXJBjeCg7Bw5ybpK00hk9gE2Oo";
+        const stripe = Stripe(stripe_public_key);
+
+        // Preparamos los datos para enviar al controlador
+        let objData = new FormData();
+        objData.append("registrarDonacion", "ok");
+        objData.append("monto", this._objData.monto); // El monto que recibimos del formulario
+        
+        // Mostramos un mensaje de "Cargando..."
+        const swalLoading = Swal.fire({
+            title: 'Conectando con Stripe...',
+            text: 'Por favor espera.',
+            allowOutsideClick: false,
+            didOpen: () => {
+                Swal.showLoading();
+            }
+        });
+
+        // 1. Llamamos a NUESTRO controlador
+        fetch("controller/donacionesController.php", {
+            method: "POST",
+            body: objData
+        })
+        .then(r => r.json())
+        .catch(e => {
+            swalLoading.close();
+            console.log(e);
+            Swal.fire("Error", "No se pudo conectar con el servidor.", "error");
+        })
+        .then(response => {
+            swalLoading.close(); // Cerramos el "Cargando..."
+            
+            if (response["codigo"] == "200" && response.sessionId) {
+                // 2. ¡Éxito! El controlador nos dio un ID de sesión.
+                // 3. Redirigimos al usuario a la pasarela de pago de Stripe.
+                stripe.redirectToCheckout({ sessionId: response.sessionId });
+                
+            } else {
+                // Hubo un error (PHP o Stripe)
+                Swal.fire({
+                    title: "Error al iniciar el pago",
+                    text: response["mensaje"] || "No se pudo iniciar el pago.",
+                    icon: "error"
+                });
+            }
+        });
+    }
+
+    // --- 3. FUNCIONES ORIGINALES (También las necesitamos) ---
+    // (Estas son las funciones que estaban en tu archivo original)
+    // (Las restauramos para que no se rompa el panel de Admin)
 
     listarDonaciones(){
         let objData = new FormData();
@@ -36,7 +94,7 @@ class Donaciones {
                     dataSet.push([
                         item.id_usuarios,
                         item.monto,
-                        item.fecha_donacion,
+                        item.fecha_donacion, // Asegúrate que tu BD tenga este campo
                         item.metodo_pago,
                         botones
                     ]);
@@ -78,42 +136,13 @@ class Donaciones {
         });
     }
 
-    registrarDonacion(){
-        let objData = new FormData();
-        objData.append("registrarDonacion", "ok");
-        objData.append("id_usuarios", this._objData.id_usuarios);
-        objData.append("monto", this._objData.monto);
-        objData.append("fecha_donacion", this._objData.fecha_donacion);
-        objData.append("metodo_pago", this._objData.metodo_pago);
-
-        fetch("controller/donacionesController.php", {
-            method: "POST",
-            body: objData
-        })
-        .then(r => r.json())
-        .then(response => {
-            if (response["codigo"] == "200") {
-                document.getElementById("formRegistroDonacion").reset();
-                $("#panelFormularioDonaciones").hide();
-                $("#panelTablaDonaciones").show();
-                this.listarDonaciones();
-                Swal.fire({
-                    title: "Donación registrada 💖",
-                    timer: 1600
-                });
-            } else {
-                Swal.fire(response["mensaje"]);
-            }
-        });
-    }
-
     editarDonacion(){
         let objData = new FormData();
         objData.append("editarDonacion", "ok");
         objData.append("id_donaciones", this._objData.id_donaciones);
         objData.append("id_usuarios", this._objData.id_usuarios);
         objData.append("monto", this._objData.monto);
-        objData.append("fecha_donacion", this._objData.fecha_donacion);
+        objData.append("fecha_donacion", this._objData.fecha_donacion); // Asegúrate que tu BD tenga este campo
         objData.append("metodo_pago", this._objData.metodo_pago);
 
         fetch("controller/donacionesController.php", {

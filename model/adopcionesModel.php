@@ -3,9 +3,7 @@ include_once "conexion.php";
 
 class AdopcionesModel
 {
-    /* ============================
-       LISTAR ADOPCIONES
-    ============================ */
+ 
     public static function mdlListarAdopciones()
     {
         $mensaje = array();
@@ -59,9 +57,7 @@ class AdopcionesModel
         return $mensaje;
     }
 
-    /* ============================
-       REGISTRAR ADOPCIÓN
-    ============================ */
+  
     public static function mdlRegistrarAdopcion($id_mascotas, $id_adoptantes, $fecha_adopcion, $estado, $observaciones, $contrato)
     {
         $mensaje = array();

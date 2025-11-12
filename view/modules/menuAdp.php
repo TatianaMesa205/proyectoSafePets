@@ -1,5 +1,3 @@
-
-
 <style>
     .navbar {
       background-color: #f0e4d8ff; /* Fondo beige suave */
@@ -58,15 +56,12 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-center">
 
-        <!-- Dropdown perfil -->
         <li class="nav-item dropdown">
-          <!-- Botón: imagen + nombre -->
           <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="https://i.pinimg.com/736x/56/0b/d8/560bd8e051730a69576a5cd0dd24978b.jpg" alt="Perfil" class="rounded-circle me-2" width="38" height="40">
             <span class="fw-bold">𝐇𝐨𝐥𝐚 𝐓𝐚𝐭𝐢𝐚𝐧𝐚</span>
           </a>
 
-          <!-- Menú desplegable -->
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
             <li><a class="dropdown-item" href="perfil.php"><i class="fa-solid fa-user me-2"></i> Mi Perfil</a></li>
             <button id="btnLogout" class="btn-logout"> <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar sesión</button>
@@ -120,19 +115,19 @@
       </a>
     </div>
     <div class="col">
-      <a href="adopta" class="text-decoration-none text-dark d-flex flex-column align-items-center">
+      <a href="adoptaAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-paw"></i>
         <span class="small">𝒜𝒹𝑜𝓅𝓉𝒶</span>
       </a>
     </div>
     <div class="col">
-      <a href="citas" class="text-decoration-none text-dark d-flex flex-column align-items-center">
+      <a href="citasAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-calendar"></i>
         <span class="small">𝒞𝒾𝓉𝒶𝓈</span>
       </a>
     </div>
     <div class="col">
-      <a href="donaciones" class="text-decoration-none text-dark d-flex flex-column align-items-center">
+      <a href="donacionesAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-heart"></i>
         <span class="small">𝒟𝑜𝓃𝒶𝒸𝒾𝑜𝓃𝑒𝓈</span>
       </a>
