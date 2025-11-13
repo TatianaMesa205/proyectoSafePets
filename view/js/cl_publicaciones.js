@@ -1,9 +1,9 @@
 class Publicaciones {
-    constructor(objData){
+    constructor(objData) {
         this._objData = objData;
     }
 
-    listarPublicaciones(){
+    listarPublicaciones() {
         let objData = new FormData();
         objData.append("listarPublicaciones", this._objData.listarPublicaciones);
 
@@ -11,150 +11,132 @@ class Publicaciones {
             method: "POST",
             body: objData
         })
-        .then(response => response.json()).catch(error =>{
-            console.log(error);
-        })
-        .then(response =>{
-            if (response["codigo"] == "200"){
-                let dataSet = [];
+            .then(response => response.json())
+            .then(response => {
+                if (response["codigo"] == "200") {
+                    let dataSet = [];
 
-                response["listaPublicaciones"].forEach(item => {
-                    let objBotones = '<div class="btn-group" role="group">';
-                    objBotones += `<button id="btn-editarPublicacion" type="button" style="background-color:rgba(223, 179, 147, 1); border-color:pink; color:white" class="btn"
-                        publicacion="${item.id_publicaciones}" tipo="${item.tipo}" descripcion="${item.descripcion}" foto="${item.foto}"
-                        fecha_publicacion="${item.fecha_publicacion}" contacto="${item.contacto}">
-                        <i class="bi bi-pencil"></i></button>`;
-                    objBotones += `<button id="btn-eliminarPublicacion" type="button" style="background-color:rgba(112, 110, 120, 1); color:white" class="btn"
-                        publicacion="${item.id_publicaciones}">
-                        <i class="bi bi-trash"></i></button>`;
-                    objBotones += '</div>';
+                    response["listaPublicaciones"].forEach(item => {
+                        let objBotones = `
+                            <div class="btn-group" role="group">
+                                <button id="btn-editarPublicacion" type="button" class="btn" 
+                                    style="background-color:#d3a67c;color:white"
+                                    publicacion="${item.id_publicaciones}"
+                                    tipo="${item.tipo}"
+                                    descripcion="${item.descripcion}"
+                                    foto="${item.foto}"
+                                    fecha="${item.fecha_publicacion}"
+                                    contacto="${item.contacto}">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <button id="btn-eliminarPublicacion" type="button" class="btn" 
+                                    style="background-color:#706e78;color:white"
+                                    publicacion="${item.id_publicaciones}">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>`;
 
-                    dataSet.push([
-                        item.id_publicaciones,
-                        item.tipo,
-                        item.descripcion,
-                        item.fecha_publicacion,
-                        item.contacto,
-                        item.foto,
-                        objBotones
-                    ]);
-                });
+                        dataSet.push([
+                            item.id_publicaciones,
+                            item.tipo,
+                            item.descripcion,
+                            item.fecha_publicacion,
+                            item.contacto,
+                            `<img src="${item.foto}" alt="foto" width="80" height="80" style="object-fit:cover;border-radius:10px;">`,
+                            objBotones
+                        ]);
+                    });
 
-                $("#tablaPublicaciones").DataTable({
-                    dom: "Bfrtip",
-                    responsive: true,
-                    destroy:true,
-                    data:dataSet
-                });
-            }else{
-                console.log("error");
-            }
-        })
+                    $("#tablaPublicaciones").DataTable({
+                        dom: "Bfrtip",
+                        responsive: true,
+                        destroy: true,
+                        data: dataSet
+                    });
+                }
+            })
+            .catch(error => console.error("Error al listar:", error));
     }
 
-    eliminarPublicacion(){
+    eliminarPublicacion() {
         let objData = new FormData();
         objData.append("eliminarPublicacion", this._objData.eliminarPublicacion);
         objData.append("id_publicaciones", this._objData.id_publicaciones);
 
         fetch("controller/publicacionesController.php", {
-            method: 'POST',
+            method: "POST",
             body: objData
         })
-        .then(response => response.json()).catch(error => {
-            console.log(error);
-        })
-        .then(response =>{
-            if (response["codigo"] == "200"){
-                this.listarPublicaciones();
-                Swal.fire({
-                    title: "Publicación eliminada correctamente 📰",
-                    width: 600,
-                    padding: "3em",
-                    color: "#ba88d1",
-                    background: "#fff",
-                    timer: 1800
-                });
-            }else{
-                Swal.fire(response["mensaje"]);
-            }
-        })
+            .then(response => response.json())
+            .then(response => {
+                if (response["codigo"] == "200") {
+                    this.listarPublicaciones();
+                    Swal.fire("Eliminado", "Publicación eliminada correctamente 📰", "success");
+                } else {
+                    Swal.fire("Error", response["mensaje"], "error");
+                }
+            })
+            .catch(error => console.error("Error:", error));
     }
 
-    registrarPublicacion(){
+    registrarPublicacion() {
         let objData = new FormData();
         objData.append("registrarPublicacion", "ok");
         objData.append("tipo", this._objData.tipo);
         objData.append("descripcion", this._objData.descripcion);
-        objData.append("foto", this._objData.foto);
         objData.append("fecha_publicacion", this._objData.fecha_publicacion);
         objData.append("contacto", this._objData.contacto);
+        objData.append("foto", this._objData.foto);
 
-        fetch('controller/publicacionesController.php', {
-            method: 'POST',
+        fetch("controller/publicacionesController.php", {
+            method: "POST",
             body: objData
         })
-        .then(response => response.json()).catch(error =>{
-            console.log(error);
-        })
-        .then(response =>{
-            if(response["codigo"] == "200"){
-                let formulario = document.getElementById('formRegistroPublicacion');
-                formulario.reset();
-                $("#panelFormularioPublicaciones").hide();
-                $("#panelTablaPublicaciones").show();
-                this.listarPublicaciones();
-
-                Swal.fire({
-                    title: "Publicación registrada correctamente 🐶📢",
-                    width: 600,
-                    padding: "3em",
-                    color: "#716add",
-                    background: "#fff",
-                    timer: 1600
-                });
-            }else{
-                Swal.fire(response["mensaje"]);
-            }
-        })
+            .then(response => response.json())
+            .then(response => {
+                if (response["codigo"] == "200") {
+                    Swal.fire("Éxito", "Publicación registrada correctamente 🐶📢", "success");
+                    document.getElementById("formRegistroPublicacion").reset();
+                    $("#panelFormularioPublicaciones").hide();
+                    $("#panelTablaPublicaciones").show();
+                    this.listarPublicaciones();
+                } else {
+                    Swal.fire("Error", response["mensaje"], "error");
+                }
+            })
+            .catch(error => console.error("Error:", error));
     }
 
-    editarPublicacion(){
+    editarPublicacion() {
         let objData = new FormData();
         objData.append("editarPublicacion", "ok");
         objData.append("id_publicaciones", this._objData.id_publicaciones);
         objData.append("tipo", this._objData.tipo);
         objData.append("descripcion", this._objData.descripcion);
-        objData.append("foto", this._objData.foto);
         objData.append("fecha_publicacion", this._objData.fecha_publicacion);
         objData.append("contacto", this._objData.contacto);
+        objData.append("foto_actual", this._objData.foto_actual);
 
-        fetch('controller/publicacionesController.php', {
-            method: 'POST',
+        if (this._objData.foto) {
+            objData.append("foto", this._objData.foto);
+        }
+
+        fetch("controller/publicacionesController.php", {
+            method: "POST",
             body: objData
         })
-        .then(response => response.json()).catch(error =>{
-            console.log(error);
-        })
-        .then(response =>{
-            if(response["codigo"] == "200"){
-                let formulario = document.getElementById('formEditarPublicacion');
-                formulario.reset();
-                $("#panelFormularioEditarPublicaciones").hide();
-                $("#panelTablaPublicaciones").show();
-                this.listarPublicaciones();
-
-                Swal.fire({
-                    title: "Publicación editada correctamente ✏️",
-                    width: 600,
-                    padding: "3em",
-                    color: "#716add",
-                    background: "#fff",
-                    timer: 1600
-                });
-            }else{
-                Swal.fire(response["mensaje"]);
-            }
-        })
+            .then(response => response.json())
+            .then(response => {
+                if (response["codigo"] == "200") {
+                    Swal.fire("Éxito", "Publicación editada correctamente ✏️", "success");
+                    document.getElementById("formEditarPublicacion").reset();
+                    $("#panelFormularioEditarPublicaciones").hide();
+                    $("#panelTablaPublicaciones").show();
+                    this.listarPublicaciones();
+                } else {
+                    Swal.fire("Error", response["mensaje"], "error");
+                }
+            })
+            .catch(error => console.error("Error:", error));
     }
 }

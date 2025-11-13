@@ -31,7 +31,7 @@ if ($_SESSION["rol"] === "admin") {
 
 
 $rutasAdoptante = ["inicioAdp", "adoptaAdp", "citasAdp", "donacionesAdp", "detalleMascota", "publicaciones"];
-$rutasAdmin = ["inicioAdmin", "adoptantes", "mascotas", "adopciones", "vacunas", "citas", "donaciones", "publicaciones", "seguimientos"];
+$rutasAdmin = ["inicioAdmin", "adoptantes", "mascotas", "adopciones", "vacunas", "citas", "donaciones", "publicaciones", "seguimientos", "vacunasMascotas"];
 $archivoModulo = "view/modules/404.php"; 
 
 if ($ruta === "" || $ruta === "inicio") {

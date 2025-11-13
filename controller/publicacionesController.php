@@ -1,5 +1,4 @@
 <?php
-
 include_once "../model/publicacionesModel.php";
 
 class PublicacionesController
@@ -13,8 +12,36 @@ class PublicacionesController
 
     public function ctrListarPublicaciones()
     {
-        $objRespuesta = PublicacionesModel::mdlListarPublicaciones();
-        echo json_encode($objRespuesta);
+        $respuesta = PublicacionesModel::mdlListarPublicaciones();
+
+        if ($respuesta["codigo"] == "200" && !empty($respuesta["listaPublicaciones"])) {
+            $lista = [];
+            foreach ($respuesta["listaPublicaciones"] as $fila) {
+                // Construye correctamente la ruta visible (ajustando al nivel del frontend)
+                $fotoRuta = (!empty($fila["foto"]))
+                    ? str_replace("../", "", $fila["foto"])  // Quita "../" para que el navegador pueda acceder
+                    : "../uploads/g5.jpeg"; // Imagen por defecto si no hay foto
+
+                $lista[] = [
+                    "id_publicaciones" => $fila["id_publicaciones"],
+                    "tipo" => $fila["tipo"],
+                    "descripcion" => $fila["descripcion"],
+                    "fecha_publicacion" => $fila["fecha_publicacion"],
+                    "contacto" => $fila["contacto"],
+                    "foto" => $fotoRuta
+                ];
+            }
+
+            echo json_encode([
+                "codigo" => "200",
+                "listaPublicaciones" => $lista
+            ]);
+        } else {
+            echo json_encode([
+                "codigo" => "404",
+                "mensaje" => "No hay publicaciones registradas."
+            ]);
+        }
     }
 
     public function ctrEliminarPublicacion()
@@ -49,37 +76,61 @@ class PublicacionesController
     }
 }
 
-/* ========== RUTAS ========== */
+/* ======================= RUTAS ======================= */
 
-if (isset($_POST["listarPublicaciones"]) == "ok") {
+if (isset($_POST["listarPublicaciones"]) && $_POST["listarPublicaciones"] == "ok") {
     $obj = new PublicacionesController();
     $obj->ctrListarPublicaciones();
 }
 
-if (isset($_POST["eliminarPublicacion"]) == "ok") {
+if (isset($_POST["eliminarPublicacion"]) && $_POST["eliminarPublicacion"] == "ok") {
     $obj = new PublicacionesController();
     $obj->id_publicaciones = $_POST["id_publicaciones"];
     $obj->ctrEliminarPublicacion();
 }
 
-if (isset($_POST["registrarPublicacion"]) == "ok") {
+if (isset($_POST["registrarPublicacion"])) {
     $obj = new PublicacionesController();
     $obj->tipo = $_POST["tipo"];
     $obj->descripcion = $_POST["descripcion"];
-    $obj->foto = $_POST["foto"];
     $obj->fecha_publicacion = $_POST["fecha_publicacion"];
     $obj->contacto = $_POST["contacto"];
+
+    $ruta_foto = "";
+    if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == 0) {
+        $directorio = "../uploads/";
+        if (!file_exists($directorio)) {
+            mkdir($directorio, 0777, true);
+        }
+        $nombreArchivo = uniqid() . "_" . basename($_FILES["foto"]["name"]);
+        $ruta_foto = $directorio . $nombreArchivo;
+        move_uploaded_file($_FILES["foto"]["tmp_name"], $ruta_foto);
+    }
+    $obj->foto = $ruta_foto;
     $obj->ctrRegistrarPublicacion();
 }
 
-if (isset($_POST["editarPublicacion"]) == "ok") {
+if (isset($_POST["editarPublicacion"])) {
     $obj = new PublicacionesController();
     $obj->id_publicaciones = $_POST["id_publicaciones"];
     $obj->tipo = $_POST["tipo"];
     $obj->descripcion = $_POST["descripcion"];
-    $obj->foto = $_POST["foto"];
     $obj->fecha_publicacion = $_POST["fecha_publicacion"];
     $obj->contacto = $_POST["contacto"];
+
+    $ruta_foto = "";
+    if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == 0) {
+        $directorio = "../uploads/";
+        if (!file_exists($directorio)) {
+            mkdir($directorio, 0777, true);
+        }
+        $nombreArchivo = uniqid() . "_" . basename($_FILES["foto"]["name"]);
+        $ruta_foto = $directorio . $nombreArchivo;
+        move_uploaded_file($_FILES["foto"]["tmp_name"], $ruta_foto);
+    } else {
+        $ruta_foto = isset($_POST["foto_actual"]) ? $_POST["foto_actual"] : "";
+    }
+
+    $obj->foto = $ruta_foto;
     $obj->ctrEditarPublicacion();
 }
-?>
