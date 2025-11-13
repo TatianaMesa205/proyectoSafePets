@@ -369,6 +369,14 @@ body {
   text-align: center;
 }
 
+#tablaVacunasMascotas th {
+  text-align: center;
+}
+
+#tablaPublicaciones th {
+  text-align: center;
+}
+
 /* === Formularios === */
 .form-panel {
   background-color: #fff;

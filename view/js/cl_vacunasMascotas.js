@@ -19,7 +19,7 @@ class VacunasMascotas {
                 response["listaVacunasMascotas"].forEach(item => {
                     let botones = `
                         <div class="btn-group">
-                            <button id="btn-editarVacunaMascota" class="btn" style="background-color:pink;border-color:pink;color:white"
+                            <button id="btn-editarVacunaMascota" class="btn" style="background-color:rgba(223, 179, 147, 1); border-color:pink;color:white"
                                 vacuna_mascota="${item.id_vacunas_mascotas}"
                                 mascota="${item.id_mascotas}"
                                 vacuna="${item.id_vacunas}"
@@ -27,7 +27,7 @@ class VacunasMascotas {
                                 proxima_dosis="${item.proxima_dosis}">
                                 <i class="bi bi-pencil"></i>
                             </button>
-                            <button id="btn-eliminarVacunaMascota" class="btn" style="background-color:rgb(158,147,223);color:white"
+                            <button id="btn-eliminarVacunaMascota" class="btn" style="background-color:rgba(112, 110, 120, 1); color:white"
                                 vacuna_mascota="${item.id_vacunas_mascotas}">
                                 <i class="bi bi-trash"></i>
                             </button>
@@ -35,8 +35,8 @@ class VacunasMascotas {
                     `;
                     dataSet.push([
                         item.id_vacunas_mascotas,
-                        item.id_mascotas,
-                        item.id_vacunas,
+                        item.mascota_nombre,
+                        item.vacuna_nombre,
                         item.fecha_aplicacion,
                         item.proxima_dosis,
                         botones
@@ -108,7 +108,7 @@ class VacunasMascotas {
         });
     }
 
-    editarVacunaMascota(){
+    editarVacunaMascota() {
         let objData = new FormData();
         objData.append("editarVacunaMascota", "ok");
         objData.append("id_vacunas_mascotas", this._objData.id_vacunas_mascotas);
@@ -137,4 +137,117 @@ class VacunasMascotas {
             }
         });
     }
+
+
+
+        /* =========================================================
+       CARGAR SELECTS (para formulario de registro)
+    ========================================================= */
+    cargarSelects() {
+        this.cargarMascotas();
+        this.cargarVacunas();
+    }
+
+    cargarMascotas() {
+        let objData = new FormData();
+        objData.append("listarMascotas", "ok");
+
+        fetch("controller/mascotasController.php", {
+            method: "POST",
+            body: objData
+        })
+        .then(r => r.json())
+        .then(response => {
+            if (response["codigo"] === "200") {
+                let select = document.getElementById("select_mascota");
+                select.innerHTML = '<option value="">Seleccione una mascota</option>';
+                
+                response["listaMascotas"].forEach(mascota => {
+                    select.innerHTML += `
+                        <option value="${mascota.id_mascotas}">
+                            ${mascota.nombre} - ${mascota.especie}
+                        </option>`;
+                });
+            }
+        })
+        .catch(e => console.log(e));
+    }
+
+    cargarVacunas() {
+        let objData = new FormData();
+        objData.append("listarVacunas", "ok");
+
+        fetch("controller/vacunasController.php", {
+            method: "POST",
+            body: objData
+        })
+        .then(r => r.json())
+        .then(response => {
+            if (response["codigo"] === "200") {
+                let select = document.getElementById("select_vacuna");
+                select.innerHTML = '<option value="">Seleccione una vacuna</option>';
+                
+                response["listaVacunas"].forEach(vacuna => {
+                    select.innerHTML += `
+                        <option value="${vacuna.id_vacunas}">
+                            ${vacuna.nombre_vacuna} - ${vacuna.tiempo_aplicacion}
+                        </option>`;
+                });
+            }
+        })
+        .catch(e => console.log(e));
+    }
+
+    /* =========================================================
+       CARGAR SELECTS (para formulario de edición)
+    ========================================================= */
+    cargarSelectsEditar(idMascotaSel, idVacunaSel) {
+        // Mascotas
+        let objDataMascotas = new FormData();
+        objDataMascotas.append("listarMascotas", "ok");
+
+        fetch("controller/mascotasController.php", {
+            method: "POST",
+            body: objDataMascotas
+        })
+        .then(r => r.json())
+        .then(response => {
+            if (response["codigo"] === "200") {
+                let selectMascota = document.getElementById("select_edit_mascota");
+                selectMascota.innerHTML = '<option value="">Seleccione una mascota</option>';
+                
+                response["listaMascotas"].forEach(mascota => {
+                    let selected = (mascota.id_mascotas == idMascotaSel) ? "selected" : "";
+                    selectMascota.innerHTML += `
+                        <option value="${mascota.id_mascotas}" ${selected}>
+                            ${mascota.nombre} - ${mascota.especie}
+                        </option>`;
+                });
+            }
+        });
+
+        // Vacunas
+        let objDataVacunas = new FormData();
+        objDataVacunas.append("listarVacunas", "ok");
+
+        fetch("controller/vacunasController.php", {
+            method: "POST",
+            body: objDataVacunas
+        })
+        .then(r => r.json())
+        .then(response => {
+            if (response["codigo"] === "200") {
+                let selectVacuna = document.getElementById("select_edit_vacuna");
+                selectVacuna.innerHTML = '<option value="">Seleccione una vacuna</option>';
+                
+                response["listaVacunas"].forEach(vacuna => {
+                    let selected = (vacuna.id_vacunas == idVacunaSel) ? "selected" : "";
+                    selectVacuna.innerHTML += `
+                        <option value="${vacuna.id_vacunas}" ${selected}>
+                            ${vacuna.nombre_vacuna} - ${vacuna.tiempo_aplicacion}
+                        </option>`;
+                });
+            }
+        });
+    } 
 }

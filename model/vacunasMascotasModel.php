@@ -13,13 +13,16 @@ class VacunasMascotasModel
             $objRespuesta = Conexion::conectar()->prepare("
                 SELECT 
                     vm.id_vacunas_mascotas,
+                    vm.id_mascotas,
+                    m.nombre AS mascota_nombre,
+                    vm.id_vacunas,
+                    v.nombre_vacuna AS vacuna_nombre,
                     vm.fecha_aplicacion,
-                    vm.proxima_dosis,
-                    m.nombre AS mascota,
-                    v.nombre_vacuna AS vacuna
+                    vm.proxima_dosis
                 FROM vacunas_mascotas vm
                 JOIN mascotas m ON m.id_mascotas = vm.id_mascotas
                 JOIN vacunas v ON v.id_vacunas = vm.id_vacunas
+                ORDER BY vm.id_vacunas_mascotas DESC
             ");
             $objRespuesta->execute();
             $lista = $objRespuesta->fetchAll(PDO::FETCH_ASSOC);
@@ -29,6 +32,7 @@ class VacunasMascotasModel
         }
         return $mensaje;
     }
+
 
     /* ==========================================
        REGISTRAR VACUNA MASCOTA
@@ -41,8 +45,8 @@ class VacunasMascotasModel
                 INSERT INTO vacunas_mascotas (id_mascotas, id_vacunas, fecha_aplicacion, proxima_dosis)
                 VALUES (:id_mascotas, :id_vacunas, :fecha_aplicacion, :proxima_dosis)
             ");
-            $objRespuesta->bindParam(":id_mascotas", $id_mascotas);
-            $objRespuesta->bindParam(":id_vacunas", $id_vacunas);
+            $objRespuesta->bindParam(":id_mascotas", $id_mascotas, PDO::PARAM_INT);
+            $objRespuesta->bindParam(":id_vacunas", $id_vacunas, PDO::PARAM_INT);
             $objRespuesta->bindParam(":fecha_aplicacion", $fecha_aplicacion);
             $objRespuesta->bindParam(":proxima_dosis", $proxima_dosis);
 
@@ -69,9 +73,9 @@ class VacunasMascotasModel
                 SET id_mascotas = :id_mascotas, id_vacunas = :id_vacunas, fecha_aplicacion = :fecha_aplicacion, proxima_dosis = :proxima_dosis
                 WHERE id_vacunas_mascotas = :id_vacunas_mascotas
             ");
-            $objRespuesta->bindParam(":id_vacunas_mascotas", $id_vacunas_mascotas);
-            $objRespuesta->bindParam(":id_mascotas", $id_mascotas);
-            $objRespuesta->bindParam(":id_vacunas", $id_vacunas);
+            $objRespuesta->bindParam(":id_vacunas_mascotas", $id_vacunas_mascotas, PDO::PARAM_INT);
+            $objRespuesta->bindParam(":id_mascotas", $id_mascotas, PDO::PARAM_INT);
+            $objRespuesta->bindParam(":id_vacunas", $id_vacunas, PDO::PARAM_INT);
             $objRespuesta->bindParam(":fecha_aplicacion", $fecha_aplicacion);
             $objRespuesta->bindParam(":proxima_dosis", $proxima_dosis);
 
