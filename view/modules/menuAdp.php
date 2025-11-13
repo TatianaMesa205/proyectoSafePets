@@ -1,3 +1,8 @@
+<<<<<<< Updated upstream:view/modules/menuAdp.php
+=======
+
+
+>>>>>>> Stashed changes:view/modules/menu.php
 <style>
     .navbar {
       background-color: #f0e4d8ff; /* Fondo beige suave */
