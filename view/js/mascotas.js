@@ -77,105 +77,85 @@
     $("#txt_edit_estado_salud").val(estado_salud);
     $("#txt_edit_estado").val(estado);
     $("#txt_edit_descripcion").val(descripcion);
-    $("#txt_edit_imagen").val(imagen);
+    $("#txt_edit_imagen_actual").val(imagen);
+
 
     $("#btnEditarMascota").attr("mascota",id_mascotas);
 
   })
 
 
-  'use strict'
 
-  const forms = document.querySelectorAll('#formRegistroMascotas');
+    $("#formRegistroMascotas").on("submit", function (event) {
+      event.preventDefault();
 
-  Array.from(forms).forEach(form => {
-    form.addEventListener('submit', event => {
+        let nombre = $("#txt_nombre").val();
+        let especie = $("#txt_especie").val();
+        let raza = $("#txt_raza").val();
+        let edad = $("#txt_edad").val();
+        let sexo = $("#select_sexo").val();
+        let tamano = $("#select_tamano").val();
+        let fecha_ingreso = $("#txt_fecha_ingreso").val();
+        let estado_salud = $("#txt_estado_salud").val();
+        let estado = $("#select_estado").val();
+        let descripcion = $("#txt_descripcion").val();
+        let imagen = $("#txt_imagen")[0].files[0];
 
-    event.preventDefault()
-      if (!form.checkValidity()) {
-        event.stopPropagation()
-        form.classList.add('was-validated')
-      }else{
-
-        let nombre = document.getElementById('txt_nombre').value;
-        let especie = document.getElementById('txt_especie').value;
-        let raza = document.getElementById('txt_raza').value;
-        let edad = document.getElementById('txt_edad').value;
-        let sexo = document.getElementById('select_sexo').value;
-        let tamano = document.getElementById('select_tamano').value;
-        let fecha_ingreso = document.getElementById('txt_fecha_ingreso').value;
-        let estado_salud = document.getElementById('txt_estado_salud').value;
-        let estado = document.getElementById('select_estado').value;
-        let descripcion = document.getElementById('txt_descripcion').value;
-        let imagen = document.getElementById('txt_imagen').value;
 
         let objData = {
-          "registrarMascota": "ok",
-          "nombre": nombre,
-          "especie": especie,
-          "raza": raza,
-          "edad": edad,
-          "sexo": sexo,
-          "tamano": tamano,
-          "fecha_ingreso": fecha_ingreso,
-          "estado_salud": estado_salud,
-          "estado": estado,
-          "descripcion": descripcion,
-          "imagen": imagen,
-          "listarMascotas": "ok"
-        }
+          nombre,
+          especie,
+          raza,
+          edad,
+          sexo,
+          tamano,
+          fecha_ingreso,
+          estado_salud,
+          estado,
+          descripcion,
+          imagen,
+        };
         let objMascota = new Mascotas(objData);
         objMascota.registrarMascota();
-      }
-    }, false)
-  })
+  });
 
 
-  const formsEditarMascota = document.querySelectorAll('#formEditarMascotas');
 
-  Array.from(formsEditarMascota).forEach(form => {
-    form.addEventListener('submit', event => {
+    $("#formEditarMascotas").on("submit", function (event) {
+      event.preventDefault();
 
-    event.preventDefault()
-      if (!form.checkValidity()) {
-        event.stopPropagation()
-        form.classList.add('was-validated')
-      }else{
-
-        let nombre = document.getElementById('txt_edit_nombre').value;
-        let especie = document.getElementById('txt_edit_especie').value;
-        let raza = document.getElementById('txt_edit_raza').value;
-        let edad = document.getElementById('txt_edit_edad').value;
-        let sexo = document.getElementById('select_edit_sexo').value;
-        let tamano = document.getElementById('select_edit_tamano').value;
-        let fecha_ingreso = document.getElementById('txt_edit_fecha_ingreso').value;
-        let estado_salud = document.getElementById('txt_edit_estado_salud').value;
-        let estado = document.getElementById('select_edit_estado').value;
-        let descripcion = document.getElementById('txt_edit_descripcion').value;
-        let imagen = document.getElementById('txt_edit_imagen').value;
+        let nombre = $('#txt_edit_nombre').val();
+        let especie = $('#txt_edit_especie').val();
+        let raza = $('#txt_edit_raza').val();
+        let edad = $('#txt_edit_edad').val();
+        let sexo = $('#select_edit_sexo').val();
+        let tamano = $('#select_edit_tamano').val();
+        let fecha_ingreso = $('#txt_edit_fecha_ingreso').val();
+        let estado_salud = $('#txt_edit_estado_salud').val();
+        let estado = $('#select_edit_estado').val();
+        let descripcion = $('#txt_edit_descripcion').val();
+        let imagen = $('#txt_edit_imagen')[0].files[0];
+        let imagen_actual = $('#txt_edit_imagen_actual').val();
         let id_mascotas = $("#btnEditarMascota").attr("mascota");
 
 
         let objData = {
-          "editarMascota":"ok",
-          "nombre": nombre,
-          "especie": especie,
-          "raza": raza,
-          "edad": edad,
-          "sexo": sexo,
-          "tamano": tamano,
-          "fecha_ingreso": fecha_ingreso,
-          "estado_salud": estado_salud,
-          "estado": estado,
-          "descripcion": descripcion,
-          "imagen": imagen,
-          "id_mascotas":id_mascotas,
-          "listarMascotas": "ok"
+          nombre,
+          especie,
+          raza,
+          edad,
+          sexo,
+          tamano,
+          fecha_ingreso,
+          estado_salud,
+          estado,
+          descripcion,
+          imagen,
+          imagen_actual,
+          id_mascotas,
         }
         let objMascota = new Mascotas(objData);
         objMascota.editarMascota();
-      }
-    }, false)
   })
 
-})()  
+})();  

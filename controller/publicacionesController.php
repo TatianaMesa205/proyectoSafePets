@@ -98,7 +98,7 @@ if (isset($_POST["registrarPublicacion"])) {
 
     $ruta_foto = "";
     if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == 0) {
-        $directorio = "../uploads/";
+        $directorio = "../uploads/publicaciones/";
         if (!file_exists($directorio)) {
             mkdir($directorio, 0777, true);
         }
@@ -120,7 +120,7 @@ if (isset($_POST["editarPublicacion"])) {
 
     $ruta_foto = "";
     if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == 0) {
-        $directorio = "../uploads/";
+        $directorio = "../uploads/publicaciones/";
         if (!file_exists($directorio)) {
             mkdir($directorio, 0777, true);
         }

@@ -82,7 +82,7 @@ if (isset($_POST["eliminarMascota"])) {
     $objMascotas->ctrEliminarMascota();
 }
 
-if (isset($_POST["registrarMascota"]) && $_POST["registrarMascota"] == "ok") {
+if (isset($_POST["registrarMascota"])) {
     $objMascotas = new MascotasController();
     $objMascotas->nombre = $_POST["nombre"];
     $objMascotas->especie = $_POST["especie"];
@@ -94,9 +94,21 @@ if (isset($_POST["registrarMascota"]) && $_POST["registrarMascota"] == "ok") {
     $objMascotas->estado_salud = $_POST["estado_salud"];
     $objMascotas->estado = $_POST["estado"];
     $objMascotas->descripcion = $_POST["descripcion"];
-    $objMascotas->imagen = $_POST["imagen"];
+
+    $ruta_foto = "";
+    if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == 0) {
+        $directorio = "../uploads/mascotas/";
+        if (!file_exists($directorio)) {
+            mkdir($directorio, 0777, true);
+        }
+        $nombreArchivo = uniqid() . "_" . basename($_FILES["imagen"]["name"]);
+        $ruta_foto = $directorio . $nombreArchivo;
+        move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta_foto);
+    }
+    $objMascotas->imagen = $ruta_foto;
     $objMascotas->ctrRegistrarMascota();
 }
+
 
 if (isset($_POST["editarMascota"])) {
     $objMascotas = new MascotasController();
@@ -111,7 +123,22 @@ if (isset($_POST["editarMascota"])) {
     $objMascotas->estado_salud = $_POST["estado_salud"];
     $objMascotas->estado = $_POST["estado"];
     $objMascotas->descripcion = $_POST["descripcion"];
-    $objMascotas->imagen = $_POST["imagen"];
+
+    $ruta_foto = "";
+    if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == 0) {
+        $directorio = "../uploads/mascotas/";
+        if (!file_exists($directorio)) {
+            mkdir($directorio, 0777, true);
+        }
+        $nombreArchivo = uniqid() . "_" . basename($_FILES["imagen"]["name"]);
+        $ruta_foto = $directorio . $nombreArchivo;
+        move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta_foto);
+    } else {
+        $ruta_foto = isset($_POST["imagen_actual"]) ? $_POST["foto_actual"] : "";
+    }
+
+    $objMascotas->imagen = $ruta_foto;
     $objMascotas->ctrEditarMascota();
 }
+
 ?>

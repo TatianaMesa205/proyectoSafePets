@@ -37,7 +37,9 @@ class Mascotas {
                         item.estado_salud,
                         item.estado,
                         item.descripcion,
-                        item.imagen,
+                        `<img src="${item.imagen ? item.imagen.replace('../', '') : 'sin-foto.png'}" 
+                        alt="Foto" width="80" height="80" 
+                        style="object-fit:cover;border-radius:10px;">`,
                         objBotones
                     ]);
                 });

@@ -37,7 +37,7 @@
   <!-- Formulario de agregar -->
   <div id="panelFormularioMascotas" class="form-panel shadow-sm rounded-4 p-4 mt-4" style="display:none;">
     <h4 class="mb-3 text-center text-dark fw-semibold">Registrar Mascota</h4>
-    <form id="formRegistroMascotas" novalidate>
+    <form id="formRegistroMascotas" novalidate enctype="multipart/form-data">
       <div class="row g-3">
         <div class="col-md-6">
           <label>Nombre</label>
@@ -93,8 +93,8 @@
           </select>
         </div>
         <div class="col-md-6">
-          <label>Imagen URL</label>
-          <input type="text" class="form-control rounded-3" id="txt_imagen" required>
+          <label>Imagen de la mascota</label>
+          <input type="file" id="txt_imagen" class="form-control rounded-3" accept=".jpg,.jpeg,.png" >
         </div>
       </div>
       <div class="d-flex gap-2 mt-4 justify-content-center">
@@ -108,6 +108,7 @@
   <div id="panelFormularioEditarMascotas" class="form-panel shadow-sm rounded-4 p-4 mt-4" style="display:none;">
     <h4 class="mb-3 text-center text-dark fw-semibold">Editar Mascota</h4>
     <form id="formEditarMascotas" novalidate>
+      <input type="hidden" id="txt_edit_imagen_actual" name="imagen_actual">
       <div class="row g-3">
         <div class="col-md-6">
           <label>Nombre</label>
@@ -163,8 +164,8 @@
           </select>
         </div>
         <div class="col-md-6">
-          <label>Imagen URL</label>
-          <input type="text" class="form-control rounded-3" id="txt_edit_imagen" required>
+          <label>Imagen (opcional)</label>
+          <input type="file" id="txt_edit_imagen" name="imagen" class="form-control rounded-3" accept=".jpg,.jpeg,.png">
         </div>
       </div>
       <div class="d-flex gap-2 mt-4 justify-content-center">
