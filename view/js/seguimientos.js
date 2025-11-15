@@ -12,6 +12,9 @@
     btnAgregar.addEventListener("click",()=>{
         $("#panelTablaSeguimientos").hide();
         $("#panelFormularioSeguimientos").show();
+
+        let objSeguimientos = new SeguimientosMascotas({});
+        objSeguimientos.cargarSelect();
     });
 
     let btnRegresar = document.getElementById("btn-RegresarSeguimiento");

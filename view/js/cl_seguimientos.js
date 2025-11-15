@@ -33,6 +33,7 @@ class SeguimientosMascotas {
                         </div>
                     `;
                     dataSet.push([
+                        item.id_seguimientos,
                         item.id_adopciones,
                         item.fecha_visita,
                         item.observacion,
@@ -41,11 +42,11 @@ class SeguimientosMascotas {
                 });
 
                 $("#tablaSeguimientos").DataTable({
-                    destroy: true,
-                    responsive: true,
-                    dom: "Bfrtip",
-                    buttons: ["colvis", "excel", "pdf", "print"],
-                    data: dataSet
+                    destroy:true,
+                    responsive:true,
+                    dom:"Bfrtip",
+                    buttons:["colvis","excel","pdf","print"],
+                    data:dataSet
                 });
             }
         });
@@ -129,6 +130,35 @@ class SeguimientosMascotas {
                 });
             } else {
                 Swal.fire(response["mensaje"]);
+            }
+        });
+    }
+
+
+    cargarSelect(){
+        this.cargarAdopciones();
+    }
+
+    cargarAdopciones(){
+        let objData = new FormData();
+        objData.append("listarAdopciones", "ok");
+
+        fetch("controller/adopcionesController.php", {
+            method: "POST",
+            body: objData
+        })
+        .then(r => r.json())
+        .then(response => {
+            if (response["codigo"] == "200") {
+                let select = document.getElementById("select_adopciones");
+                select.innerHTML = '<option value="" >Seleccione una adopción</option>';
+
+                response["listaAdopciones"].forEach(adopciones => {
+
+                    select.innerHTML += `<option value="${adopciones.id_adopciones}">
+                    ${adopciones.observaciones}</option>`;
+                    
+                });
             }
         });
     }

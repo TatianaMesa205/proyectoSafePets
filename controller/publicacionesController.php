@@ -12,36 +12,8 @@ class PublicacionesController
 
     public function ctrListarPublicaciones()
     {
-        $respuesta = PublicacionesModel::mdlListarPublicaciones();
-
-        if ($respuesta["codigo"] == "200" && !empty($respuesta["listaPublicaciones"])) {
-            $lista = [];
-            foreach ($respuesta["listaPublicaciones"] as $fila) {
-                // Construye correctamente la ruta visible (ajustando al nivel del frontend)
-                $fotoRuta = (!empty($fila["foto"]))
-                    ? str_replace("../", "", $fila["foto"])  // Quita "../" para que el navegador pueda acceder
-                    : "../uploads/g5.jpeg"; // Imagen por defecto si no hay foto
-
-                $lista[] = [
-                    "id_publicaciones" => $fila["id_publicaciones"],
-                    "tipo" => $fila["tipo"],
-                    "descripcion" => $fila["descripcion"],
-                    "fecha_publicacion" => $fila["fecha_publicacion"],
-                    "contacto" => $fila["contacto"],
-                    "foto" => $fotoRuta
-                ];
-            }
-
-            echo json_encode([
-                "codigo" => "200",
-                "listaPublicaciones" => $lista
-            ]);
-        } else {
-            echo json_encode([
-                "codigo" => "404",
-                "mensaje" => "No hay publicaciones registradas."
-            ]);
-        }
+        $objRespuesta = PublicacionesModel::mdlListarPublicaciones();
+        echo json_encode($objRespuesta);
     }
 
     public function ctrEliminarPublicacion()
@@ -98,7 +70,7 @@ if (isset($_POST["registrarPublicacion"])) {
 
     $ruta_foto = "";
     if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == 0) {
-        $directorio = "../uploads/publicaciones/";
+        $directorio = "../../CarpetaCompartida/Publicaciones/";
         if (!file_exists($directorio)) {
             mkdir($directorio, 0777, true);
         }
@@ -120,7 +92,7 @@ if (isset($_POST["editarPublicacion"])) {
 
     $ruta_foto = "";
     if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == 0) {
-        $directorio = "../uploads/publicaciones/";
+        $directorio = "../../CarpetaCompartida/Publicaciones/";
         if (!file_exists($directorio)) {
             mkdir($directorio, 0777, true);
         }

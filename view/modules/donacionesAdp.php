@@ -15,7 +15,7 @@
       <div class="row g-3">
         <div class="col-md-12">
             <label>Monto a Donar (en COP)</label>
-            <input type="number" id="txt_monto" class="form-control rounded-3" required placeholder="50000" min="5000">
+            <input type="number" id="txt_monto" class="form-control rounded-3" required placeholder="$5.000" min="5000">
              <div class="invalid-feedback">
                 Por favor ingresa un monto (mínimo 5000 COP).
             </div>

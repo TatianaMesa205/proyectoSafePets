@@ -9,15 +9,13 @@
     </button>
   </div>
 
-  <div id="panelTablaSeguimiento" class="panel-table shadow-sm rounded-4 p-3">
-    <table id="tablaSeguimiento" class="table align-middle table-hover text-center">
+  <div id="panelTablaSeguimientos" class="panel-table shadow-sm rounded-4 p-3">
+    <table id="tablaSeguimientos" class="table align-middle table-hover text-center">
       <thead>
         <tr>
           <th>ID</th>
-          <th>Mascota</th>
-          <th>Adoptante</th>
-          <th>Fecha</th>
-          <th>Estado General</th>
+          <th>Adopciones</th>
+          <th>Fecha de la visita</th>
           <th>Observaciones</th>
           <th>Acciones</th>
         </tr>
@@ -26,31 +24,22 @@
     </table>
   </div>
 
-  <div id="panelFormularioSeguimiento" class="form-panel shadow-sm rounded-4 p-4 mt-4" style="display:none;">
+  <div id="panelFormularioSeguimientos" class="form-panel shadow-sm rounded-4 p-4 mt-4" style="display:none;">
     <h4 class="mb-3 text-center text-dark fw-semibold">Registrar Seguimiento</h4>
-    <form id="formRegistroSeguimiento" novalidate>
+    <form id="formRegistroSeguimientos" novalidate>
       <div class="row g-3">
         <div class="col-md-6">
-          <label>Mascota</label>
-          <select id="select_mascota_seguimiento" class="form-select rounded-3" required></select>
-        </div>
-        <div class="col-md-6">
-          <label>Adoptante</label>
-          <select id="select_adoptante_seguimiento" class="form-select rounded-3" required></select>
+          <label for="select_adopciones" class="form-label">Adopciones</label>
+          <select class="form-select" id="select_adopciones" required>
+              <option value="">Seleccione un adopciones</option>
+          </select>
+          <div class="invalid-feedback">
+              Por favor seleccione un adoptante.
+          </div>
         </div>
         <div class="col-md-6">
           <label>Fecha</label>
           <input type="date" id="txt_fecha_seguimiento" class="form-control rounded-3" required>
-        </div>
-        <div class="col-md-6">
-          <label>Estado General</label>
-          <select id="select_estado_general" class="form-select rounded-3" required>
-            <option value="">Seleccione...</option>
-            <option value="Excelente">Excelente</option>
-            <option value="Bueno">Bueno</option>
-            <option value="Regular">Regular</option>
-            <option value="Crítico">Crítico</option>
-          </select>
         </div>
         <div class="col-md-12">
           <label>Observaciones</label>
@@ -64,14 +53,10 @@
     </form>
   </div>
 
-  <div id="panelFormularioEditarSeguimiento" class="form-panel shadow-sm rounded-4 p-4 mt-4" style="display:none;">
+  <div id="panelFormularioEditarSeguimientos" class="form-panel shadow-sm rounded-4 p-4 mt-4" style="display:none;">
     <h4 class="mb-3 text-center text-dark fw-semibold">Editar Seguimiento</h4>
-    <form id="formEditarSeguimiento" novalidate>
+    <form id="formEditarSeguimientos" novalidate>
       <div class="row g-3">
-        <div class="col-md-6">
-          <label>Mascota</label>
-          <select id="select_edit_mascota_seguimiento" class="form-select rounded-3" required></select>
-        </div>
         <div class="col-md-6">
           <label>Adoptante</label>
           <select id="select_edit_adoptante_seguimiento" class="form-select rounded-3" required></select>
@@ -79,15 +64,6 @@
         <div class="col-md-6">
           <label>Fecha</label>
           <input type="date" id="txt_edit_fecha_seguimiento" class="form-control rounded-3" required>
-        </div>
-        <div class="col-md-6">
-          <label>Estado General</label>
-          <select id="select_edit_estado_general" class="form-select rounded-3" required>
-            <option value="Excelente">Excelente</option>
-            <option value="Bueno">Bueno</option>
-            <option value="Regular">Regular</option>
-            <option value="Crítico">Crítico</option>
-          </select>
         </div>
         <div class="col-md-12">
           <label>Observaciones</label>

@@ -1,6 +1,6 @@
 <?php
 
-include_once "../model/seguimientosMascotasModel.php";
+include_once "../model/seguimientosModel.php";
 
 class SeguimientosMascotasController
 {
@@ -45,7 +45,7 @@ class SeguimientosMascotasController
 
 /* ========== RUTAS ========== */
 
-if (isset($_POST["listarSeguimientos"]) == "ok") {
+if (isset($_POST["listarSeguimientos"]) && $_POST["listarSeguimientos"] == "ok") {
     $obj = new SeguimientosMascotasController();
     $obj->ctrListarSeguimientos();
 }

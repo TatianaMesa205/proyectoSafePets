@@ -97,7 +97,7 @@ if (isset($_POST["registrarMascota"])) {
 
     $ruta_foto = "";
     if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == 0) {
-        $directorio = "../uploads/mascotas/";
+        $directorio = "../../CarpetaCompartida/Mascotas/";
         if (!file_exists($directorio)) {
             mkdir($directorio, 0777, true);
         }
@@ -126,7 +126,7 @@ if (isset($_POST["editarMascota"])) {
 
     $ruta_foto = "";
     if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == 0) {
-        $directorio = "../uploads/mascotas/";
+        $directorio = "../../CarpetaCompartida/Mascotas/";
         if (!file_exists($directorio)) {
             mkdir($directorio, 0777, true);
         }

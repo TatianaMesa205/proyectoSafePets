@@ -31,7 +31,7 @@ class AdopcionesController
         // Manejo del archivo (PDF o imagen)
         $nombreArchivo = null;
         if (isset($_FILES["contrato"]) && $_FILES["contrato"]["error"] == 0) {
-            $carpeta = "../uploads/contratos/";
+            $carpeta = "../../CarpetaCompartida/Contratos/";
             if (!file_exists($carpeta)) {
                 mkdir($carpeta, 0777, true);
             }
@@ -63,7 +63,7 @@ class AdopcionesController
     {
         // Verificar si se subió un nuevo contrato
         if (isset($_FILES["contrato"]) && $_FILES["contrato"]["error"] == 0) {
-            $carpeta = "../uploads/contratos/";
+            $carpeta = "../../CarpetaCompartida/Contratos/";
             if (!file_exists($carpeta)) {
                 mkdir($carpeta, 0777, true);
             }
