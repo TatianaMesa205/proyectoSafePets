@@ -15,7 +15,6 @@
     <table id="tablaMascotas" class="table align-middle table-hover text-center">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Nombre</th>
           <th>Especie</th>
           <th>Raza</th>

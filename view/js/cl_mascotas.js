@@ -25,8 +25,7 @@ class Mascotas {
                     objBotones += '<button id="btn-eliminarMascota" type="button" style="background-color:rgba(112, 110, 120, 1); color:white" class="btn" mascota="'+item.id_mascotas+'"><i class="bi bi-trash"></i></button>';
                     objBotones += '</div>';
 
-                    dataSet.push([
-                        item.id_mascotas,  
+                    dataSet.push([ 
                         item.nombre,
                         item.especie,
                         item.raza,

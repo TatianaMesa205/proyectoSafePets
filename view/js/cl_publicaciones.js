@@ -37,7 +37,6 @@ class Publicaciones {
                             </div>`;
 
                         dataSet.push([
-                            item.id_publicaciones,
                             item.tipo,
                             item.descripcion,
                             item.fecha_publicacion,

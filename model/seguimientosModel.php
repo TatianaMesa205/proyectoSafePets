@@ -10,27 +10,35 @@ class SeguimientosMascotasModel
     {
         $mensaje = array();
         try {
-            $objRespuesta = Conexion::conectar()->prepare("
+
+            $sql = "
                 SELECT 
                     s.id_seguimientos,
                     s.fecha_visita,
                     s.observacion,
                     a.id_adopciones,
+                    a.fecha_adopcion,
                     ad.nombre_completo AS adoptante,
                     m.nombre AS mascota
                 FROM seguimientos_mascotas s
                 JOIN adopciones a ON a.id_adopciones = s.id_adopciones
                 JOIN adoptantes ad ON ad.id_adoptantes = a.id_adoptantes
                 JOIN mascotas m ON m.id_mascotas = a.id_mascotas
-            ");
+                ORDER BY s.id_seguimientos DESC
+            ";
+
+            $objRespuesta = Conexion::conectar()->prepare($sql);
             $objRespuesta->execute();
             $lista = $objRespuesta->fetchAll(PDO::FETCH_ASSOC);
+
             $mensaje = array("codigo" => "200", "listaSeguimientos" => $lista);
+
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
         }
         return $mensaje;
     }
+
 
     /* ==========================================
        REGISTRAR SEGUIMIENTO

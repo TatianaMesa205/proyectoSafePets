@@ -71,11 +71,11 @@
     $("#txt_edit_especie").val(especie);
     $("#txt_edit_raza").val(raza);
     $("#txt_edit_edad").val(edad);
-    $("#txt_edit_sexo").val(sexo);
-    $("#txt_edit_tamano").val(tamano);
+    $("#select_edit_sexo").val(sexo);
+    $("#select_edit_tamano").val(tamano);
     $("#txt_edit_fecha_ingreso").val(fecha_ingreso);
     $("#txt_edit_estado_salud").val(estado_salud);
-    $("#txt_edit_estado").val(estado);
+    $("#select_edit_estado").val(estado);
     $("#txt_edit_descripcion").val(descripcion);
     $("#txt_edit_imagen_actual").val(imagen);
 

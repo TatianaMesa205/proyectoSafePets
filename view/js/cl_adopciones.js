@@ -38,7 +38,6 @@ class Adopciones {
                           </button>
                         </div>`;
                     dataSet.push([
-                        item.id_adopciones,
                         item.nombre_mascota,    
                         item.nombre_adoptante,  
                         item.fecha_adopcion,
@@ -89,46 +88,61 @@ class Adopciones {
         objData.append("observaciones",this._objData.observaciones);
         objData.append("contrato",this._objData.contrato);
 
-        fetch("controller/adopcionesController.php",{method:'POST',body:objData})
+        fetch("controller/adopcionesController.php",{
+            method:'POST',
+            body:objData
+        })
         .then(r=>r.json()).then(response=>{
             if(response["codigo"]=="200"){
                 document.getElementById("formRegistroAdopcion").reset();
                 $("#panelFormularioAdopciones").hide();
                 $("#panelTablaAdopciones").show();
                 this.listarAdopciones();
-                Swal.fire({title:"Adopción registrada 🐶",timer:1600});
+                Swal.fire({
+                    title:"Adopción registrada 🐶",timer:1600});
             }else Swal.fire(response["mensaje"]);
         });
     }
 
-    editarAdopcion(){
+    editarAdopcion() {
         let objData = new FormData();
-        objData.append("editarAdopcion","ok");
-        objData.append("id_adopciones",this._objData.id_adopciones);
-        objData.append("fecha_adopcion",this._objData.fecha_adopcion);
-        objData.append("estado",this._objData.estado);
-        objData.append("observaciones",this._objData.observaciones);
-        objData.append("contrato",this._objData.contrato);
+        objData.append("editarAdopcion", "ok");
+        objData.append("id_adopciones", this._objData.id_adopciones);
+        objData.append("mascotas_id", this._objData.mascotas_id);
+        objData.append("adoptantes_id", this._objData.adoptantes_id);
+        objData.append("fecha_adopcion", this._objData.fecha_adopcion);
+        objData.append("estado", this._objData.estado);
+        objData.append("observaciones", this._objData.observaciones);
 
-        fetch("controller/adopcionesController.php",{
-            method:'POST',
-            body:objData
+        // ARCHIVO NUEVO
+        let archivoNuevo = document.getElementById("edit_contrato").files[0];
+        if (archivoNuevo) {
+            objData.append("contrato", archivoNuevo);
+        }
+
+        // Si NO subió archivo nuevo, enviar el nombre actual
+        objData.append("contrato_actual", this._objData.contrato);
+
+        fetch("controller/adopcionesController.php", {
+            method: "POST",
+            body: objData
         })
-        .then(r=>r.json())
-        .then(response=>{
-            if(response["codigo"]=="200"){
+        .then(r => r.json())
+        .then(response => {
+
+            if (response["codigo"] == "200") {
                 document.getElementById("formEditarAdopcion").reset();
                 $("#panelFormularioEditarAdopciones").hide();
                 $("#panelTablaAdopciones").show();
                 this.listarAdopciones();
-                Swal.fire({
-                    title:"Adopción editada correctamente 😺"
-                });
+
+                Swal.fire("Adopción editada correctamente 😺");
             } else {
                 Swal.fire(response["mensaje"]);
             }
-        });
+        })
     }
+
 
     registrarAdopcionConArchivo() {
         fetch("controller/adopcionesController.php", {

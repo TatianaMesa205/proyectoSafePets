@@ -13,8 +13,9 @@
     <table id="tablaSeguimientos" class="table align-middle table-hover text-center">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Adopciones</th>
+          <th>Mascota</th>
+          <th>Adoptante</th>
+          <th>Fecha de la adopcion</th>
           <th>Fecha de la visita</th>
           <th>Observaciones</th>
           <th>Acciones</th>
@@ -26,7 +27,7 @@
 
   <div id="panelFormularioSeguimientos" class="form-panel shadow-sm rounded-4 p-4 mt-4" style="display:none;">
     <h4 class="mb-3 text-center text-dark fw-semibold">Registrar Seguimiento</h4>
-    <form id="formRegistroSeguimientos" novalidate>
+    <form id="formRegistroSeguimiento" novalidate>
       <div class="row g-3">
         <div class="col-md-6">
           <label for="select_adopciones" class="form-label">Adopciones</label>
@@ -39,11 +40,11 @@
         </div>
         <div class="col-md-6">
           <label>Fecha</label>
-          <input type="date" id="txt_fecha_seguimiento" class="form-control rounded-3" required>
+          <input type="date" id="txt_fecha_visita" class="form-control rounded-3" required>
         </div>
         <div class="col-md-12">
           <label>Observaciones</label>
-          <textarea id="txt_observaciones_seguimiento" class="form-control rounded-3" rows="3"></textarea>
+          <textarea id="txt_observacion" class="form-control rounded-3" rows="3"></textarea>
         </div>
       </div>
       <div class="d-flex gap-2 mt-4 justify-content-center">
@@ -55,19 +56,24 @@
 
   <div id="panelFormularioEditarSeguimientos" class="form-panel shadow-sm rounded-4 p-4 mt-4" style="display:none;">
     <h4 class="mb-3 text-center text-dark fw-semibold">Editar Seguimiento</h4>
-    <form id="formEditarSeguimientos" novalidate>
+    <form id="formEditarSeguimiento" novalidate>
       <div class="row g-3">
         <div class="col-md-6">
-          <label>Adoptante</label>
-          <select id="select_edit_adoptante_seguimiento" class="form-select rounded-3" required></select>
+          <label for="select_edit_adopciones" class="form-label">Adopciones</label>
+          <select class="form-select" id="select_edit_adopciones" required>
+              <option value="">Seleccione un adopciones</option>
+          </select>
+          <div class="invalid-feedback">
+              Por favor seleccione un adopciones.
+          </div>
         </div>
         <div class="col-md-6">
           <label>Fecha</label>
-          <input type="date" id="txt_edit_fecha_seguimiento" class="form-control rounded-3" required>
+          <input type="date" id="txt_edit_fecha_visita" class="form-control rounded-3" required>
         </div>
         <div class="col-md-12">
           <label>Observaciones</label>
-          <textarea id="txt_edit_observaciones_seguimiento" class="form-control rounded-3" rows="3"></textarea>
+          <textarea id="txt_edit_observacion" class="form-control rounded-3" rows="3"></textarea>
         </div>
       </div>
       <div class="d-flex gap-2 mt-4 justify-content-center">

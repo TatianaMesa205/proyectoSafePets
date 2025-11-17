@@ -15,7 +15,6 @@
     <table id="tablaCitas" class="table align-middle table-hover text-center">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Mascota</th>
           <th>Adoptante</th>
           <th>Fecha de cita</th>

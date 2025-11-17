@@ -52,25 +52,38 @@
 
   // Editar adopción
   $("#tablaAdopciones").on("click", "#btn-editarAdopcion", function () {
-    $("#panelTablaAdopciones").hide();
-    $("#panelFormularioEditarAdopciones").show();
+      $("#panelTablaAdopciones").hide();
+      $("#panelFormularioEditarAdopciones").show();
 
-    let id_adopciones = $(this).attr("adopcion");
-    let mascotas_id = $(this).attr("mascota");
-    let adoptantes_id = $(this).attr("adoptante");
-    let fecha_adopcion = $(this).attr("fecha");
-    let estado = $(this).attr("estado");
-    let observaciones = $(this).attr("observaciones");
+      let id_adopciones = $(this).attr("adopcion");
+      let mascotas_id = $(this).attr("mascota");
+      let adoptantes_id = $(this).attr("adoptante");
+      let fecha_adopcion = $(this).attr("fecha");
+      let estado = $(this).attr("estado");
+      let observaciones = $(this).attr("observaciones");
+      let contrato = $(this).attr("contrato"); 
+      $("#btnEditarAdopcion").attr("contrato_actual", contrato);
 
-    let objCita = new Citas({});
-    objCita.cargarSelectsEditar(mascotas_id, adoptantes_id);
 
-    $("#txt_edit_fecha_adopcion").val(fecha_adopcion);
-    $("#select_edit_estado").val(estado);
-    $("#txt_edit_observaciones").val(observaciones);
+      let objAdopcion = new Adopciones({});
+      objAdopcion.cargarSelectsEditar(mascotas_id, adoptantes_id);
 
-    $("#btnEditarAdopcion").attr("adopcion", id_adopciones);
+      $("#txt_edit_fecha_adopcion").val(fecha_adopcion);
+      $("#select_edit_estado").val(estado);
+      $("#txt_edit_observaciones").val(observaciones);
+      $("#btnEditarAdopcion").attr("adopcion", id_adopciones);
+
+      // 🔥 MOSTRAR O OCULTAR EL CONTRATO
+      if (contrato && contrato !== "null" && contrato !== "") {
+          $("#linkContratoActual")
+              .attr("href", `../../../CarpetaCompartida/Contratos/${contrato}`)
+              .show();
+      } else {
+          $("#linkContratoActual").hide();
+      }
   });
+
+
 
   // Registrar adopción
   const forms = document.querySelectorAll('#formRegistroAdopcion');
@@ -123,10 +136,14 @@
         objDataAdopcion.append("observaciones", document.getElementById('txt_edit_observaciones').value);
         objDataAdopcion.append("id_adopciones", $("#btnEditarAdopcion").attr("adopcion"));
 
+        objDataAdopcion.append("contrato_actual", $("#btnEditarAdopcion").attr("contrato_actual"));
+
+        // Si suben uno nuevo
         let fileInput = document.getElementById('file_edit_contrato');
         if (fileInput.files.length > 0) {
-          objDataAdopcion.append("contrato", fileInput.files[0]);
+            objDataAdopcion.append("contrato", fileInput.files[0]);
         }
+
 
         let objAdopcion = new Adopciones(objDataAdopcion);
         objAdopcion.editarAdopcionConArchivo();

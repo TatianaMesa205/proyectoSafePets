@@ -15,7 +15,6 @@
     <table id="tablaVacunasMascotas" class="table align-middle table-hover text-center">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Mascota</th>
           <th>Nombre Vacuna</th>
           <th>Fecha Aplicación</th>

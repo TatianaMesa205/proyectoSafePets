@@ -15,7 +15,6 @@
     <table id="tablaAdopciones" class="table align-middle table-hover text-center">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Mascota</th>
           <th>Adoptante</th>
           <th>Fecha adopción</th>
@@ -121,8 +120,18 @@
           <textarea id="txt_edit_observaciones" class="form-control rounded-3" rows="3"></textarea>
         </div>
         <div class="col-md-12">
-          <label>Contrato (PDF o imagen)</label>
-          <input type="file" id="file_edit_contrato" class="form-control rounded-3" accept=".pdf,.jpg,.jpeg,.png">
+            <label>Contrato (PDF o imagen)</label>
+
+            <!-- 🔥 ESTE ES EL LINK QUE FALTABA -->
+            <a id="linkContratoActual" 
+              href="#" 
+              target="_blank" 
+              class="btn btn-outline-primary btn-sm mb-2"
+              style="display:none;">
+              Ver contrato actual
+            </a>
+
+            <input type="file" id="file_edit_contrato" class="form-control rounded-3" accept=".pdf,.jpg,.jpeg,.png">
         </div>
       </div>
       <div class="d-flex gap-2 mt-4 justify-content-center">

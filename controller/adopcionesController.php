@@ -61,8 +61,13 @@ class AdopcionesController
     /* ========== EDITAR ========== */
     public function ctrEditarAdopcion()
     {
-        // Verificar si se subió un nuevo contrato
+        // Obtener contrato actual desde el POST
+        $contratoActual = $_POST["contrato_actual"] ?? null;
+        $this->contrato = $contratoActual; // valor por defecto
+
+        // Si suben un archivo nuevo…
         if (isset($_FILES["contrato"]) && $_FILES["contrato"]["error"] == 0) {
+
             $carpeta = "../../CarpetaCompartida/Contratos/";
             if (!file_exists($carpeta)) {
                 mkdir($carpeta, 0777, true);
@@ -72,10 +77,11 @@ class AdopcionesController
             $rutaDestino = $carpeta . $nombreArchivo;
 
             if (move_uploaded_file($_FILES["contrato"]["tmp_name"], $rutaDestino)) {
-                $this->contrato = $nombreArchivo;
+                $this->contrato = $nombreArchivo; // 🔥 reemplaza el contrato
             }
         }
 
+        // Guardar
         $objRespuesta = AdopcionesModel::mdlEditarAdopcion(
             $this->id_adopciones,
             $this->mascotas_id,
@@ -83,10 +89,12 @@ class AdopcionesController
             $this->fecha_adopcion,
             $this->estado,
             $this->observaciones,
-            $this->contrato
+            $this->contrato    // 🔥 nunca será null
         );
+
         echo json_encode($objRespuesta);
     }
+
 }
 
 /* ==============================

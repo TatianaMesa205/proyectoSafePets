@@ -92,10 +92,11 @@ class Donaciones {
                         </div>
                     `;
                     dataSet.push([
-                        item.id_usuarios,
+                        item.usuario,
+                        item.codigo_referencia,
                         item.monto,
-                        item.fecha_donacion, // Asegúrate que tu BD tenga este campo
-                        item.metodo_pago,
+                        item.estado_pago,
+                        item.fecha,
                         botones
                     ]);
                 });
@@ -165,4 +166,7 @@ class Donaciones {
             }
         });
     }
+
+
+    
 }

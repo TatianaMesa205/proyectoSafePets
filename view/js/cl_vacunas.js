@@ -28,7 +28,6 @@ class Vacunas {
                     objBotones += '</div>';
 
                     dataSet.push([
-                        item.id_vacunas,
                         item.nombre_vacuna,
                         item.tiempo_aplicacion,
                         objBotones

@@ -37,6 +37,7 @@
     <script src="view/js/vacunasMascotas.js"></script>
     <script src="view/js/publicaciones.js"></script>
     <script src="view/js/seguimientos.js"></script>
+
     <script src="https://js.stripe.com/v3/"></script>
 </body>
 </html>

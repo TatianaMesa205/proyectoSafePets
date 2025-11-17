@@ -13,7 +13,6 @@
     <table id="tablaPublicaciones" class="table align-middle table-hover text-center">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Título</th>
           <th>Descripción</th>
           <th>Fecha</th>

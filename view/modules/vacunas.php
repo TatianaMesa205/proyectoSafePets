@@ -16,7 +16,6 @@
     <table id="tablaVacunas" class="table align-middle table-hover text-center">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Nombre de la Vacuna</th>
           <th>Tiempo de la aplicación</th>
           <th>Acciones</th>

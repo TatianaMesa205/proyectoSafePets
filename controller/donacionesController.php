@@ -12,9 +12,11 @@ class DonacionesController
     
     public $id_donaciones;
     public $id_usuarios;
+    public $codigo_referencia;
     public $monto;
+    public $estado_pago;
     public $fecha;
-    public $metodo_pago;
+    
 
    
     private $stripe;
@@ -119,7 +121,7 @@ class DonacionesController
 
 
 
-if (isset($_POST["listarDonaciones"]) == "ok") {
+if (isset($_POST["listarDonaciones"]) && $_POST["listarDonaciones"] == "ok") {
     $obj = new DonacionesController();
     $obj->ctrListarDonaciones();
 }

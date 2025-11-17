@@ -37,7 +37,6 @@ class Citas {
                     objBotones += '</div>';
 
                     dataSet.push([
-                        item.id_citas,
                         item.nombre_mascota,     // nombre visible
                         item.nombre_adoptante,   // nombre visible
                         item.fecha_cita,

@@ -376,6 +376,12 @@ body {
 #tablaPublicaciones th {
   text-align: center;
 }
+#tablaSeguimientos th {
+  text-align: center;
+}
+#tablaDonaciones th {
+  text-align: center;
+}
 
 /* === Formularios === */
 .form-panel {
