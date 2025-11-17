@@ -3,6 +3,14 @@ class Publicaciones {
         this._objData = objData;
     }
 
+    /* ============================
+       RECARGAR TABLA
+    ============================= */
+    recargarTabla() {
+        let obj = new Publicaciones({ listarPublicaciones: "ok" });
+        obj.listarPublicaciones();
+    }
+
     listarPublicaciones() {
         let objData = new FormData();
         objData.append("listarPublicaciones", this._objData.listarPublicaciones);
@@ -66,16 +74,20 @@ class Publicaciones {
             method: "POST",
             body: objData
         })
-            .then(response => response.json())
-            .then(response => {
-                if (response["codigo"] == "200") {
-                    this.listarPublicaciones();
-                    Swal.fire("Eliminado", "Publicación eliminada correctamente 📰", "success");
-                } else {
-                    Swal.fire("Error", response["mensaje"], "error");
-                }
-            })
-            .catch(error => console.error("Error:", error));
+        .then(response => response.json())
+        .then(response => {
+            if (response["codigo"] == "200") {
+                this.recargarTabla();
+                Swal.fire({
+                    title:"Publicacion eliminada correctamente 🐾",
+                    color:"#ba88d1",
+                    background:"#fff",
+                    timer:1500
+                });
+            } else {
+                Swal.fire("Error", response["mensaje"], "error");
+            }
+        });
     }
 
     registrarPublicacion() {
@@ -98,7 +110,7 @@ class Publicaciones {
                     document.getElementById("formRegistroPublicacion").reset();
                     $("#panelFormularioPublicaciones").hide();
                     $("#panelTablaPublicaciones").show();
-                    this.listarPublicaciones();
+                    this.recargarTabla();
                 } else {
                     Swal.fire("Error", response["mensaje"], "error");
                 }
@@ -131,7 +143,7 @@ class Publicaciones {
                     document.getElementById("formEditarPublicacion").reset();
                     $("#panelFormularioEditarPublicaciones").hide();
                     $("#panelTablaPublicaciones").show();
-                    this.listarPublicaciones();
+                    this.recargarTabla();
                 } else {
                     Swal.fire("Error", response["mensaje"], "error");
                 }

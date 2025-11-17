@@ -1,7 +1,19 @@
 class Adopciones {
-    constructor(objData){
+    constructor(objData) {
         this._objData = objData;
     }
+
+    /* ============================
+       RECARGAR TABLA
+    ============================= */
+    recargarTabla() {
+        let obj = new Adopciones({ listarAdopciones: "ok" });
+        obj.listarAdopciones();
+    }
+
+    /* ============================
+       LISTAR
+    ============================= */
     listarAdopciones(){
         let objData = new FormData();
         objData.append("listarAdopciones", this._objData.listarAdopciones);
@@ -43,16 +55,15 @@ class Adopciones {
                         item.fecha_adopcion,
                         item.estado,
                         item.observaciones,
-                        item.contrato ? `<a href="uploads/contratos/${item.contrato}" target="_blank">Ver contrato</a>` : '—',
+                        item.contrato ? `<a href="../../../CarpetaCompartida/Contratos/${item.contrato}" target="_blank">Ver contrato</a>`: '—',
                         botones
                     ]);
 
                 });
                 $("#tablaAdopciones").DataTable({
+                    dom: "Bfrtip",
+                    responsive: true,
                     destroy:true,
-                    responsive:true,
-                    dom:"Bfrtip",
-                    buttons:["colvis","excel","pdf","print"],
                     data:dataSet
                 });
             }
@@ -64,7 +75,10 @@ class Adopciones {
         objData.append("eliminarAdopcion", this._objData.eliminarAdopcion);
         objData.append("id_adopciones", this._objData.id_adopciones);
 
-        fetch("controller/adopcionesController.php", {method:'POST',body:objData})
+        fetch("controller/adopcionesController.php", {
+            method:'POST',
+            body:objData
+        })
         .then(r=>r.json()).then(response=>{
             if(response["codigo"]=="200"){
                 this.listarAdopciones();
@@ -97,7 +111,7 @@ class Adopciones {
                 document.getElementById("formRegistroAdopcion").reset();
                 $("#panelFormularioAdopciones").hide();
                 $("#panelTablaAdopciones").show();
-                this.listarAdopciones();
+                this.recargarTabla();
                 Swal.fire({
                     title:"Adopción registrada 🐶",timer:1600});
             }else Swal.fire(response["mensaje"]);
@@ -134,7 +148,8 @@ class Adopciones {
                 document.getElementById("formEditarAdopcion").reset();
                 $("#panelFormularioEditarAdopciones").hide();
                 $("#panelTablaAdopciones").show();
-                this.listarAdopciones();
+                this.recargarTabla();
+
 
                 Swal.fire("Adopción editada correctamente 😺");
             } else {
@@ -144,49 +159,61 @@ class Adopciones {
     }
 
 
+    /* ============================
+       REGISTRAR (CON ARCHIVO)
+    ============================= */
     registrarAdopcionConArchivo() {
         fetch("controller/adopcionesController.php", {
-            method: 'POST',
-            body: this._objData // aquí el FormData con archivo
-        })
-        .then(response => response.json())
-        .then(response => {
-            if (response["codigo"] == "200") {
-            Swal.fire("Adopción registrada correctamente", "", "success");
-            $("#panelFormularioAdopciones").hide();
-            $("#panelTablaAdopciones").show();
-            this.listarAdopciones();
-            } else {
-            Swal.fire("Error", response["mensaje"], "error");
-            }
-        })
-        .catch(err => console.log(err));
-        }
-
-        editarAdopcionConArchivo() {
-        fetch("controller/adopcionesController.php", {
-            method: 'POST',
+            method: "POST",
             body: this._objData
         })
-        .then(response => response.json())
+        .then(r => r.json())
         .then(response => {
+
             if (response["codigo"] == "200") {
-            Swal.fire("Adopción actualizada correctamente", "", "success");
-            $("#panelFormularioEditarAdopciones").hide();
-            $("#panelTablaAdopciones").show();
-            this.listarAdopciones();
+                Swal.fire("Adopción registrada 🐶", "", "success");
+
+                $("#panelFormularioAdopciones").hide();
+                $("#panelTablaAdopciones").show();
+
+                this.recargarTabla();
             } else {
-            Swal.fire("Error", response["mensaje"], "error");
+                Swal.fire("Error", response["mensaje"], "error");
+            }
+        });
+    }
+
+    /* ============================
+       EDITAR (ARCHIVO OPCIONAL)
+    ============================= */
+    editarAdopcionConArchivo() {
+
+        fetch("controller/adopcionesController.php", {
+            method: "POST",
+            body: this._objData
+        })
+        .then(r => r.json())
+        .then(response => {
+
+            if (response["codigo"] == "200") {
+
+                Swal.fire("Adopción actualizada 😺", "", "success");
+
+                $("#panelFormularioEditarAdopciones").hide();
+                $("#panelTablaAdopciones").show();
+
+                this.recargarTabla();
+
+            } else {
+                Swal.fire("Error", response["mensaje"], "error");
             }
         })
         .catch(err => console.log(err));
     }
 
-
-
-
-    //SELECTS PARA FORMULARIO REGISTRAR ADOPCION
-
+    /* ============================
+       CARGAR SELECTS
+    ============================= */
     cargarSelects() {
         this.cargarMascotas();
         this.cargarAdoptantes();
@@ -197,21 +224,22 @@ class Adopciones {
         objData.append("listarMascotas", "ok");
 
         fetch("controller/mascotasController.php", {
-            method: 'POST',
+            method: "POST",
             body: objData
         })
-        .then(response => response.json())
+        .then(r => r.json())
         .then(response => {
             if (response["codigo"] == "200") {
-                let select = document.getElementById('select_mascotas');
+                let select = document.getElementById("select_mascotas");
                 select.innerHTML = '<option value="">Seleccione una mascota</option>';
-                
-                response["listaMascotas"].forEach(mascotas => {
-                    select.innerHTML += `<option value="${mascotas.id_mascotas}">${mascotas.nombre} - ${mascotas.especie}</option>`;
+
+                response["listaMascotas"].forEach(mascota => {
+                    select.innerHTML += `<option value="${mascota.id_mascotas}">
+                        ${mascota.nombre} - ${mascota.especie}
+                    </option>`;
                 });
             }
-        })
-        .catch(error => console.log(error));
+        });
     }
 
     cargarAdoptantes() {
@@ -219,69 +247,72 @@ class Adopciones {
         objData.append("listarAdoptantes", "ok");
 
         fetch("controller/adoptantesController.php", {
-            method: 'POST',
+            method: "POST",
             body: objData
         })
-        .then(response => response.json())
+        .then(r => r.json())
         .then(response => {
             if (response["codigo"] == "200") {
-                let select = document.getElementById('select_adoptantes');
+                let select = document.getElementById("select_adoptantes");
+
                 select.innerHTML = '<option value="">Seleccione un adoptante</option>';
-                
-                response["listaAdoptantes"].forEach(adoptantes => {
-                    select.innerHTML += `<option value="${adoptantes.id_adoptantes}">${adoptantes.nombre_completo}</option>`;
+
+                response["listaAdoptantes"].forEach(adoptante => {
+                    select.innerHTML += `<option value="${adoptante.id_adoptantes}">
+                        ${adoptante.nombre_completo}
+                    </option>`;
                 });
             }
-        })
-        .catch(error => console.log(error));
+        });
     }
 
+    cargarSelectsEditar(mascotaSel, adoptanteSel) {
 
-    // SELECTS PARA FORMULARIO EDITAR ADOPCION
-    cargarSelectsEditar(mascotaSeleccionada, adoptanteSeleccionado) {
-    // Cargar mascotas
-        let objDataMascotas = new FormData();
-        objDataMascotas.append("listarMascotas", "ok");
+        // Mascotas
+        let objMascotas = new FormData();
+        objMascotas.append("listarMascotas", "ok");
+
         fetch("controller/mascotasController.php", {
-            method: 'POST',
-            body: objDataMascotas
+            method: "POST",
+            body: objMascotas
         })
-        .then(response => response.json())
+        .then(r => r.json())
         .then(response => {
-            if (response["codigo"] == "200") {
-            let select = document.getElementById('select_edit_mascotas');
+
+            let select = document.getElementById("select_edit_mascotas");
             select.innerHTML = '<option value="">Seleccione una mascota</option>';
-            response["listaMascotas"].forEach(mascota => {
-                let selected = mascota.id_mascotas == mascotaSeleccionada ? "selected" : "";
-                select.innerHTML += `<option value="${mascota.id_mascotas}" ${selected}>
-                ${mascota.nombre} - ${mascota.especie}
-                </option>`;
+
+            response["listaMascotas"].forEach(m => {
+                select.innerHTML += `
+                    <option value="${m.id_mascotas}" ${m.id_mascotas == mascotaSel ? "selected" : ""}>
+                        ${m.nombre} - ${m.especie}
+                    </option>`;
             });
-            }
         });
 
-        // Cargar adoptantes
-        let objDataAdoptantes = new FormData();
-        objDataAdoptantes.append("listarAdoptantes", "ok");
+        // Adoptantes
+        let objAdopt = new FormData();
+        objAdopt.append("listarAdoptantes", "ok");
+
         fetch("controller/adoptantesController.php", {
-            method: 'POST',
-            body: objDataAdoptantes
+            method: "POST",
+            body: objAdopt
         })
-        .then(response => response.json())
+        .then(r => r.json())
         .then(response => {
-            if (response["codigo"] == "200") {
-            let select = document.getElementById('select_edit_adoptantes');
+            let select = document.getElementById("select_edit_adoptantes");
+
             select.innerHTML = '<option value="">Seleccione un adoptante</option>';
-            response["listaAdoptantes"].forEach(adoptante => {
-                let selected = adoptante.id_adoptantes == adoptanteSeleccionado ? "selected" : "";
-                select.innerHTML += `<option value="${adoptante.id_adoptantes}" ${selected}>
-                ${adoptante.nombre_completo}
-                </option>`;
+
+            response["listaAdoptantes"].forEach(a => {
+                select.innerHTML += `
+                    <option value="${a.id_adoptantes}" ${a.id_adoptantes == adoptanteSel ? "selected" : ""}>
+                        ${a.nombre_completo}
+                    </option>`;
             });
-            }
         });
+
     }
-
-
 }
+
 

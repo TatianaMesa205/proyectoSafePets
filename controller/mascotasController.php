@@ -76,13 +76,13 @@ if (isset($_POST["listarMascotas"]) && $_POST["listarMascotas"] == "ok") {
     $objMascotas->ctrListarMascotas();
 }
 
-if (isset($_POST["eliminarMascota"])) {
+if (isset($_POST["eliminarMascota"]) == "ok") {
     $objMascotas = new MascotasController();
     $objMascotas->id_mascotas = $_POST["id_mascotas"];
     $objMascotas->ctrEliminarMascota();
 }
 
-if (isset($_POST["registrarMascota"])) {
+if (isset($_POST["registrarMascota"]) == "ok") {
     $objMascotas = new MascotasController();
     $objMascotas->nombre = $_POST["nombre"];
     $objMascotas->especie = $_POST["especie"];
@@ -110,7 +110,8 @@ if (isset($_POST["registrarMascota"])) {
 }
 
 
-if (isset($_POST["editarMascota"])) {
+if (isset($_POST["editarMascota"]) && $_POST["editarMascota"] == "ok") {
+
     $objMascotas = new MascotasController();
     $objMascotas->id_mascotas = $_POST["id_mascotas"];
     $objMascotas->nombre = $_POST["nombre"];
@@ -134,11 +135,12 @@ if (isset($_POST["editarMascota"])) {
         $ruta_foto = $directorio . $nombreArchivo;
         move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta_foto);
     } else {
-        $ruta_foto = isset($_POST["imagen_actual"]) ? $_POST["foto_actual"] : "";
+        $ruta_foto = isset($_POST["imagen_actual"]) ? $_POST["imagen_actual"] : "";
     }
 
     $objMascotas->imagen = $ruta_foto;
     $objMascotas->ctrEditarMascota();
 }
+
 
 ?>

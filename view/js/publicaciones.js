@@ -55,6 +55,15 @@
         let fecha_publicacion = $(this).attr("fecha");
         let contacto = $(this).attr("contacto");
 
+        // Mostrar enlace si tiene imagen
+        if (foto) {
+            $("#linkFotoActual").attr("href", "../../../CarpetaCompartida/Publicaciones/" + foto);
+            $("#linkFotoActual").show();
+        } else {
+            $("#linkFotoActual").hide();
+        }
+
+
         $("#txt_edit_tipo").val(tipo);
         $("#txt_edit_descripcion").val(descripcion);
         $("#txt_edit_fecha_publicacion").val(fecha_publicacion);

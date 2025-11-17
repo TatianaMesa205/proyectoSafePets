@@ -30,6 +30,8 @@
     $("#panelTablaAdopciones").show();
   });
 
+  
+
   // Eliminar adopción
   $("#tablaAdopciones").on("click", "#btn-eliminarAdopcion", function () {
     Swal.fire({

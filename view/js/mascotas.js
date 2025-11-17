@@ -51,7 +51,6 @@
   $("#tablaMascotas").on("click","#btn-editarMascota",function(){
     $("#panelTablaMascotas").hide();
     $("#panelFormularioEditarMascotas").show();
-
   
     let id_mascotas = $(this).attr("mascota");
     let nombre = $(this).attr("nombre");
@@ -65,6 +64,14 @@
     let estado = $(this).attr("estado");
     let descripcion = $(this).attr("descripcion");
     let imagen = $(this).attr("imagen");
+
+    // MOSTRAR ENLACE SI EXISTE IMAGEN
+    if (imagen) {
+        $("#linkImagenActualMascota").attr("href", "../../../CarpetaCompartida/Mascotas/" + imagen)
+        $("#linkImagenActualMascota").show();
+    } else {
+        $("#linkImagenActualMascota").hide();
+    }
     
 
     $("#txt_edit_nombre").val(nombre);
@@ -122,7 +129,7 @@
 
 
     $("#formEditarMascotas").on("submit", function (event) {
-      event.preventDefault();
+        event.preventDefault();
 
         let nombre = $('#txt_edit_nombre').val();
         let especie = $('#txt_edit_especie').val();
@@ -138,24 +145,26 @@
         let imagen_actual = $('#txt_edit_imagen_actual').val();
         let id_mascotas = $("#btnEditarMascota").attr("mascota");
 
-
         let objData = {
-          nombre,
-          especie,
-          raza,
-          edad,
-          sexo,
-          tamano,
-          fecha_ingreso,
-          estado_salud,
-          estado,
-          descripcion,
-          imagen,
-          imagen_actual,
-          id_mascotas,
-        }
+            editarMascota: "ok",   // 🔥 ESTA LÍNEA ES LA QUE FALTABA
+            nombre,
+            especie,
+            raza,
+            edad,
+            sexo,
+            tamano,
+            fecha_ingreso,
+            estado_salud,
+            estado,
+            descripcion,
+            imagen,
+            imagen_actual,
+            id_mascotas
+        };
+
         let objMascota = new Mascotas(objData);
         objMascota.editarMascota();
-  })
+    });
+
 
 })();  

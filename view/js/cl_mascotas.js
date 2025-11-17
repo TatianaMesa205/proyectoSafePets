@@ -2,6 +2,15 @@ class Mascotas {
     constructor(objData){
         this._objData = objData;
     }
+
+    /* ============================
+       RECARGAR TABLA
+    ============================= */
+    recargarTabla() {
+        let obj = new Mascotas({ listarMascotas: "ok" });
+        obj.listarMascotas();
+    }
+
     listarMascotas(){
         let objData = new FormData();
         objData.append("listarMascotas",this._objData.listarMascotas);
@@ -123,7 +132,7 @@ class Mascotas {
                 formulario.reset();
                 $("#panelFormularioMascotas").hide();
                 $("#panelTablaMascotas").show();
-                this.listarMascotas();
+                this.recargarTabla();
 
                     Swal.fire({
                     title: "Mascota registrada correctamente :D",
@@ -160,7 +169,11 @@ class Mascotas {
         objDataMascota.append("estado_salud",this._objData.estado_salud);
         objDataMascota.append("estado",this._objData.estado);
         objDataMascota.append("descripcion",this._objData.descripcion);
-        objDataMascota.append("imagen",this._objData.imagen);
+        objDataMascota.append("imagen_actual",this._objData.imagen_actual);
+
+        if (this._objData.imagen) {
+            objDataMascota.append("imagen", this._objData.imagen);
+        }
 
         fetch('controller/mascotasController.php',{
             method: 'POST',
@@ -176,7 +189,7 @@ class Mascotas {
                 formulario.reset();
                 $("#panelFormularioEditarMascotas").hide();
                 $("#panelTablaMascotas").show();
-                this.listarMascotas();
+                this.recargarTabla();
 
                     Swal.fire({
                     title: "Mascota editada correctamente :D",
