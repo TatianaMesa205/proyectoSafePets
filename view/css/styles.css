@@ -40,6 +40,9 @@ body {
   padding: 10px 0;
 }
 
+
+
+
 /* --- Estilos de Adopción (adopta.php) --- */
 .cards-container {
   display: flex;
@@ -100,6 +103,10 @@ body {
   text-align: center;
 }
 
+
+
+
+
 /* --- Estilos de Citas (citasAdp.php) --- */
 .citas-page .containerCita {
   max-width: 700px;
@@ -155,6 +162,8 @@ body {
 .citas-page button:hover {
   background: #c0a18b;
 }
+
+
 
 /* --- Estilos del Footer (flooter.php) --- */
 .footer {
@@ -294,13 +303,15 @@ body {
 }
 
 
+
+
 /* === Estilo del formulario de mascotas ADMIN === */
 body {
   background-color: #f8f4ef;
   font-family: 'Poppins', sans-serif;
 }
 
-/* === Botones === */
+/* === Botones admin === */
 .btn-add {
   background-color: #d5b292;
   color: #fff;
@@ -328,7 +339,7 @@ body {
   transform: scale(1.05);
 }
 
-/* === Panel de tabla === */
+/* === Panel de tabla admin === */
 .panel-table {
   background-color: #fff;
   border-radius: 20px;

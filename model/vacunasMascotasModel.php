@@ -110,5 +110,32 @@ class VacunasMascotasModel
         }
         return $mensaje;
     }
+
+    /* ==========================================
+    LISTAR VACUNAS DE UNA MASCOTA
+    ========================================== */
+    public static function mdlListarVacunasPorMascota($id_mascotas)
+    {
+        try {
+            $sql = Conexion::conectar()->prepare("
+                SELECT 
+                    vm.fecha_aplicacion,
+                    vm.proxima_dosis,
+                    v.nombre_vacuna,
+                    v.tiempo_aplicacion
+                FROM vacunas_mascotas vm
+                INNER JOIN vacunas v ON vm.id_vacunas = v.id_vacunas
+                WHERE vm.id_mascotas = :id_mascotas
+            ");
+            $sql->bindParam(":id_mascotas", $id_mascotas, PDO::PARAM_INT);
+            $sql->execute();
+
+            return $sql->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+
 }
 ?>

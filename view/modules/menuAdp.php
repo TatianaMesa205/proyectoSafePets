@@ -30,7 +30,7 @@
     .container.text-center.my-4 {
       position: sticky;
       top: 0; /* se pega arriba cuando llega */
-      background: #f9f6f6; /* fondo para que no se mezcle con el carrusel o el contenido */
+      background: #f8f3ee; /* fondo para que no se mezcle con el carrusel o el contenido */
       z-index: 1000; /* para que quede por encima del contenido */
       padding: 10px 0;
     }
@@ -59,18 +59,28 @@
 
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://i.pinimg.com/736x/56/0b/d8/560bd8e051730a69576a5cd0dd24978b.jpg" alt="Perfil" class="rounded-circle me-2" width="38" height="40">
-            <span class="fw-bold">𝐇𝐨𝐥𝐚 𝐓𝐚𝐭𝐢𝐚𝐧𝐚</span>
+
+            <i class="fa-solid fa-circle-user me-2" style="font-size: 25px; color: #8b5e3c;"></i>
+
+            <?php echo $_SESSION['nombre_usuario']; ?>
           </a>
 
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
-            <li><a class="dropdown-item" href="perfil.php"><i class="fa-solid fa-user me-2"></i> Mi Perfil</a></li>
-            <button id="btnLogout" class="btn-logout"> <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar sesión</button>
+            <li>
+              <a class="dropdown-item" href="perfil.php">
+                <i class="fa-solid fa-user me-2"></i> Mi Perfil
+              </a>
+            </li>
+
+            <button id="btnLogout" class="btn-logout">
+              <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar sesión
+            </button>
           </ul>
         </li>
 
       </ul>
-    </div>
+    </div> 
+
   </div>
 </nav>
 
