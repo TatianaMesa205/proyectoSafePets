@@ -85,8 +85,7 @@
 
         <div class="col-md-6">
           <label>Imagen (opcional)</label>
-
-          <!-- ENLACE PARA VER LA IMAGEN ACTUAL -->
+          
           <a id="linkFotoActual" 
             href="#" 
             target="_blank" 

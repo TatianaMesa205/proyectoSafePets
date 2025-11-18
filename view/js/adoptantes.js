@@ -70,8 +70,6 @@
   })
 
 
-  'use strict'
-
   const forms = document.querySelectorAll('#formRegistroAdoptantes');
 
   Array.from(forms).forEach(form => {

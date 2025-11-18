@@ -48,7 +48,7 @@ class PublicacionesController
     }
 }
 
-/* ======================= RUTAS ======================= */
+
 
 if (isset($_POST["listarPublicaciones"]) && $_POST["listarPublicaciones"] == "ok") {
     $obj = new PublicacionesController();

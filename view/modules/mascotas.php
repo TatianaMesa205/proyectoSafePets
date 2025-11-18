@@ -165,7 +165,6 @@
         <div class="col-md-6">
           <label>Imagen (opcional)</label>
 
-          <!-- 👇 VER IMAGEN ACTUAL -->
           <a id="linkImagenActualMascota" 
             href="#" 
             target="_blank" 

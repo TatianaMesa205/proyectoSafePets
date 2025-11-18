@@ -1,37 +1,37 @@
 
 <style>
     .navbar {
-      background-color: #f0e4d8ff; /* Fondo beige suave */
+      background-color: #f0e4d8ff;
     }
     .navbar-brand {
-      font-weight: bold; /* Texto en negrita */
-      font-size: 1.7rem; /* Tamaño del texto grande */
-      color: #8b5e3c !important; /* Marrón cálido para el logo/título */
+      font-weight: bold;
+      font-size: 1.7rem; 
+      color: #8b5e3c !important; 
     }
     .nav-link {
-      color: #5a4633 !important; /* Marrón oscuro para los enlaces */
-      font-weight: 500; /* Semi-negrita */
-      transition: 0.3s; /* Suaviza los cambios de color al pasar el mouse */
+      color: #5a4633 !important; 
+      font-weight: 500;
+      transition: 0.3s;
     }
     .nav-link:hover {
-      color: #a67856 !important; /* Marrón más claro cuando pasas el mouse */
+      color: #a67856 !important;
     }
     .navbar-toggler {
-      border-color: #8b5e3c; /* Color del borde del botón hamburguesa */
+      border-color: #8b5e3c;
     }
     .navbar-toggler-icon {
       background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgb(139,94,60)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
     }
     .carousel-inner img {
-      height: 350px; /* Altura fija */
-      object-fit: cover; /* La imagen se recorta sin deformarse */
+      height: 350px;
+      object-fit: cover;
       border-radius: 200px;
     }
     .container.text-center.my-4 {
       position: sticky;
-      top: 0; /* se pega arriba cuando llega */
-      background: #f8f3ee; /* fondo para que no se mezcle con el carrusel o el contenido */
-      z-index: 1000; /* para que quede por encima del contenido */
+      top: 0;
+      background: #f8f3ee;
+      z-index: 1000;
       padding: 10px 0;
     }
     .btn-logout {

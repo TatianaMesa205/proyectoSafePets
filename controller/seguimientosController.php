@@ -43,7 +43,7 @@ class SeguimientosMascotasController
     }
 }
 
-/* ========== RUTAS ========== */
+
 
 if (isset($_POST["listarSeguimientos"]) && $_POST["listarSeguimientos"] == "ok") {
     $obj = new SeguimientosMascotasController();

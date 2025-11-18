@@ -18,6 +18,7 @@ class MascotasModel
         return $mensaje;
     }
 
+
     public static function mdlEliminarMascota($id_mascotas)
     {
         $mensaje = array();
@@ -34,6 +35,7 @@ class MascotasModel
         }
         return $mensaje;
     }
+
 
     public static function mdlRegistrarMascota($nombre, $especie, $raza, $edad, $sexo, $tamano, $fecha_ingreso, $estado_salud, $estado, $descripcion, $imagen)
     {
@@ -63,6 +65,7 @@ class MascotasModel
         }
         return $mensaje;
     }
+    
 
     public static function mdlEditarMascota($id_mascotas, $nombre, $especie, $raza, $edad, $sexo, $tamano, $fecha_ingreso, $estado_salud, $estado, $descripcion, $imagen)
     {

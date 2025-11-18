@@ -37,8 +37,8 @@ class Citas {
                     objBotones += '</div>';
 
                     dataSet.push([
-                        item.nombre_mascota,     // nombre visible
-                        item.nombre_adoptante,   // nombre visible
+                        item.nombre_mascota,
+                        item.nombre_adoptante,
                         item.fecha_cita,
                         item.estado,
                         item.motivo,
@@ -149,87 +149,73 @@ class Citas {
 
     editarCita(){
         let objDataCita = new FormData();
-
         objDataCita.append("editarCita","ok");
 
-        // id de la cita (asegúrate de pasarlo al constructor)
         if (this._objData.id_citas) {
-        objDataCita.append("id_citas", this._objData.id_citas);
+            objDataCita.append("id_citas", this._objData.id_citas);
         } else {
-        console.error("editarCita(): falta id_citas");
+            console.error("editarCita(): falta id_citas");
         }
 
-        // Mascota y adoptante (asegúrate de pasarlos desde el form)
         if (this._objData.id_mascotas) objDataCita.append("id_mascotas", this._objData.id_mascotas);
         if (this._objData.id_adoptantes) objDataCita.append("id_adoptantes", this._objData.id_adoptantes);
 
-        // Fecha: la recibimos en varios formatos posibles. Protegemos contra undefined.
-        let fechaCitaInput = this._objData.fecha_cita; // puede ser "2025-11-11T12:30" o "2025-11-11 12:30:00" etc.
+        let fechaCitaInput = this._objData.fecha_cita; 
         let fechaFormateada = null;
 
         if (fechaCitaInput && typeof fechaCitaInput === "string") {
-        // si viene con 'T' (datetime-local) -> reemplazamos y añadimos segundos
-        if (fechaCitaInput.indexOf("T") !== -1) {
-            fechaFormateada = fechaCitaInput.replace("T", " ");
-            // si viene sin segundos agrega :00
-            if (!/:..\s*$/.test(fechaFormateada) && fechaFormateada.length <= 16) {
-            fechaFormateada = fechaFormateada + ":00";
+            if (fechaCitaInput.indexOf("T") !== -1) {
+                fechaFormateada = fechaCitaInput.replace("T", " ");
+                if (!/:..\s*$/.test(fechaFormateada) && fechaFormateada.length <= 16) {
+                fechaFormateada = fechaFormateada + ":00";
+                }
+            } else if (fechaCitaInput.indexOf(" ") !== -1) {
+                fechaFormateada = fechaCitaInput;
+                if (!/:\d{2}$/.test(fechaFormateada)) {
+                fechaFormateada = fechaFormateada + ":00";
+                }
+            } else if (/^\d{4}-\d{2}-\d{2}$/.test(fechaCitaInput)) {
+                fechaFormateada = fechaCitaInput + " 00:00:00";
+            } else {
+                console.warn("editarCita(): formato de fecha inesperado:", fechaCitaInput);
             }
-        }
-        // si viene ya en formato MySQL "YYYY-MM-DD HH:mm:ss" lo usamos tal cual
-        else if (fechaCitaInput.indexOf(" ") !== -1) {
-            fechaFormateada = fechaCitaInput;
-            // si sólo trae "YYYY-MM-DD HH:mm" agregamos :00
-            if (!/:\d{2}$/.test(fechaFormateada)) {
-            fechaFormateada = fechaFormateada + ":00";
-            }
-        }
-        // si sólo trae fecha "YYYY-MM-DD" asignamos hora 00:00:00
-        else if (/^\d{4}-\d{2}-\d{2}$/.test(fechaCitaInput)) {
-            fechaFormateada = fechaCitaInput + " 00:00:00";
         } else {
-            // formato inesperado: lo imprimimos para debug y no añadimos fecha
-            console.warn("editarCita(): formato de fecha inesperado:", fechaCitaInput);
-        }
-        } else {
-        console.warn("editarCita(): fecha no proporcionada o no es string:", fechaCitaInput);
+            console.warn("editarCita(): fecha no proporcionada o no es string:", fechaCitaInput);
         }
 
         if (fechaFormateada) {
-        objDataCita.append("fecha_cita", fechaFormateada);
+            objDataCita.append("fecha_cita", fechaFormateada);
         }
 
         objDataCita.append("estado", this._objData.estado ?? "");
         objDataCita.append("motivo", this._objData.motivo ?? "");
 
         fetch('controller/citasController.php', {
-        method: 'POST',
-        body: objDataCita
+            method: 'POST',
+            body: objDataCita
         })
         .then(response => response.json())
         .catch(error => {
-        console.error("editarCita() - fetch error:", error);
-        Swal.fire("Error", "Ocurrió un error en la petición. Revisa la consola.", "error");
+            console.error("editarCita() - fetch error:", error);
+            Swal.fire("Error", "Ocurrió un error en la petición. Revisa la consola.", "error");
         })
         .then(response => {
-        if (!response) return; // si falló el parse o ya se manejó en catch
-        if (response["codigo"] == "200") {
-            let formulario = document.getElementById('formEditarCitas');
-            if (formulario) formulario.reset();
-            $("#panelFormularioEditarCitas").hide();
-            $("#panelTablaCitas").show();
-            this.listarCitas();
-            Swal.fire("Cita editada correctamente :D");
-        } else {
-            Swal.fire("Error", response["mensaje"] ?? "Error desconocido", "error");
-        }
+            if (!response) return;
+            if (response["codigo"] == "200") {
+                let formulario = document.getElementById('formEditarCitas');
+                if (formulario) formulario.reset();
+                $("#panelFormularioEditarCitas").hide();
+                $("#panelTablaCitas").show();
+                this.listarCitas();
+                Swal.fire("Cita editada correctamente :D");
+            } else {
+                Swal.fire("Error", response["mensaje"] ?? "Error desconocido", "error");
+            }
         });
     }
 
 
 
-
-//SELECTS FORMULARIO DE LA MASCOTA //
 
     cargarSelects() {
         this.cargarMascotas();
@@ -280,9 +266,9 @@ class Citas {
         .catch(error => console.log(error));
     }
 
-    // --- NUEVO MÉTODO PARA CARGAR SELECTS EN EDICIÓN ---
+
     cargarSelectsEditar(id_adoptanteSel, id_mascotaSel) {
-    // Cargar mascotas
+
     let objDataMascotas = new FormData();
     objDataMascotas.append("listarMascotas", "ok");
 
@@ -302,7 +288,7 @@ class Citas {
         }
         });
 
-    // Cargar adoptantes
+
     let objDataAdoptantes = new FormData();
     objDataAdoptantes.append("listarAdoptantes", "ok");
 

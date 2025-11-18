@@ -3,8 +3,6 @@
 session_start(); 
 
 require_once '../vendor/autoload.php';
-
-
 include_once "../model/donacionesModel.php";
 
 class DonacionesController
@@ -17,8 +15,6 @@ class DonacionesController
     public $estado_pago;
     public $fecha;
     
-
-   
     private $stripe;
 
     public function __construct() {
@@ -27,8 +23,6 @@ class DonacionesController
         $this->stripe = new \Stripe\StripeClient($clave_secreta_stripe);
     }
 
-
-   
     public function ctrRegistrarDonacion()
     {
     

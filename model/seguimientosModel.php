@@ -3,9 +3,7 @@ include_once "conexion.php";
 
 class SeguimientosMascotasModel
 {
-    /* ==========================================
-       LISTAR SEGUIMIENTOS
-    ========================================== */
+
     public static function mdlListarSeguimientos()
     {
         $mensaje = array();
@@ -40,9 +38,6 @@ class SeguimientosMascotasModel
     }
 
 
-    /* ==========================================
-       REGISTRAR SEGUIMIENTO
-    ========================================== */
     public static function mdlRegistrarSeguimiento($id_adopciones, $fecha_visita, $observacion)
     {
         $mensaje = array();
@@ -66,9 +61,7 @@ class SeguimientosMascotasModel
         return $mensaje;
     }
 
-    /* ==========================================
-       EDITAR SEGUIMIENTO
-    ========================================== */
+
     public static function mdlEditarSeguimiento($id_seguimientos, $id_adopciones, $fecha_visita, $observacion)
     {
         $mensaje = array();
@@ -94,9 +87,7 @@ class SeguimientosMascotasModel
         return $mensaje;
     }
 
-    /* ==========================================
-       ELIMINAR SEGUIMIENTO
-    ========================================== */
+
     public static function mdlEliminarSeguimiento($id_seguimientos)
     {
         $mensaje = array();

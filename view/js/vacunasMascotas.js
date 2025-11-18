@@ -8,7 +8,6 @@
         objTabla.listarVacunasMascotas();
     }
 
-    // === Botón Agregar ===
     let btnAgregar = document.getElementById("btn-AgregarVacunaMascota");
     btnAgregar.addEventListener("click", () => {
         $("#panelTablaVacunasMascotas").hide();
@@ -18,7 +17,6 @@
         obj.cargarSelects();
     });
 
-    // === Botones de regresar ===
     document.getElementById("btn-RegresarVacunaMascota").addEventListener("click", () => {
         $("#panelFormularioVacunasMascotas").hide();
         $("#panelTablaVacunasMascotas").show();
@@ -29,7 +27,7 @@
         $("#panelTablaVacunasMascotas").show();
     });
 
-    // === Eliminar ===
+
     $("#tablaVacunasMascotas").on("click", "#btn-eliminarVacunaMascota", function() {
         Swal.fire({
         title: "¿Está seguro?",
@@ -53,7 +51,6 @@
         });
     });
 
-    // === Editar ===
     $("#tablaVacunasMascotas").on("click", "#btn-editarVacunaMascota", function() {
         $("#panelTablaVacunasMascotas").hide();
         $("#panelFormularioEditarVacunasMascotas").show();
@@ -72,7 +69,6 @@
         $("#btnEditarVacunaMascota").attr("vacuna_mascota", id_vacunas_mascotas);
     });
 
-    // === Registrar ===
     const forms = document.querySelectorAll('#formRegistroVacunaMascota');
     Array.from(forms).forEach(form => {
         form.addEventListener('submit', event => {
@@ -88,11 +84,10 @@
         let fecha_aplicacion = document.getElementById('txt_fecha_aplicacion').value;
         let proxima_dosis = document.getElementById('txt_proxima_dosis').value;
 
-        // ⚠️ Verifica en consola
         console.log("Mascota:", id_mascotas, "Vacuna:", id_vacunas);
 
         let objData = {
-            "registrarVacunaMascota": "ok", // 🔹 nombre correcto
+            "registrarVacunaMascota": "ok",
             "id_mascotas": id_mascotas,
             "id_vacunas": id_vacunas,
             "fecha_aplicacion": fecha_aplicacion,
@@ -105,7 +100,6 @@
         }, false);
     });
 
-    // === Editar formulario ===
     const formsEditar = document.querySelectorAll('#formEditarVacunaMascota');
     Array.from(formsEditar).forEach(form => {
         form.addEventListener('submit', event => {

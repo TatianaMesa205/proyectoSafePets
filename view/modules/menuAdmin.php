@@ -24,8 +24,6 @@
 
 }
 
-
-
 .navbar-admin .dropdown-item {
     color: #f0e4d8;
 }

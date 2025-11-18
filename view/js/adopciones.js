@@ -8,7 +8,6 @@
     objTablaAdopciones.listarAdopciones();
   }
 
-  // Botones mostrar formularios
   let btnAgregarAdopcion = document.getElementById("btn-AgregarAdopcion");
   btnAgregarAdopcion.addEventListener("click", () => {
     $("#panelTablaAdopciones").hide();
@@ -32,7 +31,6 @@
 
   
 
-  // Eliminar adopción
   $("#tablaAdopciones").on("click", "#btn-eliminarAdopcion", function () {
     Swal.fire({
       title: "¿Está seguro?",
@@ -52,7 +50,6 @@
     });
   });
 
-  // Editar adopción
   $("#tablaAdopciones").on("click", "#btn-editarAdopcion", function () {
       $("#panelTablaAdopciones").hide();
       $("#panelFormularioEditarAdopciones").show();
@@ -75,7 +72,6 @@
       $("#txt_edit_observaciones").val(observaciones);
       $("#btnEditarAdopcion").attr("adopcion", id_adopciones);
 
-      // 🔥 MOSTRAR O OCULTAR EL CONTRATO
       if (contrato && contrato !== "null" && contrato !== "") {
           $("#linkContratoActual")
               .attr("href", `../../../CarpetaCompartida/Contratos/${contrato}`)
@@ -86,8 +82,6 @@
   });
 
 
-
-  // Registrar adopción
   const forms = document.querySelectorAll('#formRegistroAdopcion');
   Array.from(forms).forEach(form => {
     form.addEventListener('submit', event => {
@@ -106,19 +100,18 @@
         objDataAdopcion.append("mascotas_id", document.getElementById('select_mascotas').value);
         objDataAdopcion.append("adoptantes_id", document.getElementById('select_adoptantes').value);
 
-        // 👇 archivo del contrato
         let fileInput = document.getElementById('file_contrato');
         if (fileInput.files.length > 0) {
           objDataAdopcion.append("contrato", fileInput.files[0]);
         }
 
         let objAdopcion = new Adopciones(objDataAdopcion);
-        objAdopcion.registrarAdopcionConArchivo(); // método que usa fetch con formData
+        objAdopcion.registrarAdopcionConArchivo(); 
       }
     }, false);
   });
 
-  // Editar adopción
+
   const formsEditar = document.querySelectorAll('#formEditarAdopcion');
   Array.from(formsEditar).forEach(form => {
     form.addEventListener('submit', event => {
@@ -140,7 +133,6 @@
 
         objDataAdopcion.append("contrato_actual", $("#btnEditarAdopcion").attr("contrato_actual"));
 
-        // Si suben uno nuevo
         let fileInput = document.getElementById('file_edit_contrato');
         if (fileInput.files.length > 0) {
             objDataAdopcion.append("contrato", fileInput.files[0]);

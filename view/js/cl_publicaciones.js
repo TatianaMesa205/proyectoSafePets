@@ -3,9 +3,6 @@ class Publicaciones {
         this._objData = objData;
     }
 
-    /* ============================
-       RECARGAR TABLA
-    ============================= */
     recargarTabla() {
         let obj = new Publicaciones({ listarPublicaciones: "ok" });
         obj.listarPublicaciones();

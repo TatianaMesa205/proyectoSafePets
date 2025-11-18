@@ -34,9 +34,6 @@ class AdopcionesModel
     }
 
 
-    /* ============================
-       ELIMINAR ADOPCIÓN
-    ============================ */
     public static function mdlEliminarAdopcion($id_adopciones)
     {
         $mensaje = array();
@@ -84,9 +81,7 @@ class AdopcionesModel
         return $mensaje;
     }
 
-    /* ============================
-       EDITAR ADOPCIÓN
-    ============================ */
+
     public static function mdlEditarAdopcion($id_adopciones, $id_mascotas, $id_adoptantes, $fecha_adopcion, $estado, $observaciones, $contrato)
     {
         $mensaje = array();

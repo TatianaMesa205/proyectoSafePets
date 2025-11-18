@@ -29,6 +29,7 @@
         $("#panelTablaSeguimientos").show();
     });
 
+    
     $("#tablaSeguimientos").on("click","#btn-eliminarSeguimiento",function(){
         Swal.fire({
             title: "¿Está seguro?",

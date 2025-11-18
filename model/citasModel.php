@@ -4,9 +4,7 @@ include_once "conexion.php";
 
 class CitasModel
 {
-    /* ============================
-       LISTAR CITAS
-    ============================ */
+
     public static function mdlListarCitas()
     {
         $mensaje = array();
@@ -41,9 +39,7 @@ class CitasModel
         return $mensaje;
     }
 
-    /* ============================
-       ELIMINAR CITA
-    ============================ */
+
     public static function mdlEliminarCita($id_citas)
     {
         $mensaje = array();
@@ -67,9 +63,7 @@ class CitasModel
         return $mensaje;
     }
 
-    /* ============================
-       REGISTRAR CITA
-    ============================ */
+
     public static function mdlRegistrarCita($id_adoptantes, $id_mascotas, $fecha_cita, $estado, $motivo)
     {
         $mensaje = array();
@@ -98,9 +92,6 @@ class CitasModel
     }
 
 
-    /* ============================
-       EDITAR CITA
-    ============================ */
     public static function mdlEditarCita($id_citas, $id_adoptantes, $id_mascotas, $fecha_cita, $estado, $motivo)
     {
         $mensaje = array();

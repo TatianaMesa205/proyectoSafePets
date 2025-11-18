@@ -3,17 +3,11 @@ class Adopciones {
         this._objData = objData;
     }
 
-    /* ============================
-       RECARGAR TABLA
-    ============================= */
     recargarTabla() {
         let obj = new Adopciones({ listarAdopciones: "ok" });
         obj.listarAdopciones();
     }
 
-    /* ============================
-       LISTAR
-    ============================= */
     listarAdopciones(){
         let objData = new FormData();
         objData.append("listarAdopciones", this._objData.listarAdopciones);
@@ -128,13 +122,11 @@ class Adopciones {
         objData.append("estado", this._objData.estado);
         objData.append("observaciones", this._objData.observaciones);
 
-        // ARCHIVO NUEVO
         let archivoNuevo = document.getElementById("edit_contrato").files[0];
         if (archivoNuevo) {
             objData.append("contrato", archivoNuevo);
         }
-
-        // Si NO subió archivo nuevo, enviar el nombre actual
+ 
         objData.append("contrato_actual", this._objData.contrato);
 
         fetch("controller/adopcionesController.php", {
@@ -159,9 +151,6 @@ class Adopciones {
     }
 
 
-    /* ============================
-       REGISTRAR (CON ARCHIVO)
-    ============================= */
     registrarAdopcionConArchivo() {
         fetch("controller/adopcionesController.php", {
             method: "POST",
@@ -183,9 +172,6 @@ class Adopciones {
         });
     }
 
-    /* ============================
-       EDITAR (ARCHIVO OPCIONAL)
-    ============================= */
     editarAdopcionConArchivo() {
 
         fetch("controller/adopcionesController.php", {
@@ -211,9 +197,8 @@ class Adopciones {
         .catch(err => console.log(err));
     }
 
-    /* ============================
-       CARGAR SELECTS
-    ============================= */
+
+
     cargarSelects() {
         this.cargarMascotas();
         this.cargarAdoptantes();
@@ -268,7 +253,6 @@ class Adopciones {
 
     cargarSelectsEditar(mascotaSel, adoptanteSel) {
 
-        // Mascotas
         let objMascotas = new FormData();
         objMascotas.append("listarMascotas", "ok");
 
@@ -290,7 +274,6 @@ class Adopciones {
             });
         });
 
-        // Adoptantes
         let objAdopt = new FormData();
         objAdopt.append("listarAdoptantes", "ok");
 

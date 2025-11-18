@@ -3,9 +3,7 @@ include_once "conexion.php";
 
 class VacunasMascotasModel
 {
-    /* ==========================================
-       LISTAR VACUNAS APLICADAS
-    ========================================== */
+
     public static function mdlListarVacunasMascotas()
     {
         $mensaje = array();
@@ -34,9 +32,6 @@ class VacunasMascotasModel
     }
 
 
-    /* ==========================================
-       REGISTRAR VACUNA MASCOTA
-    ========================================== */
     public static function mdlRegistrarVacunaMascota($id_mascotas, $id_vacunas, $fecha_aplicacion, $proxima_dosis)
     {
         $mensaje = array();
@@ -61,9 +56,7 @@ class VacunasMascotasModel
         return $mensaje;
     }
 
-    /* ==========================================
-       EDITAR VACUNA MASCOTA
-    ========================================== */
+
     public static function mdlEditarVacunaMascota($id_vacunas_mascotas, $id_mascotas, $id_vacunas, $fecha_aplicacion, $proxima_dosis)
     {
         $mensaje = array();
@@ -90,9 +83,7 @@ class VacunasMascotasModel
         return $mensaje;
     }
 
-    /* ==========================================
-       ELIMINAR VACUNA MASCOTA
-    ========================================== */
+
     public static function mdlEliminarVacunaMascota($id_vacunas_mascotas)
     {
         $mensaje = array();
@@ -111,9 +102,7 @@ class VacunasMascotasModel
         return $mensaje;
     }
 
-    /* ==========================================
-    LISTAR VACUNAS DE UNA MASCOTA
-    ========================================== */
+
     public static function mdlListarVacunasPorMascota($id_mascotas)
     {
         try {

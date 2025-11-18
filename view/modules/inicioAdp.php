@@ -1,153 +1,143 @@
 <style>
-/* ============================
-   NUEVA SECCIÓN ABOUT ELEGANTE
-============================ */
-/* Contenedor general solo del ABOUT */
-.about-container {
-  padding: 40px 40px;
-  background: #fff7f4;
-  border-radius: 25px;
-  margin: 40px auto;
-  max-width: 1200px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-  animation: fadeIn 1.4s ease-in-out;
-}
 
-/* Títulos */
-.about-title {
-  text-align: center;
-  font-size: 2.8rem;
-  font-weight: bold;
-  color: #8b5e3c;
-  margin-top: 20px;
-  animation: slideDown 1.2s ease;
-}
+  .about-container {
+    padding: 40px 40px;
+    background: #fff7f4;
+    border-radius: 25px;
+    margin: 40px auto;
+    max-width: 1200px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    animation: fadeIn 1.4s ease-in-out;
+  }
 
-.about-subtitle {
-  text-align: center;
-  color: #ad7a52;
-  margin-bottom: 40px;
-  font-size: 1.2rem;
-  font-style: italic;
-}
+  /* Títulos */
+  .about-title {
+    text-align: center;
+    font-size: 2.8rem;
+    font-weight: bold;
+    color: #8b5e3c;
+    margin-top: 20px;
+    animation: slideDown 1.2s ease;
+  }
 
-/* Contenido principal dentro del recuadro */
-.about {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 40px;
-  flex-wrap: wrap;
-}
+  .about-subtitle {
+    text-align: center;
+    color: #ad7a52;
+    margin-bottom: 40px;
+    font-size: 1.2rem;
+    font-style: italic;
+  }
 
-.about img {
-  width: 320px;
-  height: 320px;
-  border-radius: 18px;
-  object-fit: cover;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.18);
-  animation: zoomIn 1.2s ease;
-}
+  /* Contenido principal dentro del recuadro */
+  .about {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
 
-.about-text {
-  max-width: 650px;
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #5b4636;
-  text-align: justify;
-  animation: fadeIn 1.5s ease;
-}
+  .about img {
+    width: 320px;
+    height: 320px;
+    border-radius: 18px;
+    object-fit: cover;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+    animation: zoomIn 1.2s ease;
+  }
 
-.about-text h3 {
-  font-size: 2rem;
-  color: #8b5e3c;
-  margin-bottom: 15px;
-  text-align: center;
-}
+  .about-text {
+    max-width: 650px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #5b4636;
+    text-align: justify;
+    animation: fadeIn 1.5s ease;
+  }
 
-.help-btn {
-  display: block;
-  margin: 20px auto 0;
-  padding: 12px 35px;
-  background: #d8a47f;
-  border: none;
-  border-radius: 40px;
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0px 6px 14px rgba(0,0,0,0.2);
-  animation: pulse 2s infinite;
-}
+  .about-text h3 {
+    font-size: 2rem;
+    color: #8b5e3c;
+    margin-bottom: 15px;
+    text-align: center;
+  }
 
-.help-btn:hover {
-  transform: scale(1.07);
-  background: #b68463;
-}
+  .help-btn {
+    display: block;
+    margin: 20px auto 0;
+    padding: 12px 35px;
+    background: #d8a47f;
+    border: none;
+    border-radius: 40px;
+    color: white;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0px 6px 14px rgba(0,0,0,0.2);
+    animation: pulse 2s infinite;
+  }
 
-/* Frase destacada */
-.quote-box {
-  margin: 60px auto;
-  padding: 25px 30px;
-  background: #fff3eb;
-  border-left: 5px solid #c48c60;
-  border-radius: 10px;
-  max-width: 900px;
-  text-align: center;
-  font-style: italic;
-  font-size: 1.3rem;
-  color: #6a4f3b;
-  animation: fadeIn 1.8s ease;
-}
+  .help-btn:hover {
+    transform: scale(1.07);
+    background: #b68463;
+  }
+
+  /* Frase destacada */
+  .quote-box {
+    margin: 60px auto;
+    padding: 25px 30px;
+    background: #fff3eb;
+    border-left: 5px solid #c48c60;
+    border-radius: 10px;
+    max-width: 900px;
+    text-align: center;
+    font-style: italic;
+    font-size: 1.3rem;
+    color: #6a4f3b;
+    animation: fadeIn 1.8s ease;
+  }
 
 
 
-/* Galería */
-.gallery-title {
-  text-align: center;
-  margin: 50px 0 25px;
-  font-size: 2.2rem;
-  color: #8b5e3c;
-  animation: slideDown 1.2s ease;
-}
+  /* Galería */
+  .gallery-title {
+    text-align: center;
+    margin: 50px 0 25px;
+    font-size: 2.2rem;
+    color: #8b5e3c;
+    animation: slideDown 1.2s ease;
+  }
 
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
-  gap: 25px;
-  padding: 0 40px;
-}
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+    gap: 25px;
+    padding: 0 40px;
+  }
 
-.gallery img {
-  width: 100%;
-  height: 230px;
-  border-radius: 15px;
-  object-fit: cover;
-  transition: transform .4s;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
+  .gallery img {
+    width: 100%;
+    height: 230px;
+    border-radius: 15px;
+    object-fit: cover;
+    transition: transform .4s;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
 
-.gallery img:hover {
-  transform: scale(1.05);
-}
+  .gallery img:hover {
+    transform: scale(1.05);
+  }
 
-
-
-/* Animaciones */
-@keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
-@keyframes zoomIn { from {transform: scale(0.7); opacity: 0;} to {transform: scale(1); opacity: 1;} }
-@keyframes slideDown { from {opacity: 0; transform: translateY(-15px);} to {opacity: 1; transform: translateY(0);} }
-@keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
+  
+  /* Animaciones */
+  @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+  @keyframes zoomIn { from {transform: scale(0.7); opacity: 0;} to {transform: scale(1); opacity: 1;} }
+  @keyframes slideDown { from {opacity: 0; transform: translateY(-15px);} to {opacity: 1; transform: translateY(0);} }
+  @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
 
 </style>
 
-<!-- ============================
-        CONTENIDO HTML
-============================ -->
 
-
-
-<!-- 💛 ABOUT solo esta parte dentro de un recuadro -->
 <section class="about-container">
 
   <h2 class="about-title">𝑨𝒎𝒐𝒓 𝒒𝒖𝒆 𝒔𝒂𝒏𝒂, 𝒑𝒓𝒐𝒕𝒆𝒈𝒆 𝒚 𝒕𝒓𝒂𝒏𝒔𝒇𝒐𝒓𝒎𝒂 </h2>
@@ -197,8 +187,6 @@
 <div class="quote-box">
   “No cambiamos al mundo entero… pero sí cambiamos el mundo de cada animal que rescatamos.” 🐾
 </div>
-
-
 
 
 

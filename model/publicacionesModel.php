@@ -17,6 +17,7 @@ class PublicacionesModel
         return $mensaje;
     }
 
+
     public static function mdlRegistrarPublicacion($tipo, $descripcion, $foto, $fecha_publicacion, $contacto)
     {
         $mensaje = array();
@@ -41,6 +42,7 @@ class PublicacionesModel
         }
         return $mensaje;
     }
+
 
     public static function mdlEditarPublicacion($id_publicaciones, $tipo, $descripcion, $foto, $fecha_publicacion, $contacto)
     {
@@ -67,6 +69,7 @@ class PublicacionesModel
         }
         return $mensaje;
     }
+    
 
     public static function mdlEliminarPublicacion($id_publicaciones)
     {

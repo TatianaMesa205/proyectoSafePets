@@ -3,9 +3,6 @@ class Mascotas {
         this._objData = objData;
     }
 
-    /* ============================
-       RECARGAR TABLA
-    ============================= */
     recargarTabla() {
         let obj = new Mascotas({ listarMascotas: "ok" });
         obj.listarMascotas();

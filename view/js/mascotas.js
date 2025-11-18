@@ -65,7 +65,6 @@
     let descripcion = $(this).attr("descripcion");
     let imagen = $(this).attr("imagen");
 
-    // MOSTRAR ENLACE SI EXISTE IMAGEN
     if (imagen) {
         $("#linkImagenActualMascota").attr("href", "../../../CarpetaCompartida/Mascotas/" + imagen)
         $("#linkImagenActualMascota").show();
@@ -88,9 +87,7 @@
 
 
     $("#btnEditarMascota").attr("mascota",id_mascotas);
-
   })
-
 
 
     $("#formRegistroMascotas").on("submit", function (event) {
@@ -146,7 +143,7 @@
         let id_mascotas = $("#btnEditarMascota").attr("mascota");
 
         let objData = {
-            editarMascota: "ok",   // 🔥 ESTA LÍNEA ES LA QUE FALTABA
+            editarMascota: "ok", 
             nombre,
             especie,
             raza,
@@ -165,6 +162,5 @@
         let objMascota = new Mascotas(objData);
         objMascota.editarMascota();
     });
-
 
 })();  

@@ -36,9 +36,6 @@ class DonacionesModel
     }
 
 
-    /* 2. REGISTRAR (Modificado)
-      Esta función ahora es más simple. Solo crea el registro 'pendiente'.
-    */
     public static function mdlRegistrarDonacion($id_usuarios, $monto, $codigo_referencia)
     {
         $mensaje = array();
@@ -62,6 +59,7 @@ class DonacionesModel
         }
         return $mensaje;
     }
+
 
     public static function mdlActualizarDonacionPorReferencia($codigo_referencia, $estado_pago, $transaccion_id_externa, $metodo_pago)
     {
@@ -93,7 +91,6 @@ class DonacionesModel
     }
 
 
-   
     public static function mdlEditarDonacion($id_donaciones, $id_usuarios, $monto, $fecha, $metodo_pago)
     {
         $mensaje = array();
@@ -118,6 +115,7 @@ class DonacionesModel
         }
         return $mensaje;
     }
+    
 
     public static function mdlEliminarDonacion($id_donaciones)
     {

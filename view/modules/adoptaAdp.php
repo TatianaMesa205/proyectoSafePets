@@ -5,7 +5,6 @@ $respuesta = MascotasModel::mdlListarMascotas();
 $listaMascotas = $respuesta["listaMascotas"];
 ?>
 
-
 <div class="cards-container">
 
     <?php foreach ($listaMascotas as $mascota) { ?>

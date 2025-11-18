@@ -67,9 +67,7 @@ class MascotasController
     }
 }
 
-/* =======================
-   PETICIONES AJAX
-======================= */
+
 
 if (isset($_POST["listarMascotas"]) && $_POST["listarMascotas"] == "ok") {
     $objMascotas = new MascotasController();

@@ -11,21 +11,18 @@ class AdopcionesController
     public $observaciones;
     public $contrato;
 
-    /* ========== LISTAR ========== */
     public function ctrListarAdopciones()
     {
         $objRespuesta = AdopcionesModel::mdlListarAdopciones();
         echo json_encode($objRespuesta);
     }
 
-    /* ========== ELIMINAR ========== */
     public function ctrEliminarAdopcion()
     {
         $objRespuesta = AdopcionesModel::mdlEliminarAdopcion($this->id_adopciones);
         echo json_encode($objRespuesta);
     }
 
-    /* ========== REGISTRAR ========== */
     public function ctrRegistrarAdopcion()
     {
         // Manejo del archivo (PDF o imagen)
@@ -58,14 +55,11 @@ class AdopcionesController
         echo json_encode($objRespuesta);
     }
 
-    /* ========== EDITAR ========== */
     public function ctrEditarAdopcion()
     {
-        // Obtener contrato actual desde el POST
         $contratoActual = $_POST["contrato_actual"] ?? null;
-        $this->contrato = $contratoActual; // valor por defecto
+        $this->contrato = $contratoActual; 
 
-        // Si suben un archivo nuevo…
         if (isset($_FILES["contrato"]) && $_FILES["contrato"]["error"] == 0) {
 
             $carpeta = "../../CarpetaCompartida/Contratos/";
@@ -77,11 +71,10 @@ class AdopcionesController
             $rutaDestino = $carpeta . $nombreArchivo;
 
             if (move_uploaded_file($_FILES["contrato"]["tmp_name"], $rutaDestino)) {
-                $this->contrato = $nombreArchivo; // 🔥 reemplaza el contrato
+                $this->contrato = $nombreArchivo;
             }
         }
 
-        // Guardar
         $objRespuesta = AdopcionesModel::mdlEditarAdopcion(
             $this->id_adopciones,
             $this->mascotas_id,
@@ -89,7 +82,7 @@ class AdopcionesController
             $this->fecha_adopcion,
             $this->estado,
             $this->observaciones,
-            $this->contrato    // 🔥 nunca será null
+            $this->contrato 
         );
 
         echo json_encode($objRespuesta);
@@ -97,9 +90,6 @@ class AdopcionesController
 
 }
 
-/* ==============================
-   PETICIONES AJAX
-   ============================== */
 
 if (isset($_POST["listarAdopciones"]) && $_POST["listarAdopciones"] == "ok") {
     $obj = new AdopcionesController();

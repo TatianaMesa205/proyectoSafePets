@@ -48,14 +48,14 @@
         });
   })
 
-  // --- BOTÓN EDITAR ---
+
   $("#tablaCitas").on("click", "#btn-editarCita", function () {
     $("#panelTablaCitas").hide();
     $("#panelFormularioEditarCitas").show();
 
     let id_citas = $(this).attr("citas");
-    let id_adoptantes = $(this).attr("adoptantes"); // corregido
-    let id_mascotas = $(this).attr("mascotas");     // corregido
+    let id_adoptantes = $(this).attr("adoptantes");
+    let id_mascotas = $(this).attr("mascotas");
     let estado = $(this).attr("estado");
     let motivo = $(this).attr("motivo");
 
@@ -67,14 +67,11 @@
     $("#txt_edit_motivo").val(motivo);
     $("#btnEditarCita").attr("citas", id_citas);
 
-    // Cargar selects con valores seleccionados
     let objCita = new Citas({});
     objCita.cargarSelectsEditar(id_adoptantes, id_mascotas);
   });
 
 
-
-  // Registrar cita
   const forms = document.querySelectorAll('#formRegistroCitas');
   Array.from(forms).forEach(form => {
     form.addEventListener('submit', event => {
@@ -86,7 +83,6 @@
         return;
       }
 
-      // Convertir fecha
       let fecha_cita_input = document.getElementById('txt_fecha_cita').value;
       let fecha_cita = fecha_cita_input.replace("T", " ") + ":00";
 
@@ -114,9 +110,6 @@
       objCita.registrarCita();
     }, false);
   });
-
-
-
 
 
   const formsEditarCita = document.querySelectorAll('#formEditarCitas');

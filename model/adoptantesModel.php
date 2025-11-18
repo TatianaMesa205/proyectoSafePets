@@ -63,6 +63,7 @@ class AdoptantesModel
         }
         return $mensaje;
     }
+    
 
     public static function mdlEditarAdoptante($id_adoptantes, $nombre_completo, $cedula, $telefono, $email, $direccion)
     {

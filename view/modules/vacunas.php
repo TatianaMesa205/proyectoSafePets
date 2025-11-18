@@ -3,7 +3,6 @@
     <i class="fas fa-syringe"></i> Gestión de Vacunas
   </h2>
 
-
   <!-- Botón agregar -->
   <div class="d-flex justify-content-end mb-3">
     <button id="btn-AgregarVacuna" class="btn btn-add">
