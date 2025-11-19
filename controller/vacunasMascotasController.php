@@ -46,7 +46,7 @@ class VacunasMascotasController
     }
 }
 
-/* ========== RUTAS ========== */
+
 
 if (isset($_POST["listarVacunasMascotas"]) == "ok") {
     $obj = new VacunasMascotasController();

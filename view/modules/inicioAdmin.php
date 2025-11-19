@@ -1,58 +1,95 @@
 <style>
+    /* --- CONTENEDOR GENERAL --- */
     .admin-dashboard {
-        padding: 0 30px 30px 30px;
+        padding: 20px 30px 40px 30px;
+        background: #fef9f6;
     }
+
+    /* --- TARJETAS SUPERIORES --- */
     .stat-card {
-        background: #f0e4d8;
+        background: #f4e7dd;
         border: none;
-        border-radius: 15px;
+        border-radius: 18px;
         color: #4b3832;
-        transition: transform 0.2s, box-shadow 0.2s;
+        padding: 18px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
     }
+
     .stat-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        transform: translateY(-6px);
+        box-shadow: 0 12px 25px rgba(0,0,0,0.15);
     }
+
     .stat-card .card-body {
         display: flex;
         align-items: center;
         justify-content: space-between;
     }
+
     .stat-card i {
-        font-size: 3rem;
-        opacity: 0.5;
+        font-size: 3.2rem;
+        opacity: 0.4;
     }
+
     .stat-card h3 {
-        font-size: 2.5rem;
+        font-size: 2.7rem;
         font-weight: 700;
+        margin-bottom: 3px;
     }
+
+    /* --- TÍTULO DE ACCESOS RÁPIDOS --- */
+    .dashboard-title {
+        color: #4b3832;
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 18px;
+        margin-top: 25px;
+    }
+
+    /* --- BOTONES (Quick Links) --- */
     .quick-link {
         display: block;
-        background: #fff;
-        border: 1px solid #eee;
-        padding: 20px;
+        background: #ffffff;
+        border: none;
+        padding: 28px 20px;
         text-align: center;
-        border-radius: 10px;
+        border-radius: 16px;
         text-decoration: none;
         color: #5c4b3b;
         font-weight: 600;
-        transition: all 0.2s;
+        font-size: 1.05rem;
+        transition: 0.25s ease;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.07);
     }
+
     .quick-link:hover {
-        background: #f9f4f3;
+        background: #f4e7dd;
         color: #4b3832;
-        transform: translateY(-3px);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.12);
     }
+
     .quick-link i {
-        font-size: 2rem;
+        font-size: 2.3rem;
         display: block;
-        margin-bottom: 10px;
+        margin-bottom: 12px;
+        opacity: 0.85;
     }
+
+    /* Centrado automático de la última fila */
+    .quick-row-last {
+        justify-content: center;
+        margin-top: 10px;
+    }
+
 </style>
 
 <div class="admin-dashboard container-fluid">
 
+    <!-- TARJETAS SUPERIORES -->
     <div class="row mb-4 g-4">
+
         <div class="col-md-4">
             <div class="stat-card">
                 <div class="card-body">
@@ -64,6 +101,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-4">
             <div class="stat-card">
                 <div class="card-body">
@@ -75,6 +113,7 @@
                 </div>
             </div>
         </div>
+
         <div class="col-md-4">
             <div class="stat-card">
                 <div class="card-body">
@@ -86,71 +125,90 @@
                 </div>
             </div>
         </div>
+
     </div>
 
-    <h3 class="mb-3">Accesos Rápidos</h3>
+    <!-- TÍTULO -->
+    <h3 class="dashboard-title">Accesos Rápidos</h3>
+
+    <!-- PRIMER BLOQUE -->
     <div class="row g-4">
+
         <div class="col-md-3">
-            <a href="mascotas" class="quick-link" onclick="mascotas()">
+            <a href="mascotas" class="quick-link">
                 <i class="fas fa-dog"></i>
-                <span>Gestionar Mascotas</span>
+                Gestionar Mascotas
             </a>
         </div>
 
         <div class="col-md-3">
-            <a href="adoptantes" class="quick-link" onclick="adoptantes()">
+            <a href="adoptantes" class="quick-link">
                 <i class="fas fa-user-cog"></i>
-                <span>Gestionar Adoptantes</span>
+                Gestionar Adoptantes
             </a>
         </div>
 
         <div class="col-md-3">
-            <a href="adopciones" class="quick-link" onclick="adopciones()">
+            <a href="adopciones" class="quick-link">
                 <i class="fas fa-hand-holding-heart"></i>
-                <span>Gestión de Adopciones</span>
+                Gestión de Adopciones
             </a>
         </div>
 
         <div class="col-md-3">
-            <a href="citas" class="quick-link" onclick="citas()">
+            <a href="citas" class="quick-link">
                 <i class="fas fa-calendar-alt"></i>
-                <span>Gestión de Citas</span>
+                Gestión de Citas
             </a>
         </div>
 
         <div class="col-md-3">
-            <a href="vacunas" class="quick-link" onclick="vacunas()">
+            <a href="vacunas" class="quick-link">
                 <i class="fas fa-syringe"></i>
-                <span>Control de Vacunas</span>
+                Control de Vacunas
             </a>
         </div>
 
         <div class="col-md-3">
-            <a href="vacunasMascotas" class="quick-link" onclick="vacunasMascotas()">
-                <i class="fas fa-clipboard-list"></i>
-                <span>Vacunas de la mascota</span>
+            <a href="vacunasMascotas" class="quick-link">
+                <i class="fas fa-notes-medical"></i>
+                Vacunas de la mascota
             </a>
         </div>
 
         <div class="col-md-3">
-            <a href="publicaciones" class="quick-link" onclick="publicaciones()">
+            <a href="publicaciones" class="quick-link">
                 <i class="fas fa-bullhorn"></i>
-                <span>Publicaciones</span>
+                Publicaciones
             </a>
         </div>
 
         <div class="col-md-3">
-            <a href="seguimientos" class="quick-link" onclick="seguimientos()">
+            <a href="seguimientos" class="quick-link">
                 <i class="fas fa-clipboard-list"></i>
-                <span>Seguimientos</span>
+                Seguimientos
             </a>
         </div>
-        
+
+    </div>
+
+    <!-- ÚLTIMA FILA CENTRADA -->
+    <div class="row g-4 quick-row-last">
+
+        <div class="col-md-3">
+            <a href="donaciones" class="quick-link">
+                <i class="fas fa-hand-holding-usd"></i>
+                Gestión de Donaciones
+            </a>
+        </div>
+
         <div class="col-md-3">
             <a href="#" class="quick-link" onclick="crearAdmin()">
                 <i class="fas fa-user-shield"></i>
-                <span>Crear Nuevo Admin</span>
+                Crear Nuevo Admin
             </a>
         </div>
+
     </div>
+
 </div>

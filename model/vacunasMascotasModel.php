@@ -3,9 +3,7 @@ include_once "conexion.php";
 
 class VacunasMascotasModel
 {
-    /* ==========================================
-       LISTAR VACUNAS APLICADAS
-    ========================================== */
+
     public static function mdlListarVacunasMascotas()
     {
         $mensaje = array();
@@ -34,9 +32,6 @@ class VacunasMascotasModel
     }
 
 
-    /* ==========================================
-       REGISTRAR VACUNA MASCOTA
-    ========================================== */
     public static function mdlRegistrarVacunaMascota($id_mascotas, $id_vacunas, $fecha_aplicacion, $proxima_dosis)
     {
         $mensaje = array();
@@ -61,9 +56,7 @@ class VacunasMascotasModel
         return $mensaje;
     }
 
-    /* ==========================================
-       EDITAR VACUNA MASCOTA
-    ========================================== */
+
     public static function mdlEditarVacunaMascota($id_vacunas_mascotas, $id_mascotas, $id_vacunas, $fecha_aplicacion, $proxima_dosis)
     {
         $mensaje = array();
@@ -90,9 +83,7 @@ class VacunasMascotasModel
         return $mensaje;
     }
 
-    /* ==========================================
-       ELIMINAR VACUNA MASCOTA
-    ========================================== */
+
     public static function mdlEliminarVacunaMascota($id_vacunas_mascotas)
     {
         $mensaje = array();
@@ -110,5 +101,30 @@ class VacunasMascotasModel
         }
         return $mensaje;
     }
+
+
+    public static function mdlListarVacunasPorMascota($id_mascotas)
+    {
+        try {
+            $sql = Conexion::conectar()->prepare("
+                SELECT 
+                    vm.fecha_aplicacion,
+                    vm.proxima_dosis,
+                    v.nombre_vacuna,
+                    v.tiempo_aplicacion
+                FROM vacunas_mascotas vm
+                INNER JOIN vacunas v ON vm.id_vacunas = v.id_vacunas
+                WHERE vm.id_mascotas = :id_mascotas
+            ");
+            $sql->bindParam(":id_mascotas", $id_mascotas, PDO::PARAM_INT);
+            $sql->execute();
+
+            return $sql->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (Exception $e) {
+            return [];
+        }
+    }
+
 }
 ?>

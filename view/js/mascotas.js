@@ -51,7 +51,6 @@
   $("#tablaMascotas").on("click","#btn-editarMascota",function(){
     $("#panelTablaMascotas").hide();
     $("#panelFormularioEditarMascotas").show();
-
   
     let id_mascotas = $(this).attr("mascota");
     let nombre = $(this).attr("nombre");
@@ -65,28 +64,39 @@
     let estado = $(this).attr("estado");
     let descripcion = $(this).attr("descripcion");
     let imagen = $(this).attr("imagen");
+
+    if (imagen) {
+        $("#linkImagenActualMascota").attr("href", "../../../CarpetaCompartida/Mascotas/" + imagen)
+        $("#linkImagenActualMascota").show();
+    } else {
+        $("#linkImagenActualMascota").hide();
+    }
     
 
     $("#txt_edit_nombre").val(nombre);
     $("#txt_edit_especie").val(especie);
     $("#txt_edit_raza").val(raza);
     $("#txt_edit_edad").val(edad);
-    $("#txt_edit_sexo").val(sexo);
-    $("#txt_edit_tamano").val(tamano);
+    $("#select_edit_sexo").val(sexo);
+    $("#select_edit_tamano").val(tamano);
     $("#txt_edit_fecha_ingreso").val(fecha_ingreso);
     $("#txt_edit_estado_salud").val(estado_salud);
-    $("#txt_edit_estado").val(estado);
+    $("#select_edit_estado").val(estado);
     $("#txt_edit_descripcion").val(descripcion);
     $("#txt_edit_imagen").val(imagen);
 
     $("#btnEditarMascota").attr("mascota",id_mascotas);
-
   })
 
 
+<<<<<<< HEAD
   'use strict'
 
   const forms = document.querySelectorAll('#formRegistroMascotas');
+=======
+    $("#formRegistroMascotas").on("submit", function (event) {
+      event.preventDefault();
+>>>>>>> 354623cf7111537f61cf68dd3fb3ea198dcbe365
 
   Array.from(forms).forEach(form => {
     form.addEventListener('submit', event => {
@@ -133,8 +143,13 @@
 
   const formsEditarMascota = document.querySelectorAll('#formEditarMascotas');
 
+<<<<<<< HEAD
   Array.from(formsEditarMascota).forEach(form => {
     form.addEventListener('submit', event => {
+=======
+    $("#formEditarMascotas").on("submit", function (event) {
+        event.preventDefault();
+>>>>>>> 354623cf7111537f61cf68dd3fb3ea198dcbe365
 
     event.preventDefault()
       if (!form.checkValidity()) {
@@ -155,8 +170,8 @@
         let imagen = document.getElementById('txt_edit_imagen').value;
         let id_mascotas = $("#btnEditarMascota").attr("mascota");
 
-
         let objData = {
+<<<<<<< HEAD
           "editarMascota":"ok",
           "nombre": nombre,
           "especie": especie,
@@ -177,5 +192,26 @@
       }
     }, false)
   })
+=======
+            editarMascota: "ok", 
+            nombre,
+            especie,
+            raza,
+            edad,
+            sexo,
+            tamano,
+            fecha_ingreso,
+            estado_salud,
+            estado,
+            descripcion,
+            imagen,
+            imagen_actual,
+            id_mascotas
+        };
+
+        let objMascota = new Mascotas(objData);
+        objMascota.editarMascota();
+    });
+>>>>>>> 354623cf7111537f61cf68dd3fb3ea198dcbe365
 
 })()  

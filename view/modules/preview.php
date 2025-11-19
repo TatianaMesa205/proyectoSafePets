@@ -67,7 +67,7 @@
     </div>
 </section>
 
-<?php include __DIR__ . '/flooter.php'; // Corrected path to include the footer ?>
+<?php include __DIR__ . '/flooter.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

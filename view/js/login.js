@@ -2,9 +2,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const formLogin = document.getElementById("formLogin")
   const formRegistro = document.getElementById("formRegistro")
   const btnLogout = document.getElementById("btnLogout")
-  const Swal = window.Swal // Declare the Swal variable
+  const Swal = window.Swal
 
-  // Manejo del formulario de login
+
   if (formLogin) {
     formLogin.addEventListener("submit", function (e) {
       e.preventDefault()

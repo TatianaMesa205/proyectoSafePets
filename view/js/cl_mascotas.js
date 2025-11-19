@@ -2,6 +2,12 @@ class Mascotas {
     constructor(objData){
         this._objData = objData;
     }
+
+    recargarTabla() {
+        let obj = new Mascotas({ listarMascotas: "ok" });
+        obj.listarMascotas();
+    }
+
     listarMascotas(){
         let objData = new FormData();
         objData.append("listarMascotas",this._objData.listarMascotas);
@@ -25,8 +31,7 @@ class Mascotas {
                     objBotones += '<button id="btn-eliminarMascota" type="button" style="background-color:rgba(112, 110, 120, 1); color:white" class="btn" mascota="'+item.id_mascotas+'"><i class="bi bi-trash"></i></button>';
                     objBotones += '</div>';
 
-                    dataSet.push([
-                        item.id_mascotas,  
+                    dataSet.push([ 
                         item.nombre,
                         item.especie,
                         item.raza,
@@ -124,7 +129,7 @@ class Mascotas {
                 formulario.reset();
                 $("#panelFormularioMascotas").hide();
                 $("#panelTablaMascotas").show();
-                this.listarMascotas();
+                this.recargarTabla();
 
                     Swal.fire({
                     title: "Mascota registrada correctamente :D",
@@ -161,7 +166,11 @@ class Mascotas {
         objDataMascota.append("estado_salud",this._objData.estado_salud);
         objDataMascota.append("estado",this._objData.estado);
         objDataMascota.append("descripcion",this._objData.descripcion);
-        objDataMascota.append("imagen",this._objData.imagen);
+        objDataMascota.append("imagen_actual",this._objData.imagen_actual);
+
+        if (this._objData.imagen) {
+            objDataMascota.append("imagen", this._objData.imagen);
+        }
 
         fetch('controller/mascotasController.php',{
             method: 'POST',
@@ -177,7 +186,7 @@ class Mascotas {
                 formulario.reset();
                 $("#panelFormularioEditarMascotas").hide();
                 $("#panelTablaMascotas").show();
-                this.listarMascotas();
+                this.recargarTabla();
 
                     Swal.fire({
                     title: "Mascota editada correctamente :D",

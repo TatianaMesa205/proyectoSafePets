@@ -7,25 +7,35 @@ class DonacionesModel
     {
         $mensaje = array();
         try {
-            $objRespuesta = Conexion::conectar()->prepare("
-                SELECT d.id_donaciones, d.monto, d.fecha, d.metodo_pago, 
-                       u.nombre_usuario AS usuario, d.estado_pago, d.codigo_referencia
+            $sql = "
+                SELECT 
+                    d.id_donaciones,
+                    d.id_usuarios,
+                    d.codigo_referencia,
+                    d.monto,
+                    d.estado_pago,
+                    d.transaccion_id_externa,
+                    d.fecha,
+                    d.metodo_pago,
+                    u.nombre_usuario AS usuario
                 FROM donaciones d
-                JOIN usuarios u ON u.id_usuarios = d.id_usuarios
+                INNER JOIN usuarios u ON u.id_usuarios = d.id_usuarios
                 ORDER BY d.id_donaciones DESC
-            ");
+            ";
+
+            $objRespuesta = Conexion::conectar()->prepare($sql);
             $objRespuesta->execute();
             $lista = $objRespuesta->fetchAll(PDO::FETCH_ASSOC);
+
             $mensaje = array("codigo" => "200", "listaDonaciones" => $lista);
+
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
         }
         return $mensaje;
     }
 
-    /* 2. REGISTRAR (Modificado)
-      Esta función ahora es más simple. Solo crea el registro 'pendiente'.
-    */
+
     public static function mdlRegistrarDonacion($id_usuarios, $monto, $codigo_referencia)
     {
         $mensaje = array();
@@ -49,6 +59,7 @@ class DonacionesModel
         }
         return $mensaje;
     }
+
 
     public static function mdlActualizarDonacionPorReferencia($codigo_referencia, $estado_pago, $transaccion_id_externa, $metodo_pago)
     {
@@ -80,7 +91,6 @@ class DonacionesModel
     }
 
 
-   
     public static function mdlEditarDonacion($id_donaciones, $id_usuarios, $monto, $fecha, $metodo_pago)
     {
         $mensaje = array();
@@ -105,6 +115,7 @@ class DonacionesModel
         }
         return $mensaje;
     }
+    
 
     public static function mdlEliminarDonacion($id_donaciones)
     {

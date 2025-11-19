@@ -22,12 +22,15 @@ if (!isset($_SESSION["iniciarSesion"])) {
 include "view/modules/cabecera.php";
 
 
-if ($_SESSION["rol"] === "admin") {
-    include "view/modules/menuAdmin.php";
-} else {
-    include "view/modules/menuAdp.php";
-}
+if ($ruta !== "detalleMascota") {
 
+    if ($_SESSION["rol"] === "admin") {
+        include "view/modules/menuAdmin.php";
+    } else {
+        include "view/modules/menuAdp.php";
+    }
+
+}
 
 
 $rutasAdoptante = ["inicioAdp", "adoptaAdp", "citasAdp", "donacionesAdp", "detalleMascota", "publicaciones"];

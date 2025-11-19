@@ -26,7 +26,6 @@ class Adoptantes {
                     objBotones += '</div>';
 
                     dataSet.push([
-                        item.id_adoptantes,
                         item.nombre_completo,
                         item.cedula,
                         item.telefono,

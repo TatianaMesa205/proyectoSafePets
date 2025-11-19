@@ -7,7 +7,6 @@
         objTabla.listarPublicaciones();
     }
 
-    // Mostrar formularios
     $("#btn-AgregarPublicacion").on("click", () => {
         $("#panelTablaPublicaciones").hide();
         $("#panelFormularioPublicaciones").show();
@@ -23,7 +22,7 @@
         $("#panelTablaPublicaciones").show();
     });
 
-    // 🗑️ Eliminar
+
     $("#tablaPublicaciones").on("click", "#btn-eliminarPublicacion", function () {
         Swal.fire({
             title: "¿Está seguro?",
@@ -43,7 +42,6 @@
         });
     });
 
-    // ✏️ Editar
     $("#tablaPublicaciones").on("click", "#btn-editarPublicacion", function () {
         $("#panelTablaPublicaciones").hide();
         $("#panelFormularioEditarPublicaciones").show();
@@ -55,6 +53,14 @@
         let fecha_publicacion = $(this).attr("fecha");
         let contacto = $(this).attr("contacto");
 
+        if (foto) {
+            $("#linkFotoActual").attr("href", "../../../CarpetaCompartida/Publicaciones/" + foto);
+            $("#linkFotoActual").show();
+        } else {
+            $("#linkFotoActual").hide();
+        }
+
+
         $("#txt_edit_tipo").val(tipo);
         $("#txt_edit_descripcion").val(descripcion);
         $("#txt_edit_fecha_publicacion").val(fecha_publicacion);
@@ -63,7 +69,6 @@
         $("#txt_edit_foto_actual").val(foto);
     });
 
-    // 🐾 Registrar
     $("#formRegistroPublicacion").on("submit", function (event) {
         event.preventDefault();
 
@@ -78,7 +83,6 @@
         obj.registrarPublicacion();
     });
 
-    // 📝 Editar
     $("#formEditarPublicacion").on("submit", function (event) {
         event.preventDefault();
 

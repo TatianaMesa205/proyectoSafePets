@@ -1,6 +1,5 @@
 <?php
 
-
 session_start();
 include_once "../model/loginModel.php";
 
@@ -9,7 +8,6 @@ header('Content-Type: application/json');
 
 class LoginControlador {
 
-    // --- FUNCIÓN DE INICIO DE SESIÓN ---
     public function ctrLogin() {
         try {
             if (!isset($_POST['nombre_usuario'], $_POST['contrasena'])) {
@@ -41,7 +39,7 @@ class LoginControlador {
         }
     }
 
-    // --- FUNCIÓN DE REGISTRO (Solo para rol "adoptante") ---
+
     public function ctrRegistro() {
         try {
             if (!isset($_POST['nombre_usuario'], $_POST['email'], $_POST['contrasena'])) {
@@ -63,7 +61,6 @@ class LoginControlador {
                 throw new Exception("La contraseña debe tener al menos 6 caracteres.");
             }
             
-            // Llama al modelo para registrar (el modelo le asignará el rol de adoptante por defecto)
             $respuesta = LoginModelo::mdlRegistrarUsuario($nombre_usuario, $email, $contrasena);
             echo json_encode($respuesta);
 
@@ -72,9 +69,8 @@ class LoginControlador {
         }
     }
 
-    // --- FUNCIÓN PARA CREAR NUEVOS ADMINS (Desde el panel de otro admin) ---
+
     public function ctrCrearAdmin() {
-        // La lógica aquí es correcta: solo un admin logueado puede ejecutar esto.
         if (isset($_SESSION['iniciarSesion']) && $_SESSION['rol'] === 'admin') {
              if (isset($_POST['nombre_usuario'], $_POST['email'], $_POST['contrasena'])) {
                 $nombre_usuario = trim($_POST['nombre_usuario']);
@@ -88,7 +84,7 @@ class LoginControlador {
         }
     }
 
-    // --- FUNCIÓN DE CERRAR SESIÓN ---
+
     public function ctrLogout() {
         session_unset();
         session_destroy();
@@ -97,8 +93,6 @@ class LoginControlador {
 }
 
 
-// --- MANEJADOR DE ACCIONES ---
-// Este bloque dirige la petición de JavaScript a la función correcta.
 if (isset($_POST['accion'])) {
     $login = new LoginControlador();
     switch ($_POST['accion']) {

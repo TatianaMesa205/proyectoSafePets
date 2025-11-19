@@ -3,7 +3,6 @@
     <i class="fas fa-syringe"></i> Gestión de Vacunas
   </h2>
 
-
   <!-- Botón agregar -->
   <div class="d-flex justify-content-end mb-3">
     <button id="btn-AgregarVacuna" class="btn btn-add">
@@ -16,7 +15,6 @@
     <table id="tablaVacunas" class="table align-middle table-hover text-center">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Nombre de la Vacuna</th>
           <th>Tiempo de la aplicación</th>
           <th>Acciones</th>

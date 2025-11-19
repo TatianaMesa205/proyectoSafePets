@@ -13,7 +13,6 @@
     <table id="tablaPublicaciones" class="table align-middle table-hover text-center">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Título</th>
           <th>Descripción</th>
           <th>Fecha</th>
@@ -79,15 +78,25 @@
           <textarea id="txt_edit_descripcion" name="descripcion" class="form-control rounded-3" rows="4" required></textarea>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-6" style="margin-top:22px;">
           <label>Contacto</label>
-          <input type="text" id="txt_edit_contacto" name="contacto" class="form-control rounded-3" required>
+          <input type="text" id="txt_edit_contacto" name="contacto" class="form-control rounded-3" required style="margin-top:10px;">
         </div>
 
         <div class="col-md-6">
           <label>Imagen (opcional)</label>
+          
+          <a id="linkFotoActual" 
+            href="#" 
+            target="_blank" 
+            class="btn btn-outline-primary btn-sm mb-2"
+            style="display:none; margin-top: 1px;">
+              Ver imagen actual
+          </a>
+
           <input type="file" id="txt_edit_foto" name="foto" class="form-control rounded-3" accept=".jpg,.jpeg,.png">
-        </div>
+      </div>
+
       </div>
 
       <div class="d-flex gap-2 mt-4 justify-content-center">

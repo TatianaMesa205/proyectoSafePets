@@ -26,7 +26,7 @@
         $("#panelTablaVacunas").show();
     });
 
-    // Eliminar vacuna
+
     $("#tablaVacunas").on("click","#btn-eliminarVacuna",function(){
         Swal.fire({
             title: "¿Está seguro?",
@@ -46,7 +46,6 @@
         });
     });
 
-    // Editar vacuna
     $("#tablaVacunas").on("click","#btn-editarVacuna",function(){
         $("#panelTablaVacunas").hide();
         $("#panelFormularioEditarVacunas").show();
@@ -60,7 +59,6 @@
         $("#btnEditarVacuna").attr("vacuna",id_vacunas);
     });
 
-    // Registrar vacuna
     const forms = document.querySelectorAll('#formRegistroVacuna');
     Array.from(forms).forEach(form=>{
         form.addEventListener('submit',event=>{
@@ -79,7 +77,6 @@
         },false);
     });
 
-    // Editar vacuna
     const formsEditar = document.querySelectorAll('#formEditarVacuna');
     Array.from(formsEditar).forEach(form=>{
         form.addEventListener('submit',event=>{

@@ -1,6 +1,6 @@
 <div class="container py-4">
   <h2 class="text-center mb-4 text-dark fw-bold">
-    <i class="fas fa-dog"></i> Gestión de Adoptantes
+    <i class="fas fa-user-cog"></i> Gestión de Adoptantes
   </h2>
 
   <!-- Botón agregar -->
@@ -15,7 +15,6 @@
     <table id="tablaAdoptantes" class="table align-middle table-hover text-center">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Nombre completo</th>
           <th>Cédula</th>
           <th>Teléfono</th>

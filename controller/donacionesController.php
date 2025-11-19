@@ -3,8 +3,6 @@
 session_start(); 
 
 require_once '../vendor/autoload.php';
-
-
 include_once "../model/donacionesModel.php";
 
 class DonacionesController
@@ -12,11 +10,12 @@ class DonacionesController
     
     public $id_donaciones;
     public $id_usuarios;
+    public $codigo_referencia;
     public $monto;
+    public $estado_pago;
     public $fecha;
     public $metodo_pago;
-
-   
+    
     private $stripe;
 
     public function __construct() {
@@ -25,8 +24,6 @@ class DonacionesController
         $this->stripe = new \Stripe\StripeClient($clave_secreta_stripe);
     }
 
-
-   
     public function ctrRegistrarDonacion()
     {
     
@@ -119,7 +116,7 @@ class DonacionesController
 
 
 
-if (isset($_POST["listarDonaciones"]) == "ok") {
+if (isset($_POST["listarDonaciones"]) && $_POST["listarDonaciones"] == "ok") {
     $obj = new DonacionesController();
     $obj->ctrListarDonaciones();
 }

@@ -15,7 +15,6 @@
     <table id="tablaMascotas" class="table align-middle table-hover text-center">
       <thead>
         <tr>
-          <th>ID</th>
           <th>Nombre</th>
           <th>Especie</th>
           <th>Raza</th>
@@ -155,9 +154,9 @@
           <label>Descripción de la mascota</label>
           <textarea class="form-control rounded-3" id="txt_edit_descripcion" rows="3" required></textarea>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6" style="margin-top:22px;">
           <label>Estado</label>
-          <select id="select_edit_estado" class="form-select rounded-3" required>
+          <select id="select_edit_estado" class="form-select rounded-3" required style="margin-top:10px;">
             <option value="">Seleccione</option>
             <option value="Disponible">Disponible</option>
             <option value="Adoptado">Adoptado</option>
@@ -165,8 +164,17 @@
         </div>
         <div class="col-md-6">
           <label>Imagen (opcional)</label>
+
+          <a id="linkImagenActualMascota" 
+            href="#" 
+            target="_blank" 
+            class="btn btn-outline-primary btn-sm mb-2"
+            style="display:none; margin-top: 1px;">
+            Ver imagen actual
+          </a>
           <input type="file" id="txt_edit_imagen" name="imagen" class="form-control rounded-3" accept=".jpg,.jpeg,.png">
-        </div>
+      </div>
+
       </div>
       <div class="d-flex gap-2 mt-4 justify-content-center">
         <button id="btnEditarMascota" class="btn btn-save" type="submit">Guardar Cambios</button>

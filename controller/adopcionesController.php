@@ -11,27 +11,24 @@ class AdopcionesController
     public $observaciones;
     public $contrato;
 
-    /* ========== LISTAR ========== */
     public function ctrListarAdopciones()
     {
         $objRespuesta = AdopcionesModel::mdlListarAdopciones();
         echo json_encode($objRespuesta);
     }
 
-    /* ========== ELIMINAR ========== */
     public function ctrEliminarAdopcion()
     {
         $objRespuesta = AdopcionesModel::mdlEliminarAdopcion($this->id_adopciones);
         echo json_encode($objRespuesta);
     }
 
-    /* ========== REGISTRAR ========== */
     public function ctrRegistrarAdopcion()
     {
         // Manejo del archivo (PDF o imagen)
         $nombreArchivo = null;
         if (isset($_FILES["contrato"]) && $_FILES["contrato"]["error"] == 0) {
-            $carpeta = "../uploads/contratos/";
+            $carpeta = "../../CarpetaCompartida/Contratos/";
             if (!file_exists($carpeta)) {
                 mkdir($carpeta, 0777, true);
             }
@@ -58,12 +55,14 @@ class AdopcionesController
         echo json_encode($objRespuesta);
     }
 
-    /* ========== EDITAR ========== */
     public function ctrEditarAdopcion()
     {
-        // Verificar si se subió un nuevo contrato
+        $contratoActual = $_POST["contrato_actual"] ?? null;
+        $this->contrato = $contratoActual; 
+
         if (isset($_FILES["contrato"]) && $_FILES["contrato"]["error"] == 0) {
-            $carpeta = "../uploads/contratos/";
+
+            $carpeta = "../../CarpetaCompartida/Contratos/";
             if (!file_exists($carpeta)) {
                 mkdir($carpeta, 0777, true);
             }
@@ -83,15 +82,14 @@ class AdopcionesController
             $this->fecha_adopcion,
             $this->estado,
             $this->observaciones,
-            $this->contrato
+            $this->contrato 
         );
+
         echo json_encode($objRespuesta);
     }
+
 }
 
-/* ==============================
-   PETICIONES AJAX
-   ============================== */
 
 if (isset($_POST["listarAdopciones"]) && $_POST["listarAdopciones"] == "ok") {
     $obj = new AdopcionesController();

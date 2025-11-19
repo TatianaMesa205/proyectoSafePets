@@ -40,7 +40,7 @@ class VacunasController
     }
 }
 
-/* ========== RUTAS ========== */
+
 
 if (isset($_POST["listarVacunas"]) == "ok") {
     $obj = new VacunasController();

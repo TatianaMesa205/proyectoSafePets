@@ -34,7 +34,6 @@ class VacunasMascotas {
                         </div>
                     `;
                     dataSet.push([
-                        item.id_vacunas_mascotas,
                         item.mascota_nombre,
                         item.vacuna_nombre,
                         item.fecha_aplicacion,
@@ -140,9 +139,7 @@ class VacunasMascotas {
 
 
 
-        /* =========================================================
-       CARGAR SELECTS (para formulario de registro)
-    ========================================================= */
+
     cargarSelects() {
         this.cargarMascotas();
         this.cargarVacunas();
@@ -198,11 +195,9 @@ class VacunasMascotas {
         .catch(e => console.log(e));
     }
 
-    /* =========================================================
-       CARGAR SELECTS (para formulario de edición)
-    ========================================================= */
+
     cargarSelectsEditar(idMascotaSel, idVacunaSel) {
-        // Mascotas
+
         let objDataMascotas = new FormData();
         objDataMascotas.append("listarMascotas", "ok");
 
@@ -226,7 +221,7 @@ class VacunasMascotas {
             }
         });
 
-        // Vacunas
+
         let objDataVacunas = new FormData();
         objDataVacunas.append("listarVacunas", "ok");
 

@@ -8,7 +8,6 @@
     objTablaAdopciones.listarAdopciones();
   }
 
-  // Botones mostrar formularios
   let btnAgregarAdopcion = document.getElementById("btn-AgregarAdopcion");
   btnAgregarAdopcion.addEventListener("click", () => {
     $("#panelTablaAdopciones").hide();
@@ -30,7 +29,8 @@
     $("#panelTablaAdopciones").show();
   });
 
-  // Eliminar adopción
+  
+
   $("#tablaAdopciones").on("click", "#btn-eliminarAdopcion", function () {
     Swal.fire({
       title: "¿Está seguro?",
@@ -50,29 +50,38 @@
     });
   });
 
-  // Editar adopción
   $("#tablaAdopciones").on("click", "#btn-editarAdopcion", function () {
-    $("#panelTablaAdopciones").hide();
-    $("#panelFormularioEditarAdopciones").show();
+      $("#panelTablaAdopciones").hide();
+      $("#panelFormularioEditarAdopciones").show();
 
-    let id_adopciones = $(this).attr("adopcion");
-    let mascotas_id = $(this).attr("mascota");
-    let adoptantes_id = $(this).attr("adoptante");
-    let fecha_adopcion = $(this).attr("fecha");
-    let estado = $(this).attr("estado");
-    let observaciones = $(this).attr("observaciones");
+      let id_adopciones = $(this).attr("adopcion");
+      let mascotas_id = $(this).attr("mascota");
+      let adoptantes_id = $(this).attr("adoptante");
+      let fecha_adopcion = $(this).attr("fecha");
+      let estado = $(this).attr("estado");
+      let observaciones = $(this).attr("observaciones");
+      let contrato = $(this).attr("contrato"); 
+      $("#btnEditarAdopcion").attr("contrato_actual", contrato);
 
-    let objCita = new Citas({});
-    objCita.cargarSelectsEditar(mascotas_id, adoptantes_id);
 
-    $("#txt_edit_fecha_adopcion").val(fecha_adopcion);
-    $("#select_edit_estado").val(estado);
-    $("#txt_edit_observaciones").val(observaciones);
+      let objAdopcion = new Adopciones({});
+      objAdopcion.cargarSelectsEditar(mascotas_id, adoptantes_id);
 
-    $("#btnEditarAdopcion").attr("adopcion", id_adopciones);
+      $("#txt_edit_fecha_adopcion").val(fecha_adopcion);
+      $("#select_edit_estado").val(estado);
+      $("#txt_edit_observaciones").val(observaciones);
+      $("#btnEditarAdopcion").attr("adopcion", id_adopciones);
+
+      if (contrato && contrato !== "null" && contrato !== "") {
+          $("#linkContratoActual")
+              .attr("href", `../../../CarpetaCompartida/Contratos/${contrato}`)
+              .show();
+      } else {
+          $("#linkContratoActual").hide();
+      }
   });
 
-  // Registrar adopción
+
   const forms = document.querySelectorAll('#formRegistroAdopcion');
   Array.from(forms).forEach(form => {
     form.addEventListener('submit', event => {
@@ -91,19 +100,18 @@
         objDataAdopcion.append("mascotas_id", document.getElementById('select_mascotas').value);
         objDataAdopcion.append("adoptantes_id", document.getElementById('select_adoptantes').value);
 
-        // 👇 archivo del contrato
         let fileInput = document.getElementById('file_contrato');
         if (fileInput.files.length > 0) {
           objDataAdopcion.append("contrato", fileInput.files[0]);
         }
 
         let objAdopcion = new Adopciones(objDataAdopcion);
-        objAdopcion.registrarAdopcionConArchivo(); // método que usa fetch con formData
+        objAdopcion.registrarAdopcionConArchivo(); 
       }
     }, false);
   });
 
-  // Editar adopción
+
   const formsEditar = document.querySelectorAll('#formEditarAdopcion');
   Array.from(formsEditar).forEach(form => {
     form.addEventListener('submit', event => {
@@ -123,10 +131,13 @@
         objDataAdopcion.append("observaciones", document.getElementById('txt_edit_observaciones').value);
         objDataAdopcion.append("id_adopciones", $("#btnEditarAdopcion").attr("adopcion"));
 
+        objDataAdopcion.append("contrato_actual", $("#btnEditarAdopcion").attr("contrato_actual"));
+
         let fileInput = document.getElementById('file_edit_contrato');
         if (fileInput.files.length > 0) {
-          objDataAdopcion.append("contrato", fileInput.files[0]);
+            objDataAdopcion.append("contrato", fileInput.files[0]);
         }
+
 
         let objAdopcion = new Adopciones(objDataAdopcion);
         objAdopcion.editarAdopcionConArchivo();
@@ -135,3 +146,4 @@
   });
 
 })();
+
