@@ -1,6 +1,5 @@
 <?php
-
-include_once "../model/seguimientosMascotasModel.php";
+include_once "../model/seguimientosModel.php";
 
 class SeguimientosMascotasController
 {
@@ -15,9 +14,10 @@ class SeguimientosMascotasController
         echo json_encode($objRespuesta);
     }
 
-    public function ctrEliminarSeguimiento()
+    // NUEVO: Para llenar el select
+    public function ctrListarAdopcionesSelect()
     {
-        $objRespuesta = SeguimientosMascotasModel::mdlEliminarSeguimiento($this->id_seguimientos);
+        $objRespuesta = SeguimientosMascotasModel::mdlListarAdopcionesParaSelect();
         echo json_encode($objRespuesta);
     }
 
@@ -41,19 +41,24 @@ class SeguimientosMascotasController
         );
         echo json_encode($objRespuesta);
     }
+
+    public function ctrEliminarSeguimiento()
+    {
+        $objRespuesta = SeguimientosMascotasModel::mdlEliminarSeguimiento($this->id_seguimientos);
+        echo json_encode($objRespuesta);
+    }
 }
 
-/* ========== RUTAS ========== */
+// --- PETICIONES POST ---
 
-if (isset($_POST["listarSeguimientos"]) == "ok") {
+if (isset($_POST["listarSeguimientos"]) && $_POST["listarSeguimientos"] == "ok") {
     $obj = new SeguimientosMascotasController();
     $obj->ctrListarSeguimientos();
 }
 
-if (isset($_POST["eliminarSeguimiento"]) == "ok") {
+if (isset($_POST["listarAdopcionesSelect"]) && $_POST["listarAdopcionesSelect"] == "ok") {
     $obj = new SeguimientosMascotasController();
-    $obj->id_seguimientos = $_POST["id_seguimientos"];
-    $obj->ctrEliminarSeguimiento();
+    $obj->ctrListarAdopcionesSelect();
 }
 
 if (isset($_POST["registrarSeguimiento"]) == "ok") {
@@ -71,5 +76,11 @@ if (isset($_POST["editarSeguimiento"]) == "ok") {
     $obj->fecha_visita = $_POST["fecha_visita"];
     $obj->observacion = $_POST["observacion"];
     $obj->ctrEditarSeguimiento();
+}
+
+if (isset($_POST["eliminarSeguimiento"]) == "ok") {
+    $obj = new SeguimientosMascotasController();
+    $obj->id_seguimientos = $_POST["id_seguimientos"];
+    $obj->ctrEliminarSeguimiento();
 }
 ?>

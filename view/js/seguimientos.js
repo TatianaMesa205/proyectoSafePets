@@ -1,102 +1,202 @@
-(function(){
+$(document).ready(function() {
+    // 1. Cargar Tabla y Selects al inicio
+    listarSeguimientos();
+    cargarSelectAdopciones();
 
-    listarTablaSeguimientos();
-
-    function listarTablaSeguimientos(){
-        let objData = {"listarSeguimientos":"ok"};
-        let objTabla = new SeguimientosMascotas(objData);
-        objTabla.listarSeguimientos();
-    }
-
-    let btnAgregar = document.getElementById("btn-AgregarSeguimiento");
-    btnAgregar.addEventListener("click",()=>{
+    // ----------------------------------------------------------------
+    // NAVEGACIÓN (Mostrar/Ocultar Formularios)
+    // ----------------------------------------------------------------
+    $("#btn-AgregarSeguimiento").on("click", function() {
         $("#panelTablaSeguimientos").hide();
         $("#panelFormularioSeguimientos").show();
+        $("#panelFormularioEditarSeguimientos").hide();
+        $("#formRegistroSeguimiento")[0].reset(); // Limpiar form
     });
 
-    let btnRegresar = document.getElementById("btn-RegresarSeguimiento");
-    btnRegresar.addEventListener("click",()=>{
+    $("#btn-RegresarSeguimiento").on("click", function() {
         $("#panelFormularioSeguimientos").hide();
         $("#panelTablaSeguimientos").show();
     });
 
-    let btnRegresarEditar = document.getElementById("btn-RegresarEditarSeguimiento");
-    btnRegresarEditar.addEventListener("click",()=>{
+    $("#btn-RegresarEditarSeguimiento").on("click", function() {
         $("#panelFormularioEditarSeguimientos").hide();
         $("#panelTablaSeguimientos").show();
     });
 
-    $("#tablaSeguimientos").on("click","#btn-eliminarSeguimiento",function(){
-        Swal.fire({
-            title: "¿Está seguro?",
-            text: "El seguimiento será eliminado permanentemente.",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Aceptar"
-        }).then((result)=>{
-            if(result.isConfirmed){
-                let id_seguimientos = $(this).attr("seguimiento");
-                let objData = {"eliminarSeguimiento":"ok","id_seguimientos":id_seguimientos,"listarSeguimientos":"ok"};
-                let obj = new SeguimientosMascotas(objData);
-                obj.eliminarSeguimiento();
+    // ----------------------------------------------------------------
+    // REGISTRAR NUEVO
+    // ----------------------------------------------------------------
+    $("#formRegistroSeguimiento").on("submit", function(e) {
+        e.preventDefault();
+        
+        var id_adopciones = $("#select_adopciones").val();
+        var fecha_visita = $("#txt_fecha_visita").val();
+        var observacion = $("#txt_observacion").val();
+
+        if (id_adopciones == "" || fecha_visita == "") {
+            Swal.fire("Atención", "Complete los campos obligatorios", "warning");
+            return;
+        }
+
+        var datos = new FormData();
+        datos.append("registrarSeguimiento", "ok");
+        datos.append("id_adopciones", id_adopciones);
+        datos.append("fecha_visita", fecha_visita);
+        datos.append("observacion", observacion);
+
+        $.ajax({
+            url: "controller/seguimientosController.php",
+            method: "POST",
+            data: datos,
+            contentType: false,
+            cache: false,
+            processData: false,
+            dataType: "json",
+            success: function(respuesta) {
+                if (respuesta.codigo == "200") {
+                    Swal.fire("¡Éxito!", respuesta.mensaje, "success");
+                    $("#panelFormularioSeguimientos").hide();
+                    $("#panelTablaSeguimientos").show();
+                    $("#tablaSeguimientos").DataTable().ajax.reload();
+                } else {
+                    Swal.fire("Error", respuesta.mensaje, "error");
+                }
             }
         });
     });
 
-    $("#tablaSeguimientos").on("click","#btn-editarSeguimiento",function(){
-        $("#panelTablaSeguimientos").hide();
-        $("#panelFormularioEditarSeguimientos").show();
+    // ----------------------------------------------------------------
+    // EDITAR (GUARDAR CAMBIOS)
+    // ----------------------------------------------------------------
+    $("#formEditarSeguimiento").on("submit", function(e) {
+        e.preventDefault();
+        
+        // Obtenemos el ID del seguimiento guardado en el botón
+        var id_seguimientos = $("#btnEditarSeguimiento").attr("idSeguimiento");
+        var id_adopciones = $("#select_edit_adopciones").val();
+        var fecha_visita = $("#txt_edit_fecha_visita").val();
+        var observacion = $("#txt_edit_observacion").val();
 
-        let id_seguimientos = $(this).attr("seguimiento");
-        let fecha_visita = $(this).attr("fecha");
-        let observacion = $(this).attr("observacion");
-        let id_adopciones = $(this).attr("adopcion");
+        var datos = new FormData();
+        datos.append("editarSeguimiento", "ok");
+        datos.append("id_seguimientos", id_seguimientos);
+        datos.append("id_adopciones", id_adopciones);
+        datos.append("fecha_visita", fecha_visita);
+        datos.append("observacion", observacion);
 
-        $("#txt_edit_fecha_visita").val(fecha_visita);
-        $("#txt_edit_observacion").val(observacion);
-        $("#select_edit_adopciones").val(id_adopciones);
-        $("#btnEditarSeguimiento").attr("seguimiento",id_seguimientos);
-    });
-
-    const forms = document.querySelectorAll('#formRegistroSeguimiento');
-    Array.from(forms).forEach(form=>{
-        form.addEventListener('submit',event=>{
-            event.preventDefault();
-            if(!form.checkValidity()){
-                event.stopPropagation();
-                form.classList.add('was-validated');
-            }else{
-                let id_adopciones = document.getElementById('select_adopciones').value;
-                let fecha_visita = document.getElementById('txt_fecha_visita').value;
-                let observacion = document.getElementById('txt_observacion').value;
-
-                let objData = {"registrarSeguimiento":"ok","id_adopciones":id_adopciones,"fecha_visita":fecha_visita,"observacion":observacion,"listarSeguimientos":"ok"};
-                let obj = new SeguimientosMascotas(objData);
-                obj.registrarSeguimiento();
+        $.ajax({
+            url: "controller/seguimientosController.php",
+            method: "POST",
+            data: datos,
+            contentType: false,
+            cache: false,
+            processData: false,
+            dataType: "json",
+            success: function(respuesta) {
+                if (respuesta.codigo == "200") {
+                    Swal.fire("Actualizado", respuesta.mensaje, "success");
+                    $("#panelFormularioEditarSeguimientos").hide();
+                    $("#panelTablaSeguimientos").show();
+                    $("#tablaSeguimientos").DataTable().ajax.reload();
+                } else {
+                    Swal.fire("Error", respuesta.mensaje, "error");
+                }
             }
-        },false);
+        });
     });
 
-    const formsEditar = document.querySelectorAll('#formEditarSeguimiento');
-    Array.from(formsEditar).forEach(form=>{
-        form.addEventListener('submit',event=>{
-            event.preventDefault();
-            if(!form.checkValidity()){
-                event.stopPropagation();
-                form.classList.add('was-validated');
-            }else{
-                let id_seguimientos = $("#btnEditarSeguimiento").attr("seguimiento");
-                let id_adopciones = document.getElementById('select_edit_adopciones').value;
-                let fecha_visita = document.getElementById('txt_edit_fecha_visita').value;
-                let observacion = document.getElementById('txt_edit_observacion').value;
+    // ----------------------------------------------------------------
+    // ELIMINAR
+    // ----------------------------------------------------------------
+    $("#tablaSeguimientos tbody").on("click", ".btnEliminar", function() {
+        var data = $("#tablaSeguimientos").DataTable().row($(this).parents("tr")).data();
+        var idSeguimiento = data.id_seguimientos;
 
-                let objData = {"editarSeguimiento":"ok","id_seguimientos":id_seguimientos,"id_adopciones":id_adopciones,"fecha_visita":fecha_visita,"observacion":observacion,"listarSeguimientos":"ok"};
-                let obj = new SeguimientosMascotas(objData);
-                obj.editarSeguimiento();
+        Swal.fire({
+            title: '¿Eliminar seguimiento?',
+            text: "No se puede revertir",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Sí, eliminar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                var datos = new FormData();
+                datos.append("eliminarSeguimiento", "ok");
+                datos.append("id_seguimientos", idSeguimiento);
+
+                $.ajax({
+                    url: "controller/seguimientosController.php",
+                    method: "POST",
+                    data: datos,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function(respuesta) {
+                        if (respuesta.codigo == "200") {
+                            Swal.fire('¡Eliminado!', respuesta.mensaje, 'success');
+                            $("#tablaSeguimientos").DataTable().ajax.reload();
+                        } else {
+                            Swal.fire('Error', respuesta.mensaje, 'error');
+                        }
+                    }
+                });
             }
-        },false);
+        });
     });
+});
 
-})();
+// --- FUNCIONES AUXILIARES ---
+
+function listarSeguimientos() {
+    $("#tablaSeguimientos").DataTable({
+        "destroy": true,
+        "ajax": {
+            "url": "controller/seguimientosController.php",
+            "type": "POST",
+            "data": { "listarSeguimientos": "ok" },
+            "dataSrc": function(json) { return json.listaSeguimientos; }
+        },
+        "columns": [
+            { "data": "nombre_mascota" },    // Viene del JOIN
+            { "data": "nombre_adoptante" },  // Viene del JOIN
+            { "data": "fecha_adopcion" },
+            { "data": "fecha_visita" },
+            { "data": "observacion" },
+            { "defaultContent": 
+                "<div class='text-center'>" +
+                    "<button class='btn btn-primary btn-sm btnEditar' style='margin-right:5px;' title='Editar'><i class='fas fa-edit'></i></button>" +
+                    "<button class='btn btn-danger btn-sm btnEliminar' title='Eliminar'><i class='fas fa-trash'></i></button>" +
+                "</div>"
+            }
+        ],
+        "language": { "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json" }
+    });
+}
+
+function cargarSelectAdopciones() {
+    var datos = new FormData();
+    datos.append("listarAdopcionesSelect", "ok");
+
+    $.ajax({
+        url: "controller/seguimientosController.php",
+        method: "POST",
+        data: datos,
+        contentType: false,
+        cache: false,
+        processData: false,
+        dataType: "json",
+        success: function(respuesta) {
+            if (respuesta.codigo == "200") {
+                var opciones = '<option value="">Seleccione una adopción...</option>';
+                respuesta.listaAdopciones.forEach(function(item) {
+                    // Muestra: "Firulais - Juan Perez"
+                    opciones += `<option value="${item.id_adopciones}">${item.nombre_mascota} - ${item.nombre_adoptante}</option>`;
+                });
+                $("#select_adopciones").html(opciones);
+                $("#select_edit_adopciones").html(opciones);
+            }
+        }
+    });
+}

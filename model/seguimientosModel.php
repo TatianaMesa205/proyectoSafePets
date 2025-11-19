@@ -3,28 +3,29 @@ include_once "conexion.php";
 
 class SeguimientosMascotasModel
 {
-    /* ==========================================
-       LISTAR SEGUIMIENTOS
-    ========================================== */
+    // 1. LISTAR SEGUIMIENTOS (Para la Tabla)
     public static function mdlListarSeguimientos()
     {
         $mensaje = array();
         try {
-            $objRespuesta = Conexion::conectar()->prepare("
+            $sql = "
                 SELECT 
                     s.id_seguimientos,
                     s.fecha_visita,
                     s.observacion,
                     a.id_adopciones,
-                    ad.nombre_completo AS adoptante,
-                    m.nombre AS mascota
+                    a.fecha_adopcion,
+                    ad.nombre_completo AS nombre_adoptante,
+                    m.nombre AS nombre_mascota
                 FROM seguimientos_mascotas s
-                JOIN adopciones a ON a.id_adopciones = s.id_adopciones
-                JOIN adoptantes ad ON ad.id_adoptantes = a.id_adoptantes
-                JOIN mascotas m ON m.id_mascotas = a.id_mascotas
-            ");
-            $objRespuesta->execute();
-            $lista = $objRespuesta->fetchAll(PDO::FETCH_ASSOC);
+                INNER JOIN adopciones a ON a.id_adopciones = s.id_adopciones
+                INNER JOIN adoptantes ad ON ad.id_adoptantes = a.id_adoptantes
+                INNER JOIN mascotas m ON m.id_mascotas = a.id_mascotas
+                ORDER BY s.id_seguimientos DESC
+            ";
+            $stmt = Conexion::conectar()->prepare($sql);
+            $stmt->execute();
+            $lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $mensaje = array("codigo" => "200", "listaSeguimientos" => $lista);
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
@@ -32,25 +33,45 @@ class SeguimientosMascotasModel
         return $mensaje;
     }
 
-    /* ==========================================
-       REGISTRAR SEGUIMIENTO
-    ========================================== */
+    // 2. LISTAR ADOPCIONES (Para el Select del Formulario)
+    public static function mdlListarAdopcionesParaSelect()
+    {
+        $mensaje = array();
+        try {
+            $sql = "
+                SELECT 
+                    a.id_adopciones,
+                    m.nombre AS nombre_mascota,
+                    ad.nombre_completo AS nombre_adoptante
+                FROM adopciones a
+                INNER JOIN mascotas m ON m.id_mascotas = a.id_mascotas
+                INNER JOIN adoptantes ad ON ad.id_adoptantes = a.id_adoptantes
+            ";
+            $stmt = Conexion::conectar()->prepare($sql);
+            $stmt->execute();
+            $lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $mensaje = array("codigo" => "200", "listaAdopciones" => $lista);
+        } catch (Exception $e) {
+            $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
+        }
+        return $mensaje;
+    }
+
+    // 3. REGISTRAR
     public static function mdlRegistrarSeguimiento($id_adopciones, $fecha_visita, $observacion)
     {
         $mensaje = array();
         try {
-            $objRespuesta = Conexion::conectar()->prepare("
-                INSERT INTO seguimientos_mascotas (id_adopciones, fecha_visita, observacion)
-                VALUES (:id_adopciones, :fecha_visita, :observacion)
-            ");
-            $objRespuesta->bindParam(":id_adopciones", $id_adopciones);
-            $objRespuesta->bindParam(":fecha_visita", $fecha_visita);
-            $objRespuesta->bindParam(":observacion", $observacion);
+            $sql = "INSERT INTO seguimientos_mascotas (id_adopciones, fecha_visita, observacion) VALUES (:id_adopciones, :fecha_visita, :observacion)";
+            $stmt = Conexion::conectar()->prepare($sql);
+            $stmt->bindParam(":id_adopciones", $id_adopciones);
+            $stmt->bindParam(":fecha_visita", $fecha_visita);
+            $stmt->bindParam(":observacion", $observacion);
 
-            if ($objRespuesta->execute()) {
+            if ($stmt->execute()) {
                 $mensaje = array("codigo" => "200", "mensaje" => "Seguimiento registrado correctamente.");
             } else {
-                $mensaje = array("codigo" => "401", "mensaje" => "Error al registrar el seguimiento.");
+                $mensaje = array("codigo" => "401", "mensaje" => "Error al registrar.");
             }
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
@@ -58,27 +79,22 @@ class SeguimientosMascotasModel
         return $mensaje;
     }
 
-    /* ==========================================
-       EDITAR SEGUIMIENTO
-    ========================================== */
+    // 4. EDITAR
     public static function mdlEditarSeguimiento($id_seguimientos, $id_adopciones, $fecha_visita, $observacion)
     {
         $mensaje = array();
         try {
-            $objRespuesta = Conexion::conectar()->prepare("
-                UPDATE seguimientos_mascotas 
-                SET id_adopciones = :id_adopciones, fecha_visita = :fecha_visita, observacion = :observacion
-                WHERE id_seguimientos = :id_seguimientos
-            ");
-            $objRespuesta->bindParam(":id_seguimientos", $id_seguimientos);
-            $objRespuesta->bindParam(":id_adopciones", $id_adopciones);
-            $objRespuesta->bindParam(":fecha_visita", $fecha_visita);
-            $objRespuesta->bindParam(":observacion", $observacion);
+            $sql = "UPDATE seguimientos_mascotas SET id_adopciones=:id_adopciones, fecha_visita=:fecha_visita, observacion=:observacion WHERE id_seguimientos=:id_seguimientos";
+            $stmt = Conexion::conectar()->prepare($sql);
+            $stmt->bindParam(":id_seguimientos", $id_seguimientos);
+            $stmt->bindParam(":id_adopciones", $id_adopciones);
+            $stmt->bindParam(":fecha_visita", $fecha_visita);
+            $stmt->bindParam(":observacion", $observacion);
 
-            if ($objRespuesta->execute()) {
-                $mensaje = array("codigo" => "200", "mensaje" => "Seguimiento editado correctamente.");
+            if ($stmt->execute()) {
+                $mensaje = array("codigo" => "200", "mensaje" => "Seguimiento actualizado.");
             } else {
-                $mensaje = array("codigo" => "401", "mensaje" => "Error al editar el seguimiento.");
+                $mensaje = array("codigo" => "401", "mensaje" => "Error al actualizar.");
             }
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
@@ -86,20 +102,17 @@ class SeguimientosMascotasModel
         return $mensaje;
     }
 
-    /* ==========================================
-       ELIMINAR SEGUIMIENTO
-    ========================================== */
+    // 5. ELIMINAR
     public static function mdlEliminarSeguimiento($id_seguimientos)
     {
         $mensaje = array();
         try {
-            $objRespuesta = Conexion::conectar()->prepare("DELETE FROM seguimientos_mascotas WHERE id_seguimientos = :id_seguimientos");
-            $objRespuesta->bindParam(":id_seguimientos", $id_seguimientos);
-
-            if ($objRespuesta->execute()) {
-                $mensaje = array("codigo" => "200", "mensaje" => "Seguimiento eliminado correctamente.");
+            $stmt = Conexion::conectar()->prepare("DELETE FROM seguimientos_mascotas WHERE id_seguimientos = :id_seguimientos");
+            $stmt->bindParam(":id_seguimientos", $id_seguimientos);
+            if ($stmt->execute()) {
+                $mensaje = array("codigo" => "200", "mensaje" => "Seguimiento eliminado.");
             } else {
-                $mensaje = array("codigo" => "401", "mensaje" => "Error al eliminar el seguimiento.");
+                $mensaje = array("codigo" => "401", "mensaje" => "Error al eliminar.");
             }
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());

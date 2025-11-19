@@ -11,7 +11,7 @@
   </div>
 
   <!-- Panel de tabla -->
-  <div id="panelTablaMascotas" class="panel-table shadow-sm rounded-4 p-3">
+  <div id="panelTablaMascotas" class="panel-table shadow-sm rounded-4 p-0">
     <table id="tablaMascotas" class="table align-middle table-hover text-center">
       <thead>
         <tr>
