@@ -33,7 +33,7 @@ if ($ruta !== "detalleMascota" && $ruta !== "adoptanteAdp" && $ruta !== "citasAd
 }
 
 
-$rutasAdoptante = ["inicioAdp", "adoptaAdp", "citasAdp", "donacionesAdp", "detalleMascota", "publicaciones", "adoptanteAdp"];
+$rutasAdoptante = ["inicioAdp", "adoptaAdp", "citasAdp", "donacionesAdp", "detalleMascota", "publicacionesAdp", "adoptanteAdp","crearPublicacion","historiasAdp"];
 $rutasAdmin = ["inicioAdmin", "adoptantes", "mascotas", "adopciones", "vacunas", "citas", "donaciones", "publicaciones", "seguimientos", "vacunasMascotas"];
 $archivoModulo = "view/modules/404.php"; 
 
