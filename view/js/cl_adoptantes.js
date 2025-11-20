@@ -176,4 +176,49 @@ class Adoptantes {
             }
         })
     }
+    registrarAdoptante(){
+        let objDataAdoptante = new FormData();
+        objDataAdoptante.append("registrarAdoptante", this._objData.registrarAdoptante);
+        objDataAdoptante.append("nombre_completo", this._objData.nombre_completo);
+        objDataAdoptante.append("cedula", this._objData.cedula);
+        objDataAdoptante.append("telefono", this._objData.telefono);
+        objDataAdoptante.append("email", this._objData.email);
+        objDataAdoptante.append("direccion", this._objData.direccion);
+
+        fetch('controller/adoptantesController.php', {
+            method: 'POST',
+            body: objDataAdoptante
+        })
+        .then(response => response.json())
+        .catch(error => {
+            console.log(error);
+        })
+        .then(response => {
+            if (response["codigo"] == "200") {
+                // Limpiar y cerrar formulario
+                let formulario = document.getElementById('formRegistroAdoptantes');
+                formulario.reset();
+                $("#panelFormularioAdoptantes").hide();
+                $("#panelTablaAdoptantes").show();
+                this.listarAdoptantes();
+
+                // MENSAJE INFORMATIVO PARA EL ADMIN
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Registrado!',
+                    html: `El adoptante se guardó correctamente.<br><br>
+                           <span style="color:#d33; font-weight:bold;">IMPORTANTE:</span><br> 
+                           Informe al usuario que debe registrarse en la plataforma usando este correo: 
+                           <b>${this._objData.email}</b>`,
+                    confirmButtonText: 'Entendido'
+                });
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: response["mensaje"]
+                });
+            }
+        });
+    }
 }   
