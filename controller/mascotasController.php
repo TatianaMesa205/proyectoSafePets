@@ -32,17 +32,17 @@ class MascotasController
     public function ctrRegistrarMascota()
     {
         $objRespuestaMascota = MascotasModel::mdlRegistrarMascota(
-            $this->nombre,
-            $this->especie,
-            $this->raza,
+            $this->nombre, 
+            $this->especie, 
+            $this->raza, 
             $this->edad,
-            $this->sexo,
+            $this->sexo, 
             $this->tamano,
             $this->fecha_ingreso,
-            $this->estado_salud,
-            $this->estado,
-            $this->descripcion,
-            $this->imagen // Aquí se recibe solo el nombre del archivo
+            $this->estado_salud, 
+            $this->estado, 
+            $this->descripcion, 
+            $this->imagen
         );
         echo json_encode($objRespuestaMascota);
     }
@@ -50,39 +50,37 @@ class MascotasController
     public function ctrEditarMascota()
     {
         $objRespuestaMascota = MascotasModel::mdlEditarMascota(
-            $this->id_mascotas,
-            $this->nombre,
-            $this->especie,
-            $this->raza,
-            $this->edad,
-            $this->sexo,
-            $this->tamano,
-            $this->fecha_ingreso,
-            $this->estado_salud,
-            $this->estado,
-            $this->descripcion,
-            $this->imagen // Aquí se recibe solo el nombre del archivo
+            $this->id_mascotas, 
+            $this->nombre, 
+            $this->especie, 
+            $this->raza, 
+            $this->edad, 
+            $this->sexo, 
+            $this->tamano, 
+            $this->fecha_ingreso, 
+            $this->estado_salud, 
+            $this->estado, 
+            $this->descripcion, 
+            $this->imagen
         );
         echo json_encode($objRespuestaMascota);
     }
 }
 
-/* =======================
-    PETICIONES AJAX
-======================= */
+
 
 if (isset($_POST["listarMascotas"]) && $_POST["listarMascotas"] == "ok") {
     $objMascotas = new MascotasController();
     $objMascotas->ctrListarMascotas();
 }
 
-if (isset($_POST["eliminarMascota"])) {
+if (isset($_POST["eliminarMascota"]) == "ok") {
     $objMascotas = new MascotasController();
     $objMascotas->id_mascotas = $_POST["id_mascotas"];
     $objMascotas->ctrEliminarMascota();
 }
 
-if (isset($_POST["registrarMascota"])) {
+if (isset($_POST["registrarMascota"]) == "ok") {
     $objMascotas = new MascotasController();
     $objMascotas->nombre = $_POST["nombre"];
     $objMascotas->especie = $_POST["especie"];
@@ -95,28 +93,23 @@ if (isset($_POST["registrarMascota"])) {
     $objMascotas->estado = $_POST["estado"];
     $objMascotas->descripcion = $_POST["descripcion"];
 
-    $nombreArchivoGuardar = ""; 
-    $directorio = "../../CarpetaCompartida/Mascotas/";
-
+    $ruta_foto = "";
     if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == 0) {
+        $directorio = "../../CarpetaCompartida/Mascotas/";
         if (!file_exists($directorio)) {
             mkdir($directorio, 0777, true);
         }
-        
         $nombreArchivo = uniqid() . "_" . basename($_FILES["imagen"]["name"]);
-        $ruta_completa_destino = $directorio . $nombreArchivo;
-
-        if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta_completa_destino)) {
-            $nombreArchivoGuardar = $nombreArchivo;
-        }
+        $ruta_foto = $directorio . $nombreArchivo;
+        move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta_foto);
     }
-    
-    $objMascotas->imagen = $nombreArchivoGuardar; 
+    $objMascotas->imagen = $ruta_foto;
     $objMascotas->ctrRegistrarMascota();
 }
 
 
-if (isset($_POST["editarMascota"])) {
+if (isset($_POST["editarMascota"]) && $_POST["editarMascota"] == "ok") {
+
     $objMascotas = new MascotasController();
     $objMascotas->id_mascotas = $_POST["id_mascotas"];
     $objMascotas->nombre = $_POST["nombre"];
@@ -130,33 +123,22 @@ if (isset($_POST["editarMascota"])) {
     $objMascotas->estado = $_POST["estado"];
     $objMascotas->descripcion = $_POST["descripcion"];
 
-    // Por defecto, mantenemos la imagen actual
-    $nombreArchivoGuardar = isset($_POST["imagen_actual"]) ? $_POST["imagen_actual"] : "";
-    $directorio = "../../CarpetaCompartida/Mascotas/"; 
-
-    // Si se sube una NUEVA imagen...
+    $ruta_foto = "";
     if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == 0) {
-        
+        $directorio = "../../CarpetaCompartida/Mascotas/";
         if (!file_exists($directorio)) {
             mkdir($directorio, 0777, true);
         }
-        
         $nombreArchivo = uniqid() . "_" . basename($_FILES["imagen"]["name"]);
-        $ruta_completa_destino = $directorio . $nombreArchivo;
-        
-        if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta_completa_destino)) {
-            $nombreArchivoGuardar = $nombreArchivo;
-            
-            // Opcional: Borrar la imagen antigua si existe y es diferente
-            if (!empty($_POST["imagen_actual"]) && $_POST["imagen_actual"] != $nombreArchivoGuardar && file_exists($directorio . $_POST["imagen_actual"])) {
-                unlink($directorio . $_POST["imagen_actual"]);
-            }
-        }
+        $ruta_foto = $directorio . $nombreArchivo;
+        move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta_foto);
+    } else {
+        $ruta_foto = isset($_POST["imagen_actual"]) ? $_POST["imagen_actual"] : "";
     }
 
-    // Asignamos la variable que contiene solo el nombre (sea la nueva o la antigua)
-    $objMascotas->imagen = $nombreArchivoGuardar;
+    $objMascotas->imagen = $ruta_foto;
     $objMascotas->ctrEditarMascota();
 }
+
 
 ?>

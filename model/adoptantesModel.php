@@ -1,52 +1,33 @@
 <?php
-
 include_once "conexion.php";
 
 class AdoptantesModel
 {
 
-    public static function mdlListarAdoptantes(){
+    public static function mdlListarAdoptantes()
+    {
         $mensaje = array();
         try {
             $objRespuesta = Conexion::conectar()->prepare("SELECT * FROM adoptantes");
             $objRespuesta->execute();
             $listaAdoptantes = $objRespuesta->fetchAll(PDO::FETCH_ASSOC);
-            $objRespuesta = null;
-            $mensaje = array("codigo"=>"200","listaAdoptantes"=>$listaAdoptantes);
-        } catch (Exception $e) {
-            $mensaje = array("codigo"=>"401","mensaje"=>$e->getMessage());
-        }
-        return $mensaje;
-    }
-
-
-    public static function mdlEliminarAdoptante($id_adoptantes)
-    {
-
-        $mensaje = array();
-        try {
-            $objRespuesta = Conexion::conectar()->prepare("DELETE FROM adoptantes WHERE id_adoptantes=:id_adoptantes");
-            $objRespuesta->bindParam(":id_adoptantes", $id_adoptantes);
-            if ($objRespuesta->execute()) {
-                $mensaje = array("codigo" => "200", "mensaje" => "El usuario se elimino correctamente.");
-            } else {
-                $mensaje = array("codigo" => "401", "mensaje" => "Error al eliminar el usuario.");
-            }
-            $objRespuesta = null;
+            $mensaje = array("codigo" => "200", "listaAdoptantes" => $listaAdoptantes);
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
         }
-
         return $mensaje;
     }
-
 
     public static function mdlRegistrarAdoptante($nombre_completo, $cedula, $telefono, $email, $direccion)
     {
         $mensaje = array();
         try {
-            $objRespuesta = Conexion::conectar()->prepare("INSERT INTO adoptantes(nombre_completo, cedula, telefono, email, direccion) 
-                VALUES (:nombre_completo, :cedula, :telefono, :email, :direccion)");
+            // Solo insertamos en la tabla ADOPTANTES
+            $objRespuesta = Conexion::conectar()->prepare("
+                INSERT INTO adoptantes (nombre_completo, cedula, telefono, email, direccion) 
+                VALUES (:nombre_completo, :cedula, :telefono, :email, :direccion)
+            ");
+            
             $objRespuesta->bindParam(":nombre_completo", $nombre_completo);
             $objRespuesta->bindParam(":cedula", $cedula);
             $objRespuesta->bindParam(":telefono", $telefono);
@@ -54,16 +35,20 @@ class AdoptantesModel
             $objRespuesta->bindParam(":direccion", $direccion);
 
             if ($objRespuesta->execute()) {
-                $mensaje = array("codigo" => "200", "mensaje" => "Adoptante registrada correctamente");
+                $mensaje = array("codigo" => "200", "mensaje" => "Adoptante registrado correctamente.");
             } else {
-                $mensaje = array("codigo" => "401", "mensaje" => "Error al registrar el adoptante");
+                $mensaje = array("codigo" => "401", "mensaje" => "Error al registrar el adoptante.");
             }
         } catch (Exception $e) {
-            $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
+            // Manejo de duplicados (Cédula o Correo ya existentes en adoptantes)
+            if (strpos($e->getMessage(), 'Duplicate entry') !== false) {
+                $mensaje = array("codigo" => "401", "mensaje" => "El adoptante ya existe (Cédula o Correo duplicado).");
+            } else {
+                $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
+            }
         }
         return $mensaje;
     }
-    
 
     public static function mdlEditarAdoptante($id_adoptantes, $nombre_completo, $cedula, $telefono, $email, $direccion)
     {
@@ -87,13 +72,9 @@ class AdoptantesModel
             $objRespuesta->bindParam(":direccion", $direccion);
 
             if ($objRespuesta->execute()) {
-                if ($objRespuesta->rowCount() > 0) {
-                    $mensaje = array("codigo" => "200", "mensaje" => "El adoptante fue actualizado correctamente.");
-                } else {
-                    $mensaje = array("codigo" => "200", "mensaje" => "No se realizaron cambios (datos iguales).");
-                }
+                $mensaje = array("codigo" => "200", "mensaje" => "Adoptante actualizado correctamente.");
             } else {
-                $mensaje = array("codigo" => "401", "mensaje" => "Error al editar el adoptante.");
+                $mensaje = array("codigo" => "401", "mensaje" => "Error al actualizar los datos.");
             }
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
@@ -101,4 +82,22 @@ class AdoptantesModel
         return $mensaje;
     }
 
+    public static function mdlEliminarAdoptante($id_adoptantes)
+    {
+        $mensaje = array();
+        try {
+            $objRespuesta = Conexion::conectar()->prepare("DELETE FROM adoptantes WHERE id_adoptantes = :id_adoptantes");
+            $objRespuesta->bindParam(":id_adoptantes", $id_adoptantes);
+            
+            if ($objRespuesta->execute()) {
+                $mensaje = array("codigo" => "200", "mensaje" => "Adoptante eliminado correctamente.");
+            } else {
+                $mensaje = array("codigo" => "401", "mensaje" => "Error al eliminar el adoptante.");
+            }
+        } catch (Exception $e) {
+            $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
+        }
+        return $mensaje;
+    }
 }
+?>
