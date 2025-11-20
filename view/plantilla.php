@@ -22,7 +22,7 @@ if (!isset($_SESSION["iniciarSesion"])) {
 include "view/modules/cabecera.php";
 
 
-if ($ruta !== "detalleMascota") {
+if ($ruta !== "detalleMascota" && $ruta !== "adoptanteAdp") {
 
     if ($_SESSION["rol"] === "admin") {
         include "view/modules/menuAdmin.php";
@@ -33,7 +33,7 @@ if ($ruta !== "detalleMascota") {
 }
 
 
-$rutasAdoptante = ["inicioAdp", "adoptaAdp", "citasAdp", "donacionesAdp", "detalleMascota", "publicaciones"];
+$rutasAdoptante = ["inicioAdp", "adoptaAdp", "citasAdp", "donacionesAdp", "detalleMascota", "publicaciones", "adoptanteAdp"];
 $rutasAdmin = ["inicioAdmin", "adoptantes", "mascotas", "adopciones", "vacunas", "citas", "donaciones", "publicaciones", "seguimientos", "vacunasMascotas"];
 $archivoModulo = "view/modules/404.php"; 
 
