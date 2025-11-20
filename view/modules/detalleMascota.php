@@ -41,93 +41,156 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
 
 <style>
 
+    body {
+        background: #faf5f0;
+        font-family: "Poppins", sans-serif;
+    }
+
+    /* Tarjeta principal */
     .detalle-card {
         background: #ffffff;
-        max-width: 800px;
-        margin: auto;
-        padding: 30px;
-        border-radius: 20px;
-        box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 35px;
+        border-radius: 25px;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.15);
         display: flex;
-        gap: 25px;
+        gap: 40px;
+        animation: fadeIn 0.8s ease;
+        position: relative;
     }
+    h1 { text-align: center; color: #a07b61; margin-bottom: 35px; }
 
+    /* Imagen */
     .detalle-card img {
-        width: 280px;
-        height: 280px;
-        object-fit: cover;
+        width: 380px;
+        height: 380px;
         border-radius: 20px;
-        box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+        object-fit: cover;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+        transition: transform .3s;
+    }
+    .detalle-card img:hover {
+        transform: scale(1.05);
     }
 
-    .detalle-info {
-        flex: 1;
-    }
-
-    h1 {
-        text-align: center;
-        color: #a07b61;
-        margin-bottom: 35px;
-    }
-
+    /* Información */
     .detalle-info h2 {
-        color: #8b5e3c;
-        margin-bottom: 10px;
+        color: #7c5845;
+        margin-bottom: 12px;
+        font-size: 28px;
     }
-
     .detalle-info p {
         font-size: 18px;
-        color: #555;
-        margin: 5px 0;
+        margin: 7px 0;
+        color: #5b4a3c;
     }
 
-    .btn-volver {
-        margin-top: 30px;
-        background: #8b5e3c;
-        color: #fff;
-        padding: 12px 25px;
-        border-radius: 10px;
-        text-decoration: none;
-        display: block;
-        width: 150px;
-        text-align: center;
-        margin-left: auto;
-        margin-right: auto;
-        transition: 0.3s;
-    }
-
-    .btn-volver:hover {
-        background: #a07b61;
-    }
-    .btn-logout {
-        display: block;
-        margin: 10px auto;
-        padding: 10px 10px;
-        background-color: #d6baa5;
-        color: white;
-        border: none;
+    /* Burbuja de estado */
+    .estado-badge {
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        padding: 10px 18px;
         border-radius: 20px;
-        cursor: pointer;
-        font-weight: bold;
-    }
-    .btn-adopta {
-        margin-top: 30px;
-        background: #8b5e3c;
         color: #fff;
+        font-weight: bold;
+        font-size: 15px;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        animation: pop 0.6s ease;
+    }
+
+    .estado-disponible {
+        background: #76d48b;
+    }
+    .estado-tratamiento {
+        background: #f2c84b;
+    }
+
+    /* Historia */
+    .historia-card {
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 30px;
+        background: #fff;
+        border-radius: 20px;
+        box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+        animation: fadeInUp 0.8s ease;
+    }
+
+    .historia-card h2 {
+        color: #7c5845;
+        margin-bottom: 15px;
+    }
+
+    /* Carnet */
+    .vacuna-card {
+        width: 270px;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 18px;
+        border: 2px solid #f3e1d3;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        text-align: center;
+        animation: floatCard 4s ease-in-out infinite;
+    }
+
+    .vacuna-card:hover {
+        transform: translateY(-6px);
+    }
+
+    /* Animaciones */
+    @keyframes fadeIn {
+        from {opacity:0; transform:translateY(20px);}
+        to {opacity:1; transform:translateY(0);}
+    }
+    @keyframes fadeInUp {
+        from {opacity:0; transform:translateY(40px);}
+        to {opacity:1; transform:translateY(0);}
+    }
+    @keyframes pop {
+        0% {transform: scale(0.5); opacity:0;}
+        100% {transform: scale(1); opacity:1;}
+    }
+    @keyframes floatCard {
+        0% {transform: translateY(0);}
+        50% {transform: translateY(-6px);}
+        100% {transform: translateY(0);}
+    }
+
+    /* Botones */
+    .btn-volver, .btn-adopta {
+        background: #8b5e3c;
         padding: 12px 25px;
         border-radius: 10px;
         text-decoration: none;
+        color: #fff;
+        font-weight: bold;
         display: block;
-        width: 150px;
+        width: 170px;
         text-align: center;
-        margin-left: auto;
-        margin-right: auto;
+        margin: 20px auto;
         transition: 0.3s;
     }
-
-    .btn-adopta:hover {
-        background: #a07b61;
+    .btn-volver:hover, .btn-adopta:hover {
+        background: #a07557;
     }
+
+
+    .botones-acciones {
+        display: flex;
+        justify-content: center;
+        gap: 25px;
+        margin-top: 30px;
+    }
+
+    .btn-volver, 
+    .btn-adopta {
+        width: auto;
+        padding: 12px 30px;
+        margin: 0; /* Quita los márgenes verticales */
+    }
+
 </style>
 
 </head>
@@ -173,6 +236,15 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
 
 <div class="detalle-card">
 
+    <!-- Burbuja de estado -->
+    <span class="estado-badge 
+        <?php 
+            echo strtolower($mascotaEncontrada['estado']) === 'disponible' ? 'estado-disponible' : ''; 
+            echo strtolower($mascotaEncontrada['estado']) === 'en tratamiento' ? 'estado-tratamiento' : ''; 
+        ?>">
+        <?php echo ucfirst($mascotaEncontrada["estado"]); ?>
+    </span>
+
     <img src="<?php echo $mascotaEncontrada['imagen']; ?>" alt="Mascota">
 
     <div class="detalle-info">
@@ -185,99 +257,54 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
         <p><strong>Tamaño:</strong> <?php echo $mascotaEncontrada["tamano"]; ?></p>
         <p><strong>Fecha de ingreso:</strong> <?php echo $mascotaEncontrada["fecha_ingreso"]; ?></p>
         <p><strong>Estado de salud:</strong> <?php echo $mascotaEncontrada["estado_salud"]; ?></p>
-        <p><strong>Estado:</strong> <?php echo $mascotaEncontrada["estado"]; ?></p>
-        
     </div>
-</div><br>
+</div>
 
-<div class="detalle-card">
-    <div class="detalle-info" style="width:100%;">
-        <h2>Mi historia</h2>
-        <p><?php echo $mascotaEncontrada["descripcion"]; ?></p>
-    </div>
+<div class="historia-card">
+    <h2><i class="fas fa-book-open"></i> Mi historia</h2>
+    <p><?php echo $mascotaEncontrada["descripcion"]; ?></p>
 </div>
 
 
 
 
-<h2 style="text-align:center; margin-top:40px; color:#8b5e3c;">
+<h2 style="text-align:center; color:#7c5845;">
     <i class="fas fa-notes-medical"></i> Carnet de Vacunación
 </h2><br>
 
+<div style="display:flex; flex-wrap:wrap; gap:25px; justify-content:center;">
 
+<?php if (count($vacunasMascota) === 0) { ?>
 
-    <?php if (count($vacunasMascota) === 0) { ?>
+    <p style="text-align:center; font-size:18px; color:#8b5e3c;">
+        <i class="fas fa-syringe"></i> Esta mascota aún no tiene vacunas registradas.
+    </p>
 
-        <div style="
-            text-align:center;
-            padding:30px;
-            font-size:18px;
-            color:#8b5e3c;
-        ">
-            <i class="fas fa-syringe" style="font-size:40px; margin-bottom:10px;"></i>
-            <p>Esta mascota aún no tiene vacunas registradas.</p>
+<?php } else { ?>
+
+    <?php foreach ($vacunasMascota as $vac) { ?>
+        <div class="vacuna-card">
+            <i class="fas fa-syringe" style="font-size:35px; color:#a07b61;"></i>
+            <h3 style="margin:12px 0; color:#8b5e3c;">
+                <?php echo ucfirst($vac["nombre_vacuna"]); ?>
+            </h3>
+
+            <p><strong><i class="fas fa-calendar-check"></i></strong> <?php echo $vac["fecha_aplicacion"]; ?></p>
+            <p><strong><i class="fas fa-clock"></i></strong> <?php echo $vac["proxima_dosis"]; ?></p>
+            <p><strong><i class="fas fa-sync-alt"></i></strong> <?php echo $vac["tiempo_aplicacion"]; ?></p>
         </div>
-
-    <?php } else { ?>
-
-        <div style="
-            display:flex;
-            flex-wrap:wrap;
-            gap:20px;
-            justify-content:center;
-        ">
-            <?php foreach ($vacunasMascota as $vac) { ?>
-
-                <div style="
-                    width:260px;
-                    background:white;
-                    padding:20px;
-                    border-radius:18px;
-                    box-shadow:0 4px 15px rgba(0,0,0,0.08);
-                    transition:transform .2s;
-                    border: 2px solid #f3e1d3;
-                " 
-                onmouseover="this.style.transform='scale(1.03)'"
-                onmouseout="this.style.transform='scale(1)'">
-
-                    <div style="text-align:center; margin-bottom:10px;">
-                        <i class="fas fa-syringe" style="font-size:36px; color:#a07b61;"></i>
-                    </div>
-
-                    <h3 style="
-                        text-align:center;
-                        color:#8b5e3c;
-                        margin-bottom:12px;
-                        font-size:20px;
-                    ">
-                        <?php echo ucfirst($vac["nombre_vacuna"]); ?>
-                    </h3>
-
-                    <p style="margin:6px 0; color:#5f4a3b;">
-                        <strong><i class="fas fa-calendar-check"></i> Fecha de aplicación:</strong><br>
-                        <?php echo $vac["fecha_aplicacion"]; ?>
-                    </p>
-
-                    <p style="margin:6px 0; color:#5f4a3b;">
-                        <strong><i class="fas fa-clock"></i> Próxima dosis:</strong><br>
-                        <?php echo $vac["proxima_dosis"]; ?>
-                    </p>
-
-                    <p style="margin:6px 0; color:#5f4a3b;">
-                        <strong><i class="fas fa-sync-alt"></i> Frecuencia:</strong><br>
-                        <?php echo $vac["tiempo_aplicacion"]; ?>
-                    </p>
-
-                </div>
-
-            <?php } ?>
-        </div>
-
     <?php } ?>
 
+<?php } ?>
 
-<a href="adoptaAdp" class="btn-volver">⬅ Volver</a> 
-<a href="citasAdp" class="btn-adopta">Adoptame</a><br>
+</div>
+
+<div class="botones-acciones">
+    <a href="adoptaAdp" class="btn-volver">⬅ Volver</a>
+    <a href="citasAdp" class="btn-adopta">Adoptame</a>
+</div>
+<br>
+
 
 </body>
 </html>

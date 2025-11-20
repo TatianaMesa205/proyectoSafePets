@@ -22,7 +22,7 @@ if (!isset($_SESSION["iniciarSesion"])) {
 include "view/modules/cabecera.php";
 
 
-if ($ruta !== "detalleMascota" && $ruta !== "adoptanteAdp") {
+if ($ruta !== "detalleMascota" && $ruta !== "adoptanteAdp" && $ruta !== "citasAdp") {
 
     if ($_SESSION["rol"] === "admin") {
         include "view/modules/menuAdmin.php";
