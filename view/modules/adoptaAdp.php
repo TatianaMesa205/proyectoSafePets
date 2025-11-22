@@ -58,59 +58,65 @@ $listaMascotas = $respuesta["listaMascotas"];
 </div>
 
 <style>
-    .cards-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 30px;
-        padding: 30px;
-        justify-content: center;
-        max-width: 1400px;
-        margin: auto;
+    /* --- Estilos de Adopción (adopta.php) --- */ 
+    .cards-container { 
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 25px; 
+        padding: 30px; 
+        justify-content: center; 
+        max-width: 1400px; 
+        margin: auto; 
+    } 
+    .card { 
+        width: 220px; 
+        height: 220px; 
+        perspective: 1000px; 
+        cursor: pointer; 
+        border-radius: 15px; 
+        background-color: transparent; 
+        border: none; 
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+        transition: transform 0.2s; 
+    } 
+    .card:hover { 
+        transform: translateY(-5px); 
+    } 
+    .card-inner { 
+        position: relative; 
+        width: 100%; 
+        height: 100%; 
+        transition: transform 0.5s; 
+        transform-style: preserve-3d; 
+        border-radius: 15px; 
+    } 
+    .card:hover .card-inner { 
+        transform: rotateY(180deg); 
+    } 
+    .card-front, .card-back { 
+        position: absolute; 
+        width: 100%; 
+        height: 100%; 
+        backface-visibility: hidden; 
+        border-radius: 15px; 
+        overflow: hidden; 
+    } 
+    .card-front img { 
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover; 
+    } 
+    .card-back { 
+        background: #f0e4d8; color: #a07b61; 
+        display: flex; 
+        flex-direction: column; 
+        justify-content: center; 
+        align-items: center; 
+        transform: rotateY(180deg); 
+        padding: 15px; 
+        text-align: center; 
     }
 
-    /* TARJETA */
-    .card {
-        width: 220px;
-        height: 220px;
-        perspective: 1000px;
-        cursor: pointer;
-        border-radius: 18px; 
-        background-color: transparent;
-        border: none;
-        text-decoration: none;
-    }
-
-    .card-inner {
-        position: relative;
-        width: 100%;
-        height: 100%;
-        transition: transform 0.6s;
-        transform-style: preserve-3d;
-    }
-
-    .card:hover .card-inner {
-        transform: rotateY(180deg);
-    }
-
-    .card-front, .card-back {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        backface-visibility: hidden;
-        border-radius: 18px;
-        overflow: hidden;
-    }
-
-    /* FRONT */
-    .card-front {
-        position: relative;
-    }
-
-    .card-front img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
 
     /* BURBUJAS DE ESTADO */
     .estado-badge {
@@ -128,32 +134,47 @@ $listaMascotas = $respuesta["listaMascotas"];
     .estado-disponible { background: #9bcb7fff; }         /* Verde pastel */
     .estado-tratamiento { background: #f6ac6bff; }       /* Amarillo suave */
 
-    /* BACK */
-    .card-back {
-        background: #f7e9dd;
-        color: #8b5e3c;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        transform: rotateY(180deg);
-        padding: 20px;
-        text-align: center;
+    /* ====== ANIMACIONES LINDAS ====== */
+
+    /* Flotación suave */
+    @keyframes float {
+        0% { transform: translateY(0); }
+        50% { transform: translateY(-6px); }
+        100% { transform: translateY(0); }
     }
 
-    .card-back h3 {
-        margin-bottom: 15px;
-        font-size: 22px;
-        color: #7a533b;
+    /* Pulso para la burbuja */
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); }
+        100% { transform: scale(1); }
     }
 
-    .info-item {
-        margin: 6px 0;
-        font-size: 16px;
-        color: #6b4b37;
-        display: flex;
-        align-items: center;
-        gap: 8px;
+    /* Sombra animada */
+    @keyframes shadowGlow {
+        0% { box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        50% { box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+        100% { box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
     }
+
+    /* ====== APLICACIÓN EN LAS CARTAS ====== */
+
+
+
+    /* La parte interna con 3D suave */
+    .card-inner {
+        transition: transform 0.8s cubic-bezier(.25,.8,.25,1); /* Flip más elegante */
+    }
+
+    /* Burbuja de estado con animación */
+    .estado-badge {
+        animation: pulse 2s infinite ease-in-out;
+        transition: 0.3s;
+    }
+
+    .estado-badge:hover {
+        transform: scale(1.2) rotate(-5deg);
+    }
+
 
 </style>

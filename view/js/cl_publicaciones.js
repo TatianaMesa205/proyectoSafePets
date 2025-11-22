@@ -87,33 +87,55 @@ class Publicaciones {
         });
     }
 
-    registrarPublicacion() {
-        let objData = new FormData();
-        objData.append("registrarPublicacion", "ok");
-        objData.append("tipo", this._objData.tipo);
-        objData.append("descripcion", this._objData.descripcion);
-        objData.append("fecha_publicacion", this._objData.fecha_publicacion);
-        objData.append("contacto", this._objData.contacto);
-        objData.append("foto", this._objData.foto);
 
-        fetch("controller/publicacionesController.php", {
-            method: "POST",
-            body: objData
+registrarPublicacion() {
+
+    let rol = document.getElementById("rol_usuario").value;
+
+    let objData = new FormData();
+    objData.append("registrarPublicacion", "ok");
+    objData.append("tipo", this._objData.tipo);
+    objData.append("descripcion", this._objData.descripcion);
+    objData.append("fecha_publicacion", this._objData.fecha_publicacion);
+    objData.append("contacto", this._objData.contacto);
+    objData.append("foto", this._objData.foto);
+
+    fetch("controller/publicacionesController.php", {
+        method: "POST",
+        body: objData
+    })
+        .then(response => response.json())
+        .then(response => {
+            if (response["codigo"] == "200") {
+
+                Swal.fire({
+                    title: "Publicación creada 🐾",
+                    icon: "success",
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(() => {
+
+                    if (rol === "admin") {
+                         // 🔹 ADMIN: NO redirige, solo vuelve a la tabla
+                        document.getElementById("formRegistroPublicacion").reset();
+                        $("#panelFormularioPublicaciones").hide();
+                        $("#panelTablaPublicaciones").show();
+                        this.recargarTabla();
+                    } else {
+                        // ADOPTANTE
+                        window.location.href = "index.php?ruta=publicacionesAdp";
+                    }
+
+                });
+
+            } else {
+                Swal.fire("Error", response["mensaje"], "error");
+            }
         })
-            .then(response => response.json())
-            .then(response => {
-                if (response["codigo"] == "200") {
-                    Swal.fire("Éxito", "Publicación registrada correctamente 🐶📢", "success");
-                    document.getElementById("formRegistroPublicacion").reset();
-                    $("#panelFormularioPublicaciones").hide();
-                    $("#panelTablaPublicaciones").show();
-                    this.recargarTabla();
-                } else {
-                    Swal.fire("Error", response["mensaje"], "error");
-                }
-            })
-            .catch(error => console.error("Error:", error));
-    }
+        .catch(error => console.error("Error:", error));
+}
+
+
 
     editarPublicacion() {
         let objData = new FormData();

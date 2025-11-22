@@ -142,25 +142,25 @@
     <div class="col">
       <a href="adoptaAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-paw"></i>
-        <span class="small">𝒜𝒹𝑜𝓅𝓉𝒶</span>
+        <span class="small">𝑀𝒶𝓈𝒸𝑜𝓉𝒶𝓈</span>
       </a>
     </div>
     <div class="col">
-      <a href="citasAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
-        <i class="fa-solid fa-calendar"></i>
-        <span class="small">𝒞𝒾𝓉𝒶𝓈</span>
+      <a href="publicacionesAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
+        <i class="fa-solid fa-bell"></i>
+        <span class="small">𝒫𝓊𝒷𝓁𝒾𝒸𝒶𝒸𝒾𝑜𝓃𝑒𝓈</span>
+      </a>
+    </div>
+    <div class="col">
+      <a href="historiasAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
+        <i class="fa-solid fa-book-open"></i>
+        <span class="small">𝐻𝒾𝓈𝓉𝑜𝓇𝒾𝒶𝓈</span>
       </a>
     </div>
     <div class="col">
       <a href="donacionesAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-heart"></i>
         <span class="small">𝒟𝑜𝓃𝒶𝒸𝒾𝑜𝓃𝑒𝓈</span>
-      </a>
-    </div>
-    <div class="col">
-      <a href="publicaciones" class="text-decoration-none text-dark d-flex flex-column align-items-center">
-        <i class="fa-solid fa-bell"></i>
-        <span class="small">𝒫𝓊𝒷𝓁𝒾𝒸𝒶𝒸𝒾𝑜𝓃𝑒𝓈</span>
       </a>
     </div>
   </div>

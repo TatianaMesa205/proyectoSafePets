@@ -25,6 +25,8 @@
     </table>
   </div>
 
+  <input type="hidden" id="rol_usuario" value="<?php echo $_SESSION['rol']; ?>">
+
   <div id="panelFormularioPublicaciones" class="form-panel shadow-sm rounded-4 p-4 mt-4" style="display:none;">
     <h4 class="mb-3 text-center text-dark fw-semibold">Nueva Publicación</h4>
     <form id="formRegistroPublicacion" novalidate enctype="multipart/form-data">
