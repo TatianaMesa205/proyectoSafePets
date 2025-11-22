@@ -31,6 +31,19 @@ class Mascotas {
                     objBotones += '<button id="btn-eliminarMascota" type="button" style="background-color:rgba(112, 110, 120, 1); color:white" class="btn" mascota="'+item.id_mascotas+'"><i class="bi bi-trash"></i></button>';
                     objBotones += '</div>';
 
+                    // --- CORRECCIÓN DE IMAGEN ---
+                    // Definimos la ruta base donde están las imágenes físicas
+                    let rutaBase = "../CarpetaCompartida/Mascotas/";
+                    let imgHtml = "";
+
+                    // Si hay imagen, concatenamos. Si no, mostramos una por defecto.
+                    if (item.imagen && item.imagen != "") {
+                        imgHtml = `<img src="${rutaBase + item.imagen}" alt="Foto" width="80" height="80" style="object-fit:cover;border-radius:10px;">`;
+                    } else {
+                        imgHtml = `<img src="view/img/default/anonymous.png" alt="Sin Foto" width="80" height="80" style="object-fit:cover;border-radius:10px;">`;
+                    }
+                    // ----------------------------
+
                     dataSet.push([ 
                         item.nombre,
                         item.especie,
@@ -42,9 +55,7 @@ class Mascotas {
                         item.estado_salud,
                         item.estado,
                         item.descripcion,
-                        `<img src="${item.imagen ? item.imagen.replace('../', '') : 'sin-foto.png'}" 
-                        alt="Foto" width="80" height="80" 
-                        style="object-fit:cover;border-radius:10px;">`,
+                        imgHtml, // Aquí va la imagen corregida
                         objBotones
                     ]);
                 });
@@ -60,8 +71,6 @@ class Mascotas {
             }
         })
     }
-
-
 
     eliminarMascota(){
         let objData = new FormData();
@@ -97,7 +106,6 @@ class Mascotas {
     }
 
     registrarMascota(){
-
         console.log(this._objData.registrarMascota);
 
         let objDataMascota = new FormData();
@@ -114,7 +122,6 @@ class Mascotas {
         objDataMascota.append("descripcion",this._objData.descripcion);
         objDataMascota.append("imagen",this._objData.imagen);
 
-
         fetch('controller/mascotasController.php',{
             method: 'POST',
             body:objDataMascota
@@ -123,7 +130,6 @@ class Mascotas {
             console.log(error);
         })
         .then(response =>{
-
             if(response["codigo"] == "200"){
                 let formulario = document.getElementById('formRegistroMascotas');
                 formulario.reset();
@@ -150,9 +156,7 @@ class Mascotas {
         })
     }
 
-
     editarMascota(){
-
         let objDataMascota = new FormData();
         objDataMascota.append("editarMascota",this._objData.editarMascota);
         objDataMascota.append("id_mascotas",this._objData.id_mascotas);
@@ -180,7 +184,6 @@ class Mascotas {
             console.log(error);
         })
         .then(response =>{
-
             if(response["codigo"] == "200"){
                 let formulario = document.getElementById('formEditarMascotas');
                 formulario.reset();
@@ -206,6 +209,4 @@ class Mascotas {
             }
         })
     }
-
-}  
-    
+}

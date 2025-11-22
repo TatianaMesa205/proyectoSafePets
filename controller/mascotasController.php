@@ -1,7 +1,5 @@
 <?php
-
-// --- CORRECCIÓN DE RUTA ---
-// Usamos __DIR__ para asegurar que encuentre el modelo sin importar desde dónde se llame
+// Usamos __DIR__ para evitar errores de rutas
 include_once __DIR__ . "/../model/mascotasModel.php";
 
 class MascotasController
@@ -20,7 +18,7 @@ class MascotasController
     public $imagen;
 
     /* =============================================
-       MÉTODO PARA CONTAR MASCOTAS (Inicio Admin)
+       MÉTODO PARA CONTAR MASCOTAS (Panel)
        ============================================= */
     static public function ctrContarMascotas(){
         return MascotasModel::mdlContarMascotas();
@@ -91,6 +89,7 @@ if (isset($_POST["eliminarMascota"]) == "ok") {
     $objMascotas->ctrEliminarMascota();
 }
 
+// --- LOGICA DE REGISTRO CORREGIDA ---
 if (isset($_POST["registrarMascota"]) == "ok") {
     $objMascotas = new MascotasController();
     $objMascotas->nombre = $_POST["nombre"];
@@ -104,20 +103,31 @@ if (isset($_POST["registrarMascota"]) == "ok") {
     $objMascotas->estado = $_POST["estado"];
     $objMascotas->descripcion = $_POST["descripcion"];
 
-    $ruta_foto = "";
+    $nombreImagen = ""; // Variable para la BD
+
     if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == 0) {
+        // 1. Definimos la carpeta física
         $directorio = "../../CarpetaCompartida/Mascotas/";
         if (!file_exists($directorio)) {
             mkdir($directorio, 0777, true);
         }
+        
+        // 2. Definimos el nombre único del archivo
         $nombreArchivo = uniqid() . "_" . basename($_FILES["imagen"]["name"]);
-        $ruta_foto = $directorio . $nombreArchivo;
-        move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta_foto);
+        
+        // 3. Movemos el archivo a la carpeta completa
+        $rutaFisica = $directorio . $nombreArchivo;
+        move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutaFisica);
+
+        // 4. Guardamos SOLO el nombre en la variable para la BD
+        $nombreImagen = $nombreArchivo;
     }
-    $objMascotas->imagen = $ruta_foto;
+    
+    $objMascotas->imagen = $nombreImagen;
     $objMascotas->ctrRegistrarMascota();
 }
 
+// --- LOGICA DE EDICIÓN CORREGIDA ---
 if (isset($_POST["editarMascota"]) && $_POST["editarMascota"] == "ok") {
 
     $objMascotas = new MascotasController();
@@ -133,20 +143,28 @@ if (isset($_POST["editarMascota"]) && $_POST["editarMascota"] == "ok") {
     $objMascotas->estado = $_POST["estado"];
     $objMascotas->descripcion = $_POST["descripcion"];
 
-    $ruta_foto = "";
+    $nombreImagen = ""; 
+
     if (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == 0) {
+        // Si suben nueva imagen, repetimos el proceso
         $directorio = "../../CarpetaCompartida/Mascotas/";
         if (!file_exists($directorio)) {
             mkdir($directorio, 0777, true);
         }
         $nombreArchivo = uniqid() . "_" . basename($_FILES["imagen"]["name"]);
-        $ruta_foto = $directorio . $nombreArchivo;
-        move_uploaded_file($_FILES["imagen"]["tmp_name"], $ruta_foto);
+        
+        // Mover a carpeta completa
+        $rutaFisica = $directorio . $nombreArchivo;
+        move_uploaded_file($_FILES["imagen"]["tmp_name"], $rutaFisica);
+
+        // Guardar solo nombre
+        $nombreImagen = $nombreArchivo;
+
     } else {
-        $ruta_foto = isset($_POST["imagen_actual"]) ? $_POST["imagen_actual"] : "";
+        $nombreImagen = isset($_POST["imagen_actual"]) ? $_POST["imagen_actual"] : "";
     }
 
-    $objMascotas->imagen = $ruta_foto;
+    $objMascotas->imagen = $nombreImagen;
     $objMascotas->ctrEditarMascota();
 }
 ?>

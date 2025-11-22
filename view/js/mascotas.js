@@ -72,12 +72,16 @@
     let descripcion = $(this).attr("descripcion");
     let imagen = $(this).attr("imagen");
 
-    if (imagen) {
-        $("#linkImagenActualMascota").attr("href", "../../../CarpetaCompartida/Mascotas/" + imagen)
+    // --- CORRECCIÓN DE LINK IMAGEN EN EDICIÓN ---
+    if (imagen && imagen != "") {
+        // Asumiendo que index.php está al nivel de la CarpetaCompartida/..
+        // Usamos la misma ruta relativa que en la tabla
+        $("#linkImagenActualMascota").attr("href", "../CarpetaCompartida/Mascotas/" + imagen);
         $("#linkImagenActualMascota").show();
     } else {
         $("#linkImagenActualMascota").hide();
     }
+    // --------------------------------------------
     
     $("#txt_edit_nombre").val(nombre);
     $("#txt_edit_especie").val(especie);
@@ -112,7 +116,8 @@
 
             let objData = {
               nombre, especie, raza, edad, sexo, tamano,
-              fecha_ingreso, estado_salud, estado, descripcion, imagen
+              fecha_ingreso, estado_salud, estado, descripcion, imagen,
+              registrarMascota: "ok" // Aseguramos que se envíe la bandera
             };
             let objMascota = new Mascotas(objData);
             objMascota.registrarMascota();
