@@ -33,7 +33,7 @@ if ($ruta !== "detalleMascota" && $ruta !== "adoptanteAdp" && $ruta !== "citasAd
 }
 
 // Listas blancas de rutas
-$rutasAdoptante = ["inicioAdp", "adoptaAdp", "citasAdp", "donacionesAdp", "detalleMascota", "publicaciones", "adoptanteAdp", "registro-adoptante", "perfil.php"];
+$rutasAdoptante = ["inicioAdp", "adoptaAdp", "citasAdp", "donacionesAdp", "detalleMascota", "publicacionesAdp","historiasAdp", "adoptanteAdp", "registro-adoptante","perfilAdp"];
 $rutasAdmin = ["inicioAdmin", "adoptantes", "mascotas", "adopciones", "vacunas", "citas", "donaciones", "publicaciones", "seguimientos", "vacunasMascotas", "perfilAdmin"];
 
 // Lógica de navegación central

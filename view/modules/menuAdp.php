@@ -79,9 +79,9 @@
 
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
             <li>
-              <a class="dropdown-item" href="perfil.php">
-                <i class="fa-solid fa-user me-2"></i> Mi Perfil
-              </a>
+                <a class="dropdown-item" href="perfilAdp">
+                  <i class="fa-solid fa-user me-2"></i> Mi Perfil
+                </a>
             </li>
 
             <li>
@@ -165,5 +165,6 @@
     </div>
   </div>
 </div>
+<?php include("pie.php"); ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

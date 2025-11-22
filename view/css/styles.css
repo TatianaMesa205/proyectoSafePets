@@ -481,5 +481,37 @@ textarea {
     background: #8c624a;
 }
 
+/* FORMULARIO ANCHO DE VERDAD (IGNORA BOOSTRAP) */
+.form-wrapper {
+    width: 100%;
+    max-width: 1000px !important;   /* ANCHO REAL */
+    background: #fffaf5;
+    padding: 40px 60px;
+    border-radius: 16px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+/* Inputs más grandes */
+.form-wrapper .form-control,
+.form-wrapper .input-group-text {
+    height: 60px !important;
+    font-size: 1.2rem;
+}
+
+/* Icono grande */
+.profile-icon {
+    font-size: 110px !important;
+    color: #c6b3a3;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+/* Botón grande */
+.btn-save-lg {
+    padding: 18px !important;
+    font-size: 1.2rem;
+    border-radius: 40px;
+    width: 100%;
+}
 
 

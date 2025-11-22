@@ -4,7 +4,7 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Limpiar cualquier salida previa (espacios en blanco, errores) que rompa el JSON
+// Limpiar cualquier salida previa
 ob_start();
 
 // Cabecera JSON
@@ -36,7 +36,7 @@ class LoginControlador {
                 $_SESSION['iniciarSesion'] = "ok";
                 $_SESSION['id'] = $respuesta['usuario']['id']; 
                 $_SESSION['nombre_usuario'] = $respuesta['usuario']['nombre_usuario'];
-                $_SESSION['rol'] = $respuesta['usuario']['rol']; // Ahora sí existe gracias al JOIN en el modelo
+                $_SESSION['rol'] = $respuesta['usuario']['rol']; 
                 $_SESSION['email'] = $respuesta['usuario']['email']; 
                 
                 // Definir redirección
@@ -83,6 +83,45 @@ class LoginControlador {
         }
     }
 
+    // --- FUNCIÓN ACTUALIZADA CON REDIRECCIÓN ---
+    public function ctrActualizarPerfil() {
+        try {
+            if (!isset($_SESSION['iniciarSesion']) || !isset($_SESSION['id'])) {
+                echo json_encode(["codigo" => "403", "mensaje" => "No autorizado"]);
+                return;
+            }
+    
+            $idUsuario = $_SESSION['id'];
+            $rol = $_SESSION['rol']; // Obtenemos el rol actual
+            $nuevoNombre = $_POST['nombre_usuario'] ?? '';
+            $nuevaPass = $_POST['password'] ?? ''; 
+    
+            if (empty($nuevoNombre)) {
+                echo json_encode(["codigo" => "400", "mensaje" => "El nombre es obligatorio"]);
+                return;
+            }
+    
+            $respuesta = LoginModelo::mdlActualizarPerfil($idUsuario, $nuevoNombre, $nuevaPass);
+    
+            if ($respuesta['codigo'] == "200") {
+                // Actualizar sesión
+                $_SESSION['nombre_usuario'] = $nuevoNombre;
+
+                // Definir a dónde enviar al usuario según su rol
+                if ($rol === 'admin') {
+                    $respuesta['redirect'] = 'inicioAdmin'; 
+                } else {
+                    $respuesta['redirect'] = 'inicioAdp'; 
+                }
+            }
+    
+            echo json_encode($respuesta);
+    
+        } catch (Exception $e) {
+            echo json_encode(["codigo" => "500", "mensaje" => $e->getMessage()]);
+        }
+    }
+
     public function ctrLogout() {
         session_unset();
         session_destroy();
@@ -106,11 +145,13 @@ if (isset($_POST['accion'])) {
         case 'logout': 
             $login->ctrLogout(); 
             break;
+        case 'actualizar_perfil': 
+            $login->ctrActualizarPerfil();
+            break;
         default:
             echo json_encode(["codigo" => "400", "mensaje" => "Acción inválida"]);
     }
 } else {
-    // Respuesta por defecto si se llama al archivo sin acción (útil para depuración)
-    // No imprimimos nada extra para no romper JSON si este archivo se incluye en otro lado
+    // Respuesta por defecto si se llama sin acción
 }
 ?>

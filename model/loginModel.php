@@ -10,7 +10,6 @@ class LoginModelo {
                 return ["codigo" => "500", "mensaje" => "Error de conexión a base de datos"];
             }
 
-            // CORRECCIÓN: Usamos JOIN para traer el nombre del rol y alias para el ID
             $sql = "SELECT 
                         u.id_usuarios AS id,
                         u.nombre_usuario,
@@ -28,7 +27,6 @@ class LoginModelo {
 
             if ($user) {
                 if (password_verify($password, $user['password'])) {
-                    // Eliminamos la contraseña del array por seguridad
                     unset($user['password']);
                     return ["codigo" => "200", "mensaje" => "Login exitoso", "usuario" => $user];
                 } else {
@@ -46,7 +44,6 @@ class LoginModelo {
         try {
             $con = Conexion::conectar();
             
-            // Verificar si usuario o email ya existen
             $check = $con->prepare("SELECT id_usuarios FROM usuarios WHERE email = :email OR nombre_usuario = :nombre");
             $check->bindParam(":email", $email);
             $check->bindParam(":nombre", $nombre);
@@ -57,7 +54,7 @@ class LoginModelo {
             }
 
             $hash = password_hash($pass, PASSWORD_DEFAULT);
-            $rol = 2; // 2 = Rol adoptante por defecto
+            $rol = 2; 
 
             $stmt = $con->prepare("INSERT INTO usuarios (nombre_usuario, email, password, id_roles) VALUES (:n, :e, :p, :r)");
             $stmt->bindParam(":n", $nombre);
@@ -96,6 +93,50 @@ class LoginModelo {
             return ["codigo" => "500", "mensaje" => "Error"];
         } catch (Exception $e) {
             return ["codigo" => "500", "mensaje" => $e->getMessage()];
+        }
+    }
+
+    // --- NUEVA FUNCIÓN PARA ACTUALIZAR PERFIL ---
+    public static function mdlActualizarPerfil($id, $nombre, $password) {
+        try {
+            $con = Conexion::conectar();
+    
+            // 1. Validar que el nuevo nombre de usuario no lo tenga OTRA persona
+            $check = $con->prepare("SELECT id_usuarios FROM usuarios WHERE nombre_usuario = :nombre AND id_usuarios != :id");
+            $check->bindParam(":nombre", $nombre);
+            $check->bindParam(":id", $id);
+            $check->execute();
+    
+            if ($check->rowCount() > 0) {
+                return ["codigo" => "409", "mensaje" => "Ese nombre de usuario ya está en uso."];
+            }
+    
+            // 2. Preparar la consulta
+            if ($password != "") {
+                // Si hay contraseña nueva, la encriptamos y actualizamos todo
+                $hash = password_hash($password, PASSWORD_DEFAULT);
+                $sql = "UPDATE usuarios SET nombre_usuario = :nombre, password = :pass WHERE id_usuarios = :id";
+            } else {
+                // Si no hay contraseña, solo actualizamos el nombre
+                $sql = "UPDATE usuarios SET nombre_usuario = :nombre WHERE id_usuarios = :id";
+            }
+    
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(":nombre", $nombre);
+            $stmt->bindParam(":id", $id);
+            
+            if ($password != "") {
+                $stmt->bindParam(":pass", $hash);
+            }
+    
+            if ($stmt->execute()) {
+                return ["codigo" => "200", "mensaje" => "Perfil actualizado correctamente"];
+            } else {
+                return ["codigo" => "500", "mensaje" => "Error al actualizar"];
+            }
+    
+        } catch (Exception $e) {
+            return ["codigo" => "500", "mensaje" => "Error: " . $e->getMessage()];
         }
     }
 }
