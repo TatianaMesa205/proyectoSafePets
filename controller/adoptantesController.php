@@ -17,20 +17,17 @@ class AdoptantesController
     public $email;
     public $direccion;
 
-    /* ==============================================
-       MÉTODO QUE FALTABA (IMPORTANTE)
-       Busca el adoptante para el formulario de citas
-       ============================================== */
+  
     static public function ctrMostrarAdoptante($item, $valor)
     {
         $respuesta = AdoptantesModel::mdlMostrarAdoptante($item, $valor);
         return $respuesta;
     }
-
-    /* ==============================================
-       MÉTODO PARA EL BOTÓN "ADOPTAME" (AJAX)
-       Verifica si el usuario ya es adoptante
-       ============================================== */
+static public function ctrContarAdoptantes(){
+        $respuesta = AdoptantesModel::mdlContarAdoptantes();
+        return $respuesta["total"];
+    }
+   
     public function ctrVerificarPerfilAdoptante()
     {
         if (session_status() == PHP_SESSION_NONE) {
@@ -53,9 +50,7 @@ class AdoptantesController
         }
     }
 
-    /* ==============================================
-       MÉTODOS CRUD
-       ============================================== */
+
 
     public function ctrListarAdoptantes()
     {
@@ -96,9 +91,7 @@ class AdoptantesController
 
 }
 
-// =======================================================
-// BLOQUE DE PETICIONES AJAX (Aquí estaba el problema)
-// =======================================================
+
 
 if (isset($_POST["listarAdoptantes"]) && $_POST["listarAdoptantes"] == "ok") {
     $objAdoptantes = new AdoptantesController();

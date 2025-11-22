@@ -97,5 +97,10 @@ class MascotasModel
         }
         return $mensaje;
     }
+    static public function mdlContarMascotas(){
+        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM mascotas");
+        $stmt->execute();
+        return $stmt->fetch(); // Retorna array con 'total'
+    }
 }
 ?>

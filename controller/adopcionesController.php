@@ -74,6 +74,7 @@ class AdopcionesController
                 $this->contrato = $nombreArchivo;
             }
         }
+        
 
         $objRespuesta = AdopcionesModel::mdlEditarAdopcion(
             $this->id_adopciones,
@@ -86,6 +87,11 @@ class AdopcionesController
         );
 
         echo json_encode($objRespuesta);
+    }
+    static public function ctrContarAdopciones(){
+        // Verifica que la clase AdopcionesModel tenga el método creado
+        $respuesta = AdopcionesModel::mdlContarAdopciones();
+        return $respuesta["total"];
     }
 
 }

@@ -95,5 +95,10 @@ class AdoptantesModel
             return array("codigo" => "401", "mensaje" => $e->getMessage());
         }
     }
+    static public function mdlContarAdoptantes(){
+        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM adoptantes");
+        $stmt->execute();
+        return $stmt->fetch();
+    }
 }
 ?>

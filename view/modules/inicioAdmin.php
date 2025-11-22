@@ -1,8 +1,82 @@
+<?php
+// 1. INCLUIR CONTROLADORES PARA OBTENER DATOS
+require_once "controller/mascotasController.php";
+require_once "controller/adoptantesController.php";
+require_once "controller/citasController.php";
+
+/**
+ * normalizeCount: convierte la respuesta del controller en un entero representativo.
+ * Soporta: int, string numérico, array con ['total'] o [0]['total'], o lista de filas.
+ */
+function normalizeCount($value){
+    if (is_int($value)) return $value;
+    if (is_string($value) && is_numeric($value)) return (int)$value;
+    if (is_array($value)) {
+        // patrón: ['total' => X]
+        if (isset($value['total'])) return (int)$value['total'];
+        // patrón: [0 => ['total' => X]] o [0 => ['count' => X]]
+        if (isset($value[0]) && is_array($value[0])) {
+            foreach (['total','count','cnt','cantidad'] as $k) {
+                if (isset($value[0][$k])) return (int)$value[0][$k];
+            }
+        }
+        // Si es una lista de filas, devolver la cantidad de elementos
+        return count($value);
+    }
+    return 0;
+}
+
+// 2. OBTENER TOTALES REALES y normalizarlos
+$totalMascotasRaw = MascotasController::ctrContarMascotas();
+$totalUsuariosRaw = AdoptantesController::ctrContarAdoptantes();
+
+// Obtener todas las citas y contar solo las pendientes (uso directo del modelo si está disponible)
+$totalCitasPendientesRaw = 0;
+
+if (class_exists('CitasModel') && method_exists('CitasModel', 'mdlListarCitas')) {
+    $resp = CitasModel::mdlListarCitas();
+    $citasAll = [];
+
+    // La función del modelo devuelve un arreglo tipo: ["codigo"=>"200", "listaCitas"=>[...] ]
+    if (is_array($resp) && isset($resp['listaCitas']) && is_array($resp['listaCitas'])) {
+        $citasAll = $resp['listaCitas'];
+    } elseif (is_array($resp) && isset($resp[0]) && is_array($resp[0])) {
+        // fallback por si el modelo devolviera directamente la lista
+        $citasAll = $resp;
+    }
+
+    foreach ($citasAll as $c) {
+        $estado = '';
+        if (isset($c['estado'])) $estado = strtolower(trim((string)$c['estado']));
+        elseif (isset($c['status'])) $estado = strtolower(trim((string)$c['status']));
+
+        // Normalizar y detectar "pendiente" en varios formatos
+        $isPending = false;
+        if ($estado === 'pendiente' || strpos($estado, 'pend') === 0) $isPending = true;
+        elseif (is_numeric($estado) && intval($estado) === 0) $isPending = true; // si en BD usas 0 para pendiente
+
+        if ($isPending) $totalCitasPendientesRaw++;
+    }
+} else {
+    // Fallback: método del controller o contador genérico
+    if (method_exists('CitasController', 'ctrContarCitasPendientes')) {
+        $totalCitasPendientesRaw = CitasController::ctrContarCitasPendientes();
+    } else {
+        $totalCitasPendientesRaw = CitasController::ctrContarCitas();
+    }
+}
+
+$totalMascotas = normalizeCount($totalMascotasRaw);
+$totalUsuarios = normalizeCount($totalUsuariosRaw);
+$totalCitasPendientes = is_int($totalCitasPendientesRaw) ? (int)$totalCitasPendientesRaw : normalizeCount($totalCitasPendientesRaw);
+?>
+
 <style>
     /* --- CONTENEDOR GENERAL --- */
     .admin-dashboard {
         padding: 20px 30px 40px 30px;
         background: #fef9f6;
+        min-height: 100vh;
     }
 
     /* --- TARJETAS SUPERIORES --- */
@@ -14,6 +88,8 @@
         padding: 18px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         cursor: pointer;
+        text-decoration: none; /* Importante para enlaces */
+        display: block; /* Para que el anchor ocupe todo el espacio */
     }
 
     .stat-card:hover {
@@ -87,51 +163,48 @@
 
 <div class="admin-dashboard container-fluid">
 
-    <!-- TARJETAS SUPERIORES -->
     <div class="row mb-4 g-4">
 
         <div class="col-md-4">
-            <div class="stat-card">
+            <a href="mascotas" class="stat-card">
                 <div class="card-body">
                     <div>
-                        <h3>12</h3>
+                        <h3><?php echo $totalMascotas; ?></h3>
                         <p class="mb-0">Mascotas Registradas</p>
                     </div>
                     <i class="fas fa-paw"></i>
                 </div>
-            </div>
+            </a>
         </div>
 
         <div class="col-md-4">
-            <div class="stat-card">
+            <a href="adoptantes" class="stat-card">
                 <div class="card-body">
                     <div>
-                        <h3>45</h3>
+                        <h3><?php echo $totalUsuarios; ?></h3>
                         <p class="mb-0">Usuarios Activos</p>
                     </div>
                     <i class="fas fa-users"></i>
                 </div>
-            </div>
+            </a>
         </div>
 
         <div class="col-md-4">
-            <div class="stat-card">
+            <a href="citas" class="stat-card">
                 <div class="card-body">
                     <div>
-                        <h3>8</h3>
+                        <h3><?php echo $totalCitasPendientes; ?></h3>
                         <p class="mb-0">Citas Pendientes</p>
                     </div>
                     <i class="fas fa-calendar-check"></i>
                 </div>
-            </div>
+            </a>
         </div>
 
     </div>
 
-    <!-- TÍTULO -->
     <h3 class="dashboard-title">Accesos Rápidos</h3>
 
-    <!-- PRIMER BLOQUE -->
     <div class="row g-4">
 
         <div class="col-md-3">
@@ -192,7 +265,6 @@
 
     </div>
 
-    <!-- ÚLTIMA FILA CENTRADA -->
     <div class="row g-4 quick-row-last">
 
         <div class="col-md-3">

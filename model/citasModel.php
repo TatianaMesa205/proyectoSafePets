@@ -129,4 +129,9 @@ class CitasModel
 
         return $mensaje;
     }
+    static public function mdlContarCitas(){
+        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM citas");
+        $stmt->execute();
+        return $stmt->fetch();
+    }
 }

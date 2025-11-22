@@ -1,10 +1,14 @@
 <?php
+ob_start(); // Inicia el buffer para evitar errores de headers
 
-include_once "../model/citasModel.php";
+// --- CORRECCIÓN DE RUTAS ---
+// Usamos __DIR__ para que las rutas sean absolutas relativas a este archivo
+include_once __DIR__ . "/../model/citasModel.php";
+include_once __DIR__ . "/../model/adoptantesModel.php";
+include_once __DIR__ . "/../utils/correo.php";
 
 class CitasController
 {
-
     public $id_citas;
     public $id_adoptantes;
     public $id_mascotas;
@@ -12,21 +16,36 @@ class CitasController
     public $estado;
     public $motivo;
 
+   
+    static public function ctrContarCitasPendientes(){
+        return CitasModel::mdlContarCitas();
+    }
+    
+    static public function ctrContarCitas(){
+        return CitasModel::mdlContarCitas(); 
+    }
+
     public function ctrListarCitas()
     {
         $objRespuestaCitas = CitasModel::mdlListarCitas();
+        ob_clean(); 
+        header('Content-Type: application/json');
         echo json_encode($objRespuestaCitas);
+        die();
     }
-
 
     public function ctrEliminarCita()
     {
         $objRespuestaCitas = CitasModel::mdlEliminarCita($this->id_citas);
+        ob_clean();
+        header('Content-Type: application/json');
         echo json_encode($objRespuestaCitas);
+        die();
     }
 
     public function ctrRegistrarCita()
     {
+        // 1. Registrar la cita en la Base de Datos
         $objRespuestaCitas = CitasModel::mdlRegistrarCita(
             $this->id_adoptantes,
             $this->id_mascotas,
@@ -34,18 +53,41 @@ class CitasController
             $this->estado,
             $this->motivo
         );
-        echo json_encode($objRespuestaCitas);
+
+        // 2. Intentar enviar correo SOLO si el registro fue exitoso
+        if (isset($objRespuestaCitas["codigo"]) && $objRespuestaCitas["codigo"] == "200") {
+            try {
+                $adoptante = AdoptantesModel::mdlMostrarAdoptante("id_adoptantes", $this->id_adoptantes);
+                if ($adoptante) {
+                    $email = $adoptante["email"];
+                    $nombre = $adoptante["nombre_completo"];
+                    // Enviamos el correo
+                    Correo::enviarCorreoCita($email, $nombre, $this->fecha_cita, $this->motivo);
+                }
+            } catch (Throwable $e) {
+                // Si falla el correo, continuamos sin interrumpir el JSON
+            }
+        }
+
+        ob_clean();
+        header('Content-Type: application/json');
+        echo json_encode($objRespuestaCitas); 
+        die();
     }
 
     public function ctrEditarCita()
     {
         $objRespuestaCitas = CitasModel::mdlEditarCita($this->id_citas, $this->id_adoptantes, $this->id_mascotas, $this->fecha_cita, $this->estado, $this->motivo);
+        ob_clean();
+        header('Content-Type: application/json');
         echo json_encode($objRespuestaCitas);
-
-
+        die();
     }
-
 }
+
+// =======================================================
+// MANEJO DE PETICIONES AJAX
+// =======================================================
 
 if (isset($_POST["listarCitas"]) == "ok") {
     $objCitas = new CitasController();
@@ -70,13 +112,12 @@ if (isset($_POST["registrarCita"]) == "ok") {
 
 if (isset($_POST["editarCita"]) == "ok") {
     $objCitas = new CitasController();
-
     $objCitas->id_citas = $_POST["id_citas"];
     $objCitas->id_adoptantes = $_POST["id_adoptantes"];
     $objCitas->id_mascotas = $_POST["id_mascotas"];
     $objCitas->fecha_cita = $_POST["fecha_cita"];
     $objCitas->estado = $_POST["estado"];
     $objCitas->motivo = $_POST["motivo"];
-
     $objCitas->ctrEditarCita();
 }
+?>

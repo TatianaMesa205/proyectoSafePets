@@ -220,7 +220,7 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
 
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
             <li>
-              <a class="dropdown-item" href="perfil.php">
+              <a class="dropdown-item" href="perfilAdp">
                 <i class="fa-solid fa-user me-2"></i> Mi Perfil
               </a>
             </li>

@@ -116,4 +116,9 @@ class AdopcionesModel
         }
         return $mensaje;
     }
+    static public function mdlContarAdopciones(){
+        $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM adopciones");
+        $stmt->execute();
+        return $stmt->fetch();
+    }
 }

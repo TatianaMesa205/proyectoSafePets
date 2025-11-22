@@ -1,6 +1,8 @@
 <?php
 
-include_once "../model/mascotasModel.php";
+// --- CORRECCIÓN DE RUTA ---
+// Usamos __DIR__ para asegurar que encuentre el modelo sin importar desde dónde se llame
+include_once __DIR__ . "/../model/mascotasModel.php";
 
 class MascotasController
 {
@@ -16,6 +18,13 @@ class MascotasController
     public $estado;
     public $descripcion;
     public $imagen;
+
+    /* =============================================
+       MÉTODO PARA CONTAR MASCOTAS (Inicio Admin)
+       ============================================= */
+    static public function ctrContarMascotas(){
+        return MascotasModel::mdlContarMascotas();
+    }
 
     public function ctrListarMascotas()
     {
@@ -67,7 +76,9 @@ class MascotasController
     }
 }
 
-
+// =======================================================
+// MANEJO DE PETICIONES AJAX
+// =======================================================
 
 if (isset($_POST["listarMascotas"]) && $_POST["listarMascotas"] == "ok") {
     $objMascotas = new MascotasController();
@@ -107,7 +118,6 @@ if (isset($_POST["registrarMascota"]) == "ok") {
     $objMascotas->ctrRegistrarMascota();
 }
 
-
 if (isset($_POST["editarMascota"]) && $_POST["editarMascota"] == "ok") {
 
     $objMascotas = new MascotasController();
@@ -139,6 +149,4 @@ if (isset($_POST["editarMascota"]) && $_POST["editarMascota"] == "ok") {
     $objMascotas->imagen = $ruta_foto;
     $objMascotas->ctrEditarMascota();
 }
-
-
 ?>

@@ -3,8 +3,6 @@ $(document).ready(function() {
     // 1. Cargar mascotas en el select al iniciar la página
     cargarMascotasDelUsuario();
 
-    // (Eliminamos la función listarMisCitas y los botones de navegación porque ya no hay tabla)
-
     // --- EVENTO: REGISTRAR CITA ---
     $("#formRegistroCitaAdp").on("submit", function(e) {
         e.preventDefault();
@@ -51,14 +49,20 @@ $(document).ready(function() {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $("#formRegistroCitaAdp")[0].reset();
-                            // Redirigimos al catálogo de adopción para seguir viendo
+                            // Redirigimos al catálogo de adopción
                             window.location.href = "index.php?ruta=adoptaAdp";
                         }
                     });
                 } else {
-                    // Error del servidor
-                    Swal.fire("Error", respuesta.mensaje, "error");
+                    // Error controlado desde el servidor
+                    Swal.fire("Error", respuesta.mensaje || "Error desconocido", "error");
                 }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                // Este bloque captura si el servidor responde con algo que no es JSON
+                console.error("Error AJAX:", textStatus, errorThrown);
+                console.log("Respuesta cruda del servidor:", jqXHR.responseText);
+                Swal.fire("Error Técnico", "Hubo un problema de comunicación con el servidor. Revisa la consola (F12) para más detalles.", "error");
             }
         });
     });
