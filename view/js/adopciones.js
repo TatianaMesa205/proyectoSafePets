@@ -1,6 +1,8 @@
 (function () {
 
-  listarTablaAdopciones();
+  if($('#tablaAdopciones').length > 0){
+      listarTablaAdopciones();
+  }
 
   function listarTablaAdopciones() {
     let objData = { "listarAdopciones": "ok" };
@@ -9,27 +11,30 @@
   }
 
   let btnAgregarAdopcion = document.getElementById("btn-AgregarAdopcion");
-  btnAgregarAdopcion.addEventListener("click", () => {
-    $("#panelTablaAdopciones").hide();
-    $("#panelFormularioAdopciones").show();
-
-    let objAdopcion = new Adopciones({});
-    objAdopcion.cargarSelects(); 
-  });
+  if(btnAgregarAdopcion){
+      btnAgregarAdopcion.addEventListener("click", () => {
+        $("#panelTablaAdopciones").hide();
+        $("#panelFormularioAdopciones").show();
+        let objAdopcion = new Adopciones({});
+        objAdopcion.cargarSelects(); 
+      });
+  }
 
   let btnRegresarAdopcion = document.getElementById("btn-RegresarAdopcion");
-  btnRegresarAdopcion.addEventListener("click", () => {
-    $("#panelFormularioAdopciones").hide();
-    $("#panelTablaAdopciones").show();
-  });
+  if(btnRegresarAdopcion){
+      btnRegresarAdopcion.addEventListener("click", () => {
+        $("#panelFormularioAdopciones").hide();
+        $("#panelTablaAdopciones").show();
+      });
+  }
 
   let btnRegresarEditarAdopcion = document.getElementById("btn-RegresarEditarAdopcion");
-  btnRegresarEditarAdopcion.addEventListener("click", () => {
-    $("#panelFormularioEditarAdopciones").hide();
-    $("#panelTablaAdopciones").show();
-  });
-
-  
+  if(btnRegresarEditarAdopcion){
+      btnRegresarEditarAdopcion.addEventListener("click", () => {
+        $("#panelFormularioEditarAdopciones").hide();
+        $("#panelTablaAdopciones").show();
+      });
+  }
 
   $("#tablaAdopciones").on("click", "#btn-eliminarAdopcion", function () {
     Swal.fire({
@@ -63,7 +68,6 @@
       let contrato = $(this).attr("contrato"); 
       $("#btnEditarAdopcion").attr("contrato_actual", contrato);
 
-
       let objAdopcion = new Adopciones({});
       objAdopcion.cargarSelectsEditar(mascotas_id, adoptantes_id);
 
@@ -81,17 +85,14 @@
       }
   });
 
-
   const forms = document.querySelectorAll('#formRegistroAdopcion');
   Array.from(forms).forEach(form => {
     form.addEventListener('submit', event => {
       event.preventDefault();
-
       if (!form.checkValidity()) {
         event.stopPropagation();
         form.classList.add('was-validated');
       } else {
-
         let objDataAdopcion = new FormData();
         objDataAdopcion.append("registrarAdopcion", "ok");
         objDataAdopcion.append("fecha_adopcion", document.getElementById('txt_fecha_adopcion').value);
@@ -104,24 +105,20 @@
         if (fileInput.files.length > 0) {
           objDataAdopcion.append("contrato", fileInput.files[0]);
         }
-
         let objAdopcion = new Adopciones(objDataAdopcion);
         objAdopcion.registrarAdopcionConArchivo(); 
       }
     }, false);
   });
 
-
   const formsEditar = document.querySelectorAll('#formEditarAdopcion');
   Array.from(formsEditar).forEach(form => {
     form.addEventListener('submit', event => {
       event.preventDefault();
-
       if (!form.checkValidity()) {
         event.stopPropagation();
         form.classList.add('was-validated');
       } else {
-
         let objDataAdopcion = new FormData();
         objDataAdopcion.append("editarAdopcion", "ok");
         objDataAdopcion.append("mascotas_id", document.getElementById('select_edit_mascotas').value);
@@ -130,15 +127,12 @@
         objDataAdopcion.append("estado", document.getElementById('select_edit_estado').value);
         objDataAdopcion.append("observaciones", document.getElementById('txt_edit_observaciones').value);
         objDataAdopcion.append("id_adopciones", $("#btnEditarAdopcion").attr("adopcion"));
-
         objDataAdopcion.append("contrato_actual", $("#btnEditarAdopcion").attr("contrato_actual"));
 
         let fileInput = document.getElementById('file_edit_contrato');
         if (fileInput.files.length > 0) {
             objDataAdopcion.append("contrato", fileInput.files[0]);
         }
-
-
         let objAdopcion = new Adopciones(objDataAdopcion);
         objAdopcion.editarAdopcionConArchivo();
       }
@@ -146,4 +140,3 @@
   });
 
 })();
-

@@ -420,5 +420,66 @@ label {
 textarea {
   resize: none;
 }
+/* Contenedor principal */
+.form-container {
+    width: 420px;              /* Más ancho */
+    margin: 40px auto;         /* Centrado */
+    padding: 25px;
+    background: #fff;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    text-align: center;
+}
+
+/* Título */
+.form-container h2 {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #6a4425;
+}
+
+.form-container p {
+    font-size: 14px;
+    margin-bottom: 25px;
+    color: #444;
+}
+
+/* Inputs */
+.form-group {
+    width: 100%;
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.form-group label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 15px;
+}
+
+/* Botón */
+.btn-save {
+    background: #a4795e;
+    padding: 12px 25px;
+    border-radius: 50px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+.btn-save:hover {
+    background: #8c624a;
+}
+
 
 

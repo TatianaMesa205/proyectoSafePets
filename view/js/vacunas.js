@@ -1,6 +1,9 @@
 (function(){
 
-    listarTablaVacunas();
+    // Solo cargamos la tabla si existe el contenedor
+    if($('#tablaVacunas').length > 0){
+        listarTablaVacunas();
+    }
 
     function listarTablaVacunas(){
         let objData = {"listarVacunas":"ok"};
@@ -8,25 +11,33 @@
         objTablaVacunas.listarVacunas();
     }
 
+    // --- VALIDACIÓN DE EXISTENCIA DE ELEMENTOS ---
+
     let btnAgregarVacuna = document.getElementById("btn-AgregarVacuna");
-    btnAgregarVacuna.addEventListener("click",()=>{
-        $("#panelTablaVacunas").hide();
-        $("#panelFormularioVacunas").show();
-    });
+    if (btnAgregarVacuna) {
+        btnAgregarVacuna.addEventListener("click",()=>{
+            $("#panelTablaVacunas").hide();
+            $("#panelFormularioVacunas").show();
+        });
+    }
 
     let btnRegresarVacuna = document.getElementById("btn-RegresarVacuna");
-    btnRegresarVacuna.addEventListener("click",()=>{
-        $("#panelFormularioVacunas").hide();
-        $("#panelTablaVacunas").show();
-    });
+    if (btnRegresarVacuna) {
+        btnRegresarVacuna.addEventListener("click",()=>{
+            $("#panelFormularioVacunas").hide();
+            $("#panelTablaVacunas").show();
+        });
+    }
 
     let btnRegresarEditarVacuna = document.getElementById("btn-RegresarEditarVacuna");
-    btnRegresarEditarVacuna.addEventListener("click",()=>{
-        $("#panelFormularioEditarVacunas").hide();
-        $("#panelTablaVacunas").show();
-    });
+    if (btnRegresarEditarVacuna) {
+        btnRegresarEditarVacuna.addEventListener("click",()=>{
+            $("#panelFormularioEditarVacunas").hide();
+            $("#panelTablaVacunas").show();
+        });
+    }
 
-
+    // Eventos delegados (estos no suelen fallar porque están atados al document o tabla existente)
     $("#tablaVacunas").on("click","#btn-eliminarVacuna",function(){
         Swal.fire({
             title: "¿Está seguro?",

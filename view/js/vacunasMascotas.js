@@ -1,6 +1,9 @@
 (function() {
 
-    listarTablaVacunasMascotas();
+    // Solo cargamos la tabla si existe
+    if($('#tablaVacunasMascotas').length > 0){
+        listarTablaVacunasMascotas();
+    }
 
     function listarTablaVacunasMascotas() {
         let objData = { "listarVacunasMascotas": "ok" };
@@ -8,24 +11,34 @@
         objTabla.listarVacunasMascotas();
     }
 
+    // --- VALIDACIÓN DE EXISTENCIA DE ELEMENTOS ---
+
     let btnAgregar = document.getElementById("btn-AgregarVacunaMascota");
-    btnAgregar.addEventListener("click", () => {
-        $("#panelTablaVacunasMascotas").hide();
-        $("#panelFormularioVacunasMascotas").show();
+    if (btnAgregar) {
+        btnAgregar.addEventListener("click", () => {
+            $("#panelTablaVacunasMascotas").hide();
+            $("#panelFormularioVacunasMascotas").show();
 
-        let obj = new VacunasMascotas({});
-        obj.cargarSelects();
-    });
+            let obj = new VacunasMascotas({});
+            obj.cargarSelects();
+        });
+    }
 
-    document.getElementById("btn-RegresarVacunaMascota").addEventListener("click", () => {
-        $("#panelFormularioVacunasMascotas").hide();
-        $("#panelTablaVacunasMascotas").show();
-    });
+    let btnRegresar = document.getElementById("btn-RegresarVacunaMascota");
+    if (btnRegresar) {
+        btnRegresar.addEventListener("click", () => {
+            $("#panelFormularioVacunasMascotas").hide();
+            $("#panelTablaVacunasMascotas").show();
+        });
+    }
 
-    document.getElementById("btn-RegresarEditarVacunaMascota").addEventListener("click", () => {
-        $("#panelFormularioEditarVacunasMascotas").hide();
-        $("#panelTablaVacunasMascotas").show();
-    });
+    let btnRegresarEdit = document.getElementById("btn-RegresarEditarVacunaMascota");
+    if (btnRegresarEdit) {
+        btnRegresarEdit.addEventListener("click", () => {
+            $("#panelFormularioEditarVacunasMascotas").hide();
+            $("#panelTablaVacunasMascotas").show();
+        });
+    }
 
 
     $("#tablaVacunasMascotas").on("click", "#btn-eliminarVacunaMascota", function() {

@@ -29,8 +29,6 @@ if (!$mascotaEncontrada) {
 
 // consultar vacunas
 $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
-
-
 ?>
 
 <!DOCTYPE html>
@@ -39,8 +37,9 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
 <meta charset="UTF-8">
 <title>Detalle de Mascota</title>
 
-<style>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+<style>
     body {
         background: #faf5f0;
         font-family: "Poppins", sans-serif;
@@ -159,24 +158,6 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
     }
 
     /* Botones */
-    .btn-volver, .btn-adopta {
-        background: #8b5e3c;
-        padding: 12px 25px;
-        border-radius: 10px;
-        text-decoration: none;
-        color: #fff;
-        font-weight: bold;
-        display: block;
-        width: 170px;
-        text-align: center;
-        margin: 20px auto;
-        transition: 0.3s;
-    }
-    .btn-volver:hover, .btn-adopta:hover {
-        background: #a07557;
-    }
-
-
     .botones-acciones {
         display: flex;
         justify-content: center;
@@ -184,13 +165,36 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
         margin-top: 30px;
     }
 
-    .btn-volver, 
-    .btn-adopta {
-        width: auto;
+    .btn-volver, .btn-adopta {
+        background: #8b5e3c;
         padding: 12px 30px;
-        margin: 0; /* Quita los márgenes verticales */
+        border-radius: 10px;
+        text-decoration: none;
+        color: #fff;
+        font-weight: bold;
+        display: block;
+        text-align: center;
+        transition: 0.3s;
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
     }
 
+    .btn-volver:hover, .btn-adopta:hover {
+        background: #a07557;
+    }
+    
+    .btn-logout {
+        display: block;
+        margin: 10px auto;
+        padding: 10px 10px;
+        background-color: #d6baa5;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+    }
 </style>
 
 </head>
@@ -236,7 +240,6 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
 
 <div class="detalle-card">
 
-    <!-- Burbuja de estado -->
     <span class="estado-badge 
         <?php 
             echo strtolower($mascotaEncontrada['estado']) === 'disponible' ? 'estado-disponible' : ''; 
@@ -265,10 +268,7 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
     <p><?php echo $mascotaEncontrada["descripcion"]; ?></p>
 </div>
 
-
-
-
-<h2 style="text-align:center; color:#7c5845;">
+<h2 style="text-align:center; color:#7c5845; margin-top: 40px;">
     <i class="fas fa-notes-medical"></i> Carnet de Vacunación
 </h2><br>
 
@@ -300,11 +300,15 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
 </div>
 
 <div class="botones-acciones">
-    <a href="adoptaAdp" class="btn-volver">⬅ Volver</a>
-    <a href="citasAdp" class="btn-adopta">Adoptame</a>
+    <a href="index.php?ruta=adoptaAdp" class="btn-volver">⬅ Volver</a>
+    
+    <button type="button" class="btn-adopta btn-adoptame" id-mascota="<?php echo $mascotaEncontrada['id_mascotas']; ?>">
+        Adoptame
+    </button>
 </div>
 <br>
 
+<script src="view/js/detalleMascota.js"></script>
 
 </body>
 </html>
