@@ -2,24 +2,29 @@
 session_start();
 $ruta = $_GET["ruta"] ?? "";
 
+// Headers de seguridad (opcional pero recomendado)
 header('X-Content-Type-Options: nosniff');
 header('X-Frame-Options: DENY');
 header('X-XSS-Protection: 1; mode=block');
 
 $rutasPublicas = ["login", "registro", "preview"];
+
+// Si NO hay sesión iniciada
 if (!isset($_SESSION["iniciarSesion"])) {
     $archivo = "view/modules/login.php"; 
     if (in_array($ruta, $rutasPublicas) && file_exists("view/modules/" . $ruta . ".php")) {
         $archivo = "view/modules/" . $ruta . ".php";
     }
     include $archivo;
-    return; 
+    return; // Detenemos la ejecución aquí para no cargar menú de usuario
 }
 
-include "view/modules/cabecera.php";
+// --- ZONA DE USUARIO LOGUEADO ---
 
+include "view/modules/cabecera.php"; // Aquí cargas CSS y librerías (Bootstrap, FontAwesome, SweetAlert)
+
+// Lógica del menú según rol
 if ($ruta !== "detalleMascota" && $ruta !== "adoptanteAdp" && $ruta !== "citasAdp" && $ruta !== "registro-adoptante") {
-
     if ($_SESSION["rol"] === "admin") {
         include "view/modules/menuAdmin.php";
     } else {
@@ -27,11 +32,11 @@ if ($ruta !== "detalleMascota" && $ruta !== "adoptanteAdp" && $ruta !== "citasAd
     }
 }
 
+// Listas blancas de rutas
+$rutasAdoptante = ["inicioAdp", "adoptaAdp", "citasAdp", "donacionesAdp", "detalleMascota", "publicaciones", "adoptanteAdp", "registro-adoptante", "perfil.php"];
+$rutasAdmin = ["inicioAdmin", "adoptantes", "mascotas", "adopciones", "vacunas", "citas", "donaciones", "publicaciones", "seguimientos", "vacunasMascotas", "perfilAdmin"];
 
-$rutasAdoptante = ["inicioAdp", "adoptaAdp", "citasAdp", "donacionesAdp", "detalleMascota", "publicaciones", "adoptanteAdp", "registro-adoptante"];
-
-
-$rutasAdmin = ["inicioAdmin", "adoptantes", "mascotas", "adopciones", "vacunas", "citas", "donaciones", "publicaciones", "seguimientos", "vacunasMascotas"];
+// Lógica de navegación central
 $archivoModulo = "view/modules/404.php"; 
 
 if ($ruta === "" || $ruta === "inicio") {
@@ -39,16 +44,26 @@ if ($ruta === "" || $ruta === "inicio") {
 } else {
     if ($_SESSION["rol"] === 'admin' && in_array($ruta, $rutasAdmin)) {
         $archivoModulo = "view/modules/" . $ruta . ".php";
-    } else if ($_SESSION["rol"] === 'adoptante' && in_array($ruta, $rutasAdoptante)) {
+    } elseif ($_SESSION["rol"] === 'adoptante' && in_array($ruta, $rutasAdoptante)) {
         $archivoModulo = "view/modules/" . $ruta . ".php";
-    }
-    
-    // Validar existencia física del archivo
-    if (!file_exists($archivoModulo)) {
-        $archivoModulo = "view/modules/404.php";
+    } elseif ($ruta == "logout") {
+        // Fallback por si el JS falla, aunque lo ideal es el AJAX
+        $archivoModulo = "view/modules/logout.php"; 
     }
 }
 
-include $archivoModulo;
-include "view/modules/flooter.php"; // Asegúrate de incluir el footer si lo usas
+// Incluir el módulo seleccionado
+if (file_exists($archivoModulo)) {
+    include $archivoModulo;
+} else {
+    include "view/modules/404.php";
+}
+
+// Opcional: incluir pie de página
+// include "view/modules/flooter.php"; 
 ?>
+
+<script src="view/js/login.js"></script>
+
+</body>
+</html>

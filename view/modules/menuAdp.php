@@ -36,7 +36,7 @@
       position: sticky;
       top: 0;
       background: #f8f3ee;
-      z-index: 1000; /* Este valor tapaba el menú, ya lo arreglamos arriba */
+      z-index: 1000;
       padding: 10px 0;
     }
     .btn-logout {
@@ -167,35 +167,3 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const btnLogout = document.getElementById("btnLogout");
-    if (btnLogout) {
-        btnLogout.addEventListener("click", function(e) {
-            e.preventDefault();
-            
-            // Usamos confirmación nativa para evitar errores con librerías externas
-            if (confirm("¿Estás seguro de que deseas cerrar sesión?")) {
-                let datos = new FormData();
-                datos.append("accion", "logout");
-
-                fetch("controller/loginController.php", {
-                    method: "POST",
-                    body: datos
-                })
-                .then(res => res.json())
-                .then(data => {
-                    // Redirección forzosa al inicio
-                    window.location.href = "index.php";
-                })
-                .catch(err => {
-                    console.error(err);
-                    // Si falla, redirigimos igual por seguridad
-                    window.location.href = "index.php";
-                });
-            }
-        });
-    }
-});
-</script>
