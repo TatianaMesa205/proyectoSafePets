@@ -1,3 +1,6 @@
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <style>
 /* Navbar Admin */
 .navbar-admin {
@@ -21,7 +24,8 @@
     background-color: #4b3832;
     border-radius: 10px;
     border: none;
-
+    /* Asegura que el menú quede encima de otros elementos */
+    z-index: 1050; 
 }
 
 .navbar-admin .dropdown-item {
@@ -63,6 +67,7 @@
     pointer-events: none;
     transition: all .25s ease;
     box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+    z-index: 1060;
 }
 
 /* Flechita del tooltip */
@@ -82,28 +87,22 @@
     opacity: 1;
     transform: translateX(-50%) translateY(0);
 }
-
-
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-admin shadow-sm mb-4">
   <div class="container">
 
-    <!-- Logo -->
     <a class="navbar-brand" href="inicioAdmin">
       <i class="fas fa-paw me-2"></i> Admin Safe Pets
     </a>
 
-    <!-- Botón móvil -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Menú principal -->
     <div class="collapse navbar-collapse" id="adminNav">
       <ul class="navbar-nav ms-auto">
 
-        <!-- Mascotas -->
         <li class="nav-item nav-item-icon">
           <a class="nav-link" href="mascotas">
             <i class="fas fa-dog"></i>
@@ -111,7 +110,6 @@
           </a>
         </li>
 
-        <!-- Adoptantes -->
         <li class="nav-item nav-item-icon">
           <a class="nav-link" href="adoptantes">
             <i class="fas fa-user-friends"></i>
@@ -119,7 +117,6 @@
           </a>
         </li>
 
-        <!-- Adopciones -->
         <li class="nav-item nav-item-icon">
           <a class="nav-link" href="adopciones">
             <i class="fas fa-hand-holding-heart"></i>
@@ -127,7 +124,6 @@
           </a>
         </li>
 
-        <!-- Citas -->
         <li class="nav-item nav-item-icon">
           <a class="nav-link" href="citas">
             <i class="fas fa-calendar-alt"></i>
@@ -135,7 +131,6 @@
           </a>
         </li>
 
-        <!-- Vacunas -->
         <li class="nav-item nav-item-icon">
           <a class="nav-link" href="vacunas">
             <i class="fas fa-syringe"></i>
@@ -143,7 +138,6 @@
           </a>
         </li>
 
-        <!-- Vacunas Mascotas -->
         <li class="nav-item nav-item-icon">
           <a class="nav-link" href="vacunasMascotas">
             <i class="fas fa-notes-medical"></i>
@@ -151,7 +145,6 @@
           </a>
         </li>
 
-        <!-- Publicaciones -->
         <li class="nav-item nav-item-icon">
           <a class="nav-link" href="publicaciones">
             <i class="fas fa-bullhorn"></i>
@@ -159,7 +152,6 @@
           </a>
         </li>
 
-        <!-- Seguimientos -->
         <li class="nav-item nav-item-icon">
           <a class="nav-link" href="seguimientos">
             <i class="fas fa-clipboard-list"></i>
@@ -167,7 +159,6 @@
           </a>
         </li>
 
-        <!-- Donaciones -->
         <li class="nav-item nav-item-icon">
           <a class="nav-link" href="donaciones">
             <i class="fas fa-hand-holding-usd"></i>
@@ -176,11 +167,10 @@
         </li>
 
 
-        <!-- Dropdown Perfil -->
         <li class="nav-item dropdown ms-3">
-          <a class="nav-link dropdown-toggle" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             <i class="fas fa-user-circle me-1"></i>
-            <?php echo $_SESSION['nombre_usuario']; ?>
+            <?php echo isset($_SESSION['nombre_usuario']) ? $_SESSION['nombre_usuario'] : 'Admin'; ?>
           </a>
 
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
@@ -203,3 +193,4 @@
 
   </div>
 </nav>
+<?php include("pie.php"); ?>

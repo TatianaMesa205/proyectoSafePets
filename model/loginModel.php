@@ -1,117 +1,143 @@
 <?php
-include_once "conexion.php";
+require_once "conexion.php";
 
-class LoginModelo
-{
-    public static function mdlLogin($nombre_usuario, $contrasena)
-    {
+class LoginModelo {
+
+    public static function mdlLogin($usuario, $password) {
         try {
             $conexion = Conexion::conectar();
             if ($conexion === null) {
-                return array("codigo" => "500", "mensaje" => "Error de conexión a la base de datos");
+                return ["codigo" => "500", "mensaje" => "Error de conexión a base de datos"];
             }
-            
-            $stmt = $conexion->prepare("SELECT u.id_usuarios as id, u.nombre_usuario, u.password, r.nombre_rol as rol 
-                                       FROM usuarios u 
-                                       JOIN roles r ON u.id_roles = r.id_roles 
-                                       WHERE u.nombre_usuario = :nombre_usuario");
-            $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
-            $stmt->execute();
-            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if ($usuario && password_verify($contrasena, $usuario['password'])) {
-                unset($usuario['password']);
-                return array("codigo" => "200", "usuario" => $usuario);
+            $sql = "SELECT 
+                        u.id_usuarios AS id,
+                        u.nombre_usuario,
+                        u.email,
+                        u.password,
+                        r.nombre_rol AS rol
+                    FROM usuarios u
+                    INNER JOIN roles r ON u.id_roles = r.id_roles
+                    WHERE u.nombre_usuario = :usuario";
+
+            $stmt = $conexion->prepare($sql);
+            $stmt->bindParam(":usuario", $usuario, PDO::PARAM_STR);
+            $stmt->execute();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($user) {
+                if (password_verify($password, $user['password'])) {
+                    unset($user['password']);
+                    return ["codigo" => "200", "mensaje" => "Login exitoso", "usuario" => $user];
+                } else {
+                    return ["codigo" => "400", "mensaje" => "Contraseña incorrecta"];
+                }
             } else {
-                return array("codigo" => "401", "mensaje" => "Nombre de usuario o contraseña incorrectos");
+                return ["codigo" => "404", "mensaje" => "Usuario no encontrado"];
             }
         } catch (Exception $e) {
-            error_log("Error en mdlLogin: " . $e->getMessage());
-            return array("codigo" => "500", "mensaje" => "Error interno del servidor");
+            return ["codigo" => "500", "mensaje" => "Error: " . $e->getMessage()];
         }
     }
 
-
-    public static function mdlRegistrarUsuario($nombre_usuario, $email, $contrasena)
-    {
+    public static function mdlRegistrarUsuario($nombre, $email, $pass) {
         try {
-            $conexion = Conexion::conectar();
-            if ($conexion === null) {
-                return array("codigo" => "500", "mensaje" => "Error de conexión a la base de datos");
-            }
+            $con = Conexion::conectar();
             
-            $stmt = $conexion->prepare("SELECT id_usuarios FROM usuarios WHERE nombre_usuario = :nombre_usuario OR email = :email");
-            $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
-            $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-            $stmt->execute();
+            $check = $con->prepare("SELECT id_usuarios FROM usuarios WHERE email = :email OR nombre_usuario = :nombre");
+            $check->bindParam(":email", $email);
+            $check->bindParam(":nombre", $nombre);
+            $check->execute();
             
-            if ($stmt->fetch()) {
-                return array("codigo" => "409", "mensaje" => "El usuario o email ya existe");
+            if ($check->rowCount() > 0) {
+                return ["codigo" => "409", "mensaje" => "El usuario o email ya existe."];
             }
 
-            if (empty($contrasena) || strlen($contrasena) < 6) {
-                return array("codigo" => "400", "mensaje" => "La contraseña debe tener al menos 6 caracteres");
-            }
+            $hash = password_hash($pass, PASSWORD_DEFAULT);
+            $rol = 2; 
 
-            $contrasenaHash = password_hash($contrasena, PASSWORD_DEFAULT);
-            
-            $stmt = $conexion->prepare("INSERT INTO usuarios (nombre_usuario, email, password, id_roles) VALUES (:nombre_usuario, :email, :password, 2)");
-            $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
-            $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-            $stmt->bindParam(":password", $contrasenaHash, PDO::PARAM_STR);
-            
+            $stmt = $con->prepare("INSERT INTO usuarios (nombre_usuario, email, password, id_roles) VALUES (:n, :e, :p, :r)");
+            $stmt->bindParam(":n", $nombre);
+            $stmt->bindParam(":e", $email);
+            $stmt->bindParam(":p", $hash);
+            $stmt->bindParam(":r", $rol);
+
             if ($stmt->execute()) {
-                return array("codigo" => "201", "mensaje" => "Usuario registrado exitosamente");
+                return ["codigo" => "200", "mensaje" => "Usuario registrado exitosamente"];
             } else {
-                return array("codigo" => "500", "mensaje" => "Error al registrar usuario");
+                return ["codigo" => "500", "mensaje" => "Error al registrar en BD"];
             }
         } catch (Exception $e) {
-            error_log("Error en mdlRegistrarUsuario: " . $e->getMessage());
-            return array("codigo" => "500", "mensaje" => "Error interno del servidor");
+            return ["codigo" => "500", "mensaje" => $e->getMessage()];
+        }
+    }
+    
+    public static function mdlCrearAdmin($nombre, $email, $pass) {
+        try {
+            $con = Conexion::conectar();
+            
+            $check = $con->prepare("SELECT id_usuarios FROM usuarios WHERE email = :email OR nombre_usuario = :nombre");
+            $check->bindParam(":email", $email);
+            $check->bindParam(":nombre", $nombre);
+            $check->execute();
+            
+            if ($check->rowCount() > 0) return ["codigo" => "409", "mensaje" => "Usuario existente"];
+
+            $stmt = $con->prepare("INSERT INTO usuarios (nombre_usuario, email, password, id_roles) VALUES (:n, :e, :p, 1)");
+            $hash = password_hash($pass, PASSWORD_DEFAULT);
+            $stmt->bindParam(":n", $nombre);
+            $stmt->bindParam(":e", $email);
+            $stmt->bindParam(":p", $hash);
+            
+            if ($stmt->execute()) return ["codigo" => "200", "mensaje" => "Admin creado"];
+            return ["codigo" => "500", "mensaje" => "Error"];
+        } catch (Exception $e) {
+            return ["codigo" => "500", "mensaje" => $e->getMessage()];
         }
     }
 
-
-    public static function mdlCrearAdmin($nombre_usuario, $email, $contrasena)
-    {
+    // --- NUEVA FUNCIÓN PARA ACTUALIZAR PERFIL ---
+    public static function mdlActualizarPerfil($id, $nombre, $password) {
         try {
-            $conexion = Conexion::conectar();
-            if ($conexion === null) {
-                return array("codigo" => "500", "mensaje" => "Error de conexión a la base de datos");
+            $con = Conexion::conectar();
+    
+            // 1. Validar que el nuevo nombre de usuario no lo tenga OTRA persona
+            $check = $con->prepare("SELECT id_usuarios FROM usuarios WHERE nombre_usuario = :nombre AND id_usuarios != :id");
+            $check->bindParam(":nombre", $nombre);
+            $check->bindParam(":id", $id);
+            $check->execute();
+    
+            if ($check->rowCount() > 0) {
+                return ["codigo" => "409", "mensaje" => "Ese nombre de usuario ya está en uso."];
             }
-            
-            $stmt = $conexion->prepare("SELECT id_usuarios FROM usuarios WHERE nombre_usuario = :nombre_usuario OR email = :email");
-            $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
-            $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-            $stmt->execute();
-            
-            if ($stmt->fetch()) {
-                return array("codigo" => "409", "mensaje" => "El usuario o email ya existe");
-            }
-
-            if (empty($contrasena)) {
-                return array("codigo" => "400", "mensaje" => "La contraseña no puede estar vacía");
-            }
-
-            if (strlen($contrasena) < 6) {
-                return array("codigo" => "400", "mensaje" => "La contraseña debe tener al menos 6 caracteres");
-            }
-
-            $contrasenaHash = password_hash($contrasena, PASSWORD_DEFAULT);
-            
-            $stmt = $conexion->prepare("INSERT INTO usuarios (nombre_usuario, email, password, id_roles) VALUES (:nombre_usuario, :email, :password, 1)");
-            $stmt->bindParam(":nombre_usuario", $nombre_usuario, PDO::PARAM_STR);
-            $stmt->bindParam(":email", $email, PDO::PARAM_STR);
-            $stmt->bindParam(":password", $contrasenaHash, PDO::PARAM_STR);
-            
-            if ($stmt->execute()) {
-                return array("codigo" => "201", "mensaje" => "Administrador creado exitosamente");
+    
+            // 2. Preparar la consulta
+            if ($password != "") {
+                // Si hay contraseña nueva, la encriptamos y actualizamos todo
+                $hash = password_hash($password, PASSWORD_DEFAULT);
+                $sql = "UPDATE usuarios SET nombre_usuario = :nombre, password = :pass WHERE id_usuarios = :id";
             } else {
-                return array("codigo" => "500", "mensaje" => "Error al crear administrador");
+                // Si no hay contraseña, solo actualizamos el nombre
+                $sql = "UPDATE usuarios SET nombre_usuario = :nombre WHERE id_usuarios = :id";
             }
+    
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(":nombre", $nombre);
+            $stmt->bindParam(":id", $id);
+            
+            if ($password != "") {
+                $stmt->bindParam(":pass", $hash);
+            }
+    
+            if ($stmt->execute()) {
+                return ["codigo" => "200", "mensaje" => "Perfil actualizado correctamente"];
+            } else {
+                return ["codigo" => "500", "mensaje" => "Error al actualizar"];
+            }
+    
         } catch (Exception $e) {
-            error_log("Error en mdlCrearAdmin: " . $e->getMessage());
-            return array("codigo" => "500", "mensaje" => "Error interno del servidor");
+            return ["codigo" => "500", "mensaje" => "Error: " . $e->getMessage()];
         }
     }
 }
+?>

@@ -1,6 +1,11 @@
 <?php
 
-include_once "../model/adoptantesModel.php";
+// Asegurar ruta correcta al modelo y mostrar error claro si no existe
+$modelPath = __DIR__ . '/../model/adoptantesModel.php';
+if (!file_exists($modelPath)) {
+    throw new Exception("Modelo adoptantesModel.php no encontrado en: $modelPath");
+}
+require_once $modelPath;
 
 class AdoptantesController
 {
@@ -12,12 +17,51 @@ class AdoptantesController
     public $email;
     public $direccion;
 
+    /* ==============================================
+       MÉTODO QUE FALTABA (IMPORTANTE)
+       Busca el adoptante para el formulario de citas
+       ============================================== */
+    static public function ctrMostrarAdoptante($item, $valor)
+    {
+        $respuesta = AdoptantesModel::mdlMostrarAdoptante($item, $valor);
+        return $respuesta;
+    }
+
+    /* ==============================================
+       MÉTODO PARA EL BOTÓN "ADOPTAME" (AJAX)
+       Verifica si el usuario ya es adoptante
+       ============================================== */
+    public function ctrVerificarPerfilAdoptante()
+    {
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        if (!isset($_SESSION['email'])) {
+            echo json_encode(["codigo" => "401", "mensaje" => "No hay sesión activa"]);
+            return;
+        }
+
+        $email = $_SESSION['email'];
+        
+        $respuesta = AdoptantesModel::mdlMostrarAdoptante("email", $email);
+
+        if ($respuesta) {
+            echo json_encode(["codigo" => "200", "existe" => true, "id_adoptantes" => $respuesta["id_adoptantes"]]);
+        } else {
+            echo json_encode(["codigo" => "200", "existe" => false]);
+        }
+    }
+
+    /* ==============================================
+       MÉTODOS CRUD
+       ============================================== */
+
     public function ctrListarAdoptantes()
     {
         $objRespuesta = AdoptantesModel::mdlListarAdoptantes();
         echo json_encode($objRespuesta);
     }
-
 
     public function ctrEliminarAdoptante()
     {
@@ -32,8 +76,7 @@ class AdoptantesController
             $this->cedula,
             $this->telefono,
             $this->email,
-            $this->direccion,
-
+            $this->direccion
         );
         echo json_encode($objRespuesta);
     }
@@ -51,48 +94,25 @@ class AdoptantesController
         echo json_encode($objRespuesta);
     }
 
-    // Verifica si el usuario logueado ya es un adoptante registrado
-    public function ctrVerificarPerfilAdoptante()
-    {
-        if (session_status() == PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (!isset($_SESSION['email'])) {
-            echo json_encode(["codigo" => "401", "mensaje" => "No hay sesión activa"]);
-            return;
-        }
-
-        $email = $_SESSION['email'];
-        // Si no existe mdlMostrarAdoptante en el modelo, obtenemos la lista completa y buscamos por email
-        $respuesta = false;
-        $lista = AdoptantesModel::mdlListarAdoptantes();
-        if (is_array($lista)) {
-            foreach ($lista as $fila) {
-                if (isset($fila['email']) && $fila['email'] === $email) {
-                    $respuesta = $fila;
-                    break;
-                }
-            }
-        }
-
-        if ($respuesta) {
-            // Si existe, devolvemos success y el ID del adoptante
-            echo json_encode(["codigo" => "200", "existe" => true, "id_adoptantes" => $respuesta["id_adoptantes"]]);
-        } else {
-            // Si no existe
-            echo json_encode(["codigo" => "200", "existe" => false]);
-        }
-    }
-
 }
+
+// =======================================================
+// BLOQUE DE PETICIONES AJAX (Aquí estaba el problema)
+// =======================================================
 
 if (isset($_POST["listarAdoptantes"]) && $_POST["listarAdoptantes"] == "ok") {
     $objAdoptantes = new AdoptantesController();
     $objAdoptantes->ctrListarAdoptantes();
 }
 
-if (isset($_POST["eliminarAdoptante"]) && $_POST["eliminarAdoptante"] == "ok") {
+// --- ESTE BLOQUE FALTABA ---
+if (isset($_POST["verificarPerfil"]) && $_POST["verificarPerfil"] == "ok") {
+    $obj = new AdoptantesController();
+    $obj->ctrVerificarPerfilAdoptante();
+}
+// ---------------------------
+
+if (isset($_POST["eliminarAdoptante"]) == "ok") {
     $objAdoptantes = new AdoptantesController();
     $objAdoptantes->id_adoptantes = $_POST["id_adoptantes"];
     $objAdoptantes->ctrEliminarAdoptante();
@@ -108,22 +128,14 @@ if (isset($_POST["registrarAdoptante"]) && $_POST["registrarAdoptante"] == "ok")
     $objAdoptantes->ctrRegistrarAdoptante();
 }
 
-if (isset($_POST["editarAdoptante"]) && $_POST["editarAdoptante"] == "ok") {
+if (isset($_POST["editarAdoptante"]) == "ok") {
     $objAdoptantes = new AdoptantesController();
-
     $objAdoptantes->nombre_completo = $_POST["nombre_completo"];
     $objAdoptantes->cedula = $_POST["cedula"];
     $objAdoptantes->telefono = $_POST["telefono"];
     $objAdoptantes->email = $_POST["email"];
     $objAdoptantes->direccion = $_POST["direccion"];
     $objAdoptantes->id_adoptantes = $_POST["id_adoptantes"];
-
     $objAdoptantes->ctrEditarAdoptante();
 }
-
-// --- NO OLVIDES AGREGAR EL MANEJO DE LA PETICIÓN AL FINAL DEL ARCHIVO ---
-
-if (isset($_POST["verificarPerfil"]) && $_POST["verificarPerfil"] == "ok") {
-    $obj = new AdoptantesController();
-    $obj->ctrVerificarPerfilAdoptante();
-}
+?>

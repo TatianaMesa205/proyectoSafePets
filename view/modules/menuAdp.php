@@ -1,8 +1,13 @@
-
 <style>
+    /* --- CORRECCIÓN TÉCNICA 1: Z-INDEX --- */
+    /* Agregamos z-index alto para que el menú salga POR ENCIMA de todo */
     .navbar {
       background-color: #f0e4d8ff;
+      position: relative;
+      z-index: 1050 !important; 
     }
+    
+    /* --- TU DISEÑO ORIGINAL SE MANTIENE INTACTO --- */
     .navbar-brand {
       font-weight: bold;
       font-size: 1.7rem; 
@@ -44,6 +49,10 @@
         border-radius: 100px;
         cursor: pointer;
         font-weight: bold;
+        width: 80%; /* Asegura que el botón se vea bien centrado */
+    }
+    .btn-logout:hover {
+        background-color: #c4a48c; /* Un pequeño efecto hover para UX */
     }
 </style>
 
@@ -62,19 +71,24 @@
 
             <i class="fa-solid fa-circle-user me-2" style="font-size: 25px; color: #8b5e3c;"></i>
 
-            <?php echo $_SESSION['nombre_usuario']; ?>
+            <?php 
+              // Validación simple para evitar errores si no hay sesión
+              echo isset($_SESSION['nombre_usuario']) ? $_SESSION['nombre_usuario'] : 'Usuario'; 
+            ?>
           </a>
 
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
             <li>
-              <a class="dropdown-item" href="perfil.php">
-                <i class="fa-solid fa-user me-2"></i> Mi Perfil
-              </a>
+                <a class="dropdown-item" href="perfilAdp">
+                  <i class="fa-solid fa-user me-2"></i> Mi Perfil
+                </a>
             </li>
 
-            <button id="btnLogout" class="btn-logout">
-              <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar sesión
-            </button>
+            <li>
+                <button id="btnLogout" class="btn-logout">
+                  <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar sesión
+                </button>
+            </li>
           </ul>
         </li>
 
@@ -151,3 +165,6 @@
     </div>
   </div>
 </div>
+<?php include("pie.php"); ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

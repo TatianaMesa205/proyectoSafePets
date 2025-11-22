@@ -4,7 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnLogout = document.getElementById("btnLogout")
   const Swal = window.Swal
 
-
+  // -------------------------------------------------------------------------
+  // MANEJO DEL LOGIN
+  // -------------------------------------------------------------------------
   if (formLogin) {
     formLogin.addEventListener("submit", function (e) {
       e.preventDefault()
@@ -57,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
             Swal.fire({
               icon: "error",
               title: "Error",
-              text: "Hubo un problema al iniciar sesión. Por favor, intente de nuevo.",
+              text: "Hubo un problema al iniciar sesión. Verifica tu conexión.",
             })
           })
           .finally(() => {
@@ -70,7 +72,9 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Manejo del formulario de registro
+  // -------------------------------------------------------------------------
+  // MANEJO DEL REGISTRO DE USUARIO (AQUÍ ESTABA EL ERROR)
+  // -------------------------------------------------------------------------
   if (formRegistro) {
     formRegistro.addEventListener("submit", function (e) {
       e.preventDefault()
@@ -78,21 +82,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const contrasena = document.getElementById("contrasena").value
       const confirmarContrasena = document.getElementById("confirmar_contrasena").value
 
+      // Validaciones visuales rápidas
       if (contrasena !== confirmarContrasena) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Las contraseñas no coinciden",
-        })
+        Swal.fire({ icon: "error", title: "Error", text: "Las contraseñas no coinciden" })
         return
       }
-
       if (contrasena.length < 6) {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "La contraseña debe tener al menos 6 caracteres",
-        })
+        Swal.fire({ icon: "error", title: "Error", text: "La contraseña debe tener al menos 6 caracteres" })
         return
       }
 
@@ -116,25 +112,27 @@ document.addEventListener("DOMContentLoaded", () => {
           body: formData,
         })
           .then((response) => {
-            if (!response.ok) {
-              throw new Error("Error de red")
-            }
+            if (!response.ok) throw new Error("Error de red")
             return response.json()
           })
           .then((data) => {
-            if (data.codigo === "201") {
+            // CORRECCIÓN: Aceptamos 200 O 201 como éxito para evitar la falsa alerta de error
+            if (data.codigo === "201" || data.codigo === "200") {
               Swal.fire({
                 icon: "success",
                 title: "¡Registro exitoso!",
-                text: data.mensaje,
+                text: data.mensaje || "Tu cuenta ha sido creada correctamente.",
+                confirmButtonColor: "#d6baa5",
+                confirmButtonText: "Ir al Login"
               }).then(() => {
                 window.location.href = "index.php?ruta=login"
               })
             } else {
+              // Si el backend dice explícitamente que falló
               Swal.fire({
                 icon: "error",
-                title: "Error",
-                text: data.mensaje || "Error desconocido",
+                title: "Atención",
+                text: data.mensaje || "No se pudo completar el registro.",
               })
             }
           })
@@ -143,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
             Swal.fire({
               icon: "error",
               title: "Error",
-              text: "Hubo un problema al registrar. Por favor, intente de nuevo.",
+              text: "Hubo un problema técnico al procesar el registro.",
             })
           })
           .finally(() => {
@@ -156,19 +154,21 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
-  // Manejo del logout
+  // -------------------------------------------------------------------------
+  // MANEJO DEL LOGOUT
+  // -------------------------------------------------------------------------
   if (btnLogout) {
     btnLogout.addEventListener("click", (e) => {
       e.preventDefault()
 
       Swal.fire({
         title: "¿Cerrar sesión?",
-        text: "¿Estás seguro de que quieres cerrar sesión?",
+        text: "¿Estás seguro de que quieres salir?",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#d6baa5",
         cancelButtonColor: "#6c757d",
-        confirmButtonText: "Sí, cerrar sesión",
+        confirmButtonText: "Sí, salir",
         cancelButtonText: "Cancelar",
       }).then((result) => {
         if (result.isConfirmed) {
@@ -181,31 +181,22 @@ document.addEventListener("DOMContentLoaded", () => {
           })
             .then((response) => response.json())
             .then((data) => {
+              // Aceptamos 200 como éxito
               if (data.codigo === "200") {
                 Swal.fire({
                   icon: "success",
                   title: "Sesión cerrada",
-                  text: data.mensaje,
                   showConfirmButton: false,
-                  timer: 1500,
+                  timer: 1000,
                 }).then(() => {
                   window.location.href = "index.php"
                 })
               } else {
-                Swal.fire({
-                  icon: "error",
-                  title: "Error",
-                  text: data.mensaje,
-                })
+                window.location.href = "index.php" // Forzamos salida aunque falle visualmente
               }
             })
-            .catch((error) => {
-              console.error("Error:", error)
-              Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "Hubo un problema al cerrar sesión. Por favor, intente de nuevo.",
-              })
+            .catch(() => {
+              window.location.href = "index.php" // Fallback seguro
             })
         }
       })
@@ -213,8 +204,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 })
 
+// Función auxiliar para admin (mantenida igual)
 function crearAdmin() {
-  const Swal = window.Swal // Declare the Swal variable
+  const Swal = window.Swal
   Swal.fire({
     title: "Crear Administrador",
     html: `
@@ -242,13 +234,10 @@ function crearAdmin() {
         Swal.showValidationMessage("Todos los campos son obligatorios")
         return false
       }
-
       if (password.length < 6) {
         Swal.showValidationMessage("La contraseña debe tener al menos 6 caracteres")
         return false
       }
-
-      // Validate email format
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
       if (!emailRegex.test(email)) {
         Swal.showValidationMessage("El formato del email no es válido")
@@ -271,7 +260,7 @@ function crearAdmin() {
       })
         .then((response) => response.json())
         .then((data) => {
-          if (data.codigo === "201") {
+          if (data.codigo === "201" || data.codigo === "200") {
             Swal.fire("¡Éxito!", data.mensaje, "success")
           } else {
             Swal.fire("Error", data.mensaje, "error")

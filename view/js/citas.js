@@ -1,6 +1,9 @@
 (function(){
 
-  listarTablaCitas();
+  // Solo intentar cargar la tabla si existe el contenedor
+  if(document.getElementById('tablaCitas')){
+      listarTablaCitas();
+  }
 
   function listarTablaCitas() {
     let objData = { "listarCitas": "ok" };
@@ -8,27 +11,35 @@
     objTablaCitas.listarCitas();
   }
 
+  // --- VALIDACIONES IF PARA EVITAR ERRORES EN OTRAS PAGINAS ---
+
   let btnAgregarCitas = document.getElementById("btn-AgregarCitas");
-  btnAgregarCitas.addEventListener("click", () => {
-    $("#panelTablaCitas").hide();
-    $("#panelFormularioCitas").show();
+  if (btnAgregarCitas) {
+      btnAgregarCitas.addEventListener("click", () => {
+        $("#panelTablaCitas").hide();
+        $("#panelFormularioCitas").show();
+        let objCita = new Citas({});
+        objCita.cargarSelects();
+      });
+  }
 
-    let objCita = new Citas({});
-    objCita.cargarSelects();
-  });
-
-  document.getElementById("btn-RegresarCita").addEventListener("click", () => {
-    $("#panelFormularioCitas").hide();
-    $("#panelTablaCitas").show();
-  });
+  let btnRegresarCita = document.getElementById("btn-RegresarCita");
+  if (btnRegresarCita) {
+      btnRegresarCita.addEventListener("click", () => {
+        $("#panelFormularioCitas").hide();
+        $("#panelTablaCitas").show();
+      });
+  }
    
   let btnRegresarEditarCita = document.getElementById('btn-RegresarEditarCita');
-  btnRegresarEditarCita.addEventListener("click",()=>{
-      $("#panelFormularioEditarCitas").hide();
-      $("#panelTablaCitas").show();
-  })
+  if (btnRegresarEditarCita) {
+      btnRegresarEditarCita.addEventListener("click",()=>{
+          $("#panelFormularioEditarCitas").hide();
+          $("#panelTablaCitas").show();
+      });
+  }
 
-
+  // Eventos delegados (seguros)
   $("#tablaCitas").on("click","#btn-eliminarCita",function(){
       Swal.fire({
           title: "Está seguro?",
@@ -46,8 +57,7 @@
               objCita.eliminarCita();
           }
         });
-  })
-
+  });
 
   $("#tablaCitas").on("click", "#btn-editarCita", function () {
     $("#panelTablaCitas").hide();
@@ -59,9 +69,10 @@
     let estado = $(this).attr("estado");
     let motivo = $(this).attr("motivo");
 
-    // Convertimos fecha
     let fechaCita = $(this).attr("fecha_cita");
-    let fechaLocal = fechaCita.replace(" ", "T").slice(0, 16);
+    // Validación simple para fecha
+    let fechaLocal = (fechaCita) ? fechaCita.replace(" ", "T").slice(0, 16) : "";
+    
     $("#txt_edit_fecha_cita").val(fechaLocal);
     $("#select_edit_estado").val(estado);
     $("#txt_edit_motivo").val(motivo);
@@ -70,7 +81,6 @@
     let objCita = new Citas({});
     objCita.cargarSelectsEditar(id_adoptantes, id_mascotas);
   });
-
 
   const forms = document.querySelectorAll('#formRegistroCitas');
   Array.from(forms).forEach(form => {
@@ -111,18 +121,15 @@
     }, false);
   });
 
-
   const formsEditarCita = document.querySelectorAll('#formEditarCitas');
   Array.from(formsEditarCita).forEach(form => {
     form.addEventListener('submit', event => {
-    event.preventDefault()
-
+    event.preventDefault();
       if (!form.checkValidity()) {
-        event.stopPropagation()
-        form.classList.add('was-validated')
+        event.stopPropagation();
+        form.classList.add('was-validated');
       }else{
-
-        let fecha_edit = document.getElementById('txt_edit_fecha_cita').value; // "YYYY-MM-DDTHH:mm"
+        let fecha_edit = document.getElementById('txt_edit_fecha_cita').value; 
         let estado = document.getElementById('select_edit_estado').value;
         let motivo = document.getElementById('txt_edit_motivo').value;
         let id_mascotas = document.getElementById('select_edit_mascotas').value;
@@ -137,12 +144,9 @@
           estado: estado,
           motivo: motivo
         };
-
         let objCita = new Citas(objData);
         objCita.editarCita();
-
-
       }
-    }, false)
-  })
-})()
+    }, false);
+  });
+})();

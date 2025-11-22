@@ -1,6 +1,9 @@
 (function(){
 
-  listarTablaMascotas();
+  // Solo ejecutar si existe la tabla
+  if($('#tablaMascotas').length > 0){
+      listarTablaMascotas();
+  }
 
   function listarTablaMascotas(){
       let objData = {"listarMascotas":"ok"};
@@ -8,26 +11,30 @@
       objTablaMascotas.listarMascotas();
   }
 
+  // Validaciones IF para evitar errores en otras páginas
   let btnAgregarMascotas = document.getElementById("btn-AgregarMascotas");
-  btnAgregarMascotas.addEventListener("click",()=>{
-      $("#panelTablaMascotas").hide();
-      $("#panelFormularioMascotas").show();
-  })
+  if(btnAgregarMascotas){
+      btnAgregarMascotas.addEventListener("click",()=>{
+          $("#panelTablaMascotas").hide();
+          $("#panelFormularioMascotas").show();
+      });
+  }
 
   let btnRegresarMascota = document.getElementById("btn-RegresarMascota");
-  btnRegresarMascota.addEventListener("click",()=>{
-      $("#panelFormularioMascotas").hide();
-      $("#panelTablaMascotas").show();
-  })
+  if(btnRegresarMascota){
+      btnRegresarMascota.addEventListener("click",()=>{
+          $("#panelFormularioMascotas").hide();
+          $("#panelTablaMascotas").show();
+      });
+  }
    
   let btnRegresarEditarMascota = document.getElementById('btn-RegresarEditarMascota');
-  btnRegresarEditarMascota.addEventListener("click",()=>{
-    $("#panelFormularioEditarMascotas").hide();
-    $("#panelTablaMascotas").show();
-  });
-
-
-
+  if(btnRegresarEditarMascota){
+      btnRegresarEditarMascota.addEventListener("click",()=>{
+        $("#panelFormularioEditarMascotas").hide();
+        $("#panelTablaMascotas").show();
+      });
+  }
 
   $("#tablaMascotas").on("click","#btn-eliminarMascota",function(){
       Swal.fire({
@@ -46,7 +53,7 @@
               objMascota.eliminarMascota();
           }
         });
-  })
+  });
 
   $("#tablaMascotas").on("click","#btn-editarMascota",function(){
     $("#panelTablaMascotas").hide();
@@ -72,7 +79,6 @@
         $("#linkImagenActualMascota").hide();
     }
     
-
     $("#txt_edit_nombre").val(nombre);
     $("#txt_edit_especie").val(especie);
     $("#txt_edit_raza").val(raza);
@@ -85,82 +91,60 @@
     $("#txt_edit_descripcion").val(descripcion);
     $("#txt_edit_imagen_actual").val(imagen);
 
-
     $("#btnEditarMascota").attr("mascota",id_mascotas);
-  })
-
-
-    $("#formRegistroMascotas").on("submit", function (event) {
-      event.preventDefault();
-
-        let nombre = $("#txt_nombre").val();
-        let especie = $("#txt_especie").val();
-        let raza = $("#txt_raza").val();
-        let edad = $("#txt_edad").val();
-        let sexo = $("#select_sexo").val();
-        let tamano = $("#select_tamano").val();
-        let fecha_ingreso = $("#txt_fecha_ingreso").val();
-        let estado_salud = $("#txt_estado_salud").val();
-        let estado = $("#select_estado").val();
-        let descripcion = $("#txt_descripcion").val();
-        let imagen = $("#txt_imagen")[0].files[0];
-
-
-        let objData = {
-          nombre,
-          especie,
-          raza,
-          edad,
-          sexo,
-          tamano,
-          fecha_ingreso,
-          estado_salud,
-          estado,
-          descripcion,
-          imagen,
-        };
-        let objMascota = new Mascotas(objData);
-        objMascota.registrarMascota();
   });
 
+    const formsRegistro = document.querySelectorAll('#formRegistroMascotas');
+    Array.from(formsRegistro).forEach(form => {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            let nombre = $("#txt_nombre").val();
+            let especie = $("#txt_especie").val();
+            let raza = $("#txt_raza").val();
+            let edad = $("#txt_edad").val();
+            let sexo = $("#select_sexo").val();
+            let tamano = $("#select_tamano").val();
+            let fecha_ingreso = $("#txt_fecha_ingreso").val();
+            let estado_salud = $("#txt_estado_salud").val();
+            let estado = $("#select_estado").val();
+            let descripcion = $("#txt_descripcion").val();
+            let imagen = $("#txt_imagen")[0].files[0];
 
+            let objData = {
+              nombre, especie, raza, edad, sexo, tamano,
+              fecha_ingreso, estado_salud, estado, descripcion, imagen
+            };
+            let objMascota = new Mascotas(objData);
+            objMascota.registrarMascota();
+        });
+    });
 
-    $("#formEditarMascotas").on("submit", function (event) {
-        event.preventDefault();
+    const formsEditar = document.querySelectorAll('#formEditarMascotas');
+    Array.from(formsEditar).forEach(form => {
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+            let nombre = $('#txt_edit_nombre').val();
+            let especie = $('#txt_edit_especie').val();
+            let raza = $('#txt_edit_raza').val();
+            let edad = $('#txt_edit_edad').val();
+            let sexo = $('#select_edit_sexo').val();
+            let tamano = $('#select_edit_tamano').val();
+            let fecha_ingreso = $('#txt_edit_fecha_ingreso').val();
+            let estado_salud = $('#txt_edit_estado_salud').val();
+            let estado = $('#select_edit_estado').val();
+            let descripcion = $('#txt_edit_descripcion').val();
+            let imagen = $('#txt_edit_imagen')[0].files[0];
+            let imagen_actual = $('#txt_edit_imagen_actual').val();
+            let id_mascotas = $("#btnEditarMascota").attr("mascota");
 
-        let nombre = $('#txt_edit_nombre').val();
-        let especie = $('#txt_edit_especie').val();
-        let raza = $('#txt_edit_raza').val();
-        let edad = $('#txt_edit_edad').val();
-        let sexo = $('#select_edit_sexo').val();
-        let tamano = $('#select_edit_tamano').val();
-        let fecha_ingreso = $('#txt_edit_fecha_ingreso').val();
-        let estado_salud = $('#txt_edit_estado_salud').val();
-        let estado = $('#select_edit_estado').val();
-        let descripcion = $('#txt_edit_descripcion').val();
-        let imagen = $('#txt_edit_imagen')[0].files[0];
-        let imagen_actual = $('#txt_edit_imagen_actual').val();
-        let id_mascotas = $("#btnEditarMascota").attr("mascota");
-
-        let objData = {
-            editarMascota: "ok", 
-            nombre,
-            especie,
-            raza,
-            edad,
-            sexo,
-            tamano,
-            fecha_ingreso,
-            estado_salud,
-            estado,
-            descripcion,
-            imagen,
-            imagen_actual,
-            id_mascotas
-        };
-
-        let objMascota = new Mascotas(objData);
-        objMascota.editarMascota();
+            let objData = {
+                editarMascota: "ok", nombre, especie, raza, edad, sexo,
+                tamano, fecha_ingreso, estado_salud, estado, descripcion,
+                imagen, imagen_actual, id_mascotas
+            };
+            let objMascota = new Mascotas(objData);
+            objMascota.editarMascota();
+        });
     });
 
 })();
