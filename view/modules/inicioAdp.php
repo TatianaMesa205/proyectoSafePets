@@ -177,7 +177,7 @@
 <!-- GALERÍA -->
 <h3 class="gallery-title">Fundaciones y rescates que nos inspiran 🐾</h3>
 <div class="gallery">
-  <img src="https://scontent.fpei1-1.fna.fbcdn.net/v/t51.75761-15/464471014_18460800316054773_2502976628373376055_n.jpg?stp=dst-jpg_tt6&_nc_cat=100&ccb=1-7&_nc_sid=127cfc&_nc_eui2=AeFjGCxUcP7UsVFtfZ2BksH--p898YPJGc36nz3xg8kZzXzcTHVOSevGDHCyv85hLMNHLEFeR9sbnWpGg77NAxBO&_nc_ohc=_P4m467WGkEQ7kNvwGC6d4j&_nc_oc=AdnKKJx7oh_8VTgE_wvjio9UyI_jPmMsNoSYvzghQuuG-MESTbCxH-_OyYXkCkkR5D9AHCzw0dUGso7G28bAQ5-B&_nc_zt=23&_nc_ht=scontent.fpei1-1.fna&_nc_gid=Tv06Qdv7Iv7D6Q_EUPxxDw&oh=00_Afhe1ZKyTuJygmW4ycxugbWgPJQyQHyrZAzfcsr8D0OYQQ&oe=6921475A">
+  <img src="https://imagenes.elpais.com/resizer/v2/2LNQJII6MRHVTAOWG7ZUE7TVIE.jpg?auth=0ef5bf695c9b206bccda59f5f115396144e05e7a3df648817548109e3676091b&width=414">
   <img src="https://i.revistapym.com.co/cms/2023/08/18171321/spark.png?w=412&d=2.625">
   <img src="https://img.lalr.co/cms/2017/07/12221638/unnamed_8_0.jpg?r=4_3">
   <img src="https://queondagye.com/wp-content/uploads/2023/06/Empresas-DONACION-1024x683.jpg">
