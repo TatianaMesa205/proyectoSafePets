@@ -28,8 +28,9 @@ $listaMascotas = $respuesta["listaMascotas"];
             </div>
 
             <div class="foto-mascota">
-                <img src="<?= $mascota['imagen'] ?>" alt="Foto de mascota">
+                <img src="../../../CarpetaCompartida/Mascotas/<?= $mascota['imagen'] ?>" alt="Foto de mascota">
             </div>
+
 
             <p class="historia-mascota">
                 <?= $mascota["descripcion"] ?>
@@ -61,7 +62,16 @@ $listaMascotas = $respuesta["listaMascotas"];
     grid-template-columns: repeat(2, 1fr);
     gap: 30px;
     padding: 15px;
+    justify-content: center;
 }
+
+.adop-grid > *:nth-child(odd):last-child {
+    grid-column: 1 / -1;     /* La tarjeta ocupa toda la fila */
+    justify-self: center;    /* Se centra */
+    max-width: 480px;        /* Para que no se estire */
+}
+
+
 
 /* Tarjeta */
 .tarjeta-adopcion {

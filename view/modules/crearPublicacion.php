@@ -2,6 +2,42 @@
 $fechaActual = date("Y-m-d");
 ?>
 
+<nav class="navbar navbar-expand-lg shadow-sm">
+  <div class="container">
+    <a class="navbar-brand" href="publicacionesAdp">𝓢𝓪𝓯𝓮 𝓟𝓮𝓽𝓼</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-center">
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+            <i class="fa-solid fa-circle-user me-2" style="font-size: 25px; color: #8b5e3c;"></i>
+
+            <?php echo $_SESSION['nombre_usuario']; ?>
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
+            <li>
+              <a class="dropdown-item" href="perfilAdp">
+                <i class="fa-solid fa-user me-2"></i> Mi Perfil
+              </a>
+            </li>
+
+            <button id="btnLogout" class="btn-logout">
+              <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar sesión
+            </button>
+          </ul>
+        </li>
+
+      </ul>
+    </div> 
+  </div>
+</nav>
+
 <div class="form-container">
 
     <input type="hidden" id="rol_usuario" value="<?php echo $_SESSION['rol']; ?>">
@@ -47,10 +83,11 @@ $fechaActual = date("Y-m-d");
 <style>
 
 .form-container {
-    max-width: 750px;
-    margin: 30px auto;
+    max-width: 1000px;     /* 🔥 ANCHADO */
+    width: 90%;            /* Responsivo */
+    margin: 40px auto;
     background: #ffffff;
-    padding: 25px;
+    padding: 40px;         /* Más espacio interno */
     border-radius: 25px;
     box-shadow: 0 6px 20px #00000025;
     font-family: "Poppins", sans-serif;
@@ -58,7 +95,7 @@ $fechaActual = date("Y-m-d");
 
 .titulo-principal {
     text-align: center;
-    font-size: 28px;
+    font-size: 32px;       /* Título más grande */
     color: #3f5930;
     margin-bottom: 25px;
 }
@@ -66,20 +103,21 @@ $fechaActual = date("Y-m-d");
 /* Labels */
 .label {
     display: block;
-    margin-top: 15px;
-    margin-bottom: 5px;
+    margin-top: 18px;
+    margin-bottom: 6px;
     color: #3f5930;
     font-weight: bold;
+    font-size: 17px;
 }
 
 /* Campos */
 .input, .textarea, .input-file {
     width: 100%;
-    padding: 14px;
+    padding: 16px;
     border-radius: 18px;
     border: 2px solid #cfe3c9;
     background: #e7f3df;
-    font-size: 16px;
+    font-size: 17px;
     outline: none;
 }
 
@@ -183,3 +221,4 @@ document.getElementById("txt_foto").addEventListener("change", function(event){
 </script>
 
 
+<?php include("pie.php"); ?>

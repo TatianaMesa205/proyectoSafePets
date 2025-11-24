@@ -58,7 +58,7 @@
 
 <nav class="navbar navbar-expand-lg shadow-sm">
   <div class="container">
-    <a class="navbar-brand" href="#">𝓢𝓪𝓯𝓮 𝓟𝓮𝓽𝓼</a>
+    <a class="navbar-brand" href="inicioAdp">𝓢𝓪𝓯𝓮 𝓟𝓮𝓽𝓼</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
