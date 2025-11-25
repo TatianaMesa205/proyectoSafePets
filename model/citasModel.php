@@ -1,5 +1,4 @@
 <?php
-
 include_once "conexion.php";
 
 class CitasModel
@@ -10,7 +9,6 @@ class CitasModel
         $mensaje = array();
         try {
             $objConexion = Conexion::conectar();
-
             $sql = "
                 SELECT 
                     c.id_citas,
@@ -26,112 +24,91 @@ class CitasModel
                 INNER JOIN adoptantes a ON c.id_adoptantes = a.id_adoptantes
                 ORDER BY c.id_citas DESC
             ";
-
-            $objRespuesta = $objConexion->prepare($sql);
-            $objRespuesta->execute();
-            $listaCitas = $objRespuesta->fetchAll(PDO::FETCH_ASSOC);
-
+            $stmt = $objConexion->prepare($sql);
+            $stmt->execute();
+            $listaCitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $mensaje = array("codigo" => "200", "listaCitas" => $listaCitas);
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
         }
-
         return $mensaje;
     }
-
-
-    public static function mdlEliminarCita($id_citas)
-    {
-        $mensaje = array();
-        try {
-            $objRespuesta = Conexion::conectar()->prepare("
-                DELETE FROM citas WHERE id_citas = :id_citas
-            ");
-            $objRespuesta->bindParam(":id_citas", $id_citas, PDO::PARAM_INT);
-
-            if ($objRespuesta->execute()) {
-                $mensaje = array("codigo" => "200", "mensaje" => "La cita se eliminó correctamente.");
-            } else {
-                $mensaje = array("codigo" => "401", "mensaje" => "Error al eliminar la cita.");
-            }
-
-            $objRespuesta = null;
-        } catch (Exception $e) {
-            $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
-        }
-
-        return $mensaje;
-    }
-
 
     public static function mdlRegistrarCita($id_adoptantes, $id_mascotas, $fecha_cita, $estado, $motivo)
     {
         $mensaje = array();
         try {
-            $objRespuesta = Conexion::conectar()->prepare("
-                INSERT INTO citas (id_adoptantes, id_mascotas, fecha_cita, estado, motivo)
-                VALUES (:id_adoptantes, :id_mascotas, :fecha_cita, :estado, :motivo)
-            ");
-            $objRespuesta->bindParam(":id_adoptantes", $id_adoptantes);
-            $objRespuesta->bindParam(":id_mascotas", $id_mascotas);
-            $objRespuesta->bindParam(":fecha_cita", $fecha_cita);
-            $objRespuesta->bindParam(":estado", $estado);
-            $objRespuesta->bindParam(":motivo", $motivo);
+            $stmt = Conexion::conectar()->prepare("INSERT INTO citas(id_adoptantes, id_mascotas, fecha_cita, estado, motivo) VALUES (:id_a, :id_m, :f, :e, :m)");
+            $stmt->bindParam(":id_a", $id_adoptantes);
+            $stmt->bindParam(":id_m", $id_mascotas);
+            $stmt->bindParam(":f", $fecha_cita);
+            $stmt->bindParam(":e", $estado);
+            $stmt->bindParam(":m", $motivo);
 
-            if ($objRespuesta->execute()) {
-                $mensaje = array("codigo" => "200", "mensaje" => "Cita registrada correctamente");
+            if ($stmt->execute()) {
+                return array("codigo" => "200", "mensaje" => "Cita registrada correctamente");
             } else {
-                $mensaje = array("codigo" => "401", "mensaje" => "Error al registrar la cita");
+                return array("codigo" => "401", "mensaje" => "Error al registrar la cita");
             }
-
-            $objRespuesta = null;
         } catch (Exception $e) {
-            $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
+            return array("codigo" => "401", "mensaje" => $e->getMessage());
         }
-        return $mensaje;
     }
-
 
     public static function mdlEditarCita($id_citas, $id_adoptantes, $id_mascotas, $fecha_cita, $estado, $motivo)
     {
         $mensaje = array();
-
         try {
-            $objRespuesta = Conexion::conectar()->prepare("
-                UPDATE citas 
-                SET 
-                    id_adoptantes = :id_adoptantes,
-                    id_mascotas = :id_mascotas,
-                    fecha_cita = :fecha_cita,
-                    estado = :estado,
-                    motivo = :motivo
-                WHERE id_citas = :id_citas
-            ");
+            $stmt = Conexion::conectar()->prepare("UPDATE citas SET id_adoptantes=:id_a, id_mascotas=:id_m, fecha_cita=:f, estado=:e, motivo=:m WHERE id_citas=:id");
+            $stmt->bindParam(":id_a", $id_adoptantes);
+            $stmt->bindParam(":id_m", $id_mascotas);
+            $stmt->bindParam(":f", $fecha_cita);
+            $stmt->bindParam(":e", $estado);
+            $stmt->bindParam(":m", $motivo);
+            $stmt->bindParam(":id", $id_citas);
 
-            $objRespuesta->bindParam(":id_adoptantes", $id_adoptantes, PDO::PARAM_INT);
-            $objRespuesta->bindParam(":id_mascotas", $id_mascotas, PDO::PARAM_INT);
-            $objRespuesta->bindParam(":fecha_cita", $fecha_cita);
-            $objRespuesta->bindParam(":estado", $estado);
-            $objRespuesta->bindParam(":motivo", $motivo);
-            $objRespuesta->bindParam(":id_citas", $id_citas, PDO::PARAM_INT);
-
-            if ($objRespuesta->execute()) {
-                $mensaje = array("codigo" => "200", "mensaje" => "La cita se editó correctamente.");
+            if ($stmt->execute()) {
+                return array("codigo" => "200", "mensaje" => "Cita actualizada correctamente");
             } else {
-                $mensaje = array("codigo" => "401", "mensaje" => "Error al editar la cita.");
+                return array("codigo" => "401", "mensaje" => "Error al actualizar la cita");
             }
-
-            $objRespuesta = null;
-
         } catch (Exception $e) {
-            $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
+            return array("codigo" => "401", "mensaje" => $e->getMessage());
         }
-
-        return $mensaje;
     }
+
+    public static function mdlEliminarCita($id_citas)
+    {
+        $mensaje = array();
+        try {
+            $stmt = Conexion::conectar()->prepare("DELETE FROM citas WHERE id_citas=:id");
+            $stmt->bindParam(":id", $id_citas);
+            if ($stmt->execute()) {
+                return array("codigo" => "200", "mensaje" => "Cita eliminada correctamente");
+            } else {
+                return array("codigo" => "401", "mensaje" => "Error al eliminar la cita");
+            }
+        } catch (Exception $e) {
+            return array("codigo" => "401", "mensaje" => $e->getMessage());
+        }
+    }
+
     static public function mdlContarCitas(){
         $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM citas");
         $stmt->execute();
         return $stmt->fetch();
+    }
+
+    // --- NUEVO: Obtener fechas ocupadas para bloquearlas en el calendario ---
+    public static function mdlObtenerFechasOcupadas()
+    {
+        try {
+            $stmt = Conexion::conectar()->prepare("SELECT fecha_cita FROM citas");
+            $stmt->execute();
+            // Devuelve un array simple con las fechas (ej: ["2023-10-01 10:00:00", ...])
+            return $stmt->fetchAll(PDO::FETCH_COLUMN);
+        } catch (Exception $e) {
+            return [];
+        }
     }
 }
