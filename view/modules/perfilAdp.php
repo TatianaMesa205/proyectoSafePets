@@ -1,3 +1,22 @@
+<?php
+include_once "controller/adoptantesController.php";
+include_once "model/adoptantesModel.php";
+
+// Obtener email de sesión
+$email_usuario = $_SESSION['email'] ?? null;
+
+// Buscar adoptante por email
+$adoptanteInfo = AdoptantesController::ctrMostrarAdoptante("email", $email_usuario);
+
+// Si existe adoptante extraer id
+$idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
+?>
+
+
+<body>
+
+<input type="hidden" id="id_adoptante_sesion" value="<?php echo $idAdoptante; ?>">
+
 <div class="perfil-container">
 
     <!-- MENÚ LATERAL -->
@@ -112,8 +131,22 @@
             <h3 class="mb-4" style="color:#8b5e3c; font-weight:700;">
                 <i class="fa-solid fa-calendar-check me-2"></i>Historial de Citas
             </h3>
-            <p class="text-muted">Aquí se mostrará el listado de citas del usuario.</p>
+
+            <div id="listaCitasAdoptante" class="row g-3"></div>
+                <div id="modalCancelar" class="modal-cancelar">
+                    <div class="modal-content">
+                        <h4>¿Seguro que desea cancelar esta cita?</h4>
+                        <p>Esta acción no se puede deshacer.</p>
+
+                        <div class="modal-buttons">
+                        <button id="btnConfirmar" class="btn-confirmar">Sí, cancelar</button>
+                        <button id="btnCerrar" class="btn-cerrar">No</button>
+                        </div>
+                    </div>
+                </div>
+
         </div>
+
 
         <!-- SECCIÓN PUBLICACIONES REALIZADAS -->
         <div id="seccionPublicaciones" class="seccion oculto">
@@ -150,7 +183,7 @@
 /* SIDEBAR */
 .sidebar-menu {
     width: 260px;
-    background-color: #f2e3d5;
+    background-color: #f0e4d8ff;
     padding: 30px 20px;
     border-right: 2px solid #e2c7b3;
     font-family: "Poppins", sans-serif;
@@ -306,6 +339,117 @@
     transform: translateY(-2px);
 }
 
+#listaCitasAdoptante {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+}
+
+.cita-card {
+    width: 300px;         /* 🔥 Tarjeta uniforme */
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    cursor: pointer;
+    transition: .3s;
+    border: 1px solid #e6d4c3;
+}
+
+.cita-img {
+    width: 100%;
+    height: 220px;         /* Mejor proporción */
+    object-fit: cover;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    border: 2px solid #f5e6da;
+}
+
+
+.cita-card:hover {
+    transform: translateY(-5px);
+}
+
+
+/* ESTADOS DE LA CITA */
+
+/* Confirmada */
+.estado-activa {
+    display: inline-block;
+    background: #c8f3cc;   /* verde pastel suave */
+    color: #1b6022;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+/* Cancelada */
+.estado-cancelada {
+    display: inline-block;
+    background: #ffd2d2;
+    color: #8b1a1a;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+/* Completada */
+.estado-completada {
+    display: inline-block;
+    background: #d8e8ff;  /* azul suave */
+    color: #1a3d7c;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+
+/* Pendiente */
+.estado-pendiente {
+    display: inline-block;
+    background: #fff4cc;  /* amarillo suave */
+    color: #7a5c1a;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-weight: bold;
+}
+.modal-cancelar {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #fff;
+    padding: 25px;
+    border-radius: 15px;
+    text-align: center;
+    width: 90%;
+    max-width: 350px;
+}
+
+.btn-confirmar {
+    background: #c0392b;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+}
+
+.btn-cerrar {
+    background: #d5b292ff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    margin-left: 10px;
+}
+
 
 </style>
 
@@ -351,3 +495,5 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+
+<script src="view/js/historialCitasAdp.js"></script>

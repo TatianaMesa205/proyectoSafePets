@@ -129,9 +129,44 @@ class CitasModel
 
         return $mensaje;
     }
+
     static public function mdlContarCitas(){
         $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM citas");
         $stmt->execute();
         return $stmt->fetch();
     }
+
+    static public function mdlListarCitasAdoptante($id_adoptantes)
+    {
+        $stmt = Conexion::conectar()->prepare("
+            SELECT c.id_citas, c.fecha_cita, c.estado, c.motivo,
+                m.nombre AS mascota, m.imagen
+            FROM citas c
+            INNER JOIN mascotas m ON m.id_mascotas = c.id_mascotas
+            WHERE c.id_adoptantes = :id_adoptantes
+            ORDER BY c.fecha_cita DESC
+        ");
+
+        $stmt->bindParam(":id_adoptantes", $id_adoptantes, PDO::PARAM_INT);
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public static function mdlCancelarCita($id_citas)
+    {
+        try {
+            $sql = Conexion::conectar()->prepare("DELETE FROM citas WHERE id_citas = :id_citas");
+            $sql->bindParam(":id_citas", $id_citas);
+            $sql->execute();
+
+            return ["codigo" => "200", "mensaje" => "Cita eliminada"];
+
+        } catch (Exception $e) {
+            return ["codigo" => "500", "mensaje" => $e->getMessage()];
+        }
+    }
+
+
 }

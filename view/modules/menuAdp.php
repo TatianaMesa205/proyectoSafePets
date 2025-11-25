@@ -1,61 +1,3 @@
-<style>
-    /* --- CORRECCIÓN TÉCNICA 1: Z-INDEX --- */
-    /* Agregamos z-index alto para que el menú salga POR ENCIMA de todo */
-    .navbar {
-      background-color: #f0e4d8ff;
-      position: relative;
-      z-index: 1050 !important; 
-    }
-    
-    /* --- TU DISEÑO ORIGINAL SE MANTIENE INTACTO --- */
-    .navbar-brand {
-      font-weight: bold;
-      font-size: 1.7rem; 
-      color: #8b5e3c !important; 
-    }
-    .nav-link {
-      color: #5a4633 !important; 
-      font-weight: 500;
-      transition: 0.3s;
-    }
-    .nav-link:hover {
-      color: #a67856 !important;
-    }
-    .navbar-toggler {
-      border-color: #8b5e3c;
-    }
-    .navbar-toggler-icon {
-      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3E%3Cpath stroke='rgb(139,94,60)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
-    }
-    .carousel-inner img {
-      height: 350px;
-      object-fit: cover;
-      border-radius: 200px;
-    }
-    .container.text-center.my-4 {
-      position: sticky;
-      top: 0;
-      background: #f8f3ee;
-      z-index: 1000;
-      padding: 10px 0;
-    }
-    .btn-logout {
-        display: block;
-        margin: 20px auto;
-        padding: 10px 15px;
-        background-color: #d6baa5;
-        color: white;
-        border: none;
-        border-radius: 100px;
-        cursor: pointer;
-        font-weight: bold;
-        width: 80%; /* Asegura que el botón se vea bien centrado */
-    }
-    .btn-logout:hover {
-        background-color: #c4a48c; /* Un pequeño efecto hover para UX */
-    }
-</style>
-
 <nav class="navbar navbar-expand-lg shadow-sm">
   <div class="container">
     <a class="navbar-brand" href="inicioAdp">𝓢𝓪𝓯𝓮 𝓟𝓮𝓽𝓼</a>
@@ -66,34 +8,43 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-center">
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <li class="nav-item dropdown perfil-nav-item">
+          <a class="nav-link dropdown-toggle d-flex align-items-center perfil-toggle" 
+            href="#" 
+            id="perfilDropdown" 
+            role="button" 
+            data-bs-toggle="dropdown" 
+            aria-expanded="false">
 
-            <i class="fa-solid fa-circle-user me-2" style="font-size: 25px; color: #8b5e3c;"></i>
+            <div class="perfil-icono">
+              <i class="fa-solid fa-circle-user"></i>
+            </div>
 
-            <?php 
-              // Validación simple para evitar errores si no hay sesión
-              echo isset($_SESSION['nombre_usuario']) ? $_SESSION['nombre_usuario'] : 'Usuario'; 
-            ?>
+            <span class="perfil-nombre">
+              <?php echo isset($_SESSION['nombre_usuario']) ? $_SESSION['nombre_usuario'] : 'Usuario'; ?>
+            </span>
           </a>
 
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
+          <ul class="dropdown-menu dropdown-menu-end perfil-menu" aria-labelledby="perfilDropdown">
+
             <li>
-                <a class="dropdown-item" href="perfilAdp">
-                  <i class="fa-solid fa-user me-2"></i> Mi Perfil
-                </a>
+              <a class="dropdown-item perfil-opcion" href="perfilAdp">
+                <i class="fa-solid fa-user me-2"></i> Mi Perfil
+              </a>
             </li>
 
             <li>
-                <button id="btnLogout" class="btn-logout">
-                  <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar sesión
-                </button>
+              <button id="btnLogout" class="perfil-logout">
+                <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar sesión
+              </button>
             </li>
+
           </ul>
         </li>
 
       </ul>
-    </div> 
+    </div>
+
 
   </div>
 </nav>
@@ -168,3 +119,117 @@
 <?php include("pie.php"); ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+  /* ==== CONTENEDOR GENERAL ==== */
+.perfil-nav-item {
+    position: relative;
+}
+
+/* ==== BOTÓN DEL PERFIL EN NAV ==== */
+.perfil-toggle {
+    background: #f4e9dd;
+    padding: 8px 14px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.3s;
+    border: 1px solid #e0d4c4;
+}
+
+.perfil-toggle:hover {
+    background: #e8dccd;
+}
+
+/* ==== ICONO ==== */
+.perfil-icono i {
+    font-size: 26px;
+    color: #8b5e3c;
+}
+
+/* ==== NOMBRE ==== */
+.perfil-nombre {
+    font-weight: 600;
+    color: #6b4f3a;
+    margin-left: 4px;
+}
+
+/* ==== DROPDOWN ==== */
+.perfil-menu {
+    background: #fff8f1;
+    border-radius: 12px;
+    border: 1px solid #e4d6c7;
+    padding: 8px 0;
+    min-width: 180px;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.12);
+}
+
+/* Opciones */
+.perfil-opcion {
+    padding: 10px 18px !important;
+    font-weight: 500;
+    color: #6b4f3a;
+    transition: 0.2s;
+}
+
+.perfil-opcion:hover {
+    background: #f1e4d7;
+    color: #4a3729;
+}
+
+/* ==== BOTÓN LOGOUT ==== */
+.perfil-logout {
+    width: 100%;
+    padding: 10px 18px;
+    background: transparent;
+    border: none;
+    text-align: left;
+    font-weight: 500;
+    color: #6b4f3a;
+    transition: 0.2s;
+}
+
+.perfil-logout:hover {
+    background: #f1e4d7;
+    color: #4a3729;
+}
+
+.navbar {
+  background-color: #f0e4d8ff;
+  position: relative;
+  z-index: 1050 !important; 
+}
+    
+ 
+
+.carousel-inner img {
+  height: 350px;
+  object-fit: cover;
+  border-radius: 200px;
+}
+.container.text-center.my-4 {
+  position: sticky;
+  top: 0;
+  background: #f8f3ee;
+  z-index: 1000;
+  padding: 10px 0;
+}
+.btn-logout {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 15px;
+  background-color: #d6baa5;
+  color: white;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 80%; /* Asegura que el botón se vea bien centrado */
+}
+.btn-logout:hover {
+  background-color: #c4a48c; /* Un pequeño efecto hover para UX */
+}
+
+</style>
+

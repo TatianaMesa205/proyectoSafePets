@@ -120,4 +120,25 @@ if (isset($_POST["editarCita"]) == "ok") {
     $objCitas->motivo = $_POST["motivo"];
     $objCitas->ctrEditarCita();
 }
+
+if (isset($_POST["listarCitasAdoptante"]) && $_POST["listarCitasAdoptante"] == "ok") {
+    $id = $_POST["id_adoptantes"];
+
+    $respuesta = CitasModel::mdlListarCitasAdoptante($id);
+
+    echo json_encode([
+        "codigo" => "200",
+        "listaCitas" => $respuesta
+    ]);
+
+    return;
+}
+
+if(isset($_POST["cancelarCita"])){
+
+    $obj = new CitasController();
+    $obj->id_citas = $_POST["id_citas"];
+    $obj->ctrCancelarCita();  
+}
+
 ?>
