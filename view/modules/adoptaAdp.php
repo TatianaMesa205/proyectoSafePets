@@ -5,19 +5,37 @@ $respuesta = MascotasModel::mdlListarMascotas();
 $listaMascotas = $respuesta["listaMascotas"];
 ?>
 
+<div class="filtros-container">
+    <button class="btn-filtro active" data-filter="all">Todos</button>
+    <button class="btn-filtro" data-filter="perro">Perros</button>
+    <button class="btn-filtro" data-filter="gato">Gatos</button>
+</div>
+
+
 <div class="cards-container">
 
     <?php foreach ($listaMascotas as $mascota) { ?>
 
-        <?php if (strtolower($mascota['estado']) === 'adoptado') continue; ?> 
+    <?php 
+        // Ocultar si NO tiene imagen
+        if (empty($mascota['imagen']) || $mascota['imagen'] === null || $mascota['imagen'] === "null") {
+            continue;
+        }
+    ?>
 
-        <a href="index.php?ruta=detalleMascota&id=<?php echo $mascota['id_mascotas']; ?>" class="card"> 
+    <?php if (strtolower($mascota['estado']) === 'adoptado') continue; ?> 
+
+
+        <a href="index.php?ruta=detalleMascota&id=<?php echo $mascota['id_mascotas']; ?>" 
+            class="card" 
+            data-especie="<?php echo strtolower($mascota['especie']); ?>">
+
             
             <div class="card-inner">
 
                 <!-- FRONT -->
                 <div class="card-front">
-                    <img src="<?php echo $mascota['imagen']; ?>" alt="Mascota">
+                    <img src="../../../CarpetaCompartida/Mascotas/<?php echo $mascota['imagen']; ?>" alt="Mascota">
 
                     <!-- BURBUJA DE ESTADO -->
                     <span class="estado-badge 
@@ -58,7 +76,6 @@ $listaMascotas = $respuesta["listaMascotas"];
 </div>
 
 <style>
-    /* --- Estilos de Adopción (adopta.php) --- */ 
     .cards-container { 
         display: flex; 
         flex-wrap: wrap; 
@@ -117,8 +134,6 @@ $listaMascotas = $respuesta["listaMascotas"];
         text-align: center; 
     }
 
-
-    /* BURBUJAS DE ESTADO */
     .estado-badge {
         position: absolute;
         top: 12px;
@@ -131,39 +146,31 @@ $listaMascotas = $respuesta["listaMascotas"];
         box-shadow: 0 3px 6px rgba(0,0,0,0.15);
     }
 
-    .estado-disponible { background: #9bcb7fff; }         /* Verde pastel */
-    .estado-tratamiento { background: #f6ac6bff; }       /* Amarillo suave */
+    .estado-disponible { background: #9bcb7fff; } 
+    .estado-tratamiento { background: #f6ac6bff; }   
 
-    /* ====== ANIMACIONES LINDAS ====== */
 
-    /* Flotación suave */
     @keyframes float {
         0% { transform: translateY(0); }
         50% { transform: translateY(-6px); }
         100% { transform: translateY(0); }
     }
 
-    /* Pulso para la burbuja */
+
     @keyframes pulse {
         0% { transform: scale(1); }
         50% { transform: scale(1.1); }
         100% { transform: scale(1); }
     }
 
-    /* Sombra animada */
     @keyframes shadowGlow {
         0% { box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         50% { box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
         100% { box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
     }
 
-    /* ====== APLICACIÓN EN LAS CARTAS ====== */
-
-
-
-    /* La parte interna con 3D suave */
     .card-inner {
-        transition: transform 0.8s cubic-bezier(.25,.8,.25,1); /* Flip más elegante */
+        transition: transform 0.8s cubic-bezier(.25,.8,.25,1);
     }
 
     /* Burbuja de estado con animación */
@@ -176,5 +183,57 @@ $listaMascotas = $respuesta["listaMascotas"];
         transform: scale(1.2) rotate(-5deg);
     }
 
+    .filtros-container {
+        text-align: center;
+        margin: 20px 0 10px;
+    }
+
+    .btn-filtro {
+        background: #e8d8c4;
+        color: #5a4633;
+        border: none;
+        padding: 10px 18px;
+        margin: 0 8px;
+        border-radius: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .btn-filtro:hover {
+        background: #d4b89f;
+    }
+
+    .btn-filtro.active {
+        background: #b89477;
+        color: white;
+        transform: scale(1.1);
+    }
 
 </style>
+
+<script>
+    const botones = document.querySelectorAll(".btn-filtro");
+    const cards = document.querySelectorAll(".card");
+
+    botones.forEach(btn => {
+        btn.addEventListener("click", () => {
+
+            // Activar botón seleccionado
+            botones.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const filtro = btn.getAttribute("data-filter");
+
+            cards.forEach(card => {
+                const especie = card.getAttribute("data-especie");
+
+                if (filtro === "all") {
+                    card.style.display = "block";
+                } else {
+                    card.style.display = especie === filtro ? "block" : "none";
+                }
+            });
+        });
+    });
+</script>

@@ -24,7 +24,7 @@ if (!isset($_SESSION["iniciarSesion"])) {
 include "view/modules/cabecera.php"; // Aquí cargas CSS y librerías (Bootstrap, FontAwesome, SweetAlert)
 
 // Lógica del menú según rol
-if ($ruta !== "detalleMascota" && $ruta !== "adoptanteAdp" && $ruta !== "citasAdp" && $ruta !== "registro-adoptante") {
+if ($ruta !== "detalleMascota" && $ruta !== "adoptanteAdp" && $ruta !== "citasAdp" && $ruta !== "registro-adoptante" && $ruta !== "perfilAdp" && $ruta !== "crearPublicacion") {
     if ($_SESSION["rol"] === "admin") {
         include "view/modules/menuAdmin.php";
     } else {
@@ -60,7 +60,7 @@ if (file_exists($archivoModulo)) {
 }
 
 // Opcional: incluir pie de página
-// include "view/modules/flooter.php"; 
+include "view/modules/flooter.php"; 
 ?>
 
 <script src="view/js/login.js"></script>

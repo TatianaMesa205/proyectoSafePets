@@ -3,6 +3,19 @@ $(document).ready(function() {
     $(document).on("click", ".btn-adoptame", function(e) {
         e.preventDefault(); 
 
+        // 🔥 VALIDAR ESTADO ANTES QUE NADA
+        var estado = $(this).attr("estado");
+
+        if (estado === "en tratamiento") {
+            Swal.fire({
+                icon: "warning",
+                title: "Mascota en tratamiento",
+                text: "Lo sentimos, esta mascota aún no se encuentra disponible para adopción.",
+                confirmButtonColor: "#a07b61"
+            });
+            return; // ❌ IMPORTANTE: DETIENE TODO
+        }
+
         var idMascota = $(this).attr("id-mascota");
 
         var datos = new FormData();
@@ -19,10 +32,12 @@ $(document).ready(function() {
             success: function(respuesta) {
                 
                 if (respuesta.codigo == "200") {
+
                     if (respuesta.existe) {
                         // CASO A: YA ES ADOPTANTE -> A Citas
                         window.location.href = "index.php?ruta=citasAdp&mascota=" + idMascota;
                     } else {
+
                         // CASO B: NO ES ADOPTANTE -> Al formulario de registro
                         Swal.fire({
                             title: '¡Un paso más!',
@@ -35,13 +50,11 @@ $(document).ready(function() {
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 localStorage.setItem("mascota_pendiente", idMascota);
-                                
-                                // --- CORRECCIÓN AQUÍ: Ruta correcta ---
                                 window.location.href = "index.php?ruta=registro-adoptante"; 
-                                // --------------------------------------
                             }
                         });
                     }
+
                 } else {
                     Swal.fire("Error", "Por favor inicia sesión nuevamente.", "error");
                 }
