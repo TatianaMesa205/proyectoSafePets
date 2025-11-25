@@ -1,8 +1,8 @@
 <?php
-ob_start(); // Inicia el buffer para evitar errores de headers
+ob_start(); // Inicia el buffer para evitar errores de cabeceras
 
-// --- CORRECCIÓN DE RUTAS ---
-// Usamos __DIR__ para que las rutas sean absolutas relativas a este archivo
+// --- CORRECCIÓN DE RUTAS (SOLUCIÓN A TUS WARNINGS) ---
+// Usamos __DIR__ para obligar a que la ruta sea absoluta desde este archivo
 include_once __DIR__ . "/../model/citasModel.php";
 include_once __DIR__ . "/../model/adoptantesModel.php";
 include_once __DIR__ . "/../utils/correo.php";
@@ -16,13 +16,14 @@ class CitasController
     public $estado;
     public $motivo;
 
-   
-    static public function ctrContarCitasPendientes(){
-        return CitasModel::mdlContarCitas();
-    }
-    
+    // --- ESTE ES EL MÉTODO QUE TE FALTABA (SOLUCIÓN AL FATAL ERROR) ---
     static public function ctrContarCitas(){
         return CitasModel::mdlContarCitas(); 
+    }
+    
+    // Método auxiliar por si lo llamas de otra forma
+    static public function ctrContarCitasPendientes(){
+        return CitasModel::mdlContarCitas();
     }
 
     public function ctrListarCitas()
@@ -45,7 +46,7 @@ class CitasController
 
     public function ctrRegistrarCita()
     {
-        // 1. Registrar la cita en la Base de Datos
+        // 1. Registrar la cita
         $objRespuestaCitas = CitasModel::mdlRegistrarCita(
             $this->id_adoptantes,
             $this->id_mascotas,
@@ -54,18 +55,21 @@ class CitasController
             $this->motivo
         );
 
-        // 2. Intentar enviar correo SOLO si el registro fue exitoso
+        // 2. Enviar correo si se guardó bien
         if (isset($objRespuestaCitas["codigo"]) && $objRespuestaCitas["codigo"] == "200") {
             try {
                 $adoptante = AdoptantesModel::mdlMostrarAdoptante("id_adoptantes", $this->id_adoptantes);
                 if ($adoptante) {
-                    $email = $adoptante["email"];
-                    $nombre = $adoptante["nombre_completo"];
-                    // Enviamos el correo
-                    Correo::enviarCorreoCita($email, $nombre, $this->fecha_cita, $this->motivo);
+                    // Usamos la clase Correo corregida
+                    Correo::enviarCorreoCita(
+                        $adoptante["email"], 
+                        $adoptante["nombre_completo"], 
+                        $this->fecha_cita, 
+                        $this->motivo
+                    );
                 }
             } catch (Throwable $e) {
-                // Si falla el correo, continuamos sin interrumpir el JSON
+                // Si falla el correo, continuamos sin romper el proceso
             }
         }
 
@@ -77,17 +81,56 @@ class CitasController
 
     public function ctrEditarCita()
     {
-        $objRespuestaCitas = CitasModel::mdlEditarCita($this->id_citas, $this->id_adoptantes, $this->id_mascotas, $this->fecha_cita, $this->estado, $this->motivo);
+        $objRespuestaCitas = CitasModel::mdlEditarCita(
+            $this->id_citas, 
+            $this->id_adoptantes, 
+            $this->id_mascotas, 
+            $this->fecha_cita, 
+            $this->estado, 
+            $this->motivo
+        );
+
+        // Enviar correo de modificación
+        if (isset($objRespuestaCitas["codigo"]) && $objRespuestaCitas["codigo"] == "200") {
+            try {
+                $adoptante = AdoptantesModel::mdlMostrarAdoptante("id_adoptantes", $this->id_adoptantes);
+                if ($adoptante) {
+                    Correo::enviarCorreoModificacion(
+                        $adoptante["email"], 
+                        $adoptante["nombre_completo"], 
+                        $this->fecha_cita, 
+                        $this->motivo,
+                        $this->estado
+                    );
+                }
+            } catch (Throwable $e) {
+                // Error silencioso
+            }
+        }
+
         ob_clean();
         header('Content-Type: application/json');
         echo json_encode($objRespuestaCitas);
         die();
     }
+
+    public function ctrTraerFechas() {
+        $fechas = CitasModel::mdlObtenerFechasOcupadas();
+        ob_clean();
+        header('Content-Type: application/json');
+        echo json_encode($fechas);
+        die();
+    }
 }
 
 // =======================================================
-// MANEJO DE PETICIONES AJAX
+// MANEJO DE PETICIONES AJAX (POST)
 // =======================================================
+
+if (isset($_POST["traerFechas"]) == "ok") {
+    $obj = new CitasController();
+    $obj->ctrTraerFechas();
+}
 
 if (isset($_POST["listarCitas"]) == "ok") {
     $objCitas = new CitasController();
