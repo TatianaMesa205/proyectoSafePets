@@ -83,6 +83,49 @@ class CitasController
         echo json_encode($objRespuestaCitas);
         die();
     }
+
+    public function ctrCancelarCita()
+    {
+        // 1️⃣ Obtener info de la cita
+        $info = CitasModel::mdlObtenerCita($this->id_citas);
+
+        if (!$info) {
+            echo json_encode(["codigo" => "404", "mensaje" => "Cita no encontrada"]);
+            return;
+        }
+
+        // 2️⃣ Validar estados permitidos
+        if ($info["estado"] != "Pendiente" && $info["estado"] != "Confirmada") {
+            echo json_encode(["codigo" => "403", "mensaje" => "Esta cita no se puede cancelar"]);
+            return;
+        }
+
+        // 3️⃣ Validar tiempo (48h)
+        $fechaCita = strtotime($info["fecha_cita"]);
+        $ahora = time();
+        $diferenciaHoras = ($fechaCita - $ahora) / 3600;
+
+        if ($diferenciaHoras < 48) {
+            echo json_encode([
+                "codigo" => "403",
+                "mensaje" => "No es posible cancelar tan cerca de la hora acordada"
+            ]);
+            return;
+        }
+
+        // 4️⃣ Actualizar estado
+        $respuesta = CitasModel::mdlActualizarEstado(
+            $this->id_citas,
+            "Cancelada"
+        );
+
+        echo json_encode([
+            "codigo" => "200",
+            "mensaje" => "Cita cancelada"
+        ]);
+    }
+
+
 }
 
 // =======================================================
@@ -132,6 +175,12 @@ if (isset($_POST["listarCitasAdoptante"]) && $_POST["listarCitasAdoptante"] == "
     ]);
 
     return;
+}
+
+if (isset($_POST["cancelarCita"]) == "ok") {
+    $objCitas = new CitasController();
+    $objCitas->id_citas = $_POST["id_citas"];
+    $objCitas->ctrCancelarCita();
 }
 
 ?>

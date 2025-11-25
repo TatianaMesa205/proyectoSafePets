@@ -119,23 +119,6 @@ class CitasModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public static function mdlCancelarCita($id_citas)
-    {
-        try {
-            $sql = Conexion::conectar()->prepare("DELETE FROM citas WHERE id_citas = :id_citas");
-            $sql->bindParam(":id_citas", $id_citas);
-            $sql->execute();
-
-            return ["codigo" => "200", "mensaje" => "Cita eliminada"];
-
-        } catch (Exception $e) {
-            return ["codigo" => "500", "mensaje" => $e->getMessage()];
-        }
-    }
-
-
-
-
     // --- NUEVO: Obtener fechas ocupadas para bloquearlas en el calendario ---
     public static function mdlObtenerFechasOcupadas()
     {
@@ -148,5 +131,35 @@ class CitasModel
             return [];
         }
     }
+
+    static public function mdlObtenerCita($id_citas)
+    {
+        $stmt = Conexion::conectar()->prepare("
+            SELECT * FROM citas 
+            WHERE id_citas = :id
+        ");
+        $stmt->bindParam(":id", $id_citas, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    static public function mdlActualizarEstado($id_citas, $estado)
+    {
+        $stmt = Conexion::conectar()->prepare("
+            UPDATE citas SET estado = :estado 
+            WHERE id_citas = :id
+        ");
+
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+        $stmt->bindParam(":id", $id_citas, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return ["codigo" => "200"];
+        } else {
+            return ["codigo" => "500"];
+        }
+    }
+
+
 }
 
