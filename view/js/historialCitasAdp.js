@@ -92,18 +92,11 @@ function cargarCitas(idAdoptante) {
             contenedor.innerHTML += `
                 <div class="cita-card">
                     <img src="../../../CarpetaCompartida/Mascotas/${cita.imagen}" class="cita-img">
-
                     <h5>${cita.mascota}</h5>
                     <p><strong>Fecha:</strong> ${cita.fecha_cita}</p>
-
                     ${estadoHTML}
-
-                    <button class="btn-cancelar" onclick="confirmarCancelacion(${cita.id_citas}, '${cita.fecha_cita}')">
-                        <i class="fa-solid fa-ban"></i> Cancelar
-                    </button>
                 </div>
             `;
-
         });
 
 
@@ -153,67 +146,5 @@ function verDetalles(id) {
     })
     .catch(err => {
         console.error("Error:", err);
-    });
-}
-
-let idCitaSeleccionada = null;
-let fechaSeleccionada = null;
-
-function confirmarCancelacion(id_cita, fecha_cita) {
-    idCitaSeleccionada = id_cita;
-    fechaSeleccionada = fecha_cita;
-
-    // Verificar diferencia en horas
-    if (!puedeCancelar(fecha_cita)) {
-        alert("No es posible cancelar tan cerca de la hora acordada");
-        return;
-    }
-
-    // Mostrar modal
-    document.getElementById("modalCancelar").style.display = "flex";
-}
-
-// Validar horas restantes
-function puedeCancelar(fechaCita) {
-    const ahora = new Date();
-    const cita = new Date(fechaCita);
-
-    const diffMs = cita - ahora;
-    const horasRestantes = diffMs / 1000 / 60 / 60;
-
-    return horasRestantes >= 24;
-}
-
-document.getElementById("btnCerrar").addEventListener("click", function () {
-    document.getElementById("modalCancelar").style.display = "none";
-});
-
-document.getElementById("btnConfirmar").addEventListener("click", function () {
-    cancelarCita(idCitaSeleccionada);
-});
-
-function cancelarCita(id_cita) {
-    let data = new FormData();
-    data.append("cancelarCita", "ok");
-    data.append("id_citas", id_cita);
-
-    fetch("controller/citasController.php", {
-        method: "POST",
-        body: data
-    })
-    .then(r => r.json())
-    .then(res => {
-        if (res.codigo === "200") {
-
-            alert("Cita cancelada correctamente ✔");
-
-            // refrescar lista
-            cargarCitasAdoptante();
-
-            // cerrar modal
-            document.getElementById("modalCancelar").style.display = "none";
-        } else {
-            alert("Error: " + res.mensaje);
-        }
     });
 }

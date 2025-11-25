@@ -133,17 +133,7 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
             </h3>
 
             <div id="listaCitasAdoptante" class="row g-3"></div>
-                <div id="modalCancelar" class="modal-cancelar">
-                    <div class="modal-content">
-                        <h4>¿Seguro que desea cancelar esta cita?</h4>
-                        <p>Esta acción no se puede deshacer.</p>
 
-                        <div class="modal-buttons">
-                        <button id="btnConfirmar" class="btn-confirmar">Sí, cancelar</button>
-                        <button id="btnCerrar" class="btn-cerrar">No</button>
-                        </div>
-                    </div>
-                </div>
 
         </div>
 
@@ -414,41 +404,7 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
     border-radius: 12px;
     font-weight: bold;
 }
-.modal-cancelar {
-    display: none;
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    justify-content: center;
-    align-items: center;
-}
 
-.modal-content {
-    background: #fff;
-    padding: 25px;
-    border-radius: 15px;
-    text-align: center;
-    width: 90%;
-    max-width: 350px;
-}
-
-.btn-confirmar {
-    background: #c0392b;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: none;
-}
-
-.btn-cerrar {
-    background: #d5b292ff;
-    color: white;
-    padding: 10px 20px;
-    border-radius: 10px;
-    border: none;
-    margin-left: 10px;
-}
 
 
 </style>
