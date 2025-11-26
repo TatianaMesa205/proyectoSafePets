@@ -1,10 +1,10 @@
 (function(){
 
-  // Variables globales
+  // --- VARIABLES GLOBALES ---
   let fechasOcupadas = [];
   let fechaOriginalEdicion = ""; 
 
-  // Iniciar carga si la tabla existe
+  // Iniciar solo si estamos en la vista de citas
   if(document.getElementById('tablaCitas')){
       listarTablaCitas();
       cargarFechasOcupadas(); 
@@ -16,7 +16,7 @@
     objTablaCitas.listarCitas();
   }
 
-  // --- 1. CARGAR FECHAS ---
+  // --- 1. FUNCIÓN PARA TRAER FECHAS DEL SERVIDOR ---
   function cargarFechasOcupadas() {
       let datos = new FormData();
       datos.append("traerFechas", "ok");
@@ -32,13 +32,14 @@
       .catch(err => console.error("Error cargando fechas", err));
   }
 
-  // --- 2. VALIDACIÓN INTELIGENTE ---
+  // --- 2. VALIDACIÓN DE FECHA DISPONIBLE ---
   function validarFechaDisponible(inputElement) {
       if(!inputElement.value) return true;
 
+      // Normalizamos la fecha (quitamos segundos y la T)
       let fechaInput = inputElement.value.replace("T", " ").substring(0, 16); 
       
-      // Excepción para la propia fecha en edición
+      // EXCEPCIÓN: Si estamos editando, permitir la misma fecha que ya tenía
       if (fechaOriginalEdicion) {
           let originalNormalizada = fechaOriginalEdicion.replace("T", " ").substring(0, 16);
           if (fechaInput === originalNormalizada) {
@@ -46,9 +47,9 @@
           }
       }
 
-      // Buscamos coincidencia
+      // Buscar coincidencia en la lista negra
       let encontrada = fechasOcupadas.some(fechaBD => {
-          let fechaNormalizada = fechaBD.substring(0, 16); 
+          let fechaNormalizada = String(fechaBD).substring(0, 16); 
           return fechaNormalizada === fechaInput;
       });
 
@@ -59,13 +60,13 @@
               text: 'Ya existe una cita programada para esa fecha y hora.',
               confirmButtonColor: '#d33'
           });
-          inputElement.value = ""; 
+          inputElement.value = ""; // Limpiar el campo
           return false;
       }
       return true;
   }
 
-  // Asignar validación
+  // Asignar validación a inputs
   let inputFechaRegistro = document.getElementById('txt_fecha_cita');
   let inputFechaEditar = document.getElementById('txt_edit_fecha_cita');
 
@@ -77,12 +78,12 @@
   }
 
   // --- BOTONES ---
-
   let btnAgregarCitas = document.getElementById("btn-AgregarCitas");
   if (btnAgregarCitas) {
       btnAgregarCitas.addEventListener("click", () => {
         $("#panelTablaCitas").hide();
         $("#panelFormularioCitas").show();
+        
         fechaOriginalEdicion = ""; 
         let objCita = new Citas({});
         objCita.cargarSelects();
@@ -106,7 +107,7 @@
       });
   }
 
-  // ELIMINAR
+  // --- ELIMINAR ---
   $("#tablaCitas").on("click","#btn-eliminarCita",function(){
       Swal.fire({
           title: "Está seguro?",
@@ -121,13 +122,13 @@
               let id_citas = $(this).attr("citas");
               let objData = {"eliminarCita":"ok","id_citas":id_citas,"listarCitas":"ok"};
               let objCita = new Citas(objData);
-              objCita.eliminarCita(); 
-              setTimeout(cargarFechasOcupadas, 1000); 
+              objCita.eliminarCita();
+              setTimeout(cargarFechasOcupadas, 1000);
           }
         });
   });
 
-  // EDITAR (Cargar datos)
+  // --- CARGAR EDITAR ---
   $("#tablaCitas").on("click", "#btn-editarCita", function () {
     $("#panelTablaCitas").hide();
     $("#panelFormularioEditarCitas").show();
@@ -138,8 +139,8 @@
     let id_mascotas = $(this).attr("mascotas");
     let estado = $(this).attr("estado");
     let motivo = $(this).attr("motivo");
-    
     let fechaCita = $(this).attr("fecha_cita"); 
+    
     fechaOriginalEdicion = fechaCita; 
     
     let fechaLocal = (fechaCita) ? fechaCita.replace(" ", "T").slice(0, 16) : "";
@@ -153,16 +154,18 @@
     objCita.cargarSelectsEditar(id_adoptantes, id_mascotas);
   });
 
-  // --- SUBMIT REGISTRO (AQUI ESTABA EL ERROR) ---
+  // --- SUBMIT REGISTRO (CORREGIDO: SIN listarCitas) ---
   const forms = document.querySelectorAll('#formRegistroCitas');
   Array.from(forms).forEach(form => {
     form.addEventListener('submit', event => {
       event.preventDefault();
+      
       if (!form.checkValidity()) {
         event.stopPropagation();
         form.classList.add('was-validated');
         return;
       }
+
       if(!validarFechaDisponible(document.getElementById('txt_fecha_cita'))) return;
 
       let fecha_cita = document.getElementById('txt_fecha_cita').value.replace("T", " ") + ":00";
@@ -178,10 +181,10 @@
         "motivo": motivo,
         "id_adoptantes": id_adoptantes,
         "id_mascotas": id_mascotas
-        // "listarCitas": "ok" <--- ¡ESTA LINEA SE BORRÓ PORQUE DAÑABA EL CONTROLADOR!
+        // NOTA: NO AGREGAR "listarCitas":"ok" AQUI
       };
 
-      let objCita = new Citas(objData);
+      // AJAX Directo
       $.ajax({
           url: "controller/citasController.php",
           type: "POST",
@@ -192,17 +195,22 @@
               Swal.fire("Éxito", respuesta.mensaje, "success").then(()=>{
                   $("#panelFormularioCitas").hide();
                   $("#panelTablaCitas").show();
-                  listarTablaCitas(); // Aquí ya se llama a listar, no hace falta enviarlo antes
+                  listarTablaCitas();
                   cargarFechasOcupadas();
+                  $("#formRegistroCitas")[0].reset();
+                  $("#formRegistroCitas").removeClass('was-validated');
               });
           }else{
               Swal.fire("Error", respuesta.mensaje, "error");
           }
+      }).fail(function(){
+          Swal.fire("Error", "Error de comunicación con el servidor", "error");
       });
+
     }, false);
   });
 
-  // --- SUBMIT EDICIÓN ---
+  // --- SUBMIT EDICIÓN (CON ALERTA Y ESPERA) ---
   const formsEditarCita = document.querySelectorAll('#formEditarCitas');
   Array.from(formsEditarCita).forEach(form => {
     form.addEventListener('submit', event => {
@@ -217,11 +225,9 @@
 
         Swal.fire({
             title: '¿Confirmar cambios?',
-            text: "Se actualizará la cita y se notificará al usuario por correo.",
+            text: "Se actualizará la cita y se enviará notificación.",
             icon: 'question',
             showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
             confirmButtonText: 'Sí, actualizar'
         }).then((result) => {
             if (result.isConfirmed) {
@@ -245,7 +251,7 @@
                 
                 Swal.fire({
                     title: 'Actualizando...',
-                    text: 'Por favor espere',
+                    text: 'Enviando notificación...',
                     allowOutsideClick: false,
                     didOpen: () => { Swal.showLoading(); }
                 });
@@ -266,9 +272,8 @@
                     } else {
                         Swal.fire("Error", respuesta.mensaje, "error");
                     }
-                }).fail(function(jqXHR, textStatus){
-                    console.error("Error AJAX:", textStatus);
-                    Swal.fire("Error", "Error de comunicación con el servidor", "error");
+                }).fail(function(){
+                    Swal.fire("Error", "Error de comunicación", "error");
                 });
             }
         });

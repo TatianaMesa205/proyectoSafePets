@@ -7,7 +7,7 @@ use PHPMailer\PHPMailer\Exception;
 
 class Correo {
 
-    // 1. Correo de Registro (Ya lo tenías)
+    // 1. Correo de Registro
     public static function enviarCorreoCita($emailDestino, $nombreDestino, $fechaCita, $motivo) {
         $mail = new PHPMailer(true);
         try {
@@ -15,7 +15,7 @@ class Correo {
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'carlosfernandosolergarzon@gmail.com'; 
-            $mail->Password   = 'uvnqknfkpxfabhgm'; 
+            $mail->Password   = 'uvnqknfkpxfabhgm'; // <--- CORREGIDO: SIN ESPACIOS
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
             $mail->CharSet    = 'UTF-8';
@@ -30,12 +30,14 @@ class Correo {
             <div style='font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd; max-width: 600px;'>
                 <h2 style='color: #27ae60;'>¡Hola $nombreDestino!</h2>
                 <p>Tu cita ha sido agendada exitosamente en SafePets.</p>
+                <hr>
+                <p><strong>Detalles de la cita:</strong></p>
                 <ul>
                     <li><strong>Fecha:</strong> $fechaCita</li>
                     <li><strong>Motivo:</strong> $motivo</li>
-                    <li><strong>Estado:</strong> Pendiente</li>
+                    <li><strong>Estado:</strong> Pendiente de aprobación</li>
                 </ul>
-                <p>Te esperamos.</p>
+                <p>Nos pondremos en contacto contigo pronto.</p>
             </div>
             ";
 
@@ -47,7 +49,7 @@ class Correo {
         }
     }
 
-    // 2. NUEVO: Correo de Modificación
+    // 2. Correo de Modificación
     public static function enviarCorreoModificacion($emailDestino, $nombreDestino, $fechaNueva, $motivo, $estado) {
         $mail = new PHPMailer(true);
         try {
@@ -55,7 +57,7 @@ class Correo {
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'carlosfernandosolergarzon@gmail.com'; 
-            $mail->Password   = 'uvnqknfkpxfabhgm'; 
+            $mail->Password   = 'uvnqknfkpxfabhgm'; // <--- CORREGIDO: SIN ESPACIOS
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
             $mail->CharSet    = 'UTF-8';
@@ -88,6 +90,7 @@ class Correo {
             return false;
         }
     }
+
 
     // 3. NUEVO: Correo de Cancelación de Cita
     public static function enviarCorreoCancelacion($emailDestino, $nombreDestino, $mascota, $fechaCita, $motivo) {
@@ -131,3 +134,6 @@ class Correo {
     }
 
 }
+
+?>
+
