@@ -37,6 +37,7 @@
   <div id="panelTablaDonaciones" style="display:none;"></div>
 
 </div>
+<?php include("pie.php"); ?>
 
 <style>
   /* TITULO */
