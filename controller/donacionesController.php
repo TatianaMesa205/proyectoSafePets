@@ -19,7 +19,7 @@ class DonacionesController
     private $stripe;
 
     public function __construct() {
-
+        // Recuerda usar tus claves de prueba (sk_test_...)
         $clave_secreta_stripe = "sk_test_51SSSa5KPG83aCazKI9WoRZDpJHtVNYnwNRf4hoeBQUMYZYhonpefoG90dvhSTe4y9LEDm3Yoec1X5hothiP5Rrf000AozL9pbI";
         $this->stripe = new \Stripe\StripeClient($clave_secreta_stripe);
     }
@@ -39,12 +39,14 @@ class DonacionesController
             return;
         }
 
-        
-        $urlBase = "https://winnifred-unfilterable-preachily.ngrok-free.dev/proyectoSafePets";
-        
+        // --- CORRECCIÓN AQUÍ ---
+        // Generamos la URL base dinámicamente para evitar perder la sesión (funciona en localhost y ngrok)
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+        $domain = $_SERVER['HTTP_HOST'];
+        $urlBase = $protocol . $domain . "/proyectoSafePets";
+        // -----------------------
         
         $success_url = $urlBase . "/gracias.php"; 
-        
         
         $cancel_url = $urlBase . "/cancelado.php";
 
@@ -61,7 +63,7 @@ class DonacionesController
                         'currency' => 'cop', // Moneda colombiana
                         'product_data' => [
                             'name' => 'Donación para Safe Pets',
-                            'images' => ['https://i.imgur.com/UvNf02E.png'], // Puedes cambiar esta imagen
+                            'images' => ['https://officialsafepets.com/cdn/shop/files/B821EA53-4CF9-476D-89E7-D3A7F21EA7AC_4_5005_c.jpg?height=628&pad_color=fff&v=1711973026&width=1200'], 
                         ],
                         
                         'unit_amount' => $monto * 100, 
@@ -86,8 +88,6 @@ class DonacionesController
         }
     }
 
-
-  
 
     public function ctrListarDonaciones()
     {
