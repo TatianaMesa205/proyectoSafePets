@@ -128,13 +128,10 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
 
         <!-- SECCIÓN HISTORIAL DE CITAS -->
         <div id="seccionCitas" class="seccion oculto">
-            <h3 class="mb-4" style="color:#8b5e3c; font-weight:700;">
+            <h3 class="mb-4 text-center" style="color:#8b5e3c; font-weight:700;">
                 <i class="fa-solid fa-calendar-check me-2"></i>Historial de Citas
             </h3>
-
             <div id="listaCitasAdoptante" class="row g-3"></div>
-
-
         </div>
 
 

@@ -181,10 +181,8 @@
         "motivo": motivo,
         "id_adoptantes": id_adoptantes,
         "id_mascotas": id_mascotas
-        // NOTA: NO AGREGAR "listarCitas":"ok" AQUI
       };
 
-      // AJAX Directo
       $.ajax({
           url: "controller/citasController.php",
           type: "POST",
@@ -210,7 +208,7 @@
     }, false);
   });
 
-  // --- SUBMIT EDICIÓN (CON ALERTA Y ESPERA) ---
+
   const formsEditarCita = document.querySelectorAll('#formEditarCitas');
   Array.from(formsEditarCita).forEach(form => {
     form.addEventListener('submit', event => {
@@ -218,7 +216,6 @@
         if (!form.checkValidity()) {
             event.stopPropagation();
             form.classList.add('was-validated');
-            return;
         }
 
         if(!validarFechaDisponible(document.getElementById('txt_edit_fecha_cita'))) return;

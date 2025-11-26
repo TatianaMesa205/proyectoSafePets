@@ -41,6 +41,7 @@ class SeguimientosMascotasModel
             $sql = "
                 SELECT 
                     a.id_adopciones,
+                    a.estado,
                     m.nombre AS nombre_mascota,
                     ad.nombre_completo AS nombre_adoptante
                 FROM adopciones a
