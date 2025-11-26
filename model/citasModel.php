@@ -95,9 +95,9 @@ class CitasModel
 
     public static function mdlAdmins() {
         $sql = Conexion::conectar()->prepare("
-            SELECT nombre, correo 
+            SELECT nombre_usuario, email 
             FROM usuarios 
-            WHERE rol = 1
+            WHERE id_roles = 1
         ");
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -129,5 +129,20 @@ class CitasModel
         }
         return ["codigo" => "500", "mensaje" => "Error al cancelar cita"];
     }
+
+    public static function mdlListarCitasAdoptante($id_adoptantes)
+    {
+        $sql = Conexion::conectar()->prepare("
+            SELECT c.*, m.imagen, m.nombre AS mascota
+            FROM citas c
+            INNER JOIN mascotas m ON m.id_mascotas = c.id_mascotas
+            WHERE c.id_adoptantes = :id
+            ORDER BY c.fecha_cita DESC
+        ");
+        $sql->bindParam(":id", $id_adoptantes);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>

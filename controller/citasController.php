@@ -63,8 +63,10 @@ class CitasController
         $infoCita = CitasModel::mdlInfoCita($this->id_citas);
 
         if (!$infoCita) {
+            ob_clean();
+            header('Content-Type: application/json');
             echo json_encode(["codigo" => "404", "mensaje" => "Cita no encontrada"]);
-            return;
+            die();
         }
 
         // Validación de 48 horas
@@ -73,11 +75,13 @@ class CitasController
         $diferenciaHoras = ($fechaCita - $ahora) / 3600;
 
         if ($diferenciaHoras < 48) {
+            ob_clean();
+            header('Content-Type: application/json');
             echo json_encode([
                 "codigo" => "403",
                 "mensaje" => "No es posible cancelar tan cerca de la hora acordada"
             ]);
-            return;
+            die();
         }
 
         // CANCELAR CITA EN BD
@@ -88,20 +92,62 @@ class CitasController
             // LISTAR TODOS LOS ADMINISTRADORES
             $admins = CitasModel::mdlAdmins();
 
+            if (!$admins || count($admins) === 0) {
+                // No hay admins: informar pero la cita ya está cancelada
+                ob_clean();
+                header('Content-Type: application/json');
+                echo json_encode([
+                    "codigo" => "200",
+                    "mensaje" => "Cita cancelada correctamente, pero no se encontraron administradores para notificar."
+                ]);
+                die();
+            }
+
+            $failed = []; // mails que fallaron
+
             foreach ($admins as $admin) {
-                Correo::enviarCorreoCancelacion(
-                    $admin["email"],
-                    $admin["nombre_usuario"],
+                // validar email no vacío
+                $emailAdmin = $admin['email'] ?? null;
+                $nombreAdmin = $admin['nombre_usuario'] ?? ($admin['nombre'] ?? 'Administrador');
+
+                if (empty($emailAdmin)) {
+                    $failed[] = [
+                        "email" => $emailAdmin,
+                        "error" => "Email vacío"
+                    ];
+                    continue;
+                }
+
+                // intentar enviar correo; Correo::enviarCorreoCancelacion devuelve true/false
+                $sent = Correo::enviarCorreoCancelacion(
+                    $emailAdmin,
+                    $nombreAdmin,
                     $infoCita["mascota"],
                     $infoCita["fecha_cita"],
                     $infoCita["motivo"]
                 );
+
+                if (!$sent) {
+                    $failed[] = [
+                        "email" => $emailAdmin,
+                        "error" => "send_failed"
+                    ];
+                }
+            }
+
+            // Añadir info de fallo en respuesta si los hay
+            if (count($failed) > 0) {
+                $respuesta['mail_failed'] = $failed;
+                $respuesta['mensaje'] = $respuesta['mensaje'] . " (Algunos correos no se enviaron).";
             }
         }
 
+        ob_clean();
+        header('Content-Type: application/json');
         echo json_encode($respuesta);
         die();
     }
+
 
 
     public function ctrTraerFechas() {
@@ -114,7 +160,7 @@ class CitasController
 // --- MANEJO DE PETICIONES ---
 
 if (isset($_POST["traerFechas"]) == "ok") { $obj = new CitasController(); $obj->ctrTraerFechas(); }
-if (isset($_POST["listarCitas"]) == "ok") { $obj = new CitasController(); $obj->ctrListarCitas(); }
+if (isset($_POST["listarCitas"]) && $_POST["listarCitas"] == "ok") { $obj = new CitasController(); $obj->ctrListarCitas(); }
 if (isset($_POST["eliminarCita"]) == "ok") { $obj = new CitasController(); $obj->id_citas = $_POST["id_citas"]; $obj->ctrEliminarCita(); }
 
 if (isset($_POST["registrarCita"]) == "ok") {
@@ -137,4 +183,25 @@ if (isset($_POST["editarCita"]) == "ok") {
     $obj->motivo = $_POST["motivo"];
     $obj->ctrEditarCita();
 }
+
+if (isset($_POST["cancelarCita"]) && $_POST["cancelarCita"] == "ok") {
+    $objCitas = new CitasController();
+    $objCitas->id_citas = $_POST["id_citas"];
+    $objCitas->ctrCancelarCita();
+}
+
+if (isset($_POST["listarCitasAdoptante"]) && $_POST["listarCitasAdoptante"] === "ok") {
+
+    $id = $_POST["id_adoptantes"];
+
+    $respuesta = CitasModel::mdlListarCitasAdoptante($id);
+
+    ob_clean();
+    echo json_encode([
+        "codigo" => "200",
+        "listaCitas" => $respuesta
+    ]);
+    die();
+}
+
 ?>
