@@ -7,6 +7,7 @@ include_once __DIR__ . "/../model/citasModel.php";
 include_once __DIR__ . "/../model/adoptantesModel.php";
 include_once __DIR__ . "/../utils/correo.php";
 
+
 class CitasController
 {
     public $id_citas;
@@ -86,22 +87,15 @@ class CitasController
 
     public function ctrCancelarCita()
     {
-        // 1️⃣ Obtener info de la cita
-        $info = CitasModel::mdlObtenerCita($this->id_citas);
+        $infoCita = CitasModel::mdlInfoCita($this->id_citas);
 
-        if (!$info) {
+        if (!$infoCita) {
             echo json_encode(["codigo" => "404", "mensaje" => "Cita no encontrada"]);
             return;
         }
 
-        // 2️⃣ Validar estados permitidos
-        if ($info["estado"] != "Pendiente" && $info["estado"] != "Confirmada") {
-            echo json_encode(["codigo" => "403", "mensaje" => "Esta cita no se puede cancelar"]);
-            return;
-        }
-
-        // 3️⃣ Validar tiempo (48h)
-        $fechaCita = strtotime($info["fecha_cita"]);
+        // Validación de 48 horas
+        $fechaCita = strtotime($infoCita["fecha_cita"]);
         $ahora = time();
         $diferenciaHoras = ($fechaCita - $ahora) / 3600;
 
@@ -113,17 +107,30 @@ class CitasController
             return;
         }
 
-        // 4️⃣ Actualizar estado
-        $respuesta = CitasModel::mdlActualizarEstado(
-            $this->id_citas,
-            "Cancelada"
-        );
+        // CANCELAR CITA EN BD
+        $respuesta = CitasModel::mdlCancelarCita($this->id_citas);
 
-        echo json_encode([
-            "codigo" => "200",
-            "mensaje" => "Cita cancelada"
-        ]);
+        if ($respuesta["codigo"] == "200") {
+
+            // LISTAR TODOS LOS ADMINISTRADORES
+            $admins = CitasModel::mdlAdmins();
+
+            foreach ($admins as $admin) {
+                Correo::enviarCorreoCancelacion(
+                    $admin["email"],
+                    $admin["nombre_usuario"],
+                    $infoCita["mascota"],
+                    $infoCita["fecha_cita"],
+                    $infoCita["motivo"]
+                );
+            }
+        }
+
+        echo json_encode($respuesta);
+        die();
     }
+
+
 
 
 }

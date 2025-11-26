@@ -159,6 +159,44 @@ class CitasModel
             return ["codigo" => "500"];
         }
     }
+    
+
+    public static function mdlAdmins() {
+        $sql = Conexion::conectar()->prepare("
+            SELECT nombre, correo 
+            FROM usuarios 
+            WHERE rol = 1
+        ");
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public static function mdlInfoCita($id_citas){
+        $sql = Conexion::conectar()->prepare("
+            SELECT c.*, m.nombre AS mascota
+            FROM citas c
+            INNER JOIN mascotas m ON m.id_mascotas = c.id_mascotas
+            WHERE c.id_citas = :id
+        ");
+        $sql->bindParam(":id", $id_citas);
+        $sql->execute();
+        return $sql->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    public static function mdlCancelarCita($id_citas){
+        $query = Conexion::conectar()->prepare("
+            UPDATE citas SET estado = 'Cancelada'
+            WHERE id_citas = :id_citas
+        ");
+        $query->bindParam(":id_citas", $id_citas);
+        
+        if ($query->execute()) {
+            return ["codigo" => "200", "mensaje" => "Cita cancelada correctamente"];
+        }
+        return ["codigo" => "500", "mensaje" => "Error al cancelar cita"];
+    }
 
 
 }
