@@ -20,6 +20,25 @@ class CitasModel
         }
     }
 
+    // --- NUEVO MÉTODO: VALIDAR SI TIENE CITA ACTIVA ---
+    public static function mdlValidarCitaActiva($id_adoptantes) {
+        try {
+            // Buscamos citas que NO estén Canceladas ni Finalizadas (es decir, Pendientes o Confirmadas)
+            $stmt = Conexion::conectar()->prepare("
+                SELECT COUNT(*) as total 
+                FROM citas 
+                WHERE id_adoptantes = :id 
+                AND estado != 'Cancelada' 
+                AND estado != 'Finalizada'
+            ");
+            $stmt->bindParam(":id", $id_adoptantes, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return ["total" => 0]; 
+        }
+    }
+
     public static function mdlRegistrarCita($id_adoptantes, $id_mascotas, $fecha_cita, $estado, $motivo) {
         try {
             $stmt = Conexion::conectar()->prepare("INSERT INTO citas(id_adoptantes, id_mascotas, fecha_cita, estado, motivo) VALUES (:id_a, :id_m, :f, :e, :m)");

@@ -53,6 +53,15 @@ $(document).ready(function() {
                             window.location.href = "index.php?ruta=adoptaAdp";
                         }
                     });
+                } else if (respuesta.codigo == "409") {
+                    // --- CASO: YA TIENE CITA ACTIVA ---
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Solicitud Pendiente',
+                        text: respuesta.mensaje,
+                        confirmButtonColor: '#d33',
+                        confirmButtonText: 'Entendido'
+                    });
                 } else {
                     // Error controlado desde el servidor
                     Swal.fire("Error", respuesta.mensaje || "Error desconocido", "error");

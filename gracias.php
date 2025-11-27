@@ -1,6 +1,12 @@
 <?php
 // ARCHIVO: gracias.php (en la raíz del proyecto)
-session_start();
+
+// --- CORRECCIÓN AQUÍ ---
+// Verificamos si la sesión ya está iniciada antes de llamar a session_start()
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+// -----------------------
 
 // 1. Incluimos la cabecera (CSS, etc.)
 // La ruta es "view/modules/cabecera.php" porque este archivo está en la raíz.

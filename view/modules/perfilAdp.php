@@ -12,6 +12,7 @@ $adoptanteInfo = AdoptantesController::ctrMostrarAdoptante("email", $email_usuar
 $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
 ?>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <body>
 
@@ -19,26 +20,21 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
 
 <div class="perfil-container">
 
-    <!-- MENÚ LATERAL -->
     <aside class="sidebar-menu">
         <a href="index.php?ruta=inicioAdp" class="sidebar-title">
             <i class="fa-solid fa-paw"></i> Safe Pets
         </a>
 
-
         <ul class="menu-list">
             <li class="menu-item active">
                 <i class="fa-solid fa-user"></i> Mi Perfil
             </li>
-
             <li class="menu-item">
                 <i class="fa-solid fa-calendar"></i> Historial de Citas
             </li>
-
             <li class="menu-item">
                 <i class="fa-solid fa-file-lines"></i> Publicaciones Realizadas
             </li>
-
             <li class="menu-item">
                 <i class="fa-solid fa-heart"></i> Mis Adopciones
             </li>
@@ -46,24 +42,20 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
     </aside>
 
 
-    <!-- CONTENIDO A LA DERECHA -->
     <div class="content-area">
 
         <div class="form-wrapper">
 
-            <!-- ICONO DE PERFIL -->
             <div class="profile-icon">
                 <i class="fa-solid fa-circle-user"></i>
             </div>
 
-            <!-- TÍTULO -->
             <h4 class="form-title">
                 <i class="fa-solid fa-paw me-2"></i>Mi Perfil Safe Pets
             </h4>
 
             <form id="formPerfil" novalidate>
 
-                <!-- NOMBRE DE USUARIO -->
                 <div class="mb-4">
                     <label class="form-label-custom">Nombre de Usuario</label>
                     <div class="input-group input-group-lg input-custom">
@@ -79,16 +71,13 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
                     </div>
                 </div>
 
-                <!-- CONTRASEÑAS -->
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <label class="form-label-custom">Nueva Contraseña</label>
-
                         <div class="input-group input-group-lg input-custom">
                             <span class="input-group-text icon-box">
                                 <i class="fa-solid fa-key"></i>
                             </span>
-
                             <input type="password"
                                 class="form-control input-field"
                                 id="password"
@@ -98,12 +87,10 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
 
                     <div class="col-md-6 mb-4">
                         <label class="form-label-custom">Confirmar Contraseña</label>
-
                         <div class="input-group input-group-lg input-custom">
                             <span class="input-group-text icon-box">
                                 <i class="fa-solid fa-check-double"></i>
                             </span>
-
                             <input type="password"
                                 class="form-control input-field"
                                 id="confirm_password"
@@ -116,7 +103,60 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
                     Déjalo vacío si no deseas actualizar la contraseña.
                 </small>
 
-                <!-- BOTÓN -->
+                <?php if ($adoptanteInfo): ?>
+                    <hr class="my-4" style="border-top: 2px dashed #e2c7b3;">
+                    
+                    <h5 class="mb-4 text-center" style="color:#8b5e3c; font-weight:700;">Datos Personales</h5>
+                    
+                    <input type="hidden" id="is_adoptante" value="true">
+                    <input type="hidden" id="id_adoptante_form" value="<?php echo $idAdoptante; ?>">
+
+                    <div class="mb-4">
+                        <label class="form-label-custom">Nombre Completo</label>
+                        <div class="input-group input-group-lg input-custom">
+                            <span class="input-group-text icon-box"><i class="fa-solid fa-id-card"></i></span>
+                            <input type="text" class="form-control input-field" id="nombre_completo" 
+                                   value="<?php echo $adoptanteInfo['nombre_completo']; ?>" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label-custom">Cédula</label>
+                            <div class="input-group input-group-lg input-custom">
+                                <span class="input-group-text icon-box"><i class="fa-solid fa-fingerprint"></i></span>
+                                <input type="number" class="form-control input-field" id="cedula" 
+                                       value="<?php echo $adoptanteInfo['cedula']; ?>" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label-custom">Teléfono</label>
+                            <div class="input-group input-group-lg input-custom">
+                                <span class="input-group-text icon-box"><i class="fa-solid fa-phone"></i></span>
+                                <input type="number" class="form-control input-field" id="telefono" 
+                                       value="<?php echo $adoptanteInfo['telefono']; ?>" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label-custom">Dirección</label>
+                        <div class="input-group input-group-lg input-custom">
+                            <span class="input-group-text icon-box"><i class="fa-solid fa-location-dot"></i></span>
+                            <input type="text" class="form-control input-field" id="direccion" 
+                                   value="<?php echo $adoptanteInfo['direccion']; ?>" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label-custom">Correo Electrónico (No editable)</label>
+                        <div class="input-group input-group-lg input-custom">
+                            <span class="input-group-text icon-box" style="background-color: #e9ecef;"><i class="fa-solid fa-envelope"></i></span>
+                            <input type="email" class="form-control input-field" id="email_adoptante" 
+                                   value="<?php echo $adoptanteInfo['email']; ?>" readonly style="background-color: #e9ecef;">
+                        </div>
+                    </div>
+                <?php endif; ?>
                 <div class="d-grid mt-4">
                     <button type="submit" class="btn btn-save-lg form-btn">Guardar Cambios</button>
                 </div>
@@ -124,9 +164,6 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
             </form>
         </div>
 
-
-
-        <!-- SECCIÓN HISTORIAL DE CITAS -->
         <div id="seccionCitas" class="seccion oculto">
             <h3 class="mb-4 text-center" style="color:#8b5e3c; font-weight:700;">
                 <i class="fa-solid fa-calendar-check me-2"></i>Historial de Citas
@@ -134,8 +171,6 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
             <div id="listaCitasAdoptante" class="row g-3"></div>
         </div>
 
-
-        <!-- SECCIÓN PUBLICACIONES REALIZADAS -->
         <div id="seccionPublicaciones" class="seccion oculto">
             <h3 class="mb-4" style="color:#8b5e3c; font-weight:700;">
                 <i class="fa-solid fa-file-lines me-2"></i>Publicaciones Realizadas
@@ -143,7 +178,6 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
             <p class="text-muted">Aquí aparecerán las publicaciones hechas por el usuario.</p>
         </div>
 
-        <!-- SECCIÓN MIS ADOPCIONES -->
         <div id="seccionAdopciones" class="seccion oculto">
             <h3 class="mb-4" style="color:#8b5e3c; font-weight:700;">
                 <i class="fa-solid fa-heart me-2"></i>Mis Adopciones
@@ -151,12 +185,7 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
             <p class="text-muted">Aquí se mostrarán las adopciones asociadas al usuario.</p>
         </div>
 
-
-    </div>
-
-</div>
-
-
+    </div> </div> <?php include("pie.php"); ?> 
 
 
 <style>
@@ -183,13 +212,12 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
     color: #8b5e3c;
     font-size: 22px;
     margin-bottom: 30px;
-    text-decoration: none; /* Quita subrayado */
+    text-decoration: none;
 }
 
 .sidebar-title:hover {
-    color: #b98c68; /* color bonito en hover */
+    color: #b98c68;
 }
-
 
 .sidebar-title i {
     color: #b98c68;
@@ -231,17 +259,8 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
     flex: 1;
     padding: 40px;
     display: flex;
-    justify-content: center;   /* Centra horizontal */
-    align-items: flex-start;   /* Mantiene arriba pero centrado */
-}
-
-/* ICONO PERFIL */
-.profile-icon i {
-    font-size: 80px;
-    color: #c7a386;
-    display: block;
-    text-align: center;
-    margin-bottom: 10px;
+    justify-content: center;   
+    align-items: flex-start;   
 }
 
 /* FORM WRAPPER */
@@ -255,21 +274,11 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
     border: 1px solid #ebd7c4;
 }
 
-/* Secciones ocultas */
-.oculto {
-    display: none;
-}
+/* Secciones */
+.oculto { display: none; }
+.visible { display: block; }
 
-/* Secciones visibles */
-.visible {
-    display: block;
-}
-
-/* -------------------------
-   ESTILOS MEJORADOS PERFIL
--------------------------- */
-
-/* Título */
+/* ESTILOS PERFIL */
 .form-title {
     text-align: center;
     font-size: 26px;
@@ -278,14 +287,12 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
     margin-bottom: 25px;
 }
 
-/* Labels */
 .form-label-custom {
     font-weight: 600;
     color: #6a4a35;
     font-size: 15px;
 }
 
-/* Caja del input */
 .input-custom .icon-box {
     background-color: #f7eee7;
     color: #8b5e3c;
@@ -303,14 +310,14 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
     box-shadow: 0 0 5px #c49a7a60;
 }
 
-/* Icono de perfil */
 .profile-icon i {
     font-size: 90px;
     color: #d0b39a;
     margin-bottom: 10px;
+    display: block;
+    text-align: center;
 }
 
-/* Botón */
 .form-btn {
     background-color: #8b5e3c !important;
     border: none;
@@ -319,6 +326,7 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
     border-radius: 12px;
     box-shadow: 0px 4px 10px #00000020;
     transition: 0.2s;
+    color: white;
 }
 
 .form-btn:hover {
@@ -326,15 +334,15 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
     transform: translateY(-2px);
 }
 
+/* Estilos Citas (Mantenidos) */
 #listaCitasAdoptante {
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
     justify-content: center;
 }
-
 .cita-card {
-    width: 300px;         /* 🔥 Tarjeta uniforme */
+    width: 300px;
     background: #ffffff;
     border-radius: 18px;
     padding: 18px;
@@ -344,73 +352,35 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
     transition: .3s;
     border: 1px solid #e6d4c3;
 }
-
 .cita-img {
     width: 100%;
-    height: 220px;         /* Mejor proporción */
+    height: 220px;
     object-fit: cover;
     border-radius: 14px;
     margin-bottom: 12px;
     border: 2px solid #f5e6da;
 }
+.cita-card:hover { transform: translateY(-5px); }
+.estado-activa { display: inline-block; background: #c8f3cc; color: #1b6022; padding: 6px 14px; border-radius: 12px; font-weight: bold; }
+.estado-cancelada { display: inline-block; background: #ffd2d2; color: #8b1a1a; padding: 6px 14px; border-radius: 12px; font-weight: bold; }
+.estado-completada { display: inline-block; background: #d8e8ff; color: #1a3d7c; padding: 6px 14px; border-radius: 12px; font-weight: bold; }
+.estado-pendiente { display: inline-block; background: #fff4cc; color: #7a5c1a; padding: 6px 14px; border-radius: 12px; font-weight: bold; }
 
-
-.cita-card:hover {
-    transform: translateY(-5px);
+/* NUEVO ESTILO FINALIZADA */
+.estado-finalizada { 
+    display: inline-block; 
+    background: #d1e7dd; 
+    color: #0f5132; 
+    padding: 6px 14px; 
+    border-radius: 12px; 
+    font-weight: bold; 
+    border: 1px solid #badbcc;
 }
-
-
-/* ESTADOS DE LA CITA */
-
-/* Confirmada */
-.estado-activa {
-    display: inline-block;
-    background: #c8f3cc;   /* verde pastel suave */
-    color: #1b6022;
-    padding: 6px 14px;
-    border-radius: 12px;
-    font-weight: bold;
-}
-
-/* Cancelada */
-.estado-cancelada {
-    display: inline-block;
-    background: #ffd2d2;
-    color: #8b1a1a;
-    padding: 6px 14px;
-    border-radius: 12px;
-    font-weight: bold;
-}
-
-/* Completada */
-.estado-completada {
-    display: inline-block;
-    background: #d8e8ff;  /* azul suave */
-    color: #1a3d7c;
-    padding: 6px 14px;
-    border-radius: 12px;
-    font-weight: bold;
-}
-
-/* Pendiente */
-.estado-pendiente {
-    display: inline-block;
-    background: #fff4cc;  /* amarillo suave */
-    color: #7a5c1a;
-    padding: 6px 14px;
-    border-radius: 12px;
-    font-weight: bold;
-}
-
-
-
 </style>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-
     const menuItems = document.querySelectorAll(".menu-item");
-
     const secciones = {
         "Mi Perfil": "content-area", 
         "Historial de Citas": "seccionCitas",
@@ -420,19 +390,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     menuItems.forEach(item => {
         item.addEventListener("click", function () {
-
-            // Quitar activo a todos
             menuItems.forEach(btn => btn.classList.remove("active"));
-
-            // Activar el clickeado
             this.classList.add("active");
-
-            // Ocultar todas las secciones
             document.querySelectorAll(".seccion").forEach(sec => sec.classList.add("oculto"));
 
-            // Mostrar la que corresponde
             let texto = this.innerText.trim();
-
             if (texto === "Mi Perfil") {
                 document.querySelector(".form-wrapper").style.display = "block";
             } else {
@@ -445,8 +407,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     });
-
 });
 </script>
 
 <script src="view/js/historialCitasAdp.js"></script>
+<script src="view/js/perfil.js"></script> </body>

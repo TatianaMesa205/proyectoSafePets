@@ -27,7 +27,7 @@ $listaPublicaciones = $respuesta["listaPublicaciones"];
 
                 <!-- Imagen -->
                 <div class="tarjeta-img">
-                    <img src="<?php echo $publi['foto']; ?>" alt="Imagen">
+                    <img src="../CarpetaCompartida/Publicaciones/<?php echo $publi['foto']; ?>" alt="Imagen">
                 </div>
 
                 <!-- Info -->

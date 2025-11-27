@@ -3,14 +3,12 @@
     <i class="fas fa-calendar-check"></i> Gestión de Citas
   </h2>
 
-  <!-- Botón agregar -->
   <div class="d-flex justify-content-end mb-3">
     <button id="btn-AgregarCitas" class="btn btn-add">
       <i class="fas fa-plus"></i> Registrar Cita
     </button>
   </div>
 
-  <!-- Panel tabla -->
   <div id="panelTablaCitas" class="panel-table shadow-sm rounded-4 p-3">
     <table id="tablaCitas" class="table align-middle table-hover text-center">
       <thead>
@@ -27,7 +25,6 @@
     </table>
   </div>
 
-  <!-- Formulario registrar -->
   <div id="panelFormularioCitas" class="form-panel shadow-sm rounded-4 p-4 mt-4" style="display:none;">
     <h4 class="mb-3 text-center text-dark fw-semibold">Registrar Cita</h4>
     <form id="formRegistroCitas" novalidate>
@@ -50,7 +47,7 @@
             <option value="">Seleccione...</option>
             <option value="Pendiente">Pendiente</option>
             <option value="Confirmada">Confirmada</option>
-            <option value="Cancelada">Cancelada</option>
+            <option value="Finalizada">Finalizada</option> <option value="Cancelada">Cancelada</option>
           </select>
         </div>
         <div class="col-md-12">
@@ -65,7 +62,6 @@
     </form>
   </div>
 
-  <!-- Formulario editar -->
   <div id="panelFormularioEditarCitas" class="form-panel shadow-sm rounded-4 p-4 mt-4" style="display:none;">
     <h4 class="mb-3 text-center text-dark fw-semibold">Editar Cita</h4>
     <form id="formEditarCitas" novalidate>
@@ -87,7 +83,7 @@
           <select id="select_edit_estado" class="form-select rounded-3" required>
             <option value="Pendiente">Pendiente</option>
             <option value="Confirmada">Confirmada</option>
-            <option value="Cancelada">Cancelada</option>
+            <option value="Finalizada">Finalizada</option> <option value="Cancelada">Cancelada</option>
           </select>
         </div>
         <div class="col-md-12">

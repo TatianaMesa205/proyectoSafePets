@@ -85,15 +85,17 @@ function cargarCitas(idAdoptante) {
                     estadoHTML = `<span class="estado-cancelada">
                             <i class="fa-solid fa-ban"></i> Cancelada
                         </span>`;
-                } else if (estado === "completada") {
-                    estadoHTML = `<span class="estado-completada">
-                            <i class="fa-solid fa-circle-check"></i> Completada
+                } else if (estado === "finalizada") {
+                    // --- NUEVO ESTADO FINALIZADA ---
+                    estadoHTML = `<span class="estado-finalizada">
+                            <i class="fa-solid fa-house-chimney-user"></i> Finalizada
                         </span>`;
                 } else if (estado === "confirmada") {
                     estadoHTML = `<span class="estado-activa">
                             <i class="fa-solid fa-check"></i> Confirmada
                         </span>`;
                 } else {
+                    // PENDIENTE
                     estadoHTML = `<span class="estado-pendiente">
                             <i class="fa-solid fa-hourglass-half"></i> Pendiente
                         </span>`;
@@ -108,11 +110,14 @@ function cargarCitas(idAdoptante) {
                         </button>`;
                 }
 
+                // Asegurar ruta de imagen
+                let imagenMascota = cita.imagen ? `../../../CarpetaCompartida/Mascotas/${cita.imagen}` : "view/img/default-pet.png";
+
                 // Tarjeta de cita
                 targetContenedor.innerHTML += `
                     <div class="col-md-4">
                         <div class="cita-card">
-                            <img src="../../../CarpetaCompartida/Mascotas/${cita.imagen}" class="cita-img">
+                            <img src="${imagenMascota}" class="cita-img" alt="Foto Mascota">
 
                             <h5>${cita.mascota}</h5>
                             <p><strong>Fecha:</strong> ${cita.fecha_cita}</p>

@@ -166,7 +166,8 @@
         Gracias al apoyo de voluntarios y personas como tú, seguimos transformando vidas cada día.
       </p>
 
-      <button class="help-btn"><i class="fa-solid fa-heart"></i> Quiero ayudar</button>
+      <button class="help-btn" onclick="window.location.href='index.php?ruta=donacionesAdp'">
+      <i class="fa-solid fa-heart"></i> Quiero ayudar</button>
     </div>
 
   </div>
