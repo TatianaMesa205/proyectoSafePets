@@ -30,6 +30,22 @@ class CitasController
     }
 
     public function ctrRegistrarCita() {
+
+        // --- VALIDACIÓN DE CITA ÚNICA ---
+        // Verificar si el adoptante ya tiene una cita activa (Ni Cancelada, Ni Finalizada)
+        $validacion = CitasModel::mdlValidarCitaActiva($this->id_adoptantes);
+
+        if ($validacion["total"] > 0) {
+            ob_clean();
+            header('Content-Type: application/json');
+            echo json_encode([
+                "codigo" => "409", // Código de conflicto
+                "mensaje" => "Ya tienes una solicitud de cita en proceso. Debes esperar a que sea 'Finalizada' o 'Cancelada' para agendar otra."
+            ]);
+            die();
+        }
+        // ---------------------------------
+
         $objRespuesta = CitasModel::mdlRegistrarCita($this->id_adoptantes, $this->id_mascotas, $this->fecha_cita, $this->estado, $this->motivo);
         
         if (isset($objRespuesta["codigo"]) && $objRespuesta["codigo"] == "200") {
@@ -93,7 +109,6 @@ class CitasController
             $admins = CitasModel::mdlAdmins();
 
             if (!$admins || count($admins) === 0) {
-                // No hay admins: informar pero la cita ya está cancelada
                 ob_clean();
                 header('Content-Type: application/json');
                 echo json_encode([
@@ -118,7 +133,7 @@ class CitasController
                     continue;
                 }
 
-                // intentar enviar correo; Correo::enviarCorreoCancelacion devuelve true/false
+                // intentar enviar correo
                 $sent = Correo::enviarCorreoCancelacion(
                     $emailAdmin,
                     $nombreAdmin,
@@ -147,8 +162,6 @@ class CitasController
         echo json_encode($respuesta);
         die();
     }
-
-
 
     public function ctrTraerFechas() {
         $fechas = CitasModel::mdlObtenerFechasOcupadas();
@@ -203,5 +216,4 @@ if (isset($_POST["listarCitasAdoptante"]) && $_POST["listarCitasAdoptante"] === 
     ]);
     die();
 }
-
 ?>

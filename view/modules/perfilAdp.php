@@ -365,6 +365,17 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
 .estado-cancelada { display: inline-block; background: #ffd2d2; color: #8b1a1a; padding: 6px 14px; border-radius: 12px; font-weight: bold; }
 .estado-completada { display: inline-block; background: #d8e8ff; color: #1a3d7c; padding: 6px 14px; border-radius: 12px; font-weight: bold; }
 .estado-pendiente { display: inline-block; background: #fff4cc; color: #7a5c1a; padding: 6px 14px; border-radius: 12px; font-weight: bold; }
+
+/* NUEVO ESTILO FINALIZADA */
+.estado-finalizada { 
+    display: inline-block; 
+    background: #d1e7dd; 
+    color: #0f5132; 
+    padding: 6px 14px; 
+    border-radius: 12px; 
+    font-weight: bold; 
+    border: 1px solid #badbcc;
+}
 </style>
 
 <script>

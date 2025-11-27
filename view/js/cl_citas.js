@@ -19,7 +19,27 @@ class Citas {
             if (response["codigo"] == "200"){
                 let dataSet = [];
 
-                response["listaCitas"].forEach(item => {
+               response["listaCitas"].forEach(item => {
+                    
+                    // --- INICIO MEJORA VISUAL DE ESTADO ---
+                    let estadoBadge = item.estado;
+                    
+                    switch(item.estado){
+                        case "Pendiente":
+                            estadoBadge = '<span class="badge bg-warning text-dark">Pendiente</span>';
+                            break;
+                        case "Confirmada":
+                            estadoBadge = '<span class="badge bg-primary">Confirmada</span>';
+                            break;
+                        case "Finalizada":
+                            estadoBadge = '<span class="badge bg-success">Finalizada</span>';
+                            break;
+                        case "Cancelada":
+                            estadoBadge = '<span class="badge bg-danger">Cancelada</span>';
+                            break;
+                    }
+                    // --- FIN MEJORA VISUAL ---
+
                     let objBotones = '<div class="btn-group" role="group" aria-label="Basic example">';
                     objBotones += `
                     <button id="btn-editarCita" type="button"
@@ -40,7 +60,7 @@ class Citas {
                         item.nombre_mascota,
                         item.nombre_adoptante,
                         item.fecha_cita,
-                        item.estado,
+                        estadoBadge, // <--- AQUÍ PONEMOS LA VARIABLE CON EL BADGE
                         item.motivo,
                         objBotones
                     ]);
