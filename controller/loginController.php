@@ -10,13 +10,19 @@ ob_start();
 // Cabecera JSON
 header('Content-Type: application/json; charset=utf-8');
 
-// Incluir modelo de forma segura
+// Incluir modelo de Login
 $modelPath = __DIR__ . '/../model/loginModel.php';
 if (!file_exists($modelPath)) {
-    echo json_encode(['codigo' => '500', 'mensaje' => "Modelo no encontrado: $modelPath"]);
+    echo json_encode(['codigo' => '500', 'mensaje' => "Modelo loginModel no encontrado."]);
     exit;
 }
 require_once $modelPath;
+
+// Incluir modelo de Adoptantes (para editar perfil completo si aplica)
+$adpModelPath = __DIR__ . '/../model/adoptantesModel.php';
+if (file_exists($adpModelPath)) {
+    require_once $adpModelPath;
+}
 
 class LoginControlador {
 
@@ -83,7 +89,7 @@ class LoginControlador {
         }
     }
 
-    // --- FUNCIÓN ACTUALIZADA CON REDIRECCIÓN ---
+    // --- FUNCIÓN ACTUALIZADA PARA PERFIL ---
     public function ctrActualizarPerfil() {
         try {
             if (!isset($_SESSION['iniciarSesion']) || !isset($_SESSION['id'])) {
@@ -92,7 +98,7 @@ class LoginControlador {
             }
     
             $idUsuario = $_SESSION['id'];
-            $rol = $_SESSION['rol']; // Obtenemos el rol actual
+            $rol = $_SESSION['rol']; 
             $nuevoNombre = $_POST['nombre_usuario'] ?? '';
             $nuevaPass = $_POST['password'] ?? ''; 
     
@@ -101,17 +107,39 @@ class LoginControlador {
                 return;
             }
     
+            // 1. Actualizar tabla USUARIOS
             $respuesta = LoginModelo::mdlActualizarPerfil($idUsuario, $nuevoNombre, $nuevaPass);
     
             if ($respuesta['codigo'] == "200") {
-                // Actualizar sesión
+                // Actualizar nombre en sesión
                 $_SESSION['nombre_usuario'] = $nuevoNombre;
+
+                // 2. Verificar si se enviaron datos de ADOPTANTE para actualizar
+                if (isset($_POST['editar_adoptante']) && $_POST['editar_adoptante'] == "true") {
+                    
+                    if (class_exists('AdoptantesModel')) {
+                        $idAdp = $_POST['id_adoptantes'];
+                        $nomAdp = $_POST['nombre_completo'];
+                        $cedAdp = $_POST['cedula'];
+                        $telAdp = $_POST['telefono'];
+                        $dirAdp = $_POST['direccion'];
+                        $emailAdp = $_POST['email_adoptante']; // Requerido por el modelo
+
+                        // Llamar al modelo de adoptantes
+                        $resAdp = AdoptantesModel::mdlEditarAdoptante($idAdp, $nomAdp, $cedAdp, $telAdp, $emailAdp, $dirAdp);
+
+                        if ($resAdp['codigo'] != "200") {
+                            // Si falla la parte del adoptante, avisamos adjuntando el error
+                            $respuesta['mensaje'] .= " (Advertencia: " . $resAdp['mensaje'] . ")";
+                        }
+                    }
+                }
 
                 // Definir a dónde enviar al usuario según su rol
                 if ($rol === 'admin') {
-                    $respuesta['redirect'] = 'inicioAdmin'; 
+                    $respuesta['redirect'] = 'index.php?ruta=inicioAdmin'; 
                 } else {
-                    $respuesta['redirect'] = 'inicioAdp'; 
+                    $respuesta['redirect'] = 'index.php?ruta=inicioAdp'; 
                 }
             }
     
@@ -151,7 +179,5 @@ if (isset($_POST['accion'])) {
         default:
             echo json_encode(["codigo" => "400", "mensaje" => "Acción inválida"]);
     }
-} else {
-    // Respuesta por defecto si se llama sin acción
 }
 ?>

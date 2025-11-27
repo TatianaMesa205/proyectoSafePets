@@ -74,12 +74,10 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
                 <div class="row">
                     <div class="col-md-6 mb-4">
                         <label class="form-label-custom">Nueva Contraseña</label>
-
                         <div class="input-group input-group-lg input-custom">
                             <span class="input-group-text icon-box">
                                 <i class="fa-solid fa-key"></i>
                             </span>
-
                             <input type="password"
                                 class="form-control input-field"
                                 id="password"
@@ -89,12 +87,10 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
 
                     <div class="col-md-6 mb-4">
                         <label class="form-label-custom">Confirmar Contraseña</label>
-
                         <div class="input-group input-group-lg input-custom">
                             <span class="input-group-text icon-box">
                                 <i class="fa-solid fa-check-double"></i>
                             </span>
-
                             <input type="password"
                                 class="form-control input-field"
                                 id="confirm_password"
@@ -107,6 +103,60 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
                     Déjalo vacío si no deseas actualizar la contraseña.
                 </small>
 
+                <?php if ($adoptanteInfo): ?>
+                    <hr class="my-4" style="border-top: 2px dashed #e2c7b3;">
+                    
+                    <h5 class="mb-4 text-center" style="color:#8b5e3c; font-weight:700;">Datos Personales</h5>
+                    
+                    <input type="hidden" id="is_adoptante" value="true">
+                    <input type="hidden" id="id_adoptante_form" value="<?php echo $idAdoptante; ?>">
+
+                    <div class="mb-4">
+                        <label class="form-label-custom">Nombre Completo</label>
+                        <div class="input-group input-group-lg input-custom">
+                            <span class="input-group-text icon-box"><i class="fa-solid fa-id-card"></i></span>
+                            <input type="text" class="form-control input-field" id="nombre_completo" 
+                                   value="<?php echo $adoptanteInfo['nombre_completo']; ?>" required>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label-custom">Cédula</label>
+                            <div class="input-group input-group-lg input-custom">
+                                <span class="input-group-text icon-box"><i class="fa-solid fa-fingerprint"></i></span>
+                                <input type="number" class="form-control input-field" id="cedula" 
+                                       value="<?php echo $adoptanteInfo['cedula']; ?>" required>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <label class="form-label-custom">Teléfono</label>
+                            <div class="input-group input-group-lg input-custom">
+                                <span class="input-group-text icon-box"><i class="fa-solid fa-phone"></i></span>
+                                <input type="number" class="form-control input-field" id="telefono" 
+                                       value="<?php echo $adoptanteInfo['telefono']; ?>" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label-custom">Dirección</label>
+                        <div class="input-group input-group-lg input-custom">
+                            <span class="input-group-text icon-box"><i class="fa-solid fa-location-dot"></i></span>
+                            <input type="text" class="form-control input-field" id="direccion" 
+                                   value="<?php echo $adoptanteInfo['direccion']; ?>" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label-custom">Correo Electrónico (No editable)</label>
+                        <div class="input-group input-group-lg input-custom">
+                            <span class="input-group-text icon-box" style="background-color: #e9ecef;"><i class="fa-solid fa-envelope"></i></span>
+                            <input type="email" class="form-control input-field" id="email_adoptante" 
+                                   value="<?php echo $adoptanteInfo['email']; ?>" readonly style="background-color: #e9ecef;">
+                        </div>
+                    </div>
+                <?php endif; ?>
                 <div class="d-grid mt-4">
                     <button type="submit" class="btn btn-save-lg form-btn">Guardar Cambios</button>
                 </div>
