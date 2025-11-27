@@ -144,5 +144,22 @@ class CitasModel
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    static public function mdlBuscarCitaActiva($id_adoptantes) {
+
+        $sql = "SELECT * FROM citas 
+                WHERE id_adoptantes = :id 
+                AND (estado = 'Pendiente' OR estado = 'Confirmada')
+                AND fecha_cita >= CURDATE()
+                LIMIT 1";
+
+        $stmt = Conexion::conectar()->prepare($sql);
+        $stmt->bindParam(":id", $id_adoptantes, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+
 }
 ?>

@@ -23,7 +23,8 @@ class AdoptantesController
         $respuesta = AdoptantesModel::mdlMostrarAdoptante($item, $valor);
         return $respuesta;
     }
-static public function ctrContarAdoptantes(){
+    
+    static public function ctrContarAdoptantes(){
         $respuesta = AdoptantesModel::mdlContarAdoptantes();
         return $respuesta["total"];
     }

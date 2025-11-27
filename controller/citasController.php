@@ -30,6 +30,20 @@ class CitasController
     }
 
     public function ctrRegistrarCita() {
+
+        // 🔍 VALIDAR SI EL ADOPTANTE YA TIENE CITA PENDIENTE O CONFIRMADA
+        $citaActiva = CitasModel::mdlBuscarCitaActiva($this->id_adoptantes);
+
+        if ($citaActiva) {
+            ob_clean();
+            header('Content-Type: application/json');
+            echo json_encode([
+                "codigo" => "409",
+                "mensaje" => "Tienes una cita en proceso, en este momento no puedes adoptar"
+            ]);
+            die();
+        }
+
         $objRespuesta = CitasModel::mdlRegistrarCita($this->id_adoptantes, $this->id_mascotas, $this->fecha_cita, $this->estado, $this->motivo);
         
         if (isset($objRespuesta["codigo"]) && $objRespuesta["codigo"] == "200") {
