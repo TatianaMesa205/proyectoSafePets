@@ -1,5 +1,10 @@
 <?php
+
+
+date_default_timezone_set('America/Bogota'); // <- AÑADE ESTO
 $fechaActual = date("Y-m-d");
+
+
 ?>
 
 <nav class="navbar navbar-expand-lg shadow-sm">
@@ -119,11 +124,14 @@ $fechaActual = date("Y-m-d");
     background: #e7f3df;
     font-size: 17px;
     outline: none;
+    transition: all .3s ease;
 }
 
 .input:focus, .textarea:focus {
-    border-color: #9dbc91;
+    border-color: #8bbf73;
+    background: #f5fff0;
 }
+
 
 .textarea {
     height: 140px;
