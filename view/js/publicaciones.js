@@ -69,42 +69,59 @@
         $("#txt_edit_foto_actual").val(foto);
     });
 
-    $("#formRegistroPublicacion").on("submit", function (event) {
-        event.preventDefault();
+    const forms = document.querySelectorAll("#formRegistroPublicacion");
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            event.preventDefault();
+            if (!form.checkValidity()) {
+                event.stopPropagation();
+                form.classList.add('was-validated');
+            } else {
 
-        let tipo = $("#txt_tipo").val();
-        let descripcion = $("#txt_descripcion").val();
-        let fecha_publicacion = $("#txt_fecha_publicacion").val();
-        let contacto = $("#txt_contacto").val();
-        let foto = $("#txt_foto")[0].files[0];
+                let tipo = $("#txt_tipo").val();
+                let descripcion = $("#txt_descripcion").val();
+                let fecha_publicacion = $("#txt_fecha_publicacion").val();
+                let contacto = $("#txt_contacto").val();
+                let foto = $("#txt_foto")[0].files[0];
 
-        let objData = { tipo, descripcion, fecha_publicacion, contacto, foto };
-        let obj = new Publicaciones(objData);
-        obj.registrarPublicacion();
+                let objData = { tipo, descripcion, fecha_publicacion, contacto, foto };
+                let obj = new Publicaciones(objData);
+                obj.registrarPublicacion();
+
+            }
+        }, false);
     });
 
-    $("#formEditarPublicacion").on("submit", function (event) {
-        event.preventDefault();
+    const formsEditarAdoptante = document.querySelectorAll("#formEditarPublicacion");
+    Array.from(formsEditarAdoptante).forEach(form => {
+        form.addEventListener('submit', event => {
+            event.preventDefault();
+            if (!form.checkValidity()) {
+                event.stopPropagation();
+                form.classList.add('was-validated');
+            } else {
 
-        let id_publicaciones = $("#btnEditarPublicacion").attr("publicacion");
-        let tipo = $("#txt_edit_tipo").val();
-        let descripcion = $("#txt_edit_descripcion").val();
-        let fecha_publicacion = $("#txt_edit_fecha_publicacion").val();
-        let contacto = $("#txt_edit_contacto").val();
-        let foto = $("#txt_edit_foto")[0].files[0];
-        let foto_actual = $("#txt_edit_foto_actual").val();
+                let id_publicaciones = $("#btnEditarPublicacion").attr("publicacion");
+                let tipo = $("#txt_edit_tipo").val();
+                let descripcion = $("#txt_edit_descripcion").val();
+                let fecha_publicacion = $("#txt_edit_fecha_publicacion").val();
+                let contacto = $("#txt_edit_contacto").val();
+                let foto = $("#txt_edit_foto")[0].files[0];
+                let foto_actual = $("#txt_edit_foto_actual").val();
 
-        let objData = {
-            id_publicaciones,
-            tipo,
-            descripcion,
-            fecha_publicacion,
-            contacto,
-            foto,
-            foto_actual
-        };
+                let objData = {
+                    id_publicaciones,
+                    tipo,
+                    descripcion,
+                    fecha_publicacion,
+                    contacto,
+                    foto,
+                    foto_actual
+                };
 
-        let obj = new Publicaciones(objData);
-        obj.editarPublicacion();
+                let obj = new Publicaciones(objData);
+                obj.editarPublicacion();
+            }
+        }, false);
     });
 })();

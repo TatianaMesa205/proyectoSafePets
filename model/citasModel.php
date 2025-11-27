@@ -63,5 +63,86 @@ class CitasModel
             return $stmt->fetchAll(PDO::FETCH_COLUMN);
         } catch (Exception $e) { return []; }
     }
+
+    static public function mdlObtenerCita($id_citas)
+    {
+        $stmt = Conexion::conectar()->prepare("
+            SELECT * FROM citas 
+            WHERE id_citas = :id
+        ");
+        $stmt->bindParam(":id", $id_citas, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    static public function mdlActualizarEstado($id_citas, $estado)
+    {
+        $stmt = Conexion::conectar()->prepare("
+            UPDATE citas SET estado = :estado 
+            WHERE id_citas = :id
+        ");
+
+        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+        $stmt->bindParam(":id", $id_citas, PDO::PARAM_INT);
+
+        if ($stmt->execute()) {
+            return ["codigo" => "200"];
+        } else {
+            return ["codigo" => "500"];
+        }
+    }
+    
+
+    public static function mdlAdmins() {
+        $sql = Conexion::conectar()->prepare("
+            SELECT nombre_usuario, email 
+            FROM usuarios 
+            WHERE id_roles = 1
+        ");
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
+    public static function mdlInfoCita($id_citas){
+        $sql = Conexion::conectar()->prepare("
+            SELECT c.*, m.nombre AS mascota
+            FROM citas c
+            INNER JOIN mascotas m ON m.id_mascotas = c.id_mascotas
+            WHERE c.id_citas = :id
+        ");
+        $sql->bindParam(":id", $id_citas);
+        $sql->execute();
+        return $sql->fetch(PDO::FETCH_ASSOC);
+    }
+
+
+    public static function mdlCancelarCita($id_citas){
+        $query = Conexion::conectar()->prepare("
+            UPDATE citas SET estado = 'Cancelada'
+            WHERE id_citas = :id_citas
+        ");
+        $query->bindParam(":id_citas", $id_citas);
+        
+        if ($query->execute()) {
+            return ["codigo" => "200", "mensaje" => "Cita cancelada correctamente"];
+        }
+        return ["codigo" => "500", "mensaje" => "Error al cancelar cita"];
+    }
+
+    public static function mdlListarCitasAdoptante($id_adoptantes)
+    {
+        $sql = Conexion::conectar()->prepare("
+            SELECT c.*, m.imagen, m.nombre AS mascota
+            FROM citas c
+            INNER JOIN mascotas m ON m.id_mascotas = c.id_mascotas
+            WHERE c.id_adoptantes = :id
+            ORDER BY c.fecha_cita DESC
+        ");
+        $sql->bindParam(":id", $id_adoptantes);
+        $sql->execute();
+        return $sql->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
 ?>

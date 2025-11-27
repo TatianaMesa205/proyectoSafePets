@@ -37,8 +37,8 @@
           <div class="invalid-feedback">Seleccione una adopción.</div>
         </div>
         <div class="col-md-6">
-          <label class="form-label">Fecha de Visita</label>
-          <input type="date" id="txt_fecha_visita" class="form-control rounded-3" required>
+            <label for="txt_fecha_visita" class="form-label">Fecha de Visita</label>
+            <input type="date" id="txt_fecha_visita" class="form-select rounded-3" required>
         </div>
         <div class="col-md-12">
           <label class="form-label">Observaciones</label>
@@ -64,7 +64,7 @@
         </div>
         <div class="col-md-6">
           <label class="form-label">Fecha de Visita</label>
-          <input type="date" id="txt_edit_fecha_visita" class="form-control rounded-3" required>
+          <input type="date" id="txt_edit_fecha_visita" class="form-select rounded-3" required>
         </div>
         <div class="col-md-12">
           <label class="form-label">Observaciones</label>

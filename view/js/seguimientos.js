@@ -166,8 +166,8 @@ function listarSeguimientos() {
             { "data": "observacion" },
             { "defaultContent": 
                 "<div class='text-center'>" +
-                    "<button class='btn btn-primary btn-sm btnEditar' style='margin-right:5px;' title='Editar'><i class='fas fa-edit'></i></button>" +
-                    "<button class='btn btn-danger btn-sm btnEliminar' title='Eliminar'><i class='fas fa-trash'></i></button>" +
+                    "<button class='btn btn-sm btnEditar' style='background-color:rgba(223, 179, 147, 1); margin-right:5px;' title='Editar'><i class='bi bi-pencil'></i></button>" +
+                    "<button class='btn btn-sm btnEliminar' title='Eliminar' style='background-color:rgba(112, 110, 120, 1);'><i class='bi bi-trash'></i></button>" +
                 "</div>"
             }
         ],
@@ -176,7 +176,7 @@ function listarSeguimientos() {
 }
 
 function cargarSelectAdopciones() {
-    var datos = new FormData();
+    var datos = new FormData(); 
     datos.append("listarAdopcionesSelect", "ok");
 
     $.ajax({
@@ -189,14 +189,35 @@ function cargarSelectAdopciones() {
         dataType: "json",
         success: function(respuesta) {
             if (respuesta.codigo == "200") {
+                // Sólo incluimos adopciones con estado "Adoptado"
                 var opciones = '<option value="">Seleccione una adopción...</option>';
                 respuesta.listaAdopciones.forEach(function(item) {
-                    // Muestra: "Firulais - Juan Perez"
-                    opciones += `<option value="${item.id_adopciones}">${item.nombre_mascota} - ${item.nombre_adoptante}</option>`;
+                    // Asegurarnos del valor exacto (normalizar)
+                    var estado = (item.estado || "").toString().trim().toLowerCase();
+                    if (estado === "adoptado") {
+                        // guardamos también el estado como data-estado por si hace falta
+                        opciones += `<option value="${item.id_adopciones}" data-estado="Adoptado">${item.nombre_mascota} - ${item.nombre_adoptante}</option>`;
+                    }
                 });
+
+                // Si no hay opciones válidas mostramos mensaje y deshabilitamos el botón Guardar
+                if (opciones === '<option value="">Seleccione una adopción...</option>') {
+                    opciones = '<option value="">No hay adopciones en estado Adoptado</option>';
+                    $("#select_adopciones").prop("disabled", true);
+                    $("#select_edit_adopciones").prop("disabled", true);
+                } else {
+                    $("#select_adopciones").prop("disabled", false);
+                    $("#select_edit_adopciones").prop("disabled", false);
+                }
+
                 $("#select_adopciones").html(opciones);
                 $("#select_edit_adopciones").html(opciones);
+            } else {
+                console.error("Error al cargar adopciones:", respuesta.mensaje);
             }
+        },
+        error: function(err) {
+            console.error("Error AJAX cargarSelectAdopciones:", err);
         }
     });
 }

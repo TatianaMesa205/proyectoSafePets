@@ -51,54 +51,75 @@ function cargarCitas(idAdoptante) {
                 return;
             }
 
+            // Crear secciones
+            let htmlCitasPresentes = `
+                <h4 style="color:#8b5e3c; font-weight:700;">Citas del Presente</h4>
+                <div class="row g-3" id="citasPresentes"></div>
+                <hr class="my-4">
+            `;
+
+            let htmlCitasPasadas = `
+                <h4 style="color:#8b5e3c; font-weight:700;">Citas Pasadas</h4>
+                <div class="row g-3" id="citasPasadas"></div>
+            `;
+
+            contenedor.innerHTML = htmlCitasPresentes + htmlCitasPasadas;
+
+            const contPresente = document.getElementById("citasPresentes");
+            const contPasadas = document.getElementById("citasPasadas");
+
+            // Fecha actual (solo yyyy-mm-dd)
+            let hoy = new Date().toISOString().split("T")[0];
+
             res.listaCitas.forEach(cita => {
 
-                // ESTADOS
+                // --- Determinar si es pasada o presente ---
+                let fechaCita = cita.fecha_cita;   // formato: YYYY-MM-DD
+                let targetContenedor = (fechaCita < hoy) ? contPasadas : contPresente;
+
+                // --- ESTADOS ---
                 let estadoHTML = "";
-                if (cita.estado.toLowerCase() === "cancelada") {
-                    estadoHTML = `
-                        <span class="estado-cancelada">
+                let estado = cita.estado.toLowerCase();
+
+                if (estado === "cancelada") {
+                    estadoHTML = `<span class="estado-cancelada">
                             <i class="fa-solid fa-ban"></i> Cancelada
                         </span>`;
-                } else if (cita.estado.toLowerCase() === "completada") {
-                    estadoHTML = `
-                        <span class="estado-completada">
+                } else if (estado === "completada") {
+                    estadoHTML = `<span class="estado-completada">
                             <i class="fa-solid fa-circle-check"></i> Completada
                         </span>`;
-                } else if (cita.estado.toLowerCase() === "confirmada") {
-                    estadoHTML = `
-                        <span class="estado-activa">
+                } else if (estado === "confirmada") {
+                    estadoHTML = `<span class="estado-activa">
                             <i class="fa-solid fa-check"></i> Confirmada
                         </span>`;
                 } else {
-                    estadoHTML = `
-                        <span class="estado-pendiente">
+                    estadoHTML = `<span class="estado-pendiente">
                             <i class="fa-solid fa-hourglass-half"></i> Pendiente
                         </span>`;
                 }
 
                 // BOTÓN CANCELAR SOLO SI ES PENDIENTE O CONFIRMADA
                 let botonCancelar = "";
-                if (
-                    cita.estado.toLowerCase() === "pendiente" ||
-                    cita.estado.toLowerCase() === "confirmada"
-                ) {
+                if (estado === "pendiente" || estado === "confirmada") {
                     botonCancelar = `
                         <button class="btn-cancelar" onclick="confirmarCancelacion(${cita.id_citas}, '${cita.fecha_cita}')">
                             <i class="fa-solid fa-trash"></i>
                         </button>`;
                 }
 
-                // TARJETA FINAL
-                contenedor.innerHTML += `
-                    <div class="cita-card">
-                        <img src="../../../CarpetaCompartida/Mascotas/${cita.imagen}" class="cita-img">
+                // Tarjeta de cita
+                targetContenedor.innerHTML += `
+                    <div class="col-md-4">
+                        <div class="cita-card">
+                            <img src="../../../CarpetaCompartida/Mascotas/${cita.imagen}" class="cita-img">
 
-                        <h5>${cita.mascota}</h5>
-                        <p><strong>Fecha:</strong> ${cita.fecha_cita}</p>
+                            <h5>${cita.mascota}</h5>
+                            <p><strong>Fecha:</strong> ${cita.fecha_cita}</p>
 
-                        ${estadoHTML}
-                        ${botonCancelar}
+                            ${estadoHTML}
+                            ${botonCancelar}
+                        </div>
                     </div>
                 `;
             });

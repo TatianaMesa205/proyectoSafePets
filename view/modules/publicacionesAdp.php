@@ -8,7 +8,7 @@ $listaPublicaciones = $respuesta["listaPublicaciones"];
 <div class="publi-container">
 
     <h2 class="titulo-principal">
-        📢 Publicaciones
+         Publicaciones
     </h2>
 
     <a href="crearPublicacion" class="btn-crear-publicacion">
@@ -38,11 +38,13 @@ $listaPublicaciones = $respuesta["listaPublicaciones"];
                     <p><strong>Contacto:</strong> <?php echo $publi["contacto"]; ?></p>
 
 
-                    <div class="descripcion" data-full="<?php echo $publi['descripcion']; ?>">
-                        <?php echo substr($publi['descripcion'], 0, 120) . "..."; ?>
+                    <div class="descripcion" 
+                        data-full="<?php echo $publi['descripcion']; ?>" 
+                        data-short="<?php echo substr($publi['descripcion'], 0, 120); ?>">
                     </div>
 
-                    <button class="btn-ver-mas">Ver más ▼</button>
+                    <button class="btn-ver-mas" style="display:none;">Ver más ▼</button>
+
 
 
                 </div>
@@ -58,24 +60,39 @@ $listaPublicaciones = $respuesta["listaPublicaciones"];
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-    const botones = document.querySelectorAll(".btn-ver-mas");
+    const tarjetas = document.querySelectorAll(".tarjeta-publicacion");
 
-    botones.forEach(boton => {
+    tarjetas.forEach(tarjeta => {
+        
+        const descripcionDiv = tarjeta.querySelector(".descripcion");
+        const boton = tarjeta.querySelector(".btn-ver-mas");
+
+        const full = descripcionDiv.dataset.full;
+        const shortText = descripcionDiv.dataset.short;
+
+        // Si la descripción es menor o igual a 120 caracteres → mostrar completa sin botón
+        if (full.length <= 120) {
+            descripcionDiv.textContent = full;
+            boton.style.display = "none";
+        } else {
+            // Si es larga → mostrar versión corta y activar botón
+            descripcionDiv.textContent = shortText + "...";
+            boton.style.display = "inline-block";
+        }
+
+        // Evento para ver más / ver menos
         boton.addEventListener("click", function () {
-            
-            const descripcionDiv = this.previousElementSibling;
-            const textoCompleto = descripcionDiv.dataset.full;
-
             if (this.classList.contains("abierto")) {
-                descripcionDiv.textContent = textoCompleto.substring(0, 120) + "...";
+                descripcionDiv.textContent = shortText + "...";
                 this.textContent = "Ver más ▼";
                 this.classList.remove("abierto");
             } else {
-                descripcionDiv.textContent = textoCompleto;
+                descripcionDiv.textContent = full;
                 this.textContent = "Ver menos ▲";
                 this.classList.add("abierto");
             }
         });
+
     });
 
 });
@@ -172,13 +189,16 @@ document.addEventListener("DOMContentLoaded", () => {
     margin-top: 8px;
 }
 
-.ver-mas {
-    display: inline-block;
-    margin-top: 10px;
-    color: #2f5d2f;
-    text-decoration: none;
+.btn-ver-mas {
+    margin-top: 8px;
+    background: none;
+    border: none;
+    color: #6f8f63;
     font-weight: bold;
+    cursor: pointer;
+    font-size: 15px;
 }
+
 
 .ver-mas:hover {
     text-decoration: underline;
