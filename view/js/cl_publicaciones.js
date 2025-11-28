@@ -16,50 +16,64 @@ class Publicaciones {
             method: "POST",
             body: objData
         })
-            .then(response => response.json())
-            .then(response => {
-                if (response["codigo"] == "200") {
-                    let dataSet = [];
+        .then(response => response.json())
+        .then(response => {
+            if (response["codigo"] == "200") {
+                let dataSet = [];
+                // Timestamp para evitar caché de imágenes
+                let antiCache = new Date().getTime();
 
-                    response["listaPublicaciones"].forEach(item => {
-                        let objBotones = `
-                            <div class="btn-group" role="group">
-                                <button id="btn-editarPublicacion" type="button" class="btn" 
-                                    style="background-color:#d3a67c;color:white"
-                                    publicacion="${item.id_publicaciones}"
-                                    tipo="${item.tipo}"
-                                    descripcion="${item.descripcion}"
-                                    foto="${item.foto}"
-                                    fecha="${item.fecha_publicacion}"
-                                    contacto="${item.contacto}">
-                                    <i class="bi bi-pencil"></i>
-                                </button>
-                                <button id="btn-eliminarPublicacion" type="button" class="btn" 
-                                    style="background-color:#706e78;color:white"
-                                    publicacion="${item.id_publicaciones}">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>`;
+                response["listaPublicaciones"].forEach(item => {
+                    let objBotones = `
+                        <div class="btn-group" role="group">
+                            <button id="btn-editarPublicacion" type="button" class="btn" 
+                                style="background-color:#d3a67c;color:white"
+                                publicacion="${item.id_publicaciones}"
+                                tipo="${item.tipo}"
+                                descripcion="${item.descripcion}"
+                                foto="${item.foto}"
+                                fecha="${item.fecha_publicacion}"
+                                contacto="${item.contacto}">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                            <button id="btn-eliminarPublicacion" type="button" class="btn" 
+                                style="background-color:#706e78;color:white"
+                                publicacion="${item.id_publicaciones}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>`;
 
-                        dataSet.push([
-                            item.tipo,
-                            item.descripcion,
-                            item.fecha_publicacion,
-                            item.contacto,
-                            `<img src="${item.foto}" alt="foto" width="80" height="80" style="object-fit:cover;border-radius:10px;">`,
-                            objBotones
-                        ]);
-                    });
+                    // --- CORRECCIÓN DE IMAGEN ---
+                    let rutaBase = "../CarpetaCompartida/Publicaciones/";
+                    let imgHtml = "";
 
-                    $("#tablaPublicaciones").DataTable({
-                        dom: "Bfrtip",
-                        responsive: true,
-                        destroy: true,
-                        data: dataSet
-                    });
-                }
-            })
-            .catch(error => console.error("Error al listar:", error));
+                    if (item.foto && item.foto != "") {
+                        imgHtml = `<img src="${rutaBase + item.foto}?v=${antiCache}" alt="foto" width="80" height="80" style="object-fit:cover;border-radius:10px;">`;
+                    } else {
+                        // Imagen por defecto si no hay foto
+                        imgHtml = `<img src="view/img/default/anonymous.png" alt="Sin Foto" width="80" height="80" style="object-fit:cover;border-radius:10px;">`;
+                    }
+                    // ----------------------------
+
+                    dataSet.push([
+                        item.tipo,
+                        item.descripcion,
+                        item.fecha_publicacion,
+                        item.contacto,
+                        imgHtml, // Usamos la variable con la ruta corregida
+                        objBotones
+                    ]);
+                });
+
+                $("#tablaPublicaciones").DataTable({
+                    dom: "Bfrtip",
+                    responsive: true,
+                    destroy: true,
+                    data: dataSet
+                });
+            }
+        })
+        .catch(error => console.error("Error al listar:", error));
     }
 
     eliminarPublicacion() {
@@ -76,10 +90,11 @@ class Publicaciones {
             if (response["codigo"] == "200") {
                 this.recargarTabla();
                 Swal.fire({
-                    title:"Publicacion eliminada correctamente 🐾",
+                    title:"Publicación eliminada correctamente 🐾",
                     color:"#ba88d1",
                     background:"#fff",
-                    timer:1500
+                    timer:1500,
+                    icon: "success"
                 });
             } else {
                 Swal.fire("Error", response["mensaje"], "error");
@@ -87,55 +102,51 @@ class Publicaciones {
         });
     }
 
+    registrarPublicacion() {
+        // Obtenemos el rol, asegurándonos de que el elemento exista
+        let rolInput = document.getElementById("rol_usuario");
+        let rol = rolInput ? rolInput.value : "";
 
-registrarPublicacion() {
+        let objData = new FormData();
+        objData.append("registrarPublicacion", "ok");
+        objData.append("tipo", this._objData.tipo);
+        objData.append("descripcion", this._objData.descripcion);
+        objData.append("fecha_publicacion", this._objData.fecha_publicacion);
+        objData.append("contacto", this._objData.contacto);
+        objData.append("foto", this._objData.foto);
 
-    let rol = document.getElementById("rol_usuario").value;
-
-    let objData = new FormData();
-    objData.append("registrarPublicacion", "ok");
-    objData.append("tipo", this._objData.tipo);
-    objData.append("descripcion", this._objData.descripcion);
-    objData.append("fecha_publicacion", this._objData.fecha_publicacion);
-    objData.append("contacto", this._objData.contacto);
-    objData.append("foto", this._objData.foto);
-
-    fetch("controller/publicacionesController.php", {
-        method: "POST",
-        body: objData
-    })
+        fetch("controller/publicacionesController.php", {
+            method: "POST",
+            body: objData
+        })
         .then(response => response.json())
         .then(response => {
             if (response["codigo"] == "200") {
-
                 Swal.fire({
                     title: "Publicación creada 🐾",
                     icon: "success",
                     timer: 1500,
                     showConfirmButton: false
                 }).then(() => {
+                    // Si existe el formulario de registro (Admin Panel)
+                    let form = document.getElementById("formRegistroPublicacion");
+                    if (form) form.reset();
 
                     if (rol === "admin") {
-                         // 🔹 ADMIN: NO redirige, solo vuelve a la tabla
-                        document.getElementById("formRegistroPublicacion").reset();
                         $("#panelFormularioPublicaciones").hide();
                         $("#panelTablaPublicaciones").show();
                         this.recargarTabla();
                     } else {
-                        // ADOPTANTE
+                        // ADOPTANTE o usuario externo
                         window.location.href = "index.php?ruta=publicacionesAdp";
                     }
-
                 });
-
             } else {
                 Swal.fire("Error", response["mensaje"], "error");
             }
         })
         .catch(error => console.error("Error:", error));
-}
-
-
+    }
 
     editarPublicacion() {
         let objData = new FormData();
@@ -155,18 +166,21 @@ registrarPublicacion() {
             method: "POST",
             body: objData
         })
-            .then(response => response.json())
-            .then(response => {
-                if (response["codigo"] == "200") {
-                    Swal.fire("Éxito", "Publicación editada correctamente ✏️", "success");
-                    document.getElementById("formEditarPublicacion").reset();
-                    $("#panelFormularioEditarPublicaciones").hide();
-                    $("#panelTablaPublicaciones").show();
-                    this.recargarTabla();
-                } else {
-                    Swal.fire("Error", response["mensaje"], "error");
-                }
-            })
-            .catch(error => console.error("Error:", error));
+        .then(response => response.json())
+        .then(response => {
+            if (response["codigo"] == "200") {
+                Swal.fire("Éxito", "Publicación editada correctamente ✏️", "success");
+                
+                document.getElementById("formEditarPublicacion").reset();
+                $("#panelFormularioEditarPublicaciones").hide();
+                $("#panelTablaPublicaciones").show();
+                
+                // Recargar tabla vital para ver cambios
+                this.recargarTabla();
+            } else {
+                Swal.fire("Error", response["mensaje"], "error");
+            }
+        })
+        .catch(error => console.error("Error:", error));
     }
 }

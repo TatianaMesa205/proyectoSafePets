@@ -1,5 +1,6 @@
 <?php
-include_once "../model/publicacionesModel.php";
+// Usamos __DIR__ para rutas relativas seguras
+include_once __DIR__ . "/../model/publicacionesModel.php";
 
 class PublicacionesController
 {
@@ -63,30 +64,27 @@ if (isset($_POST["eliminarPublicacion"]) && $_POST["eliminarPublicacion"] == "ok
     $obj->ctrEliminarPublicacion();
 }
 
-// --- REGISTRAR (CORREGIDO) ---
-if (isset($_POST["registrarPublicacion"])) {
+// --- REGISTRAR ---
+if (isset($_POST["registrarPublicacion"]) && $_POST["registrarPublicacion"] == "ok") {
     $obj = new PublicacionesController();
     $obj->tipo = $_POST["tipo"];
     $obj->descripcion = $_POST["descripcion"];
     $obj->fecha_publicacion = $_POST["fecha_publicacion"];
     $obj->contacto = $_POST["contacto"];
 
-    $nombreGuardarBD = ""; // Variable para la base de datos
+    $nombreGuardarBD = ""; 
 
     if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == 0) {
+        // Ruta para subir al servidor
         $directorio = "../../CarpetaCompartida/Publicaciones/";
         if (!file_exists($directorio)) {
             mkdir($directorio, 0777, true);
         }
         
-        // Generamos el nombre único
         $nombreArchivo = uniqid() . "_" . basename($_FILES["foto"]["name"]);
-        
-        // Ruta completa SOLO para mover el archivo físico
         $rutaDestino = $directorio . $nombreArchivo; 
         
         if(move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaDestino)){
-            // Si se movió correctamente, guardamos SOLO el nombre en la variable del modelo
             $nombreGuardarBD = $nombreArchivo;
         }
     }
@@ -95,8 +93,8 @@ if (isset($_POST["registrarPublicacion"])) {
     $obj->ctrRegistrarPublicacion();
 }
 
-// --- EDITAR (CORREGIDO) ---
-if (isset($_POST["editarPublicacion"])) {
+// --- EDITAR ---
+if (isset($_POST["editarPublicacion"]) && $_POST["editarPublicacion"] == "ok") {
     $obj = new PublicacionesController();
     $obj->id_publicaciones = $_POST["id_publicaciones"];
     $obj->tipo = $_POST["tipo"];
@@ -107,6 +105,7 @@ if (isset($_POST["editarPublicacion"])) {
     $nombreGuardarBD = "";
 
     if (isset($_FILES["foto"]) && $_FILES["foto"]["error"] == 0) {
+        // Si hay nueva foto, procesamos la subida
         $directorio = "../../CarpetaCompartida/Publicaciones/";
         if (!file_exists($directorio)) {
             mkdir($directorio, 0777, true);
@@ -116,11 +115,10 @@ if (isset($_POST["editarPublicacion"])) {
         $rutaDestino = $directorio . $nombreArchivo;
         
         if(move_uploaded_file($_FILES["foto"]["tmp_name"], $rutaDestino)){
-            $nombreGuardarBD = $nombreArchivo; // Guardamos solo el nombre nuevo
+            $nombreGuardarBD = $nombreArchivo;
         }
     } else {
-        // Si no sube foto nueva, mantenemos la anterior.
-        // Usamos basename() por seguridad, en caso de que la BD antigua tenga rutas completas.
+        // Si no, mantenemos la anterior
         $fotoActual = isset($_POST["foto_actual"]) ? $_POST["foto_actual"] : "";
         $nombreGuardarBD = basename($fotoActual);
     }
