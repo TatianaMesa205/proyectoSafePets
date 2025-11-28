@@ -116,17 +116,22 @@ function cargarCitas(idAdoptante) {
                 // Tarjeta de cita
                 targetContenedor.innerHTML += `
                     <div class="col-md-4">
-                        <div class="cita-card">
-                            <img src="${imagenMascota}" class="cita-img" alt="Foto Mascota">
+                        <div class="card-cita">
 
-                            <h5>${cita.mascota}</h5>
-                            <p><strong>Fecha:</strong> ${cita.fecha_cita}</p>
+                            <img src="${imagenMascota}" alt="Mascota">
 
                             ${estadoHTML}
-                            ${botonCancelar}
+
+                            ${botonCancelar} <!-- BOTÓN FLOTANTE -->
+
+                            <h5>${cita.mascota}</h5>
+
+                            <p><strong>Fecha cita:</strong> ${cita.fecha_cita}</p>
+
                         </div>
                     </div>
                 `;
+
             });
 
         })

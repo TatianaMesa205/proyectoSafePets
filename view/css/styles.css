@@ -514,4 +514,126 @@ textarea {
     width: 100%;
 }
 
+/* Fuente Poppins global */
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* --------------------------
+   ESTILO DE TARJETAS DE CITAS
+--------------------------- */
+.card-cita {
+    position: relative; /* Necesario para ubicar el botón adentro */
+    background: #f8f2ea;
+    border-radius: 18px;
+    padding: 18px;
+    box-shadow: 0 10px 12px rgba(140, 104, 68, 0.15);
+    border: 1px solid #e3d4c5;
+    transition: all 0.25s ease;
+} 
+
+.card-cita:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(140, 104, 68, 0.20);
+}
+
+/* Imagen de mascota */
+.card-cita img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd0c2;
+}
+
+/* Título, datos */
+.card-cita h5 {
+    font-weight: 700;
+    color: #7a5536;
+    margin-bottom: 6px;
+}
+
+.card-cita p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #5d4838;
+}
+
+/* --------------------------
+   ESTADOS
+--------------------------- */
+.estado-pendiente, 
+.estado-activa, 
+.estado-cancelada, 
+.estado-finalizada {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.estado-pendiente {
+    background: #fff3c8;
+    color: #a17b24;
+}
+
+.estado-activa {
+    background: #dff6dd;
+    color: #3d7a40;
+}
+
+.estado-cancelada {
+    background: #f7d4d4;
+    color: #9b2c2c;
+}
+
+.estado-finalizada {
+    background: #eadfd1;
+    color: #775a3b;
+}
+
+/* --------------------------
+   BOTÓN CANCELAR LINDO
+--------------------------- */
+/* Contenedor de fecha + botón */
+.cita-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+/* Botón flotante */
+.btn-cancelar {
+    position: absolute;
+    top: 10px;    /* Ubicado arriba a la derecha */
+    right: 10px;
+    background: #e6c7ac;
+    color: #5c3b26;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.25s ease;
+    z-index: 10; /* Para que nunca quede debajo */
+}
+
+/* Hover bonito */
+.btn-cancelar:hover {
+    background: #d9b496;
+    transform: scale(1.1);
+    box-shadow: 0 3px 8px rgba(120, 86, 57, 0.25);
+}
+
+
+
+
 

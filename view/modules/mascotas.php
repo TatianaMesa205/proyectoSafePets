@@ -89,6 +89,7 @@
             <option value="">Seleccione</option>
             <option value="Disponible">Disponible</option>
             <option value="Adoptado">Adoptado</option>
+            <option value="En Tratamiento">En tratamiento</option>
           </select>
         </div>
         <div class="col-md-6">
@@ -160,6 +161,7 @@
             <option value="">Seleccione</option>
             <option value="Disponible">Disponible</option>
             <option value="Adoptado">Adoptado</option>
+            <option value="En Tratamiento">En tratamiento</option>
           </select>
         </div>
         <div class="col-md-6">

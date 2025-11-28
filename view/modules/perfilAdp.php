@@ -32,12 +32,7 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
             <li class="menu-item">
                 <i class="fa-solid fa-calendar"></i> Historial de Citas
             </li>
-            <li class="menu-item">
-                <i class="fa-solid fa-file-lines"></i> Publicaciones Realizadas
-            </li>
-            <li class="menu-item">
-                <i class="fa-solid fa-heart"></i> Mis Adopciones
-            </li>
+            
         </ul>
     </aside>
 
@@ -168,7 +163,9 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
             <h3 class="mb-4 text-center" style="color:#8b5e3c; font-weight:700;">
                 <i class="fa-solid fa-calendar-check me-2"></i>Historial de Citas
             </h3>
-            <div id="listaCitasAdoptante" class="row g-3"></div>
+                <div id="listaCitasAdoptante" class="contenedor-citas"></div>
+
+
         </div>
 
         <div id="seccionPublicaciones" class="seccion oculto">
@@ -335,31 +332,6 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
 }
 
 /* Estilos Citas (Mantenidos) */
-#listaCitasAdoptante {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    justify-content: center;
-}
-.cita-card {
-    width: 300px;
-    background: #ffffff;
-    border-radius: 18px;
-    padding: 18px;
-    text-align: center;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    cursor: pointer;
-    transition: .3s;
-    border: 1px solid #e6d4c3;
-}
-.cita-img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 14px;
-    margin-bottom: 12px;
-    border: 2px solid #f5e6da;
-}
 .cita-card:hover { transform: translateY(-5px); }
 .estado-activa { display: inline-block; background: #c8f3cc; color: #1b6022; padding: 6px 14px; border-radius: 12px; font-weight: bold; }
 .estado-cancelada { display: inline-block; background: #ffd2d2; color: #8b1a1a; padding: 6px 14px; border-radius: 12px; font-weight: bold; }

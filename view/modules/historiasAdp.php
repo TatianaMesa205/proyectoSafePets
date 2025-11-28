@@ -114,6 +114,4 @@ $listaMascotas = $respuesta["listaMascotas"];
     text-align: center;
 }
 
-
-
 </style>

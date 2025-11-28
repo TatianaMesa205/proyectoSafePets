@@ -5,7 +5,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse fade-scroll" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-center">
 
         <li class="nav-item dropdown perfil-nav-item">
@@ -50,7 +50,8 @@
 </nav>
 
 
-<div id="carruselSafePets" class="carousel slide container mt-4" data-bs-ride="carousel">
+<div id="carruselSafePets" class="carousel slide container mt-4 reveal zoom" data-bs-ride="carousel">
+
   <div class="carousel-inner">
     <div class="carousel-item active">
       <img src="https://images.pexels.com/photos/2145878/pexels-photo-2145878.jpeg" class="d-block w-100" alt="Gatito tierno">
@@ -82,33 +83,33 @@
   </button>
 </div>
 
-<div class="container text-center my-4">
+<div class="container text-center my-4 stagger-container">
   <div class="row row-cols-5 g-3">
-    <div class="col">
+    <div class="col stagger-item">
       <a href="inicioAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-house"></i>
         <span class="small">𝐼𝓃𝒾𝒸𝒾𝑜</span>
       </a>
     </div>
-    <div class="col">
+    <div class="col stagger-item">
       <a href="adoptaAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-paw"></i>
         <span class="small">𝑀𝒶𝓈𝒸𝑜𝓉𝒶𝓈</span>
       </a>
     </div>
-    <div class="col">
+    <div class="col stagger-item">
       <a href="publicacionesAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-bell"></i>
         <span class="small">𝒫𝓊𝒷𝓁𝒾𝒸𝒶𝒸𝒾𝑜𝓃𝑒𝓈</span>
       </a>
     </div>
-    <div class="col">
+    <div class="col stagger-item">
       <a href="historiasAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-book-open"></i>
         <span class="small">𝐻𝒾𝓈𝓉𝑜𝓇𝒾𝒶𝓈</span>
       </a>
     </div>
-    <div class="col">
+    <div class="col stagger-item">
       <a href="donacionesAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-heart"></i>
         <span class="small">𝒟𝑜𝓃𝒶𝒸𝒾𝑜𝓃𝑒𝓈</span>
@@ -121,93 +122,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <style>
-  /* ==== CONTENEDOR GENERAL ==== */
-.perfil-nav-item {
-    position: relative;
-}
 
-/* ==== BOTÓN DEL PERFIL EN NAV ==== */
-.perfil-toggle {
-    background: #f4e9dd;
-    padding: 8px 14px;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: 0.3s;
-    border: 1px solid #e0d4c4;
-}
-
-.perfil-toggle:hover {
-    background: #e8dccd;
-}
-
-/* ==== ICONO ==== */
-.perfil-icono i {
-    font-size: 26px;
-    color: #8b5e3c;
-}
-
-/* ==== NOMBRE ==== */
-.perfil-nombre {
-    font-weight: 600;
-    color: #6b4f3a;
-    margin-left: 4px;
-}
-
-/* ==== DROPDOWN ==== */
-.perfil-menu {
-    background: #fff8f1;
-    border-radius: 12px;
-    border: 1px solid #e4d6c7;
-    padding: 8px 0;
-    min-width: 180px;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.12);
-}
-
-/* Opciones */
-.perfil-opcion {
-    padding: 10px 18px !important;
-    font-weight: 500;
-    color: #6b4f3a;
-    transition: 0.2s;
-}
-
-.perfil-opcion:hover {
-    background: #f1e4d7;
-    color: #4a3729;
-}
-
-/* ==== BOTÓN LOGOUT ==== */
-.perfil-logout {
-    width: 100%;
-    padding: 10px 18px;
-    background: transparent;
-    border: none;
-    text-align: left;
-    font-weight: 500;
-    color: #6b4f3a;
-    transition: 0.2s;
-}
-
-.perfil-logout:hover {
-    background: #f1e4d7;
-    color: #4a3729;
-}
-
-.navbar {
-  background-color: #f0e4d8ff;
-  position: relative;
-  z-index: 1050 !important; 
-}
-    
- 
-
-.carousel-inner img {
-  height: 350px;
-  object-fit: cover;
-  border-radius: 200px;
-}
 .container.text-center.my-4 {
   position: sticky;
   top: 0;
@@ -215,21 +130,218 @@
   z-index: 1000;
   padding: 10px 0;
 }
-.btn-logout {
-  display: block;
-  margin: 20px auto;
-  padding: 10px 15px;
-  background-color: #d6baa5;
-  color: white;
+
+/* ===================== */
+/* NAVBAR SAFE PETS      */
+/* ===================== */
+
+.navbar {
+  animation: fadeDown 1s ease;
+  background: #f0e4d8ff;
+  border-bottom: 2px solid #e8d2c6;
+}
+
+.navbar-brand {
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: #8b5e3c !important;
+  transition: 0.3s;
+}
+
+.navbar-brand:hover {
+  transform: scale(1.08);
+  color: #b7855e !important;
+}
+
+/* Icono de perfil */
+.perfil-icono i {
+  font-size: 1.9rem;
+  color: #8b5e3c;
+  transition: 0.4s;
+}
+
+.perfil-toggle:hover .perfil-icono i {
+  transform: rotate(10deg) scale(1.15);
+  color: #b7855e;
+}
+
+/* Nombre animación */
+.perfil-nombre {
+  font-weight: 600;
+  margin-left: 8px;
+  animation: fadeIn 1s ease;
+}
+
+/* Dropdown con animación */
+.perfil-menu {
+  border-radius: 15px;
+  animation: dropdownSlide 0.35s ease;
+  background: #e4d6c7;
+  border: 1px solid #e7d1c4;
+}
+
+.perfil-opcion {
+  transition: 0.3s;
+}
+
+.perfil-opcion:hover {
+  background: #f4e6dd;
+  color: #8b5e3c;
+}
+
+/* Botón logout */
+.perfil-logout {
+  width: 100%;
+  background: none;
   border: none;
-  border-radius: 100px;
-  cursor: pointer;
-  font-weight: bold;
-  width: 80%; /* Asegura que el botón se vea bien centrado */
+  padding: 8px 15px;
+  text-align: left;
+  color: #b44e4e;
+  font-weight: 600;
+  transition: 0.3s;
 }
-.btn-logout:hover {
-  background-color: #c4a48c; /* Un pequeño efecto hover para UX */
+
+.perfil-logout:hover {
+  background: #feeaea;
+  color: #912f2f;
 }
+
+/* ===================== */
+/* ICONOS INFERIORES     */
+/* ===================== */
+
+.row-cols-5 .col a i {
+  font-size: 1.5rem;
+  transition: transform 0.3s, color 0.3s;
+  color: #8b5e3c;
+}
+
+.row-cols-5 .col a:hover i {
+  transform: translateY(-4px) scale(1.12);
+  color: #b7855e;
+}
+
+.row-cols-5 .col span {
+  margin-top: 3px;
+  color: #6d4c33;
+  font-weight: 500;
+  animation: fadeIn 1s ease;
+}
+
+/* ===================== */
+/* ANIMACIONES KEYFRAMES */
+/* ===================== */
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes dropdownSlide {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ========= Reveal utilities ========= */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 600ms cubic-bezier(.22,.9,.32,1), transform 600ms cubic-bezier(.22,.9,.32,1);
+  will-change: opacity, transform;
+  /* para que no ocupe foco visual antes de entrar */
+  pointer-events: none;
+}
+
+/* Cuando está visible */
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Direcciones */
+.reveal.from-left { transform: translateX(-30px); }
+.reveal.from-left.in-view { transform: translateX(0); }
+
+.reveal.from-right { transform: translateX(30px); }
+.reveal.from-right.in-view { transform: translateX(0); }
+
+.reveal.from-bottom { transform: translateY(30px); }
+.reveal.from-bottom.in-view { transform: translateY(0); }
+
+.reveal.zoom { transform: scale(.95) translateY(10px); }
+.reveal.zoom.in-view { transform: scale(1) translateY(0); }
+
+/* Opcional: estado inicial más sutil para elementos ya en top */
+.reveal.immediate { transition-duration: 420ms; }
+
+/* Stagger helper: los hijos directos con .stagger-item tendrán delay */
+.stagger-container .stagger-item {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 520ms cubic-bezier(.22,.9,.32,1), transform 520ms cubic-bezier(.22,.9,.32,1);
+  pointer-events: none;
+}
+.stagger-container.in-view .stagger-item {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Si quieres un borde/halo al aparecer (bonito) */
+.reveal-glow.in-view {
+  box-shadow: 0 8px 28px rgba(139,94,60,0.08);
+  transition: box-shadow 400ms ease;
+}
+
 
 </style>
 
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  const revealOptions = {
+    root: null,
+    rootMargin: "0px 0px -8% 0px", // aparece un poco antes de entrar totalmente
+    threshold: 0.12
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const el = entry.target;
+
+      if (entry.isIntersecting) {
+        // Si es contenedor con stagger:
+        if (el.classList.contains('stagger-container')) {
+          el.classList.add('in-view');
+          // aplicar delays individuales si se necesita (mejor para performance)
+          const items = Array.from(el.querySelectorAll('.stagger-item'));
+          items.forEach((it, idx) => {
+            it.style.transitionDelay = (idx * 80) + 'ms';
+            it.classList.add('in-view');
+          });
+        } else {
+          // Si el elemento tiene data-delay explícito:
+          const delayAttr = el.getAttribute('data-delay');
+          if (delayAttr) {
+            el.style.transitionDelay = delayAttr;
+          }
+          el.classList.add('in-view');
+        }
+
+        // Si quieres que se anime solo la primera vez:
+        observer.unobserve(el);
+      }
+    });
+  }, revealOptions);
+
+  // Observa elementos .reveal
+  document.querySelectorAll('.reveal, .stagger-container').forEach(node => observer.observe(node));
+
+});
+</script>
