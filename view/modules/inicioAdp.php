@@ -18,8 +18,6 @@ $historias = array_slice($historias, 0, 3); // 👈 Cambia 3 por el número que 
 ?>
 
 
-
-
 <style>
 
   .about-container {
@@ -149,7 +147,6 @@ $historias = array_slice($historias, 0, 3); // 👈 Cambia 3 por el número que 
   .gallery img:hover {
     transform: scale(1.05);
   }
-
 
 
   /* Sección de historias */
