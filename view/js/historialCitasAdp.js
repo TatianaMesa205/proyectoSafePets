@@ -86,16 +86,20 @@ function cargarCitas(idAdoptante) {
                             <i class="fa-solid fa-ban"></i> Cancelada
                         </span>`;
                 } else if (estado === "finalizada") {
-                    // --- NUEVO ESTADO FINALIZADA ---
                     estadoHTML = `<span class="estado-finalizada">
                             <i class="fa-solid fa-house-chimney-user"></i> Finalizada
+                        </span>`;
+                } else if (estado === "completada") { 
+                    // ✅ CORRECCIÓN AGREGADA AQUÍ
+                    estadoHTML = `<span class="estado-finalizada">
+                            <i class="fa-solid fa-check-double"></i> Completada
                         </span>`;
                 } else if (estado === "confirmada") {
                     estadoHTML = `<span class="estado-activa">
                             <i class="fa-solid fa-check"></i> Confirmada
                         </span>`;
                 } else {
-                    // PENDIENTE
+                    // PENDIENTE (Default)
                     estadoHTML = `<span class="estado-pendiente">
                             <i class="fa-solid fa-hourglass-half"></i> Pendiente
                         </span>`;
@@ -122,9 +126,7 @@ function cargarCitas(idAdoptante) {
 
                             ${estadoHTML}
 
-                            ${botonCancelar} <!-- BOTÓN FLOTANTE -->
-
-                            <h5>${cita.mascota}</h5>
+                            ${botonCancelar} <h5>${cita.mascota}</h5>
 
                             <p><strong>Fecha cita:</strong> ${cita.fecha_cita}</p>
 

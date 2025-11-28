@@ -15,7 +15,7 @@ class Correo {
             $mail->Host       = 'smtp.gmail.com';
             $mail->SMTPAuth   = true;
             $mail->Username   = 'carlosfernandosolergarzon@gmail.com'; 
-            $mail->Password   = 'uvnqknfkpxfabhgm'; // <--- CORREGIDO: SIN ESPACIOS
+            $mail->Password   = 'uvnqknfkpxfabhgm'; 
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port       = 587;
             $mail->CharSet    = 'UTF-8';

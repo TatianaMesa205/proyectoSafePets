@@ -47,7 +47,7 @@
             <option value="">Seleccione...</option>
             <option value="Pendiente">Pendiente</option>
             <option value="Confirmada">Confirmada</option>
-            <option value="Finalizada">Finalizada</option> <option value="Cancelada">Cancelada</option>
+            <option value="Completada">Completada</option> <option value="Cancelada">Cancelada</option>
           </select>
         </div>
         <div class="col-md-12">
@@ -83,7 +83,7 @@
           <select id="select_edit_estado" class="form-select rounded-3" required>
             <option value="Pendiente">Pendiente</option>
             <option value="Confirmada">Confirmada</option>
-            <option value="Finalizada">Finalizada</option> <option value="Cancelada">Cancelada</option>
+            <option value="Completada">Completada</option> <option value="Cancelada">Cancelada</option>
           </select>
         </div>
         <div class="col-md-12">

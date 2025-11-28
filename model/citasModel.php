@@ -20,16 +20,16 @@ class CitasModel
         }
     }
 
-    // --- NUEVO MÉTODO: VALIDAR SI TIENE CITA ACTIVA ---
+    // --- VALIDAR SI TIENE CITA ACTIVA ---
     public static function mdlValidarCitaActiva($id_adoptantes) {
         try {
-            // Buscamos citas que NO estén Canceladas ni Finalizadas (es decir, Pendientes o Confirmadas)
+            // Buscamos citas que NO estén Canceladas ni Completadas (es decir, Pendientes o Confirmadas)
             $stmt = Conexion::conectar()->prepare("
                 SELECT COUNT(*) as total 
                 FROM citas 
                 WHERE id_adoptantes = :id 
                 AND estado != 'Cancelada' 
-                AND estado != 'Finalizada'
+                AND estado != 'Completada'
             ");
             $stmt->bindParam(":id", $id_adoptantes, PDO::PARAM_INT);
             $stmt->execute();
@@ -111,7 +111,6 @@ class CitasModel
         }
     }
     
-
     public static function mdlAdmins() {
         $sql = Conexion::conectar()->prepare("
             SELECT nombre_usuario, email 
@@ -121,7 +120,6 @@ class CitasModel
         $sql->execute();
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
-
 
     public static function mdlInfoCita($id_citas){
         $sql = Conexion::conectar()->prepare("
@@ -134,7 +132,6 @@ class CitasModel
         $sql->execute();
         return $sql->fetch(PDO::FETCH_ASSOC);
     }
-
 
     public static function mdlCancelarCita($id_citas){
         $query = Conexion::conectar()->prepare("
@@ -164,7 +161,6 @@ class CitasModel
     }
 
     static public function mdlBuscarCitaActiva($id_adoptantes) {
-
         $sql = "SELECT * FROM citas 
                 WHERE id_adoptantes = :id 
                 AND (estado = 'Pendiente' OR estado = 'Confirmada')
@@ -177,8 +173,5 @@ class CitasModel
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-
-
-
 }
 ?>

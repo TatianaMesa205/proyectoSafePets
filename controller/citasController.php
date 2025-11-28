@@ -45,7 +45,7 @@ class CitasController
         }
 
         // --- VALIDACIÓN DE CITA ÚNICA ---
-        // Verificar si el adoptante ya tiene una cita activa (Ni Cancelada, Ni Finalizada)
+        // Verificar si el adoptante ya tiene una cita activa (Ni Cancelada, Ni Completada)
         $validacion = CitasModel::mdlValidarCitaActiva($this->id_adoptantes);
 
         if ($validacion["total"] > 0) {
@@ -53,7 +53,7 @@ class CitasController
             header('Content-Type: application/json');
             echo json_encode([
                 "codigo" => "409", // Código de conflicto
-                "mensaje" => "Ya tienes una solicitud de cita en proceso. Debes esperar a que sea 'Finalizada' o 'Cancelada' para agendar otra."
+                "mensaje" => "Ya tienes una solicitud de cita en proceso. Debes esperar a que sea 'Completada' o 'Cancelada' para agendar otra."
             ]);
             die();
         }

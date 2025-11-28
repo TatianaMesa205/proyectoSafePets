@@ -31,8 +31,8 @@ class Citas {
                         case "Confirmada":
                             estadoBadge = '<span class="badge bg-primary">Confirmada</span>';
                             break;
-                        case "Finalizada":
-                            estadoBadge = '<span class="badge bg-success">Finalizada</span>';
+                        case "Completada":
+                            estadoBadge = '<span class="badge bg-success">Completada</span>';
                             break;
                         case "Cancelada":
                             estadoBadge = '<span class="badge bg-danger">Cancelada</span>';
@@ -60,7 +60,7 @@ class Citas {
                         item.nombre_mascota,
                         item.nombre_adoptante,
                         item.fecha_cita,
-                        estadoBadge, // <--- AQUÍ PONEMOS LA VARIABLE CON EL BADGE
+                        estadoBadge,
                         item.motivo,
                         objBotones
                     ]);
@@ -77,8 +77,6 @@ class Citas {
             }
         })
     }
-
-
 
     eliminarCita(){
         let objData = new FormData();
@@ -114,14 +112,12 @@ class Citas {
     }
 
     registrarCita(){
-
         console.log(this._objData.registrarCita);
 
         let objDataCita = new FormData();
         objDataCita.append("registrarCita",this._objData.registrarCita);
         objDataCita.append("id_adoptantes",this._objData.id_adoptantes);
         objDataCita.append("id_mascotas",this._objData.id_mascotas);
-        // Convertir formato datetime-local a formato MySQL
         let fechaCitaInput = this._objData.fecha_cita;
         let fechaFormateada = fechaCitaInput.replace("T", " ") + ":00";
         objDataCita.append("fecha_cita", fechaFormateada);
@@ -137,7 +133,6 @@ class Citas {
             console.log(error);
         })
         .then(response =>{
-
             if(response["codigo"] == "200"){
                 let formulario = document.getElementById('formRegistroCitas');
                 formulario.reset();
@@ -158,14 +153,11 @@ class Citas {
                         no-repeat
                     `,timer: 1600
                     });
-
-
             }else{
                 Swal.fire(response["mensaje"]);
             }
         })
     }
-
 
     editarCita(){
         let objDataCita = new FormData();
@@ -234,9 +226,6 @@ class Citas {
         });
     }
 
-
-
-
     cargarSelects() {
         this.cargarMascotas();
         this.cargarAdoptantes();
@@ -286,7 +275,6 @@ class Citas {
         .catch(error => console.log(error));
     }
 
-
     cargarSelectsEditar(id_adoptanteSel, id_mascotaSel) {
 
     let objDataMascotas = new FormData();
@@ -328,5 +316,4 @@ class Citas {
         }
         });
     }
-
 }
