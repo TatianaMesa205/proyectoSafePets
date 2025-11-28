@@ -1,108 +1,117 @@
-$(document).ready(function() {
-    // Cargar citas al entrar a la sección o al cargar la página si ya es visible
-    listarCitasAdoptante();
-});
+<?php
+include_once "model/mascotasModel.php";
 
-function listarCitasAdoptante() {
-    var id_adoptante = $("#id_adoptante_sesion").val();
+$respuesta = MascotasModel::mdlListarMascotas();
+$listaMascotas = $respuesta["listaMascotas"];
+?>
 
-    // Si no hay ID de sesión, detenemos
-    if(!id_adoptante) return;
 
-    var datos = new FormData();
-    datos.append("listarCitasAdoptante", "ok");
-    datos.append("id_adoptantes", id_adoptante);
 
-    $.ajax({
-        url: "controller/citasController.php",
-        method: "POST",
-        data: datos,
-        contentType: false,
-        cache: false,
-        processData: false,
-        dataType: "json",
-        success: function(respuesta) {
-            
-            $("#listaCitasAdoptante").empty();
+<div class="titulo-seccion">
+    🐾 Historias de Adopción
+</div>
 
-            if (respuesta.codigo == "200") {
-                
-                if (respuesta.listaCitas.length == 0) {
-                    $("#listaCitasAdoptante").html('<div class="alert alert-light text-center">No tienes citas registradas aún.</div>');
-                    return;
-                }
+<div class="adop-grid">
 
-                respuesta.listaCitas.forEach(function(cita) {
-                    
-                    let estadoClass = "";
-                    let icono = "";
+    <?php foreach ($listaMascotas as $mascota) { 
+        if ($mascota["estado"] != "Adoptado") continue;
+    ?>
 
-                    // --- VALIDACIÓN DEL ESTADO PARA ASIGNAR CLASE ---
-                    switch(cita.estado) {
-                        case "Pendiente":
-                            estadoClass = "estado-pendiente"; 
-                            icono = '<i class="fa-solid fa-hourglass-half"></i>';
-                            break;
-                        case "Confirmada":
-                            estadoClass = "estado-activa"; // Usamos 'activa' o 'confirmada' según tu CSS
-                            icono = '<i class="fa-solid fa-check-circle"></i>';
-                            break;
-                        case "Completada": // <--- AQUÍ EL CAMBIO IMPORTANTE
-                            estadoClass = "estado-completada";
-                            icono = '<i class="fa-solid fa-flag-checkered"></i>';
-                            break;
-                        case "Finalizada": // Mantenemos compatibilidad por si acaso queda alguna en BD
-                            estadoClass = "estado-completada";
-                            icono = '<i class="fa-solid fa-flag-checkered"></i>';
-                            break;
-                        case "Cancelada":
-                            estadoClass = "estado-cancelada";
-                            icono = '<i class="fa-solid fa-ban"></i>';
-                            break;
-                        default:
-                            estadoClass = "badge bg-secondary";
-                            icono = '<i class="fa-solid fa-info-circle"></i>';
-                    }
+        <div class="tarjeta-adopcion">
 
-                    // Renderizado de la tarjeta
-                    let card = `
-                        <div class="card mb-3 shadow-sm border-0 rounded-4 cita-card">
-                            <div class="card-body d-flex align-items-center gap-3 flex-wrap">
-                                
-                                <div class="flex-shrink-0">
-                                    <img src="${cita.imagen ? 'uploads/mascotas/'+cita.imagen : 'view/img/default-pet.png'}" 
-                                         class="rounded-circle object-fit-cover" 
-                                         style="width: 70px; height: 70px; border: 3px solid #f0e4d8;">
-                                </div>
-                                
-                                <div class="flex-grow-1">
-                                    <h6 class="mb-1 text-dark fw-bold" style="font-size: 1.1rem;">${cita.mascota}</h6>
-                                    <p class="mb-1 text-muted small">
-                                        <i class="fa-regular fa-calendar me-1"></i> ${cita.fecha_cita}
-                                    </p>
-                                    <p class="mb-0 text-muted small fst-italic text-truncate" style="max-width: 250px;">
-                                        "${cita.motivo}"
-                                    </p>
-                                </div>
+            <h3 class="nombre-mascota"><?php echo $mascota["nombre"]; ?></h3>
 
-                                <div class="text-end ms-auto">
-                                    <span class="${estadoClass}">
-                                        ${icono} ${cita.estado}
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
+            <div class="info-mascota">
+                <p><b>Especie:</b> <?= $mascota["especie"] ?></p>
+                <p><b>Raza:</b> <?= $mascota["raza"] ?></p>
+                <p><b>Edad:</b> <?= $mascota["edad"] ?> años</p>
+            </div>
 
-                    $("#listaCitasAdoptante").append(card);
-                });
+            <div class="foto-mascota">
+                <img src="../../../CarpetaCompartida/Mascotas/<?= $mascota['imagen'] ?>" alt="Foto de mascota">
+            </div>
 
-            } else {
-                 $("#listaCitasAdoptante").html('<p class="text-center text-danger">Error al cargar las citas.</p>');
-            }
-        },
-        error: function(err) {
-            console.error("Error AJAX:", err);
-        }
-    });
+
+            <p class="historia-mascota">
+                <?= $mascota["descripcion"] ?>
+            </p>
+
+        </div>
+
+    <?php } ?>
+
+</div> <br>
+
+
+<style>
+
+/* Título centrado arriba */
+.titulo-seccion {
+    text-align: center;
+    font-size: 32px;
+    color: #6b4f3a;
+    margin-bottom: 30px;
+    font-family: 'Poppins', sans-serif;
 }
+
+/* Grid correctamente centrado */
+.adop-grid {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    padding: 15px;
+    justify-content: center;
+}
+
+.adop-grid > *:nth-child(odd):last-child {
+    grid-column: 1 / -1;     /* La tarjeta ocupa toda la fila */
+    justify-self: center;    /* Se centra */
+    max-width: 480px;        /* Para que no se estire */
+}
+
+
+
+/* Tarjeta */
+.tarjeta-adopcion {
+    background: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Nombre */
+.nombre-mascota {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    color: #8b5e3c;
+    margin-bottom: 20px;
+}
+
+/* Info */
+.info-mascota { display: flex; gap: 30px; font-size: 15px; color: #5c4b43; margin-bottom: 10px; justify-content: center; }
+
+.info-mascota b {
+    color: #6b3e2e;
+}
+
+/* Imagen */
+.foto-mascota img {
+    width: 100%;
+    height: 200px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+/* Historia */
+.historia-mascota {
+    font-size: 14px;
+    color: #4a3b32;
+    text-align: center;
+}
+
+</style>
