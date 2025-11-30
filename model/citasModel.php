@@ -20,10 +20,11 @@ class CitasModel
         }
     }
 
-    // --- VALIDAR SI TIENE CITA ACTIVA ---
+    // --- ESTA ES LA VALIDACIÓN QUE CAMBIAMOS ---
     public static function mdlValidarCitaActiva($id_adoptantes) {
         try {
-            // Buscamos citas que NO estén Canceladas ni Completadas (es decir, Pendientes o Confirmadas)
+            // Buscamos citas que NO sean 'Cancelada' Y que NO sean 'Completada'.
+            // Esto contará cualquier cita 'Pendiente' o 'Confirmada'.
             $stmt = Conexion::conectar()->prepare("
                 SELECT COUNT(*) as total 
                 FROM citas 
@@ -160,6 +161,7 @@ class CitasModel
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // HE MANTENIDO ESTA FUNCIÓN ORIGINAL SIN CAMBIOS
     static public function mdlBuscarCitaActiva($id_adoptantes) {
         $sql = "SELECT * FROM citas 
                 WHERE id_adoptantes = :id 

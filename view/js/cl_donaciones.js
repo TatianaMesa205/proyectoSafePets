@@ -57,9 +57,6 @@ class Donaciones {
         });
     }
 
-    // --- 3. FUNCIONES ORIGINALES (También las necesitamos) ---
-    // (Estas son las funciones que estaban en tu archivo original)
-    // (Las restauramos para que no se rompa el panel de Admin)
 
     listarDonaciones(){
         let objData = new FormData();

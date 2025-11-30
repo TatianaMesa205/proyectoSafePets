@@ -80,11 +80,6 @@
             box-shadow: 0 7px 14px rgba(0,0,0,0.15), 0 3px 6px rgba(0,0,0,0.1);
         }
 
-        .btn-primary:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
         .btn-secondary {
             background: linear-gradient(to right, #8d8d8d, #6c6c6c);
             border: none;
@@ -97,136 +92,98 @@
             color: #fff;
         }
 
-        .btn-secondary:hover:not(:disabled) {
-            background: linear-gradient(to right, #6c6c6c, #8d8d8d);
-            transform: translateY(-2px);
-        }
-
-        .card-body {
-            padding: 40px;
-        }
-
-        .form-label {
-            font-weight: 600;
-            color: #5c4b3b;
-            margin-bottom: 10px;
-        }
-
-        .text-muted {
-            font-size: 0.9rem;
-            color: #7a6f67 !important;
-        }
-
-        .invalid-feedback {
-            font-size: 0.85rem;
-        }
-
-        .card-header h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            color: #fff;
-        }
-
-        .opacity-75 {
-            font-size: 1.1rem;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
-            color: #fff !important;
-        }
-
-        .password-strength {
-            font-size: 0.8rem;
-            margin-top: 5px;
-        }
-
+        .card-body { padding: 40px; }
+        .form-label { font-weight: 600; color: #5c4b3b; margin-bottom: 10px; }
+        .text-muted { font-size: 0.9rem; color: #7a6f67 !important; }
+        .invalid-feedback { font-size: 0.85rem; }
+        .card-header h2 { font-size: 2rem; font-weight: 700; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); color: #fff; }
+        .opacity-75 { font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.1); color: #fff !important; }
+        .password-strength { font-size: 0.8rem; margin-top: 5px; }
         .strength-weak { color: #dc3545; }
         .strength-medium { color: #ffc107; }
         .strength-strong { color: #28a745; }
+        
+        /* Estilo para los separadores */
+        .section-divider {
+            border-top: 2px dashed #d6baa5;
+            margin: 30px 0;
+            position: relative;
+        }
+        .section-title {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.97);
+            padding: 0 15px;
+            color: #8b5e3c;
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="container py-4">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
+            <div class="col-md-8"> <div class="card">
                     <div class="card-header text-white text-center py-4">
                         <h2 class="mb-0">
                             <i class="fas fa-paw me-2"></i>Registro - Safe Pets
                         </h2>
-                        <p class="mb-0 mt-2 opacity-75">Únete a nuestra familia</p>
+                        <p class="mb-0 mt-2 opacity-75">Crea tu cuenta y perfil de adoptante</p>
                     </div>
                     <div class="card-body">
                         <form method="post" id="formRegistro" class="needs-validation" novalidate>
+                            
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="nombre_usuario" class="form-label">
-                                        <i class="fas fa-user me-2"></i>Nombre de Usuario
-                                    </label>
-                                    <input type="text" 
-                                           class="form-control" 
-                                           id="nombre_usuario" 
-                                           name="nombre_usuario" 
-                                           placeholder="Usuario"
-                                           required
-                                           maxlength="50"
-                                           pattern="[a-zA-Z0-9_]{3,50}"
-                                           title="Solo letras, números y guiones bajos. Mínimo 3 caracteres.">
-                                    <div class="invalid-feedback">
-                                        Por favor ingrese un nombre de usuario válido (3-50 caracteres, solo letras, números y _).
-                                    </div>
+                                    <label for="nombre_usuario" class="form-label"><i class="fas fa-user me-2"></i>Usuario</label>
+                                    <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" placeholder="Ej: usuario123" required pattern="[a-zA-Z0-9_]{3,50}">
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="email" class="form-label">
-                                        <i class="fas fa-envelope me-2"></i>Email
-                                    </label>
-                                    <input type="email" 
-                                           class="form-control" 
-                                           id="email" 
-                                           name="email" 
-                                           placeholder="correo@ejemplo.com"
-                                           required
-                                           maxlength="100">
-                                    <div class="invalid-feedback">
-                                        Por favor ingrese un email válido.
-                                    </div>
+                                    <label for="email" class="form-label"><i class="fas fa-envelope me-2"></i>Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="correo@ejemplo.com" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="contrasena" class="form-label">
-                                        <i class="fas fa-lock me-2"></i>Contraseña
-                                    </label>
-                                    <input type="password" 
-                                           class="form-control" 
-                                           id="contrasena" 
-                                           name="contrasena" 
-                                           placeholder="Contraseña"
-                                           required
-                                           minlength="6">
+                                    <label for="contrasena" class="form-label"><i class="fas fa-lock me-2"></i>Contraseña</label>
+                                    <input type="password" class="form-control" id="contrasena" name="contrasena" placeholder="Contraseña" required minlength="6">
                                     <div class="password-strength" id="password-strength"></div>
-                                    <div class="invalid-feedback">
-                                        Por favor ingrese una contraseña de al menos 6 caracteres.
-                                    </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
-                                    <label for="confirmar_contrasena" class="form-label">
-                                        <i class="fas fa-lock me-2"></i>Confirmar Contraseña
-                                    </label>
-                                    <input type="password" 
-                                           class="form-control" 
-                                           id="confirmar_contrasena" 
-                                           name="confirmar_contrasena" 
-                                           placeholder="Confirmar contraseña"
-                                           required
-                                           minlength="6">
-                                    <div class="invalid-feedback">
-                                        Por favor confirme su contraseña.
-                                    </div>
+                                    <label for="confirmar_contrasena" class="form-label"><i class="fas fa-lock me-2"></i>Confirmar</label>
+                                    <input type="password" class="form-control" id="confirmar_contrasena" name="confirmar_contrasena" placeholder="Repetir contraseña" required>
                                 </div>
                             </div>
-                            <div class="d-grid gap-2 mb-4">
+
+                            <div class="section-divider">
+                                <span class="section-title">Datos Personales</span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="nombre_completo" class="form-label"><i class="fas fa-id-card me-2"></i>Nombre Completo</label>
+                                <input type="text" class="form-control" id="nombre_completo" name="nombre_completo" placeholder="Tu nombre real completo" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="cedula" class="form-label"><i class="fas fa-address-card me-2"></i>Cédula</label>
+                                    <input type="number" class="form-control" id="cedula" name="cedula" placeholder="Número de documento" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="telefono" class="form-label"><i class="fas fa-phone me-2"></i>Teléfono</label>
+                                    <input type="number" class="form-control" id="telefono" name="telefono" placeholder="Número de contacto" required>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label for="direccion" class="form-label"><i class="fas fa-map-marker-alt me-2"></i>Dirección</label>
+                                <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ciudad y dirección de residencia" required>
+                            </div>
+
+                            <div class="d-grid gap-2 mb-3">
                                 <button type="submit" class="btn btn-primary btn-lg">
-                                    <i class="fas fa-user-plus me-2"></i>Registrarse
+                                    <i class="fas fa-check-circle me-2"></i>Completar Registro
                                 </button>
                             </div>
                             <div class="d-grid gap-2 mb-4">
@@ -235,15 +192,7 @@
                                 </a>
                             </div>
                             <div class="text-center">
-                                <p class="text-muted mb-2">
-                                    <small>
-                                        <i class="fas fa-heart me-1"></i>
-                                        Safe Pets v1.0.0 - 2025 &copy;
-                                    </small>
-                                </p>
-                                <p class="text-muted mb-0">
-                                    <small>Al registrarte, aceptas nuestros términos y condiciones.</small>
-                                </p>
+                                <a href="index.php" class="text-muted text-decoration-none"><small>Volver al Inicio sin registrarse</small></a>
                             </div>
                         </form>
                     </div>
@@ -252,22 +201,18 @@
         </div>
     </div>
 
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="view/js/login.js"></script>
     
     <script>
-        // Password strength indicator
+        // Tu script original de validación de contraseña
         document.getElementById('contrasena').addEventListener('input', function() {
             const password = this.value;
             const strengthDiv = document.getElementById('password-strength');
             
-            if (password.length === 0) {
-                strengthDiv.textContent = '';
-                return;
-            }
+            if (password.length === 0) { strengthDiv.textContent = ''; return; }
             
             let strength = 0;
             if (password.length >= 6) strength++;
@@ -277,23 +222,17 @@
             if (password.match(/[^a-zA-Z0-9]/)) strength++;
             
             if (strength < 2) {
-                strengthDiv.textContent = 'Contraseña débil';
-                strengthDiv.className = 'password-strength strength-weak';
+                strengthDiv.textContent = 'Contraseña débil'; strengthDiv.className = 'password-strength strength-weak';
             } else if (strength < 4) {
-                strengthDiv.textContent = 'Contraseña media';
-                strengthDiv.className = 'password-strength strength-medium';
+                strengthDiv.textContent = 'Contraseña media'; strengthDiv.className = 'password-strength strength-medium';
             } else {
-                strengthDiv.textContent = 'Contraseña fuerte';
-                strengthDiv.className = 'password-strength strength-strong';
+                strengthDiv.textContent = 'Contraseña fuerte'; strengthDiv.className = 'password-strength strength-strong';
             }
         });
 
-        
         document.getElementById('confirmar_contrasena').addEventListener('input', function() {
             const password = document.getElementById('contrasena').value;
-            const confirmPassword = this.value;
-            
-            if (confirmPassword && password !== confirmPassword) {
+            if (this.value && password !== this.value) {
                 this.setCustomValidity('Las contraseñas no coinciden');
             } else {
                 this.setCustomValidity('');

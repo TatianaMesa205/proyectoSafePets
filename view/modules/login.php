@@ -194,12 +194,7 @@
                                 </p>
                                 <p class="text-muted mb-0">
                                     ¿No estás registrado? <a href="index.php?ruta=registro" class="text-primary">Crear cuenta</a>
-                                </p>
-                                <p class="text-muted mb-0 mt-2">
-
-                                    <a href="index.php?ruta=preview" class="text-secondary">Ver página pública</a>
-
-                                </p>
+                
                             </div>
                         </form>
                     </div>

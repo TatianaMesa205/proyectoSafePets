@@ -32,10 +32,8 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
             <li class="menu-item">
                 <i class="fa-solid fa-calendar"></i> Historial de Citas
             </li>
-            
         </ul>
     </aside>
-
 
     <div class="content-area">
 
@@ -57,7 +55,6 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
                         <span class="input-group-text icon-box">
                             <i class="fa-solid fa-user"></i>
                         </span>
-
                         <input type="text"
                             class="form-control input-field"
                             id="nombre_usuario"
@@ -152,6 +149,7 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
                         </div>
                     </div>
                 <?php endif; ?>
+                
                 <div class="d-grid mt-4">
                     <button type="submit" class="btn btn-save-lg form-btn">Guardar Cambios</button>
                 </div>
@@ -163,16 +161,7 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
             <h3 class="mb-4 text-center" style="color:#8b5e3c; font-weight:700;">
                 <i class="fa-solid fa-calendar-check me-2"></i>Historial de Citas
             </h3>
-                <div id="listaCitasAdoptante" class="contenedor-citas"></div>
-
-
-        </div>
-
-        <div id="seccionPublicaciones" class="seccion oculto">
-            <h3 class="mb-4" style="color:#8b5e3c; font-weight:700;">
-                <i class="fa-solid fa-file-lines me-2"></i>Publicaciones Realizadas
-            </h3>
-            <p class="text-muted">Aquí aparecerán las publicaciones hechas por el usuario.</p>
+            <div id="listaCitasAdoptante" class="contenedor-citas"></div>
         </div>
 
         <div id="seccionAdopciones" class="seccion oculto">
@@ -182,8 +171,7 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
             <p class="text-muted">Aquí se mostrarán las adopciones asociadas al usuario.</p>
         </div>
 
-    </div> </div> <?php include("pie.php"); ?> 
-
+    </div> </div> </body>
 
 <style>
 /* LAYOUT GENERAL */
@@ -354,28 +342,26 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
 document.addEventListener("DOMContentLoaded", function () {
     const menuItems = document.querySelectorAll(".menu-item");
     const secciones = {
-        "Mi Perfil": "content-area", 
+        "Mi Perfil": "content-area", // Ojo: en tu JS original usabas esto para mostrar el form-wrapper
         "Historial de Citas": "seccionCitas",
-        "Publicaciones Realizadas": "seccionPublicaciones",
-        "Mis Adopciones": "seccionAdopciones"
     };
 
     menuItems.forEach(item => {
         item.addEventListener("click", function () {
             menuItems.forEach(btn => btn.classList.remove("active"));
             this.classList.add("active");
+            
+            // Ocultar todas las secciones primero
             document.querySelectorAll(".seccion").forEach(sec => sec.classList.add("oculto"));
+            document.querySelector(".form-wrapper").style.display = "none"; // Ocultar perfil por defecto
 
             let texto = this.innerText.trim();
+            
+            // Lógica específica
             if (texto === "Mi Perfil") {
                 document.querySelector(".form-wrapper").style.display = "block";
-            } else {
-                document.querySelector(".form-wrapper").style.display = "none";
-            }
-
-            const idSeccion = secciones[texto];
-            if (idSeccion !== "content-area") {
-                document.getElementById(idSeccion).classList.remove("oculto");
+            } else if (texto === "Historial de Citas") {
+                document.getElementById("seccionCitas").classList.remove("oculto");
             }
         });
     });
@@ -383,4 +369,4 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <script src="view/js/historialCitasAdp.js"></script>
-<script src="view/js/perfil.js"></script> </body>
+<script src="view/js/perfil.js"></script>

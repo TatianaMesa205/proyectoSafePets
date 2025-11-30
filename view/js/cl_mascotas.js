@@ -31,8 +31,7 @@ class Mascotas {
                     objBotones += '<button id="btn-eliminarMascota" type="button" style="background-color:rgba(112, 110, 120, 1); color:white" class="btn" mascota="'+item.id_mascotas+'"><i class="bi bi-trash"></i></button>';
                     objBotones += '</div>';
 
-                    // --- CORRECCIÓN DE IMAGEN ---
-                    // Definimos la ruta base donde están las imágenes físicas
+                    
                     let rutaBase = "../CarpetaCompartida/Mascotas/";
                     let imgHtml = "";
 

@@ -1,6 +1,5 @@
 <?php
 
-// Asegurar ruta correcta al modelo y mostrar error claro si no existe
 $modelPath = __DIR__ . '/../model/adoptantesModel.php';
 if (!file_exists($modelPath)) {
     throw new Exception("Modelo adoptantesModel.php no encontrado en: $modelPath");

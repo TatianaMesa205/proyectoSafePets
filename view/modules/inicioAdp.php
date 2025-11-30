@@ -487,42 +487,7 @@ $historias = array_slice($historias, 0, 3); // 👈 Cambia 3 por el número que 
 
 
 
-<!-- ACCIONES RÁPIDAS -->
-<section class="acciones-rapidas container text-center my-5">
-  <h2 class="mb-4 reveal">Acciones rápidas</h2>
 
-  <div class="row row-cols-2 row-cols-md-4 g-4 justify-content-center">
-
-    <div class="col reveal zoom">
-      <a href="adoptaAdp" class="quick-btn shadow-sm p-4 d-block rounded-4">
-        <i class="fa-solid fa-paw fs-1 mb-2"></i>
-        <h6 class="mt-2 fw-bold">Adoptar</h6>
-      </a>
-    </div>
-
-    <div class="col reveal zoom">
-      <a href="citasAdp" class="quick-btn shadow-sm p-4 d-block rounded-4">
-        <i class="fa-solid fa-calendar-check fs-1 mb-2"></i>
-        <h6 class="mt-2 fw-bold">Citas</h6>
-      </a>
-    </div>
-
-    <div class="col reveal zoom">
-      <a href="perfilAdp" class="quick-btn shadow-sm p-4 d-block rounded-4">
-        <i class="fa-solid fa-user fs-1 mb-2"></i>
-        <h6 class="mt-2 fw-bold">Mi Perfil</h6>
-      </a>
-    </div>
-
-    <div class="col reveal zoom">
-      <a href="contacto" class="quick-btn shadow-sm p-4 d-block rounded-4">
-        <i class="fa-solid fa-envelope fs-1 mb-2"></i>
-        <h6 class="mt-2 fw-bold">Contacto</h6>
-      </a>
-    </div>
-
-  </div>
-</section>
 
 
 <!-- CHAT FLOTANTE -->

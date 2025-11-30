@@ -3,6 +3,9 @@ require_once "conexion.php";
 
 class LoginModelo {
 
+    /* ==============================================
+       LOGIN DE USUARIO
+    ============================================== */
     public static function mdlLogin($usuario, $password) {
         try {
             $conexion = Conexion::conectar();
@@ -40,6 +43,79 @@ class LoginModelo {
         }
     }
 
+    /* ==============================================
+       REGISTRO UNIFICADO (USUARIO + ADOPTANTE)
+       Usa transacciones para asegurar integridad
+    ============================================== */
+    public static function mdlRegistrarUsuarioYAdoptante($datos) {
+        $con = Conexion::conectar();
+        
+        try {
+            // Iniciar transacción (Todo o nada)
+            $con->beginTransaction();
+
+            // 1. VERIFICAR SI EL USUARIO O EMAIL YA EXISTEN EN USUARIOS
+            $check = $con->prepare("SELECT id_usuarios FROM usuarios WHERE email = :email OR nombre_usuario = :nombre");
+            $check->bindParam(":email", $datos['email']);
+            $check->bindParam(":nombre", $datos['usuario']);
+            $check->execute();
+            
+            if ($check->rowCount() > 0) {
+                $con->rollBack();
+                return ["codigo" => "409", "mensaje" => "El usuario o email ya están registrados."];
+            }
+
+            // 2. VERIFICAR SI LA CÉDULA YA EXISTE EN ADOPTANTES
+            $check2 = $con->prepare("SELECT id_adoptantes FROM adoptantes WHERE cedula = :ced");
+            $check2->bindParam(":ced", $datos['cedula']);
+            $check2->execute();
+
+            if ($check2->rowCount() > 0) {
+                $con->rollBack();
+                return ["codigo" => "409", "mensaje" => "La cédula ya está registrada."];
+            }
+
+            // 3. INSERTAR EN LA TABLA USUARIOS
+            $hash = password_hash($datos['password'], PASSWORD_DEFAULT);
+            $rol = 2; // Rol 2 = Adoptante
+
+            $stmtUser = $con->prepare("INSERT INTO usuarios (nombre_usuario, email, password, id_roles) VALUES (:n, :e, :p, :r)");
+            $stmtUser->bindParam(":n", $datos['usuario']);
+            $stmtUser->bindParam(":e", $datos['email']);
+            $stmtUser->bindParam(":p", $hash);
+            $stmtUser->bindParam(":r", $rol);
+
+            if (!$stmtUser->execute()) {
+                throw new Exception("Error al crear el usuario.");
+            }
+
+            // 4. INSERTAR EN LA TABLA ADOPTANTES
+            // Nota: Se usa el email para vincular lógicamente si tu base de datos no tiene la FK 'id_usuario' en 'adoptantes'
+            $stmtAdp = $con->prepare("INSERT INTO adoptantes (nombre_completo, cedula, telefono, email, direccion) VALUES (:nc, :ced, :tel, :em, :dir)");
+            $stmtAdp->bindParam(":nc", $datos['nombre_completo']);
+            $stmtAdp->bindParam(":ced", $datos['cedula']);
+            $stmtAdp->bindParam(":tel", $datos['telefono']);
+            $stmtAdp->bindParam(":em", $datos['email']); // Se usa el mismo email
+            $stmtAdp->bindParam(":dir", $datos['direccion']);
+
+            if (!$stmtAdp->execute()) {
+                throw new Exception("Error al crear el perfil de adoptante.");
+            }
+
+            // Si todo salió bien, confirmamos los cambios
+            $con->commit();
+            return ["codigo" => "200", "mensaje" => "Registro completado exitosamente. ¡Bienvenido!"];
+
+        } catch (Exception $e) {
+            // Si algo falla, revertimos todos los cambios
+            $con->rollBack();
+            return ["codigo" => "500", "mensaje" => "Error interno: " . $e->getMessage()];
+        }
+    }
+
+    /* ==============================================
+       REGISTRO SIMPLE DE USUARIO (Legacy/Admin)
+    ============================================== */
     public static function mdlRegistrarUsuario($nombre, $email, $pass) {
         try {
             $con = Conexion::conectar();
@@ -72,6 +148,9 @@ class LoginModelo {
         }
     }
     
+    /* ==============================================
+       CREAR ADMINISTRADOR
+    ============================================== */
     public static function mdlCrearAdmin($nombre, $email, $pass) {
         try {
             $con = Conexion::conectar();
@@ -96,12 +175,14 @@ class LoginModelo {
         }
     }
 
-    // --- NUEVA FUNCIÓN PARA ACTUALIZAR PERFIL ---
+    /* ==============================================
+       ACTUALIZAR PERFIL
+    ============================================== */
     public static function mdlActualizarPerfil($id, $nombre, $password) {
         try {
             $con = Conexion::conectar();
     
-            // 1. Validar que el nuevo nombre de usuario no lo tenga OTRA persona
+            // Validar que el nuevo nombre de usuario no lo tenga OTRA persona
             $check = $con->prepare("SELECT id_usuarios FROM usuarios WHERE nombre_usuario = :nombre AND id_usuarios != :id");
             $check->bindParam(":nombre", $nombre);
             $check->bindParam(":id", $id);
@@ -111,13 +192,11 @@ class LoginModelo {
                 return ["codigo" => "409", "mensaje" => "Ese nombre de usuario ya está en uso."];
             }
     
-            // 2. Preparar la consulta
+            // Preparar la consulta
             if ($password != "") {
-                // Si hay contraseña nueva, la encriptamos y actualizamos todo
                 $hash = password_hash($password, PASSWORD_DEFAULT);
                 $sql = "UPDATE usuarios SET nombre_usuario = :nombre, password = :pass WHERE id_usuarios = :id";
             } else {
-                // Si no hay contraseña, solo actualizamos el nombre
                 $sql = "UPDATE usuarios SET nombre_usuario = :nombre WHERE id_usuarios = :id";
             }
     

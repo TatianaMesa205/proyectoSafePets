@@ -31,46 +31,7 @@ if (!$mascotaEncontrada) {
 $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
 ?>
 
-
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-<nav class="navbar navbar-expand-lg shadow-sm">
-  <div class="container">
-    <a class="navbar-brand" href="adoptaAdp">𝓢𝓪𝓯𝓮 𝓟𝓮𝓽𝓼</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto align-items-center">
-
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-            <i class="fa-solid fa-circle-user me-2" style="font-size: 25px; color: #8b5e3c;"></i>
-
-            <?php echo $_SESSION['nombre_usuario']; ?>
-          </a>
-
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
-            <li>
-              <a class="dropdown-item" href="perfilAdp">
-                <i class="fa-solid fa-user me-2"></i> Mi Perfil
-              </a>
-            </li>
-
-            <button id="btnLogout" class="btn-logout">
-              <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar sesión
-            </button>
-          </ul>
-        </li>
-
-      </ul>
-    </div> 
-  </div>
-</nav><br>
 
 <h1>🐾 Detalle de <?php echo $mascotaEncontrada["nombre"]; ?></h1>
 
@@ -138,11 +99,17 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
 <div class="botones-acciones">
     <a href="index.php?ruta=adoptaAdp" class="btn-volver">⬅ Volver</a>
     
-    <button type="button" class="btn-adopta btn-adoptame" 
-            id-mascota="<?php echo $mascotaEncontrada['id_mascotas']; ?>"
-            estado="<?php echo strtolower($mascotaEncontrada['estado']); ?>">
-        Adoptame
-    </button>
+    <?php if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") { ?>
+        <button type="button" class="btn-adopta btn-adoptame" 
+                id-mascota="<?php echo $mascotaEncontrada['id_mascotas']; ?>"
+                estado="<?php echo strtolower($mascotaEncontrada['estado']); ?>">
+            Adoptame
+        </button>
+    <?php } else { ?>
+        <a href="index.php?ruta=login" class="btn-adopta">
+            Adoptame
+        </a>
+    <?php } ?>
 
 </div>
 <br>
@@ -304,6 +271,5 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
         font-weight: bold;
     }
 </style>
-
 
 <script src="view/js/detalleMascota.js"></script>

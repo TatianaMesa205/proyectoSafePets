@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // -------------------------------------------------------------------------
-  // MANEJO DEL REGISTRO DE USUARIO (AQUÍ ESTABA EL ERROR)
+  // MANEJO DEL REGISTRO DE USUARIO (CORREGIDO)
   // -------------------------------------------------------------------------
   if (formRegistro) {
     formRegistro.addEventListener("submit", function (e) {
@@ -98,14 +98,30 @@ document.addEventListener("DOMContentLoaded", () => {
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Registrando...'
         submitBtn.disabled = true
 
+        // 1. CAPTURAR DATOS DE CUENTA
         const nombre_usuario = document.getElementById("nombre_usuario").value.trim()
         const email = document.getElementById("email").value.trim()
 
+        // 2. CAPTURAR DATOS PERSONALES (ADOPTANTE) - AGREGADO
+        // Usamos .value con validación simple por si acaso el elemento no existe (aunque debería)
+        const nombre_completo = document.querySelector('input[name="nombre_completo"]').value.trim()
+        const cedula = document.querySelector('input[name="cedula"]').value.trim()
+        const telefono = document.querySelector('input[name="telefono"]').value.trim()
+        const direccion = document.querySelector('input[name="direccion"]').value.trim()
+
         const formData = new FormData()
         formData.append("accion", "registro")
+        
+        // Agregar datos al FormData
         formData.append("nombre_usuario", nombre_usuario)
         formData.append("email", email)
         formData.append("contrasena", contrasena)
+        
+        // Agregar los campos nuevos
+        formData.append("nombre_completo", nombre_completo)
+        formData.append("cedula", cedula)
+        formData.append("telefono", telefono)
+        formData.append("direccion", direccion)
 
         fetch("controller/loginController.php", {
           method: "POST",
@@ -116,8 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
             return response.json()
           })
           .then((data) => {
-            // CORRECCIÓN: Aceptamos 200 O 201 como éxito para evitar la falsa alerta de error
-            if (data.codigo === "201" || data.codigo === "200") {
+            // Aceptamos 200 como éxito
+            if (data.codigo === "200") {
               Swal.fire({
                 icon: "success",
                 title: "¡Registro exitoso!",
@@ -128,7 +144,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 window.location.href = "index.php?ruta=login"
               })
             } else {
-              // Si el backend dice explícitamente que falló
+              // Si falla (ej: usuario duplicado)
               Swal.fire({
                 icon: "error",
                 title: "Atención",
@@ -181,7 +197,6 @@ document.addEventListener("DOMContentLoaded", () => {
           })
             .then((response) => response.json())
             .then((data) => {
-              // Aceptamos 200 como éxito
               if (data.codigo === "200") {
                 Swal.fire({
                   icon: "success",
@@ -189,87 +204,17 @@ document.addEventListener("DOMContentLoaded", () => {
                   showConfirmButton: false,
                   timer: 1000,
                 }).then(() => {
-                  window.location.href = "index.php"
+                  window.location.href = "index.php?ruta=inicioAdp" // Redirige al inicio público
                 })
               } else {
-                window.location.href = "index.php" // Forzamos salida aunque falle visualmente
+                window.location.href = "index.php?ruta=inicioAdp"
               }
             })
             .catch(() => {
-              window.location.href = "index.php" // Fallback seguro
+              window.location.href = "index.php?ruta=inicioAdp"
             })
         }
       })
     })
   }
 })
-
-// Función auxiliar para admin (mantenida igual)
-function crearAdmin() {
-  const Swal = window.Swal
-  Swal.fire({
-    title: "Crear Administrador",
-    html: `
-            <div class="mb-3">
-                <input type="text" id="admin_usuario" class="swal2-input" placeholder="Nombre de usuario" maxlength="50">
-            </div>
-            <div class="mb-3">
-                <input type="email" id="admin_email" class="swal2-input" placeholder="Email" maxlength="100">
-            </div>
-            <div class="mb-3">
-                <input type="password" id="admin_password" class="swal2-input" placeholder="Contraseña (mín. 6 caracteres)" minlength="6">
-            </div>
-        `,
-    confirmButtonText: "Crear Admin",
-    confirmButtonColor: "#d6baa5",
-    showCancelButton: true,
-    cancelButtonText: "Cancelar",
-    focusConfirm: false,
-    preConfirm: () => {
-      const usuario = document.getElementById("admin_usuario").value.trim()
-      const email = document.getElementById("admin_email").value.trim()
-      const password = document.getElementById("admin_password").value
-
-      if (!usuario || !email || !password) {
-        Swal.showValidationMessage("Todos los campos son obligatorios")
-        return false
-      }
-      if (password.length < 6) {
-        Swal.showValidationMessage("La contraseña debe tener al menos 6 caracteres")
-        return false
-      }
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-      if (!emailRegex.test(email)) {
-        Swal.showValidationMessage("El formato del email no es válido")
-        return false
-      }
-
-      return { usuario, email, password }
-    },
-  }).then((result) => {
-    if (result.isConfirmed) {
-      const formData = new FormData()
-      formData.append("accion", "crear_admin")
-      formData.append("nombre_usuario", result.value.usuario)
-      formData.append("email", result.value.email)
-      formData.append("contrasena", result.value.password)
-
-      fetch("controller/loginController.php", {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.codigo === "201" || data.codigo === "200") {
-            Swal.fire("¡Éxito!", data.mensaje, "success")
-          } else {
-            Swal.fire("Error", data.mensaje, "error")
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error)
-          Swal.fire("Error", "Problema al crear el administrador", "error")
-        })
-    }
-  })
-}

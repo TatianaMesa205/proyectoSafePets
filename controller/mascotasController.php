@@ -17,9 +17,6 @@ class MascotasController
     public $descripcion;
     public $imagen;
 
-    /* =============================================
-       MÉTODO PARA CONTAR MASCOTAS (Panel)
-       ============================================= */
     static public function ctrContarMascotas(){
         return MascotasModel::mdlContarMascotas();
     }
@@ -74,9 +71,7 @@ class MascotasController
     }
 }
 
-// =======================================================
-// MANEJO DE PETICIONES AJAX
-// =======================================================
+
 
 if (isset($_POST["listarMascotas"]) && $_POST["listarMascotas"] == "ok") {
     $objMascotas = new MascotasController();
