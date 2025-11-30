@@ -31,10 +31,7 @@ if (!$mascotaEncontrada) {
 $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
 ?>
 
-
-
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
 
 <h1>🐾 Detalle de <?php echo $mascotaEncontrada["nombre"]; ?></h1>
 
@@ -102,11 +99,17 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
 <div class="botones-acciones">
     <a href="index.php?ruta=adoptaAdp" class="btn-volver">⬅ Volver</a>
     
-    <button type="button" class="btn-adopta btn-adoptame" 
-            id-mascota="<?php echo $mascotaEncontrada['id_mascotas']; ?>"
-            estado="<?php echo strtolower($mascotaEncontrada['estado']); ?>">
-        Adoptame
-    </button>
+    <?php if (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok") { ?>
+        <button type="button" class="btn-adopta btn-adoptame" 
+                id-mascota="<?php echo $mascotaEncontrada['id_mascotas']; ?>"
+                estado="<?php echo strtolower($mascotaEncontrada['estado']); ?>">
+            Adoptame
+        </button>
+    <?php } else { ?>
+        <a href="index.php?ruta=login" class="btn-adopta">
+            Adoptame
+        </a>
+    <?php } ?>
 
 </div>
 <br>
@@ -268,6 +271,5 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
         font-weight: bold;
     }
 </style>
-
 
 <script src="view/js/detalleMascota.js"></script>
