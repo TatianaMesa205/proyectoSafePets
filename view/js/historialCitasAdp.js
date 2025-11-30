@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (!idAdoptante) {
                 contenedor.innerHTML = `
                     <div class='col-12 text-center text-danger'>
-                        <h5>No se encontró el ID del adoptante ❌</h5>
+                        <h5>No se encontró el adoptante ❌</h5>
                     </div>`;
                 return;
             }
@@ -23,9 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-// ================================
-// 📌 FUNCIÓN PARA CARGAR LAS CITAS
-// ================================
+
 function cargarCitas(idAdoptante) {
 
     const contenedor = document.getElementById("listaCitasAdoptante");
@@ -147,9 +145,7 @@ function cargarCitas(idAdoptante) {
 }
 
 
-// =====================================================
-// 📌 FUNCIÓN PARA CONFIRMAR Y CANCELAR UNA CITA
-// =====================================================
+
 function confirmarCancelacion(id_cita, fecha_cita) {
 
     // Validar diferencia de 48 horas

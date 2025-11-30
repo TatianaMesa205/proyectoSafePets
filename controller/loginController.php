@@ -26,6 +26,9 @@ if (file_exists($adpModelPath)) {
 
 class LoginControlador {
 
+    /* ==============================================
+       LOGIN
+    ============================================== */
     public function ctrLogin() {
         try {
             if (!isset($_POST['nombre_usuario'], $_POST['contrasena'])) {
@@ -59,23 +62,41 @@ class LoginControlador {
         }
     }
 
+    /* ==============================================
+       REGISTRO UNIFICADO (Usuario + Adoptante)
+    ============================================== */
     public function ctrRegistro() {
         try {
-            $nombre = $_POST['nombre_usuario'] ?? '';
-            $email = $_POST['email'] ?? '';
-            $pass = $_POST['contrasena'] ?? '';
+            // Recoger todos los datos del formulario unificado
+            $datos = [
+                'usuario' => $_POST['nombre_usuario'] ?? '',
+                'email' => $_POST['email'] ?? '',
+                'password' => $_POST['contrasena'] ?? '',
+                'nombre_completo' => $_POST['nombre_completo'] ?? '',
+                'cedula' => $_POST['cedula'] ?? '',
+                'telefono' => $_POST['telefono'] ?? '',
+                'direccion' => $_POST['direccion'] ?? ''
+            ];
             
-            if(empty($nombre) || empty($email) || empty($pass)){
-                 throw new Exception("Datos incompletos");
+            // Validar que no falten datos obligatorios
+            foreach ($datos as $key => $valor) {
+                if (empty($valor)) {
+                    throw new Exception("El campo $key es obligatorio.");
+                }
             }
 
-            $res = LoginModelo::mdlRegistrarUsuario($nombre, $email, $pass);
+            // Llamar al modelo con la nueva función
+            $res = LoginModelo::mdlRegistrarUsuarioYAdoptante($datos);
             echo json_encode($res);
+
         } catch (Exception $e) {
             echo json_encode(["codigo" => "500", "mensaje" => $e->getMessage()]);
         }
     }
     
+    /* ==============================================
+       CREAR ADMIN
+    ============================================== */
     public function ctrCrearAdmin() {
         if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') {
              $nombre = $_POST['nombre_usuario'] ?? '';
@@ -89,7 +110,9 @@ class LoginControlador {
         }
     }
 
-    // --- FUNCIÓN ACTUALIZADA PARA PERFIL ---
+    /* ==============================================
+       ACTUALIZAR PERFIL
+    ============================================== */
     public function ctrActualizarPerfil() {
         try {
             if (!isset($_SESSION['iniciarSesion']) || !isset($_SESSION['id'])) {
@@ -150,6 +173,9 @@ class LoginControlador {
         }
     }
 
+    /* ==============================================
+       LOGOUT
+    ============================================== */
     public function ctrLogout() {
         session_unset();
         session_destroy();
@@ -157,7 +183,7 @@ class LoginControlador {
     }
 }
 
-// Manejo de peticiones
+// Manejo de peticiones AJAX
 if (isset($_POST['accion'])) {
     $login = new LoginControlador();
     switch ($_POST['accion']) {
@@ -165,7 +191,7 @@ if (isset($_POST['accion'])) {
             $login->ctrLogin(); 
             break;
         case 'registro': 
-            $login->ctrRegistro(); 
+            $login->ctrRegistro(); // Ahora usa la función unificada
             break;
         case 'crear_admin': 
             $login->ctrCrearAdmin(); 

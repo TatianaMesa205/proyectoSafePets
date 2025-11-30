@@ -1,6 +1,10 @@
 $(document).ready(function() {
     
-    // 1. Cargar mascotas en el select al iniciar la página
+    // 1. VALIDACIÓN INICIAL: VERIFICAR SI YA TIENE CITA ACTIVA
+    // Esto evita que el usuario vea el formulario si no puede agendar.
+    validarEstadoCita();
+
+    // 2. Cargar mascotas en el select al iniciar la página
     cargarMascotasDelUsuario();
 
     // --- EVENTO: REGISTRAR CITA ---
@@ -55,9 +59,10 @@ $(document).ready(function() {
                     });
                 } else if (respuesta.codigo == "409") {
                     // --- CASO: YA TIENE CITA ACTIVA ---
+                    // Se muestra el mensaje enviado por el controlador
                     Swal.fire({
                         icon: 'warning',
-                        title: 'Solicitud Pendiente',
+                        title: 'Solicitud Activa',
                         text: respuesta.mensaje,
                         confirmButtonColor: '#d33',
                         confirmButtonText: 'Entendido'
@@ -68,7 +73,6 @@ $(document).ready(function() {
                 }
             },
             error: function(jqXHR, textStatus, errorThrown) {
-                // Este bloque captura si el servidor responde con algo que no es JSON
                 console.error("Error AJAX:", textStatus, errorThrown);
                 console.log("Respuesta cruda del servidor:", jqXHR.responseText);
                 Swal.fire("Error Técnico", "Hubo un problema de comunicación con el servidor. Revisa la consola (F12) para más detalles.", "error");
@@ -78,6 +82,47 @@ $(document).ready(function() {
 });
 
 // --- FUNCIONES AUXILIARES ---
+
+function validarEstadoCita() {
+    var id_adoptantes = $("#id_adoptante_sesion").val();
+    
+    // Si no hay ID (sesión no iniciada o error), no hacemos nada o dejamos que otros controles actúen
+    if(!id_adoptantes) return; 
+
+    var datos = new FormData();
+    datos.append("validarCita", "ok"); // Llamamos a la nueva validación en el Controller
+    datos.append("id_adoptantes", id_adoptantes);
+
+    $.ajax({
+        url: "controller/citasController.php",
+        method: "POST",
+        data: datos,
+        contentType: false,
+        cache: false,
+        processData: false,
+        dataType: "json",
+        success: function(respuesta) {
+            // Si total > 0, significa que TIENE citas pendientes o confirmadas (no canceladas ni completadas)
+            if (respuesta.total > 0) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Ya tienes una cita en proceso',
+                    text: 'Para agendar una nueva, tu cita actual debe estar Completada o Cancelada. Te redirigiremos a tu historial.',
+                    allowOutsideClick: false,
+                    confirmButtonText: 'Ir a mis Citas'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // REDIRECCIÓN: Sacamos al usuario del formulario
+                        window.location.href = "index.php?ruta=perfilAdp"; 
+                    }
+                });
+                
+                // Opcional: Deshabilitar el formulario de fondo mientras el usuario lee la alerta
+                $("#formRegistroCitaAdp input, #formRegistroCitaAdp select, #formRegistroCitaAdp button").prop("disabled", true);
+            }
+        }
+    });
+}
 
 function cargarMascotasDelUsuario() {
     var datos = new FormData();
@@ -92,19 +137,15 @@ function cargarMascotasDelUsuario() {
         processData: false,
         dataType: "json",
         success: function(respuesta) {
-            // Limpiamos y llenamos el select
             $("#select_mascotas_adp").empty();
             $("#select_mascotas_adp").append('<option value="">Seleccione una mascota...</option>');
             
             if (respuesta.codigo == "200") {
                 respuesta.listaMascotas.forEach(function(m) {
-                    // Solo mostramos mascotas Disponibles
                     if(m.estado == "Disponible"){
                         $("#select_mascotas_adp").append(`<option value="${m.id_mascotas}">${m.nombre} - ${m.raza}</option>`);
                     }
                 });
-
-                // Una vez cargadas las opciones, verificamos si hay que seleccionar una automáticamente
                 verificarPreseleccion();
             }
         }
@@ -112,19 +153,15 @@ function cargarMascotasDelUsuario() {
 }
 
 function verificarPreseleccion(){
-    // 1. Si viene por URL (Ej: index.php?ruta=citasAdp&mascota=5)
     const urlParams = new URLSearchParams(window.location.search);
     const mascotaUrl = urlParams.get('mascota');
 
     if (mascotaUrl) {
         $("#select_mascotas_adp").val(mascotaUrl);
-    } 
-    // 2. Si viene por LocalStorage (Caso: Se acaba de registrar tras dar click en Adoptame)
-    else {
+    } else {
         const mascotaPendiente = localStorage.getItem("mascota_pendiente");
         if (mascotaPendiente) {
             $("#select_mascotas_adp").val(mascotaPendiente);
-            // Borramos el dato de la memoria para que no se seleccione siempre
             localStorage.removeItem("mascota_pendiente");
         }
     }

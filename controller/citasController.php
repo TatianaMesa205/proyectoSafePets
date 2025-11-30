@@ -31,20 +31,8 @@ class CitasController
 
     public function ctrRegistrarCita() {
 
-        // 🔍 VALIDAR SI EL ADOPTANTE YA TIENE CITA PENDIENTE O CONFIRMADA
-        $citaActiva = CitasModel::mdlBuscarCitaActiva($this->id_adoptantes);
-
-        if ($citaActiva) {
-            ob_clean();
-            header('Content-Type: application/json');
-            echo json_encode([
-                "codigo" => "409",
-                "mensaje" => "Tienes una cita en proceso, en este momento no puedes adoptar"
-            ]);
-            die();
-        }
-
-       
+        // --- VALIDACIÓN DE CITA ÚNICA ---
+        // Verificamos si el adoptante ya tiene una cita activa (Ni Cancelada, Ni Completada)
         $validacion = CitasModel::mdlValidarCitaActiva($this->id_adoptantes);
 
         if ($validacion["total"] > 0) {
@@ -56,6 +44,7 @@ class CitasController
             ]);
             die();
         }
+        // ---------------------------------
 
         $objRespuesta = CitasModel::mdlRegistrarCita($this->id_adoptantes, $this->id_mascotas, $this->fecha_cita, $this->estado, $this->motivo);
         
@@ -132,19 +121,14 @@ class CitasController
             $failed = []; // mails que fallaron
 
             foreach ($admins as $admin) {
-                // validar email no vacío
                 $emailAdmin = $admin['email'] ?? null;
                 $nombreAdmin = $admin['nombre_usuario'] ?? ($admin['nombre'] ?? 'Administrador');
 
                 if (empty($emailAdmin)) {
-                    $failed[] = [
-                        "email" => $emailAdmin,
-                        "error" => "Email vacío"
-                    ];
+                    $failed[] = [ "email" => $emailAdmin, "error" => "Email vacío" ];
                     continue;
                 }
 
-                // intentar enviar correo
                 $sent = Correo::enviarCorreoCancelacion(
                     $emailAdmin,
                     $nombreAdmin,
@@ -154,14 +138,10 @@ class CitasController
                 );
 
                 if (!$sent) {
-                    $failed[] = [
-                        "email" => $emailAdmin,
-                        "error" => "send_failed"
-                    ];
+                    $failed[] = [ "email" => $emailAdmin, "error" => "send_failed" ];
                 }
             }
 
-            // Añadir info de fallo en respuesta si los hay
             if (count($failed) > 0) {
                 $respuesta['mail_failed'] = $failed;
                 $respuesta['mensaje'] = $respuesta['mensaje'] . " (Algunos correos no se enviaron).";
@@ -178,7 +158,6 @@ class CitasController
         $fechas = CitasModel::mdlObtenerFechasOcupadas();
         ob_clean(); header('Content-Type: application/json'); echo json_encode($fechas); die();
     }
-
 }
 
 // --- MANEJO DE PETICIONES ---
@@ -215,16 +194,19 @@ if (isset($_POST["cancelarCita"]) && $_POST["cancelarCita"] == "ok") {
 }
 
 if (isset($_POST["listarCitasAdoptante"]) && $_POST["listarCitasAdoptante"] === "ok") {
-
     $id = $_POST["id_adoptantes"];
-
     $respuesta = CitasModel::mdlListarCitasAdoptante($id);
-
     ob_clean();
-    echo json_encode([
-        "codigo" => "200",
-        "listaCitas" => $respuesta
-    ]);
+    echo json_encode([ "codigo" => "200", "listaCitas" => $respuesta ]);
+    die();
+}
+
+// --- VALIDACIÓN PARA JS ---
+if (isset($_POST["validarCita"]) == "ok") {
+    $id_adoptantes = $_POST["id_adoptantes"];
+    $respuesta = CitasModel::mdlValidarCitaActiva($id_adoptantes);
+    ob_clean(); 
+    echo json_encode($respuesta); 
     die();
 }
 ?>
