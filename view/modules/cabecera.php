@@ -24,5 +24,10 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
+
+    <script src="https://cdn.botpress.cloud/webchat/v3.4/inject.js"></script>
+    <script src="https://files.bpcontent.cloud/2025/04/09/23/20250409234011-C0OZFFD6.js" defer></script>
+    
+
 </head>
 <body>

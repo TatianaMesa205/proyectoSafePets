@@ -33,7 +33,7 @@ if ($ruta == "logout") {
 $rutasPublicas = [
     "inicioAdp", "adoptaAdp", "detalleMascota", 
     "publicacionesAdp", "historiasAdp", "donacionesAdp", 
-    "preview"
+    "preview", "perfilAdp"
 ];
 
 $logueado = (isset($_SESSION["iniciarSesion"]) && $_SESSION["iniciarSesion"] == "ok");
@@ -43,6 +43,7 @@ if (!$logueado) {
     if (in_array($ruta, $rutasPublicas)) {
         include "view/modules/cabecera.php"; 
         include "view/modules/menuAdp.php"; 
+
         
         if (file_exists("view/modules/" . $ruta . ".php")) {
             include "view/modules/" . $ruta . ".php";
@@ -60,18 +61,29 @@ if (!$logueado) {
     }
 }
 
+
+
 // =======================================================
 // 4. MODO USUARIO LOGUEADO (ADMIN O ADOPTANTE)
 // =======================================================
 include "view/modules/cabecera.php";
 
+// Rutas que NO deben mostrar el menú
+$rutasSinMenu = ["perfilAdp", "crearPublicacion","detalleMascota"];
+
 if ($_SESSION["rol"] === "admin") {
     include "view/modules/menuAdmin.php";
+
 } else {
-    include "view/modules/menuAdp.php";
+
+    // ⇩ Si la ruta NO está en la lista, mostrar menú
+    if (!in_array($ruta, $rutasSinMenu)) {
+        include "view/modules/menuAdp.php";
+    }
 }
 
-$rutasAdoptante = ["inicioAdp", "adoptaAdp", "citasAdp", "donacionesAdp", "detalleMascota", "publicacionesAdp","historiasAdp", "adoptanteAdp", "registro-adoptante","perfilAdp","crearPublicacion"];
+
+$rutasAdoptante = ["inicioAdp", "adoptaAdp", "citasAdp", "donacionesAdp", "detalleMascota", "publicacionesAdp","historiasAdp", "adoptanteAdp", "registro-adoptante","crearPublicacion"];
 $rutasAdmin = ["inicioAdmin", "adoptantes", "mascotas", "adopciones", "vacunas", "citas", "donaciones", "publicaciones", "seguimientos", "vacunasMascotas", "perfilAdmin"];
 
 $archivoModulo = "view/modules/404.php"; 

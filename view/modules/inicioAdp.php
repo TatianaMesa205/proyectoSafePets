@@ -18,17 +18,140 @@ $historias = array_slice($historias, 0, 3); // 👈 Cambia 3 por el número que 
 ?>
 
 
-<style>
+<!-- SECCIÓN "SOBRE NOSOTROS" -->
+<section class="about-container reveal from-bottom">
+  <h2 class="about-title">𝑨𝒎𝒐𝒓 𝒒𝒖𝒆 𝒔𝒂𝒏𝒂, 𝒑𝒓𝒐𝒕𝒆𝒈𝒆 𝒚 𝒕𝒓𝒂𝒏𝒔𝒇𝒐𝒓𝒎𝒂 </h2>
+  <p class="about-subtitle">Trabajamos por quienes no tienen voz, pero sí un corazón inmenso.</p>
+  <div class="about">
+    <img src="https://cdn.pixabay.com/photo/2017/11/01/17/42/dog-and-cat-2908810_1280.jpg">
+    <div class="about-text">
+      <h3>¿Quiénes somos?</h3>
+      <p>
+        Somos una fundación dedicada a la protección, rescate y bienestar de perros y gatos en situación de abandono o maltrato.
+        Ofrecemos atención médica, refugio temporal, recuperación emocional y buscamos familias responsables que les den una segunda oportunidad.
+      </p>
+      <p>
+        Promovemos la adopción responsable, esterilización y la educación sobre el respeto por la vida animal.
+        Gracias al apoyo de voluntarios y personas como tú, seguimos transformando vidas cada día.
+      </p>
+      <button class="help-btn" onclick="window.location.href='index.php?ruta=donacionesAdp'">
+      <i class="fa-solid fa-heart"></i> Quiero ayudar</button>
+    </div>
+  </div>
+</section>
 
-  .about-container {
-    padding: 40px 40px;
-    background: #F3E6DD;
-    border-radius: 25px;
-    margin: 40px auto;
-    max-width: 1200px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+
+<!-- GALERÍA -->
+<h3 class="gallery-title reveal from-top">Nuestra fundacion y rescates realizados </h3>
+<div class="gallery reveal stagger-container">
+  <img class="stagger-item" src="https://imagenes.elpais.com/resizer/v2/2LNQJII6MRHVTAOWG7ZUE7TVIE.jpg?auth=0ef5bf695c9b206bccda59f5f115396144e05e7a3df648817548109e3676091b&width=414">
+  <img class="stagger-item" src="https://i.revistapym.com.co/cms/2023/08/18171321/spark.png?w=412&d=2.625">
+  <img class="stagger-item" src="https://img.lalr.co/cms/2017/07/12221638/unnamed_8_0.jpg?r=4_3">
+  <img class="stagger-item" src="https://queondagye.com/wp-content/uploads/2023/06/Empresas-DONACION-1024x683.jpg">
+</div>
+
+
+
+<!-- HISTORIAS DE ADOPCIÓN -->
+<section class="historia-section reveal from-bottom">
+  <h3 class="historia-title reveal from-top">Historias que inspiran</h3>
+  <?php foreach ($historias as $h): ?>
+
+    <div class="historia-row reveal from-right">
+
+      <!-- Título -->
+      <div class="historia-left reveal from-left">
+        <h2><?php echo $h['nombre']; ?></h2>
+      </div>
+
+      <!-- Imagen -->
+      <div class="historia-center reveal from-right">
+        <img src="../../../CarpetaCompartida/Mascotas/<?php echo $h['imagen']; ?>" alt="Mascota">
+      </div>
+
+      <!-- Descripción -->
+      <div class="historia-right reveal from-right">
+        <p>
+          <?php 
+            if (!empty($h['descripcion'])) {
+              echo $h['descripcion'];
+            } else {
+              echo "Ahora disfruta una vida llena de amor junto a su nueva familia ❤️";
+            }
+          ?>
+        </p>
+
+        <button class="historia-btn reveal from-right" onclick="window.location.href='index.php?ruta=historiasAdp'">
+          Ver historia completa
+        </button>
+      </div>
+
+    </div>
+
+  <?php endforeach; ?>
+</section>
+
+
+<!-- FRASE DESTACADA -->
+<div class="quote-box reveal from-left">
+  “No cambiamos al mundo entero… pero sí cambiamos el mundo de cada animal que rescatamos.” 
+</div>
+
+
+<!-- MISIÓN Y VISIÓN -->
+<section class="mv-section my-5">
+  <div class="container">
+    <!-- MISIÓN -->
+    <div class="row align-items-center mb-5">
+      <!-- Imagen -->
+      <div class="col-md-6 mb-4 mb-md-0 reveal from-left">
+        <img src="https://cdn.pixabay.com/photo/2017/03/27/14/09/black-cat-2178983_1280.jpg"
+             class="img-fluid rounded-4 shadow-sm mv-img" alt="Misión Safe Pets">
+      </div>
+      <!-- Texto -->
+      <div class="col-md-6 reveal from-right">
+        <h2 class="fw-bold mv-title text-center text-md-start">MISIÓN</h2>
+        <p class="mv-text text-muted mt-3">
+          Brindar amor, protección y una segunda oportunidad a los animales en situación de vulnerabilidad,
+          impulsando su bienestar y conectándolos con adoptantes responsables.
+        </p>
+      </div>
+    </div>
+
+    <!-- VISIÓN -->
+    <div class="row align-items-center flex-md-row-reverse">
+      <!-- Imagen -->
+      <div class="col-md-6 mb-4 mb-md-0 reveal from-right">
+        <img src="https://images.pexels.com/photos/406014/pexels-photo-406014.jpeg"
+             class="img-fluid rounded-4 shadow-sm mv-img" alt="Visión Safe Pets">
+      </div>
+      <!-- Texto -->
+      <div class="col-md-6 reveal from-left">
+        <h2 class="fw-bold mv-title text-center text-md-start">VISIÓN</h2>
+        <p class="mv-text text-muted mt-3">
+          Ser la plataforma más confiable para conectar adoptantes, fundaciones y rescatistas,
+          promoviendo educación, responsabilidad y un futuro donde cada mascota tenga un hogar.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<style>
+/* Estilos generales */
+.about-container {
+    padding: 60px 60px;
+    background: #f1eae2ff;
+    border-radius: 28px;
+    margin: 70px auto 140px auto;   /* ⬅ MÁS ESPACIO DEBAJO */
+    max-width: 1300px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
     animation: fadeIn 1.4s ease-in-out;
-  }
+}
+
 
   /* Títulos */
   .about-title {
@@ -106,7 +229,7 @@ $historias = array_slice($historias, 0, 3); // 👈 Cambia 3 por el número que 
   .quote-box {
     margin: 60px auto;
     padding: 25px 30px;
-    background: #EFD8C5;
+    background: #f0e4d8ff;
     border-left: 5px solid #C9A48F;
     border-radius: 10px;
     max-width: 900px;
@@ -117,15 +240,15 @@ $historias = array_slice($historias, 0, 3); // 👈 Cambia 3 por el número que 
     animation: fadeIn 1.8s ease;
   }
 
-
-
   /* Galería */
+
   .gallery-title {
     text-align: center;
     margin: 50px 0 25px;
     font-size: 2.2rem;
     color: #8b5e3c;
     animation: slideDown 1.2s ease;
+    padding: 100px 0 0;
   }
 
   .gallery {
@@ -148,171 +271,132 @@ $historias = array_slice($historias, 0, 3); // 👈 Cambia 3 por el número que 
     transform: scale(1.05);
   }
 
-
-  /* Sección de historias */
-.historias-container {
-  max-width: 1200px;
-  margin: 60px auto;
-  padding: 30px 40px;
-  background: #fff7f4;
-  border-radius: 25px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-  animation: fadeIn 1.4s ease;
+/* Historias de adopción */
+.historia-section {
+  max-width: 1300px;
+  margin: 80px auto;
+  padding: 50px 40px;
 }
 
-.historias-title {
+.historia-title {
   text-align: center;
-  font-size: 2.2rem;
+  margin-bottom: 60px;
+  font-size: 2.5rem;
   color: #8b5e3c;
-  margin-bottom: 25px;
+  font-weight: 700;
 }
 
-.historias-grid {
+/* Fila estilo Animalove */
+.historia-row {
   display: grid;
-  gap: 35px; /* antes 25px */
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-}
-
-.historia-card {
-  background: #ffece3;
-  border-radius: 18px;
-  padding: 18px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.12);
-  transition: 0.3s ease;
-}
-
-.historia-card:hover {
-  transform: translateY(-5px);
-}
-
-.historia-card img {
-  width: 100%;
-  height: 180px;
-  border-radius: 12px;
-  object-fit: cover;
-}
-
-.historia-card h4 {
-  color: #8b5e3c;
-  margin-top: 12px;
-  font-size: 1.3rem;
-}
-
-.historia-card p {
-  color: #6b5644;
-  font-size: 0.95rem;
-  margin-top: 5px;
-}
-
-/* Botón ver más */
-.vermas-btn {
-  display: block;
-  margin: 30px auto 0;
-  padding: 12px 35px;
-  background: #d8a47f;
-  border: none;
-  border-radius: 40px;
-  color: white;
-  font-size: 1.2rem;
-  cursor: pointer;
-  transition: 0.3s;
-  box-shadow: 0px 6px 14px rgba(0,0,0,0.2);
-}
-
-.vermas-btn:hover {
-  transform: scale(1.07);
-  background: #b68463;
-}
-
-.quick-btn {
-  background: #F3E6DD; /* crema suave */
-  border: 2px solid #C9A48F; /* borde café pastel */
-  color: #5A4638; /* texto café */
-  border-radius: 20px;
-  padding: 12px 18px;
-  font-weight: 600;
-  transition: transform .35s ease, box-shadow .35s, background .35s;
-}
-
-.quick-btn:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-  background: #E8D5C4; /* beige suave */
-}
-
-
-/* Chat flotante */
-
-.chat-float {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  background: #d8a47f;
-  color: white;
-  width: 55px;
-  height: 55px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
+  grid-template-columns: 0.8fr 1fr 2fr; /* 👉 MÁS ancho para la columna del texto */
   align-items: center;
-  font-size: 25px;
+  gap: 50px; /* más aire entre columnas */
+  margin-bottom: 80px;
+}
+
+/* Columna izquierda (título grande) */
+.historia-left h2 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #5A4638;
+}
+
+/* Imagen estilo Animalove */
+.historia-center img {
+  width: 100%;
+  max-width: 330px;
+  display: block;
+  margin: 0 auto;
+  border-radius: 20px;
+}
+
+/* Texto */
+.historia-right p {
+  font-size: 1.10rem;     /* un poquito más grande */
+  line-height: 2;         /* 👉 más separación entre líneas */
+  color: #4f4a4a;
+  margin-bottom: 30px;
+  max-width: 900px;       /* 👉 texto más extendido */
+  text-align: justify;
+}
+
+/* Botón estilo Animalove */
+.historia-btn {
+  width: 100%;
+  background: #9C7B63;
+  color: #fff;
+  border: none;
+  padding: 14px;
+  font-size: 1.1rem;
+  border-radius: 40px;
   cursor: pointer;
-  z-index: 999;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-  transition: transform .3s ease;
-}
-.chat-float:hover { transform: scale(1.1); }
-
-.chat-box {
-  position: fixed;
-  bottom: 95px;
-  right: 28px;
-  width: 260px;
-  background: #fff;
-  border-radius: 12px;
-  display: none;
-  z-index: 999;
+  transition: .3s;
 }
 
-.chat-header {
-  padding: 12px;
-  background: #d8a47f;
-  color: white;
-  border-radius: 12px 12px 0 0;
-  display: flex;
-  justify-content: space-between;
+.historia-btn:hover {
+  background: #9C7B63;
+  transform: scale(1.03);
 }
 
-.chat-body {
-  padding: 15px;
-  font-size: 0.9rem;
-  color: #6a4f3b;
-}
+/* Responsive */
+@media (max-width: 992px) {
+  .historia-row {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
 
-.close-chat {
-  cursor: pointer;
-  font-size: 20px;
-}
-
-.about-container {
-  margin: 70px auto; /* antes 40px */
-}
-
-.quote-box {
-  margin: 80px auto; /* antes 60px */
-}
-
-.gallery-title {
-  margin: 70px 0 35px; /* más separación antes y después */
-}
-
-.historias-container {
-  margin: 80px auto; /* antes 60px */
-  padding: 45px 50px; /* más aire dentro */
+  .historia-left h2 {
+    text-align: center;
+  }
 }
 
 
 
+  /* Misión y Visión */
+
+  .mv-section {
+    background: #f7f2ef; /* Fondo suave estilo Safe Pets */
+    padding: 60px 0;
+    border-radius: 20px;
+  }
+
+  .mv-title {
+    font-size: 2rem;
+    color: #9C7B63; /* Verde bonito similar al diseño */
+    letter-spacing: 1px;
+  }
+
+  .mv-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+  }
+
+  .mv-img {
+    height: 350px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+  }
+
+  /* Ajustes de márgenes para mejor espaciado */
+
+  .about-container {
+    margin: 70px auto; /* antes 40px */
+  }
+
+  .quote-box {
+    margin: 80px auto; /* antes 60px */
+  }
+
+  .gallery-title {
+    margin: 70px 0 35px; /* más separación antes y después */
+  }
+
+  .historias-container {
+    margin: 80px auto; /* antes 60px */
+    padding: 45px 50px; /* más aire dentro */
+  }
   
   /* Animaciones */
   @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
@@ -320,193 +404,56 @@ $historias = array_slice($historias, 0, 3); // 👈 Cambia 3 por el número que 
   @keyframes slideDown { from {opacity: 0; transform: translateY(-15px);} to {opacity: 1; transform: translateY(0);} }
   @keyframes pulse { 0% {transform: scale(1);} 50% {transform: scale(1.05);} 100% {transform: scale(1);} }
 
-
-/* -------------------------
+  /* -------------------------
    Reveal + Stagger Utilities
    ------------------------- */
-.reveal {
-  opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 900ms cubic-bezier(.22,.9,.32,1), 
-              transform 900ms cubic-bezier(.22,.9,.32,1);
-  will-change: opacity, transform;
-  pointer-events: none;
-}
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 900ms cubic-bezier(.22,.9,.32,1), 
+                transform 900ms cubic-bezier(.22,.9,.32,1);
+    will-change: opacity, transform;
+    pointer-events: none;
+  }
 
-.reveal.in-view {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
 
-/* Direcciones alternativas */
-.reveal.from-left { transform: translateX(-30px); }
-.reveal.from-right { transform: translateX(30px); }
-.reveal.from-top { transform: translateY(-20px); }
+  /* Direcciones alternativas */
+  .reveal.from-left { transform: translateX(-30px); }
+  .reveal.from-right { transform: translateX(30px); }
+  .reveal.from-top { transform: translateY(-20px); }
 
-/* Zoom subtle */
-.reveal.zoom { transform: scale(.98) translateY(10px); }
-.reveal.zoom.in-view { transform: scale(1) translateY(0); }
+  /* Zoom subtle */
+  .reveal.zoom { transform: scale(.98) translateY(10px); }
+  .reveal.zoom.in-view { transform: scale(1) translateY(0); }
 
-/* Glow opcional al aparecer */
-.reveal-glow.in-view { box-shadow: 0 10px 28px rgba(139,94,60,0.08); }
+  /* Glow opcional al aparecer */
+  .reveal-glow.in-view { box-shadow: 0 10px 28px rgba(139,94,60,0.08); }
 
-/* Stagger container: aplica delays automáticamente a sus hijos .stagger-item */
-.stagger-container .stagger-item {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 800ms cubic-bezier(.22,.9,.32,1),
-              transform 800ms cubic-bezier(.22,.9,.32,1);
-  pointer-events: none;
-}
+  /* Stagger container: aplica delays automáticamente a sus hijos .stagger-item */
+  .stagger-container .stagger-item {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 800ms cubic-bezier(.22,.9,.32,1),transform 800ms cubic-bezier(.22,.9,.32,1);
+    pointer-events: none;
+  }
 
-.stagger-container.in-view .stagger-item {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
+  .stagger-container.in-view .stagger-item {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
 
-/* Reseteo: permite que elementos con transform horizontales vuelvan bien */
-.reveal.from-left.in-view,
-.reveal.from-right.in-view,
-.reveal.from-top.in-view { transform: translate(0); }
+  /* Reseteo: permite que elementos con transform horizontales vuelvan bien */
+  .reveal.from-left.in-view,
+  .reveal.from-right.in-view,
+  .reveal.from-top.in-view { transform: translate(0); }
 
 </style>
-
-
-<section class="about-container reveal from-bottom">
-
-  <h2 class="about-title">𝑨𝒎𝒐𝒓 𝒒𝒖𝒆 𝒔𝒂𝒏𝒂, 𝒑𝒓𝒐𝒕𝒆𝒈𝒆 𝒚 𝒕𝒓𝒂𝒏𝒔𝒇𝒐𝒓𝒎𝒂 </h2>
-  <p class="about-subtitle">Trabajamos por quienes no tienen voz, pero sí un corazón inmenso.</p>
-
-  <div class="about">
-    
-    <img src="https://images.pexels.com/photos/4012470/pexels-photo-4012470.jpeg">
-
-    <div class="about-text">
-      <h3>¿Quiénes somos?</h3>
-
-      <p>
-        Somos una fundación dedicada a la protección, rescate y bienestar de perros y gatos en situación de abandono o maltrato.
-        Ofrecemos atención médica, refugio temporal, recuperación emocional y buscamos familias responsables que les den una segunda oportunidad.
-      </p>
-
-      <p>
-        Promovemos la adopción responsable, esterilización y la educación sobre el respeto por la vida animal.
-        Gracias al apoyo de voluntarios y personas como tú, seguimos transformando vidas cada día.
-      </p>
-
-      <button class="help-btn" onclick="window.location.href='index.php?ruta=donacionesAdp'">
-      <i class="fa-solid fa-heart"></i> Quiero ayudar</button>
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- GALERÍA -->
-<h3 class="gallery-title reveal from-top">Nuestra fundacion y rescates realizados 🐾</h3>
-<div class="gallery reveal stagger-container">
-  <img class="stagger-item" src="https://imagenes.elpais.com/resizer/v2/2LNQJII6MRHVTAOWG7ZUE7TVIE.jpg?auth=0ef5bf695c9b206bccda59f5f115396144e05e7a3df648817548109e3676091b&width=414">
-  <img class="stagger-item" src="https://i.revistapym.com.co/cms/2023/08/18171321/spark.png?w=412&d=2.625">
-  <img class="stagger-item" src="https://img.lalr.co/cms/2017/07/12221638/unnamed_8_0.jpg?r=4_3">
-  <img class="stagger-item" src="https://queondagye.com/wp-content/uploads/2023/06/Empresas-DONACION-1024x683.jpg">
-</div>
-
-<!-- FRASE DESTACADA -->
-<div class="quote-box reveal from-left">
-  “No cambiamos al mundo entero… pero sí cambiamos el mundo de cada animal que rescatamos.” 🐾
-</div>
-
-
-<section class="historias-container reveal from-bottom">
-  <h3 class="historias-title reveal from-top">Historias que inspiran 🐾</h3>
-
-  <div class="historias-grid stagger-container">
-
-    <?php foreach ($historias as $h): ?>
-      <div class="historia-card stagger-item">
-
-        <img src="../../../CarpetaCompartida/Mascotas/<?php echo $h['imagen']; ?>" alt="Mascota">
-
-        <h4><?php echo $h['nombre']; ?></h4>
-
-        <p>
-          <?php 
-            if (!empty($h['descripcion'])) {
-              echo $h['descripcion'];
-            } else {
-              echo "Ahora disfruta una vida llena de amor junto a su nueva familia ❤️";
-            }
-          ?>
-        </p>
-
-      </div>
-    <?php endforeach; ?>
-
-  </div>
-
-  <button class="vermas-btn reveal" data-delay="120ms" onclick="window.location.href='index.php?ruta=historiasAdp'">
-    Ver más historias
-  </button>
-
-</section>
-
-
-<!-- MISIÓN Y VISIÓN -->
-<section class="mv-section container my-5">
-  <h2 class="text-center mb-4 reveal from-top">Nuestra misión y visión 🤎</h2>
-
-  <div class="row text-center">
-
-    <div class="col-md-6 mb-4 reveal from-left">
-      <div class="mv-box shadow-sm p-4 rounded-4">
-        <i class="fa-solid fa-heart fs-1 mb-3" style="color:#b68463;"></i>
-        <h4 class="fw-bold">Nuestra Misión</h4>
-        <p class="mt-2 text-muted">
-          Brindar amor, protección y una segunda oportunidad a los animales más vulnerables,
-          conectándolos con adoptantes responsables.
-        </p>
-      </div>
-    </div>
-
-    <div class="col-md-6 mb-4 reveal from-right">
-      <div class="mv-box shadow-sm p-4 rounded-4">
-        <i class="fa-solid fa-paw fs-1 mb-3" style="color:#b68463;"></i>
-        <h4 class="fw-bold">Nuestra Visión</h4>
-        <p class="mt-2 text-muted">
-          Ser el puente más confiable entre fundaciones, rescatistas y familias, promoviendo bienestar,
-          educación y adopciones seguras.
-        </p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-
-
-
-
-
-<!-- CHAT FLOTANTE -->
-<div id="chatBubble" class="chat-float reveal from-right">
-  <i class="fa-solid fa-comments"></i>
-</div>
-
-<div id="chatBox" class="chat-box shadow-lg">
-  <div class="chat-header">
-    <strong>Safe Pets 🐾</strong>
-    <span id="closeChat" class="close-chat">&times;</span>
-  </div>
-
-  <div class="chat-body">
-    <p>¡Hola! 🐶💛<br> ¿Necesitas ayuda con una adopción o tienes dudas?</p>
-  </div>
-</div>
-
-
 
 
 <script>
@@ -577,15 +524,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Observamos los elementos marcados
   document.querySelectorAll('.reveal, .stagger-container').forEach(n => observer.observe(n));
-});
-</script>
-
-<script>
-document.getElementById("chatBubble").addEventListener("click", () => {
-  document.getElementById("chatBox").style.display = "block";
-});
-
-document.getElementById("closeChat").addEventListener("click", () => {
-  document.getElementById("chatBox").style.display = "none";
 });
 </script>
