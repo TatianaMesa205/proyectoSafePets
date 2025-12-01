@@ -130,7 +130,7 @@ class Correo {
                 margin: auto;
             '>
                 <div style='text-align: center; margin-bottom: 25px;'>
-                    <img src='https://i.pinimg.com/1200x/82/6b/5d/826b5d746b40a10c844ffa8204da50ad.jpg' alt='SafePets' style='width: 150px; margin-bottom: 10px;'>
+                    <link href='uploads/logo.jpg' alt='SafePets' style='width: 150px; margin-bottom: 10px;'>
                     <h2 style='color: #c0392b; margin: 0;'> Cita Cancelada</h2>
                     <p style='color: #555; margin: 0; font-size: 15px;'>Tu cita ha sido cancelada en SafePets</p>
                 </div>

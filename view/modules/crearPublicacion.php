@@ -1,57 +1,71 @@
 <?php
 
-
 date_default_timezone_set('America/Bogota'); // <- AÑADE ESTO
 $fechaActual = date("Y-m-d");
-
-
 ?>
 
 <nav class="navbar navbar-expand-lg shadow-sm">
   <div class="container">
-    <a class="navbar-brand" href="publicacionesAdp">𝓢𝓪𝓯𝓮 𝓟𝓮𝓽𝓼</a>
+    <a class="navbar-brand" href="index.php?ruta=publicacionesAdp">𝓢𝓪𝓯𝓮 𝓟𝓮𝓽𝓼</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse fade-scroll" id="navbarNav">
       <ul class="navbar-nav ms-auto align-items-center">
 
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-
-            <i class="fa-solid fa-circle-user me-2" style="font-size: 25px; color: #8b5e3c;"></i>
-
-            <?php echo $_SESSION['nombre_usuario']; ?>
-          </a>
-
-          <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="perfilDropdown">
-            <li>
-              <a class="dropdown-item" href="perfilAdp">
-                <i class="fa-solid fa-user me-2"></i> Mi Perfil
-              </a>
+        <?php if (!isset($_SESSION["iniciarSesion"]) || $_SESSION["iniciarSesion"] != "ok"): ?>
+            
+            <li class="nav-item">
+                <a class="nav-link fw-bold text-secondary" href="index.php?ruta=login">
+                    <i class="fa-solid fa-right-to-bracket me-1"></i> Iniciar Sesión
+                </a>
+            </li>
+            <li class="nav-item ms-2">
+                <a class="btn btn-primary rounded-pill px-4 text-white" href="index.php?ruta=registro" style="background: #8b5e3c; border:none;">
+                    Registrarse
+                </a>
             </li>
 
-            <button id="btnLogout" class="btn-logout">
-              <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar sesión
-            </button>
-          </ul>
-        </li>
+        <?php else: ?>
+
+            <li class="nav-item dropdown perfil-nav-item">
+              <a class="nav-link dropdown-toggle d-flex align-items-center perfil-toggle" 
+                href="#" id="perfilDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="perfil-icono"><i class="fa-solid fa-circle-user"></i></div>
+                <span class="perfil-nombre">
+                  <?php echo isset($_SESSION['nombre_usuario']) ? $_SESSION['nombre_usuario'] : 'Usuario'; ?>
+                </span>
+              </a>
+
+              <ul class="dropdown-menu dropdown-menu-end perfil-menu" aria-labelledby="perfilDropdown">
+                <li>
+                  <a class="dropdown-item perfil-opcion" href="index.php?ruta=perfilAdp">
+                    <i class="fa-solid fa-user me-2"></i> Mi Perfil
+                  </a>
+                </li>
+                <li><hr class="dropdown-divider"></li>
+                <li>
+                  <a class="dropdown-item perfil-opcion text-danger" href="index.php?ruta=logout">
+                    <i class="fa-solid fa-right-from-bracket me-2"></i> Cerrar Sesión
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+        <?php endif; ?>
 
       </ul>
-    </div> 
+    </div>
   </div>
 </nav>
 
 <div class="form-container">
 
     <input type="hidden" id="rol_usuario" value="<?php echo $_SESSION['rol']; ?>">
-
-
     <h2 class="titulo-principal">Crear Publicación</h2>
 
     <form id="formRegistroPublicacion" enctype="multipart/form-data">
-
         <input type="hidden" name="crearPublicacion" value="ok">
 
         <label class="label">Fecha publicación</label>
@@ -76,10 +90,7 @@ $fechaActual = date("Y-m-d");
         <label for="txt_foto" class="btn-subir-imagen">
             <i class="fa-solid fa-image"></i> Seleccionar imagen
         </label>
-
         <input type="file" id="txt_foto" class="input-file" accept=".jpg,.jpeg,.png" hidden>
-
-
         <button type="submit" class="btn-crear">Crear Publicación</button>
     </form>
 </div>
@@ -209,6 +220,12 @@ $fechaActual = date("Y-m-d");
     display: none;
 }
 
+.perfil-icono i { font-size: 1.9rem; color: #8b5e3c; transition: 0.4s; }
+.perfil-toggle:hover .perfil-icono i { transform: rotate(10deg) scale(1.15); color: #b7855e; }
+.perfil-nombre { font-weight: 600; margin-left: 8px; animation: fadeIn 1s ease; }
+.perfil-menu { border-radius: 15px; animation: dropdownSlide 0.35s ease; background: #e4d6c7; border: 1px solid #e7d1c4; }
+.perfil-opcion { transition: 0.3s; }
+.perfil-opcion:hover { background: #f4e6dd; color: #8b5e3c; }
 
 </style>
 

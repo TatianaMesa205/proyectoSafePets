@@ -35,7 +35,7 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
 
 <nav class="navbar navbar-expand-lg shadow-sm">
   <div class="container">
-    <a class="navbar-brand" href="index.php?ruta=inicioAdp">𝓢𝓪𝓯𝓮 𝓟𝓮𝓽𝓼</a>
+    <a class="navbar-brand" href="index.php?ruta=adoptaAdp">𝓢𝓪𝓯𝓮 𝓟𝓮𝓽𝓼</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -231,10 +231,10 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
     }
 
     .estado-disponible {
-        background: #76d48b;
+        background: #9bcb7f89;
     }
     .estado-tratamiento {
-        background: #f2c84b;
+        background: #f6ac6b7e;
     }
 
     /* Historia */

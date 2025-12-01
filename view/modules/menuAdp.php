@@ -207,18 +207,3 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.reveal, .stagger-container').forEach(node => observer.observe(node));
 });
 </script>
-
-<script>
-    window.addEventListener("load", function () {
-      window.botpress.init({
-        botId: "6868aec6-b3d7-4860-8ae6-030d740ab4d0",
-        clientId: "579f6d70-9846-4343-ad86-d3f17668be7d",
-        hostUrl: "https://cdn.botpress.cloud/webchat/v2",
-        messagingUrl: "https://messaging.botpress.cloud",
-        botName: "Lulo",
-        enableConversationDeletion: true,
-        stylesheet: "https://cdn.botpress.cloud/webchat/v2.3/themes/default.css",
-        showPoweredBy: false
-      });
-    });
-    </script>
