@@ -27,19 +27,53 @@ class Correo {
             $mail->Subject = 'Confirmación de Cita - SafePets';
             
             $cuerpo = "
-            <div style='font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ddd; max-width: 600px;'>
-                <h2 style='color: #27ae60;'>¡Hola $nombreDestino!</h2>
-                <p>Tu cita ha sido agendada exitosamente en SafePets.</p>
-                <hr>
-                <p><strong>Detalles de la cita:</strong></p>
-                <ul>
-                    <li><strong>Fecha:</strong> $fechaCita</li>
-                    <li><strong>Motivo:</strong> $motivo</li>
-                    <li><strong>Estado:</strong> Pendiente de aprobación</li>
-                </ul>
-                <p>Nos pondremos en contacto contigo pronto.</p>
+            <div style='
+                font-family: Arial, sans-serif;
+                background: #f7f2ec;
+                padding: 25px;
+                border-radius: 15px;
+                border: 1px solid #e6daca;
+                max-width: 620px;
+                margin: auto;
+            '>
+                <div style='text-align: center; margin-bottom: 20px;'>
+                    <h2 style='color: #b78f67; margin: 0; font-weight: bold;'>¡Hola $nombreDestino!</h2>
+                    <p style='color: #7a6a58; margin: 5px 0; font-size: 15px;'>
+                        Tu cita ha sido agendada exitosamente en SafePets 
+                    </p>
+                </div>
+
+                <div style='
+                    background: #fffdf9;
+                    padding: 20px;
+                    border-radius: 12px;
+                    border-left: 5px solid #d4b699;
+                    border-right: 1px solid #e6daca;
+                    border-top: 1px solid #e6daca;
+                    border-bottom: 1px solid #e6daca;
+                    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+                    margin-bottom: 15px;
+                '>
+                    <p style='font-size: 15px; color: #5f5144; margin-bottom: 8px;'>
+                        <strong style='color:#8c6f54;'>Detalles de la cita:</strong>
+                    </p>
+
+                    <ul style='font-size: 14px; color: #5f5144; padding-left: 18px; line-height: 1.6;'>
+                        <li><strong style='color:#8c6f54;'>Fecha:</strong> $fechaCita</li>
+                        <li><strong style='color:#8c6f54;'>Motivo:</strong> $motivo</li>
+                        <li><strong style='color:#8c6f54;'>Estado:</strong> Pendiente de aprobación</li>
+                    </ul>
+                </div>
+
+                <div style='text-align: center;'>
+                    <p style='font-size: 13px; color: #8b7b6b; margin-top: 10px;'>
+                        Nos pondremos en contacto contigo muy pronto<br>
+                        Gracias por confiar en <strong>SafePets</strong> 🤎.
+                    </p>
+                </div>
             </div>
             ";
+
 
             $mail->Body = $cuerpo;
             $mail->send();
@@ -69,19 +103,52 @@ class Correo {
             $mail->Subject = 'Actualización de tu Cita - SafePets';
             
             $cuerpo = "
-            <div style='font-family: Arial, sans-serif; padding: 20px; border: 1px solid #ffc107; max-width: 600px;'>
-                <h2 style='color: #d35400;'>Tu cita ha sido modificada</h2>
-                <p>Hola <strong>$nombreDestino</strong>, te informamos que hubo cambios en tu solicitud.</p>
-                <hr>
-                <p><strong>Nuevos detalles:</strong></p>
-                <ul>
-                    <li><strong>Nueva Fecha:</strong> $fechaNueva</li>
-                    <li><strong>Motivo/Observación:</strong> $motivo</li>
-                    <li><strong>Estado actual:</strong> $estado</li>
-                </ul>
-                <p>Si tienes dudas, contáctanos.</p>
+            <div style='
+                font-family: Arial, sans-serif;
+                background: #f7f2ec;
+                padding: 25px;
+                border-radius: 15px;
+                border: 1px solid #e6daca;
+                max-width: 620px;
+                margin: auto;
+            '>
+                <div style='text-align: center; margin-bottom: 20px;'>
+                    <h2 style='color: #b78f67; margin: 0; font-weight: bold;'>Tu cita ha sido modificada</h2>
+                    <p style='color: #7a6a58; margin: 5px 0; font-size: 15px;'>
+                        Hola <strong>$nombreDestino</strong>, queremos informarte que tu cita ha sido actualizada 
+                    </p>
+                </div>
+
+                <div style='
+                    background: #fffdf9;
+                    padding: 20px;
+                    border-radius: 12px;
+                    border-left: 5px solid #d4b699;
+                    border-right: 1px solid #e6daca;
+                    border-top: 1px solid #e6daca;
+                    border-bottom: 1px solid #e6daca;
+                    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+                    margin-bottom: 15px;
+                '>
+                    <p style='font-size: 15px; color: #5f5144; margin-bottom: 10px;'>
+                        <strong style='color:#8c6f54;'>Nuevos detalles:</strong>
+                    </p>
+
+                    <ul style='font-size: 14px; color: #5f5144; padding-left: 18px;'>
+                        <li><strong style='color:#8c6f54;'>Nueva Fecha:</strong> $fechaNueva</li>
+                        <li><strong style='color:#8c6f54;'>Motivo/Observación:</strong> $motivo</li>
+                        <li><strong style='color:#8c6f54;'>Estado actual:</strong> $estado</li>
+                    </ul>
+                </div>
+
+                <div style='text-align: center;'>
+                    <p style='font-size: 13px; color: #8b7b6b; margin-top: 10px;'>
+                        Si necesitas más información, puedes ingresar a <strong>SafePets</strong> o contactarnos 🤎
+                    </p>
+                </div>
             </div>
             ";
+
 
             $mail->Body = $cuerpo;
             $mail->send();
@@ -117,53 +184,53 @@ class Correo {
             $mail->addAddress($emailDestino, $nombreDestino);
 
             $mail->isHTML(true);
-            $mail->Subject = '⚠️ Cita Cancelada - SafePets';
+            $mail->Subject = 'Cita Cancelada - SafePets';
 
             $cuerpo = "
             <div style='
                 font-family: Arial, sans-serif;
-                background-color: #f8f9fa;
+                background: #f7f2ec;
                 padding: 25px;
-                border-radius: 12px;
-                border: 1px solid #e0e0e0;
-                max-width: 650px;
+                border-radius: 15px;
+                border: 1px solid #e6daca;
+                max-width: 620px;
                 margin: auto;
             '>
-                <div style='text-align: center; margin-bottom: 25px;'>
-                    <link href='uploads/logo.jpg' alt='SafePets' style='width: 150px; margin-bottom: 10px;'>
-                    <h2 style='color: #c0392b; margin: 0;'> Cita Cancelada</h2>
-                    <p style='color: #555; margin: 0; font-size: 15px;'>Tu cita ha sido cancelada en SafePets</p>
+                <div style='text-align: center; margin-bottom: 20px;'>
+                    <h2 style='color: #b78f67; margin: 0; font-weight: bold;'>Cita Cancelada</h2>
+                    <p style='color: #7a6a58; margin: 5px 0; font-size: 15px;'>
+                        Tu cita ha sido cancelada en SafePets 
+                    </p>
                 </div>
 
                 <div style='
-                    background: #ffffff;
+                    background: #fffdf9;
                     padding: 20px;
-                    border-radius: 10px;
-                    border-left: 5px solid #e74c3c;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+                    border-radius: 12px;
+                    border-left: 5px solid #d4b699;
+                    border-right: 1px solid #e6daca;
+                    border-top: 1px solid #e6daca;
+                    border-bottom: 1px solid #e6daca;
+                    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
                 '>
-                    <p style='font-size: 15px; color: #333;'>
-                        <strong>Mascota:</strong> {$mascota}
+                    <p style='font-size: 15px; color: #5f5144; margin: 0 0 10px 0;'>
+                        <strong style='color:#8c6f54;'>Mascota:</strong> {$mascota}
                     </p>
-                    <p style='font-size: 15px; color: #333;'>
-                        <strong>Fecha de la cita:</strong> {$fechaCita}
-                    </p>
-                    <p style='font-size: 15px; color: #333;'>
-                        <strong>Motivo de cancelación:</strong> {$motivo}
+                    <p style='font-size: 15px; color: #5f5144; margin: 0;'>
+                        <strong style='color:#8c6f54;'>Fecha de la cita:</strong> {$fechaCita}
                     </p>
                 </div>
 
                 <br>
 
                 <div style='text-align: center;'>
-                    <p style='font-size: 13px; color: #888; margin-top: 15px;'>
-                        Este mensaje fue enviado automáticamente por <strong>SafePets</strong>.<br>
-                        Si crees que esto es un error, contacta a soporte.
+                    <p style='font-size: 13px; color: #8b7b6b; margin-top: 10px;'>
+                        Este mensaje fue enviado automáticamente por <strong>SafePets</strong> 🤎<br>
+                        Si crees que esto es un error, contáctanos a través de la plataforma.
                     </p>
                 </div>
             </div>
             ";
-
 
             $mail->Body = $cuerpo;
 
@@ -175,6 +242,83 @@ class Correo {
             return false;
         }
     }
+
+
+    public static function enviarCorreoNotificacionMascota($emailDestino, $nombreDestino, $nombreMascota) {
+        $mail = new PHPMailer(true);
+
+        try {
+            // Configuración SMTP
+            $mail->isSMTP();
+            $mail->Host       = 'smtp.gmail.com';
+            $mail->SMTPAuth   = true;
+            $mail->Username   = 'carlosfernandosolergarzon@gmail.com';
+            $mail->Password   = 'uvnqknfkpxfabhgm'; 
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->Port       = 587;
+            $mail->CharSet    = 'UTF-8';
+
+            $mail->setFrom('carlosfernandosolergarzon@gmail.com', 'SafePets');
+            $mail->addAddress($emailDestino, $nombreDestino);
+
+            // Contenido
+            $mail->isHTML(true);
+            $mail->Subject = "Notificación de Mascota - SafePets";
+
+            $cuerpo = "
+            <div style='
+                font-family: Arial, sans-serif;
+                background: #f7f2ec;
+                padding: 25px;
+                border-radius: 15px;
+                border: 1px solid #e6daca;
+                max-width: 600px;
+                margin: auto;
+            '>
+                <div style='text-align: center;'>
+                    <h2 style='color: #b78f67; margin-bottom: 10px;'>
+                        ¡Buenas noticias, $nombreDestino!
+                    </h2>
+                </div>
+
+                <p style='font-size: 15px; color: #6b5e52; line-height: 1.6;'>
+                    La mascota que te interesa, <strong style='color:#8c6f54;'>$nombreMascota</strong>, 
+                    ahora está <strong style='color:#7c9c63;'>DISPONIBLE</strong> para adopción.
+                </p>
+
+                <div style='
+                    background: #fffdf9;
+                    padding: 15px;
+                    border-radius: 12px;
+                    border: 1px solid #e6daca;
+                    margin-top: 15px;
+                    text-align: center;
+                '>
+                    <p style='color:#8c745e; font-size: 14px; margin: 0;'>
+                        Puedes ingresar a SafePets para ver más detalles
+                        y continuar con el proceso de adopción.
+                    </p>
+                </div>
+
+                <p style='font-size: 14px; color: #7b6a5a; margin-top: 25px; text-align:center;'>
+                    Gracias por confiar en <strong>SafePets</strong>. 🤎<br>
+                    ¡Esperamos que encuentres a tu compañero ideal!
+                </p>
+            </div>
+            ";
+
+
+            $mail->Body = $cuerpo;
+
+            $mail->send();
+            return true;
+
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+
 
 }
 

@@ -89,9 +89,10 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
   </div>
 </nav><br>
 
-<h1>🐾 Detalle de <?php echo $mascotaEncontrada["nombre"]; ?></h1>
+<h1>Detalle de <?php echo $mascotaEncontrada["nombre"]; ?></h1>
 
 <div class="detalle-card">
+    
 
     <span class="estado-badge 
         <?php 
@@ -102,6 +103,9 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
     </span>
 
     <img src="../../../CarpetaCompartida/Mascotas/<?php echo $mascotaEncontrada['imagen']; ?>" alt="Mascota">
+
+
+
 
     <div class="detalle-info">
         <h2><?php echo $mascotaEncontrada["nombre"]; ?></h2>
@@ -114,41 +118,60 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
         <p><strong>Fecha de ingreso:</strong> <?php echo $mascotaEncontrada["fecha_ingreso"]; ?></p>
         <p><strong>Estado de salud:</strong> <?php echo $mascotaEncontrada["estado_salud"]; ?></p>
     </div>
+
+        <?php if (strtolower($mascotaEncontrada["estado"]) === "en tratamiento") { ?>
+
+        <div style="text-align:center; margin:20px 0;">
+            <button id="btnActivarCampana" 
+                data-mascota="<?php echo $mascotaEncontrada['id_mascotas']; ?>"
+                data-usuario="<?= $_SESSION['id'] ?? '' ?>"
+                data-email="<?= $_SESSION['email'] ?>"
+                class="btn btn-warning"
+                style="font-size:22px; padding:10px 20px; border-radius:30px;">
+                <i class="fa-solid fa-bell"></i>
+            </button>
+        </div>
+
+    <?php } ?>
+
 </div>
 
+
 <div class="historia-card">
-    <h2><i class="fas fa-book-open"></i> Mi historia</h2>
+    <h2> Mi historia</h2>
     <p><?php echo $mascotaEncontrada["descripcion"]; ?></p>
 </div>
 
 <h2 style="text-align:center; color:#7c5845; margin-top: 40px;">
-    <i class="fas fa-notes-medical"></i> Carnet de Vacunación
+     Carnet de Vacunación
 </h2><br>
 
 <div style="display:flex; flex-wrap:wrap; gap:25px; justify-content:center;">
 
-<?php if (count($vacunasMascota) === 0) { ?>
+    <?php if (count($vacunasMascota) === 0) { ?>
 
-    <p style="text-align:center; font-size:18px; color:#8b5e3c;">
-        <i class="fas fa-syringe"></i> Esta mascota aún no tiene vacunas registradas.
-    </p>
+        <p style="text-align:center; font-size:18px; color:#8b5e3c;">
+            <i class="fas fa-syringe"></i> Esta mascota aún no tiene vacunas registradas.
+        </p>
 
-<?php } else { ?>
+    <?php } else { ?>
 
-    <?php foreach ($vacunasMascota as $vac) { ?>
-        <div class="vacuna-card">
-            <i class="fas fa-syringe" style="font-size:35px; color:#a07b61;"></i>
-            <h3 style="margin:12px 0; color:#8b5e3c;">
-                <?php echo ucfirst($vac["nombre_vacuna"]); ?>
-            </h3>
+        <?php foreach ($vacunasMascota as $vac) { ?>
+            <div class="vacuna-card">
+                
+                    <i class="fas fa-syringe" style="font-size:35px; color:#3f5930;"></i>
+                    <h3 style="margin:12px 0; color:#3f5930;">
+                        <?php echo ucfirst($vac["nombre_vacuna"]); ?>
+                    </h3>
+                <div class="vacuna-inner">
+                    <p><strong><i class="fas fa-calendar-check"></i></strong> <?php echo $vac["fecha_aplicacion"]; ?></p>
+                    <p><strong><i class="fas fa-clock"></i></strong> <?php echo $vac["proxima_dosis"]; ?></p>
+                    <p><strong><i class="fas fa-sync-alt"></i></strong> <?php echo $vac["tiempo_aplicacion"]; ?></p>
+                </div>
+            </div>
+        <?php } ?>
 
-            <p><strong><i class="fas fa-calendar-check"></i></strong> <?php echo $vac["fecha_aplicacion"]; ?></p>
-            <p><strong><i class="fas fa-clock"></i></strong> <?php echo $vac["proxima_dosis"]; ?></p>
-            <p><strong><i class="fas fa-sync-alt"></i></strong> <?php echo $vac["tiempo_aplicacion"]; ?></p>
-        </div>
     <?php } ?>
-
-<?php } ?>
 
 </div>
 
@@ -253,21 +276,35 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
         margin-bottom: 15px;
     }
 
-    /* Carnet */
-    .vacuna-card {
-        width: 270px;
-        background: #ffffff;
-        padding: 20px;
-        border-radius: 18px;
-        border: 2px solid #f3e1d3;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        text-align: center;
-        animation: floatCard 4s ease-in-out infinite;
-    }
+.vacuna-card {
+    width: 270px;
+    background: #E9F5E7; /* verde muy claro */
+    padding: 18px;
+    border-radius: 18px;
+    border: 2px solid #76a35cff; 
+    box-shadow: 0 4px 12px rgba(60, 120, 60, 0.12);
+    text-align: left;
+    animation: floatCard 4s ease-in-out infinite;
+    color: #355E33;
+}
 
-    .vacuna-card:hover {
-        transform: translateY(-6px);
-    }
+/* cuadrito blanco interno */
+.vacuna-inner {
+    background: #ffffffac;       /* CUADRO BLANCO como en la foto */
+    border-radius: 15px;
+    padding: 15px; /* borde gris muy suave */
+}
+
+
+.vacuna-card:hover {
+    transform: translateY(-6px);
+    background: #F2FAF0; /* Ligeramente más claro en hover */
+    border-color: #B8DBB2; 
+}
+
+
+
+
 
     /* Animaciones */
     @keyframes fadeIn {
@@ -297,7 +334,7 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
     }
 
     .btn-volver, .btn-adopta {
-        background: #8b5e3c;
+        background: #8b5e3cd4;
         padding: 12px 30px;
         border-radius: 10px;
         text-decoration: none;
@@ -312,7 +349,7 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
     }
 
     .btn-volver:hover, .btn-adopta:hover {
-        background: #a07557;
+        background: #a07557be;
     }
     
     .btn-logout {
@@ -336,3 +373,48 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
 </style>
 
 <script src="view/js/detalleMascota.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const btn = document.getElementById("btnActivarCampana");
+    if (btn) {
+        btn.addEventListener("click", function () {
+
+            let idMascota = btn.getAttribute("data-mascota");
+            let idUsuario = btn.getAttribute("data-usuario");
+            let email = btn.getAttribute("data-email");
+
+            if (!idUsuario) {
+                Swal.fire("Debes iniciar sesión para activar la notificación.");
+                return;
+            }
+
+            let form = new FormData();
+            form.append("activarCampana", "ok");
+            form.append("id_mascotas", idMascota);
+            form.append("id_usuarios", idUsuario);
+            form.append("email_usuario", email);
+
+            fetch("controller/notificacionesController.php", {
+                method: "POST",
+                body: form
+            })
+            .then(r => r.json())
+            .then(res => {
+                if (res.codigo === "200") {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Notificación activada",
+                        text: "Te avisaremos cuando la mascota esté disponible."
+                    });
+
+                    btn.disabled = true;
+                    btn.innerHTML = "✔";
+                    btn.style.background = "#7DCEA0";
+                }
+            });
+        });
+    }
+});
+</script>
