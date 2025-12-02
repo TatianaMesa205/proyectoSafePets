@@ -54,7 +54,7 @@
   </div>
 </nav>
 
-<div id="carruselSafePets" class="carousel slide container mt-4 reveal zoom" data-bs-ride="carousel">
+<div id="carruselSafePets" class="carousel slide mt-0 reveal zoom" data-bs-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
       <img src="https://images.pexels.com/photos/2145878/pexels-photo-2145878.jpeg" class="d-block w-100" alt="Gatito tierno">
@@ -71,10 +71,42 @@
       </div>
     </div>
     <div class="carousel-item">
-      <img src="https://images.pexels.com/photos/16395150/pexels-photo-16395150.jpeg" class="d-block w-100" alt="Mascotas felices">
+      <img src="https://cdn.pixabay.com/photo/2018/09/24/03/05/cat-3699032_1280.jpg" class="d-block w-100" alt="Mascotas felices">
       <div class="carousel-caption d-none d-md-block">
-        <h5>Conéctate con Safe Pets 🤎</h5>
-        <p>Un puente entre adoptantes y fundaciones.</p>
+        <h5>Ellos también merecen un hogar 🤎</h5>
+        <p>Adoptar es cambiar el mundo de una vida.</p>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <img src="https://cdn.pixabay.com/photo/2021/01/02/23/55/dog-5883275_1280.jpg" class="d-block w-100" alt="Mascotas felices">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>La huella más grande está en tu corazón 🤎</h5>
+        <p>Da una oportunidad, recibe amor infinito.</p>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <img src="https://cdn.pixabay.com/photo/2017/08/07/18/57/dog-2606759_1280.jpg" class="d-block w-100" alt="Mascotas felices">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Adoptar es un acto de amor 🤎</h5>
+        <p>Tu familia puede ser el nuevo comienzo de alguien.</p>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <img src="https://cdn.pixabay.com/photo/2019/08/25/13/34/dogs-4429513_1280.jpg" class="d-block w-100" alt="Mascotas felices">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Un hogar, una historia nueva 🤎</h5>
+        <p>Cada adopción transforma dos vidas: la suya y la tuya.</p>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <img src="https://cdn.pixabay.com/photo/2019/09/14/23/14/dogs-4477058_1280.jpg" class="d-block w-100" alt="Mascotas felices">
+      <div class="carousel-caption d-none d-md-block">
+        <h5>Adopta, ama, cambia una vida 🤎</h5>
+        <p>Los mejores amigos llegan cuando decides ayudar.</p>
       </div>
     </div>
   </div>

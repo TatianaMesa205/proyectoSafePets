@@ -8,7 +8,7 @@ $listaMascotas = $respuesta["listaMascotas"];
 
 
 <div class="titulo-seccion">
-    🐾 Historias de Adopción
+    Historias de Adopción
 </div>
 
 <div class="adop-grid">

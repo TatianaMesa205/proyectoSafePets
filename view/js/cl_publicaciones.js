@@ -48,7 +48,7 @@ class Publicaciones {
                     let imgHtml = "";
 
                     if (item.foto && item.foto != "") {
-                        imgHtml = `<img src="${rutaBase + item.foto}?v=${antiCache}" alt="foto" width="80" height="80" style="object-fit:cover;border-radius:10px;">`;
+                        imgHtml = `<img src="${rutaBase + item.foto}?v=${antiCache}" alt="foto" width="80" height="80" style="object-fit:cover;border-radius:3 0px;">`;
                     } else {
                         // Imagen por defecto si no hay foto
                         imgHtml = `<img src="view/img/default/anonymous.png" alt="Sin Foto" width="80" height="80" style="object-fit:cover;border-radius:10px;">`;

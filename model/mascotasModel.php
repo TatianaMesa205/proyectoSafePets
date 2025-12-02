@@ -97,10 +97,24 @@ class MascotasModel
         }
         return $mensaje;
     }
+    
     static public function mdlContarMascotas(){
         $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM mascotas");
         $stmt->execute();
         return $stmt->fetch(); // Retorna array con 'total'
     }
+
+    public static function mdlObtenerMascotaPorId($id_mascotas)
+    {
+        try {
+            $sql = "SELECT * FROM mascotas WHERE id_mascotas = ?";
+            $stmt = Conexion::conectar()->prepare($sql);
+            $stmt->execute([$id_mascotas]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
 }
 ?>

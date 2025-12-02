@@ -1,6 +1,9 @@
 <?php
 // Usamos __DIR__ para evitar errores de rutas
 include_once __DIR__ . "/../model/mascotasModel.php";
+include_once __DIR__ . "/../model/notificacionesModel.php";
+include_once __DIR__ . "/../utils/correo.php";
+
 
 class MascotasController
 {
@@ -53,23 +56,77 @@ class MascotasController
 
     public function ctrEditarMascota()
     {
-        $objRespuestaMascota = MascotasModel::mdlEditarMascota(
-            $this->id_mascotas, 
-            $this->nombre, 
-            $this->especie, 
-            $this->raza, 
-            $this->edad, 
-            $this->sexo, 
-            $this->tamano, 
-            $this->fecha_ingreso, 
-            $this->estado_salud, 
-            $this->estado, 
-            $this->descripcion, 
+        // 1. Obtener datos actuales de la mascota
+        $mascotaBD = MascotasModel::mdlObtenerMascotaPorId($this->id_mascotas);
+        $estadoAnterior = $mascotaBD["estado"] ?? '';
+
+        // 2. Actualizar mascota
+        $actualizado = MascotasModel::mdlEditarMascota(
+            $this->id_mascotas,
+            $this->nombre,
+            $this->especie,
+            $this->raza,
+            $this->edad,
+            $this->sexo,
+            $this->tamano,
+            $this->fecha_ingreso,
+            $this->estado_salud,
+            $this->estado,
+            $this->descripcion,
             $this->imagen
         );
-        echo json_encode($objRespuestaMascota);
+
+        // Normalizar strings para comparar
+        $estadoAnteriorNorm = trim(mb_strtolower($estadoAnterior));
+        $estadoNuevoNorm = trim(mb_strtolower($this->estado));
+
+        // 3. ¿Pasó de "en tratamiento" -> "disponible"?
+        if ($estadoAnteriorNorm === "en tratamiento" && $estadoNuevoNorm === "disponible") {
+
+            // Obtener usuarios interesados
+            $interesados = NotificacionesModel::usuariosInteresados($this->id_mascotas);
+
+            if (!empty($interesados)) {
+
+                foreach ($interesados as $u) {
+
+                    $email = $u["email"] ?? null;
+                    $nombreUsuario = $u["nombre_usuario"] ?? 'Usuario SafePets';
+                    $idNotificacion = $u["id"] ?? null;
+
+                    if (!$email) {
+                        error_log("Notificación: email vacío para notificación id: " . json_encode($u));
+                        continue;
+                    }
+
+                    // Enviar correo
+                    try {
+                        $enviado = Correo::enviarCorreoNotificacionMascota(
+                            $email,
+                            $nombreUsuario,
+                            $mascotaBD["nombre"] ?? 'Tu mascota'
+                        );
+                    } catch (Throwable $e) {
+                        $enviado = false;
+                        error_log("Error al enviar correo a {$email}: " . $e->getMessage());
+                    }
+
+                    // Si se envió correctamente, marcar como enviado
+                    if ($enviado && $idNotificacion) {
+                        NotificacionesModel::marcarNotificacionEnviada($idNotificacion);
+                    }
+                }
+            } else {
+                error_log("No se encontraron interesados para mascota id {$this->id_mascotas}");
+            }
+        }
+
+        echo json_encode($actualizado);
     }
+
 }
+
+
 
 
 
@@ -161,5 +218,6 @@ if (isset($_POST["editarMascota"]) && $_POST["editarMascota"] == "ok") {
 
     $objMascotas->imagen = $nombreImagen;
     $objMascotas->ctrEditarMascota();
+
 }
 ?>

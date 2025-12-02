@@ -37,7 +37,7 @@ class Mascotas {
 
                     // Si hay imagen, concatenamos. Si no, mostramos una por defecto.
                     if (item.imagen && item.imagen != "") {
-                        imgHtml = `<img src="${rutaBase + item.imagen}" alt="Foto" width="80" height="80" style="object-fit:cover;border-radius:10px;">`;
+                        imgHtml = `<img src="${rutaBase + item.imagen}" alt="Foto" width="80" height="80" style="object-fit:cover;border-radius:30px;">`;
                     } else {
                         imgHtml = `<img src="view/img/default/anonymous.png" alt="Sin Foto" width="80" height="80" style="object-fit:cover;border-radius:10px;">`;
                     }

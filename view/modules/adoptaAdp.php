@@ -146,8 +146,8 @@ $listaMascotas = $respuesta["listaMascotas"];
         box-shadow: 0 3px 6px rgba(0,0,0,0.15);
     }
 
-    .estado-disponible { background: #9bcb7fff; } 
-    .estado-tratamiento { background: #f6ac6bff; }   
+    .estado-disponible { background: #9bcb7fa0; } 
+    .estado-tratamiento { background: #f6ac6b9c; }   
 
 
     @keyframes float {

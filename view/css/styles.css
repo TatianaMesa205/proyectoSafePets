@@ -28,10 +28,77 @@ body {
   color: #a67856 !important;
 }
 .carousel-inner img {
-  height: 350px;
+  height: 700px;
   object-fit: cover;
-  border-radius: 20px;
 }
+
+
+/* Carrusel fullscreen */
+#carruselSafePets,
+#carruselSafePets .carousel-item {
+  height: 100vh;
+}
+
+#carruselSafePets .carousel-item img {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  filter: brightness(75%); /* oscurece un poco la imagen para que el texto resalte */
+  transition: transform 6s ease; /* zoom suave */
+}
+
+/* Efecto zoom lento en cada slide */
+#carruselSafePets .carousel-item.active img {
+  transform: scale(1.08);
+}
+
+/* Overlay degradado */
+#carruselSafePets .carousel-item::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.45),
+    rgba(0, 0, 0, 0.2)
+  );
+  z-index: 1;
+}
+
+/* Texto centrado y mejorado */
+#carruselSafePets .carousel-caption {
+  z-index: 2;
+  bottom: 45%;
+  transform: translateY(50%);
+}
+
+#carruselSafePets h5 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 0 4px 10px rgba(0,0,0,0.7);
+}
+
+#carruselSafePets p {
+  font-size: 1.5rem;
+  color: #f3f3f3;
+  text-shadow: 0 3px 8px rgba(0,0,0,0.6);
+}
+
+/* Botones de navegación personalizados */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  filter: invert(100%);
+  width: 3rem;
+  height: 3rem;
+}
+
+
+
+
 .container.text-center.my-4 {
   position: sticky;
   top: 0;
@@ -39,8 +106,6 @@ body {
   z-index: 1000;
   padding: 10px 0;
 }
-
-
 
 
 /* --- Estilos de Adopción (adopta.php) --- */
