@@ -58,12 +58,8 @@ if (class_exists('CitasModel') && method_exists('CitasModel', 'mdlListarCitas'))
         if ($isPending) $totalCitasPendientesRaw++;
     }
 } else {
-    // Fallback: método del controller o contador genérico
-    if (method_exists('CitasController', 'ctrContarCitasPendientes')) {
-        $totalCitasPendientesRaw = CitasController::ctrContarCitasPendientes();
-    } else {
-        $totalCitasPendientesRaw = CitasController::ctrContarCitas();
-    }
+    // Fallback: usar el método genérico del controller
+    $totalCitasPendientesRaw = CitasController::ctrContarCitas();
 }
 
 $totalMascotas = normalizeCount($totalMascotasRaw);
@@ -284,3 +280,4 @@ $totalCitasPendientes = is_int($totalCitasPendientesRaw) ? (int)$totalCitasPendi
     </div>
 
 </div>
+</div> <script src="view/js/inicioAdmin.js"></script>
