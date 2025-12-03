@@ -157,11 +157,11 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
             </form>
         </div>
 
-        <div id="seccionCitas" class="seccion oculto">
+        <div id="seccionCitas" class="seccion oculto" style="width: 100%;">
             <h3 class="mb-4 text-center" style="color:#8b5e3c; font-weight:700;">
                 <i class="fa-solid fa-calendar-check me-2"></i>Historial de Citas
             </h3>
-            <div id="listaCitasAdoptante" class="contenedor-citas"></div>
+            <div id="listaCitasAdoptante" class="contenedor-principal-citas"></div>
         </div>
 
         <div id="seccionAdopciones" class="seccion oculto">
@@ -171,7 +171,9 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
             <p class="text-muted">Aquí se mostrarán las adopciones asociadas al usuario.</p>
         </div>
 
-    </div> </div> </body>
+    </div> 
+</div> 
+</body>
 
 <style>
 /* LAYOUT GENERAL */
@@ -248,7 +250,7 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
     align-items: flex-start;   
 }
 
-/* FORM WRAPPER */
+/* FORM WRAPPER (Perfil) */
 .form-wrapper {
     background: #ffffff;
     padding: 35px;
@@ -319,49 +321,130 @@ $idAdoptante = $adoptanteInfo["id_adoptantes"] ?? null;
     transform: translateY(-2px);
 }
 
-/* Estilos Citas (Mantenidos) */
-.cita-card:hover { transform: translateY(-5px); }
-.estado-activa { display: inline-block; background: #c8f3cc; color: #1b6022; padding: 6px 14px; border-radius: 12px; font-weight: bold; }
-.estado-cancelada { display: inline-block; background: #ffd2d2; color: #8b1a1a; padding: 6px 14px; border-radius: 12px; font-weight: bold; }
-.estado-completada { display: inline-block; background: #d8e8ff; color: #1a3d7c; padding: 6px 14px; border-radius: 12px; font-weight: bold; }
-.estado-pendiente { display: inline-block; background: #fff4cc; color: #7a5c1a; padding: 6px 14px; border-radius: 12px; font-weight: bold; }
+/* --- ESTILOS DE CITAS (CORREGIDOS) --- */
 
-/* NUEVO ESTILO COMPLETADA */
-.estado-completada { 
-    display: inline-block; 
-    background: #d1e7dd; 
-    color: #0f5132; 
-    padding: 6px 14px; 
-    border-radius: 12px; 
-    font-weight: bold; 
-    border: 1px solid #badbcc;
+/* 1. ESTILO PARA LOS TÍTULOS CON LÍNEAS LATERALES */
+.titulo-decorado {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8b5e3c;
+    font-weight: 700;
+    font-size: 1.3rem;
+    margin: 30px 0 20px 0;
+    white-space: nowrap;
+    width: 100%;
 }
+
+.titulo-decorado::before,
+.titulo-decorado::after {
+    content: '';
+    flex: 1;
+    border-bottom: 2px solid #e2c7b3; /* Color de la línea */
+    margin: 0 15px; /* Espacio entre el texto y la línea */
+}
+
+/* 2. REJILLA DE TARJETAS */
+.contenedor-citas {
+    display: grid;
+    /* Esto crea tarjetas de mínimo 280px. Si es 1 sola, no se estira al máximo */
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+    gap: 25px;
+    width: 100%;
+    /* justify-items: center;  <-- Opcional: Centra las tarjetas dentro de sus columnas */
+}
+
+/* 3. TARJETA INDIVIDUAL COMPACTA */
+.cita-card {
+    background-color: #ffffff;
+    border: 1px solid #ebd7c4;
+    border-radius: 15px;
+    padding: 15px;
+    box-shadow: 0 4px 12px rgba(139, 94, 60, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s ease;
+    
+    /* LIMITES DE TAMAÑO */
+    width: 100%;
+    max-width: 320px; /* Ancho máximo para que no se vea gigante */
+    margin: 0 auto;   /* Centrar la tarjeta si la columna es más ancha */
+}
+
+.cita-card:hover { 
+    transform: translateY(-5px); 
+    border-color: #c49a7a;
+    box-shadow: 0 8px 20px rgba(139, 94, 60, 0.2);
+}
+
+/* IMAGEN RECTANGULAR Y PROLIJA */
+.cita-card img {
+    width: 100%;
+    height: 180px;      /* Altura fija */
+    object-fit: cover;  /* Recorta sin deformar */
+    border-radius: 12px;
+    margin-bottom: 12px;
+}
+
+/* TEXTOS DENTRO DE LA TARJETA */
+.cita-card h5 {
+    color: #8b5e3c;
+    font-weight: 700;
+    margin: 10px 0;
+    font-size: 18px;
+    text-align: center; 
+}
+
+.cita-card p {
+    color: #6b4a37;
+    margin-bottom: 5px;
+    font-size: 14px;
+    text-align: center;
+}
+
+/* ETIQUETAS DE ESTADO */
+.estado-container { text-align: center; margin-bottom: 8px; }
+
+.estado-activa { display: inline-block; background: #c8f3cc; color: #1b6022; padding: 4px 12px; border-radius: 12px; font-weight: bold; font-size: 12px; }
+.estado-cancelada { display: inline-block; background: #ffd2d2; color: #8b1a1a; padding: 4px 12px; border-radius: 12px; font-weight: bold; font-size: 12px; }
+.estado-pendiente { display: inline-block; background: #fff4cc; color: #7a5c1a; padding: 4px 12px; border-radius: 12px; font-weight: bold; font-size: 12px; }
+.estado-finalizada { display: inline-block; background: #d1e7dd; color: #0f5132; padding: 4px 12px; border-radius: 12px; font-weight: bold; border: 1px solid #badbcc; font-size: 12px; }
+
+/* BOTÓN CANCELAR */
+.btn-cancelar {
+    background: none; border: none; color: #dc3545; float: right; font-size: 16px; cursor: pointer; transition: 0.2s;
+}
+.btn-cancelar:hover { color: #a71d2a; transform: scale(1.1); }
+
 </style>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
     const menuItems = document.querySelectorAll(".menu-item");
-    const secciones = {
-        "Mi Perfil": "content-area", // Ojo: en tu JS original usabas esto para mostrar el form-wrapper
-        "Historial de Citas": "seccionCitas",
-    };
+    const perfilWrapper = document.querySelector(".form-wrapper");
+    const secCitas = document.getElementById("seccionCitas");
+    
+    // Función para limpiar vista
+    function ocultarTodo() {
+        document.querySelectorAll(".seccion").forEach(sec => sec.classList.add("oculto"));
+        if(perfilWrapper) perfilWrapper.style.display = "none";
+        if(secCitas) secCitas.classList.add("oculto");
+    }
 
     menuItems.forEach(item => {
         item.addEventListener("click", function () {
             menuItems.forEach(btn => btn.classList.remove("active"));
             this.classList.add("active");
             
-            // Ocultar todas las secciones primero
-            document.querySelectorAll(".seccion").forEach(sec => sec.classList.add("oculto"));
-            document.querySelector(".form-wrapper").style.display = "none"; // Ocultar perfil por defecto
+            ocultarTodo();
 
             let texto = this.innerText.trim();
             
-            // Lógica específica
             if (texto === "Mi Perfil") {
-                document.querySelector(".form-wrapper").style.display = "block";
+                if(perfilWrapper) perfilWrapper.style.display = "block";
             } else if (texto === "Historial de Citas") {
-                document.getElementById("seccionCitas").classList.remove("oculto");
+                if(secCitas) secCitas.classList.remove("oculto");
             }
         });
     });
