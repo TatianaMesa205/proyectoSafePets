@@ -88,7 +88,7 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
     <p><?php echo $mascotaEncontrada["descripcion"]; ?></p>
 </div>
 
-<h2 style="text-align:center; color:#7c5845; margin-top: 40px;">
+<h2 style="text-align:center; color:#7c5845; margin-top: 40px;" class="titulo-carnet">
      Carnet de Vacunación
 </h2><br>
 
@@ -222,35 +222,30 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
         margin-bottom: 15px;
     }
 
-.vacuna-card {
-    width: 270px;
-    background: #E9F5E7; /* verde muy claro */
-    padding: 18px;
-    border-radius: 18px;
-    border: 2px solid #76a35cff; 
-    box-shadow: 0 4px 12px rgba(60, 120, 60, 0.12);
-    text-align: left;
-    animation: floatCard 4s ease-in-out infinite;
-    color: #355E33;
-}
+    .vacuna-card {
+        width: 270px;
+        background: #E9F5E7; /* verde muy claro */
+        padding: 18px;
+        border-radius: 18px;
+        border: 2px solid #76a35cff; 
+        box-shadow: 0 4px 12px rgba(60, 120, 60, 0.12);
+        text-align: left;
+        animation: floatCard 4s ease-in-out infinite;
+        color: #355E33;
+    }
 
-/* cuadrito blanco interno */
-.vacuna-inner {
-    background: #ffffffac;       /* CUADRO BLANCO como en la foto */
-    border-radius: 15px;
-    padding: 15px; /* borde gris muy suave */
-}
+    /* cuadrito blanco interno */
+    .vacuna-inner {
+        background: #ffffffac;
+        border-radius: 15px;
+        padding: 15px;
+    }
 
-
-.vacuna-card:hover {
-    transform: translateY(-6px);
-    background: #F2FAF0; /* Ligeramente más claro en hover */
-    border-color: #B8DBB2; 
-}
-
-
-
-
+    .vacuna-card:hover {
+        transform: translateY(-6px);
+        background: #F2FAF0; 
+        border-color: #B8DBB2; 
+    }
 
     /* Animaciones */
     @keyframes fadeIn {
@@ -298,24 +293,52 @@ $vacunasMascota = VacunasMascotasModel::mdlListarVacunasPorMascota($idMascota);
         background: #a07557be;
     }
     
-    .btn-logout {
-        display: block;
-        margin: 10px auto;
-        padding: 10px 10px;
-        background-color: #d6baa5;
-        color: white;
-        border: none;
-        border-radius: 20px;
-        cursor: pointer;
-        font-weight: bold;
+    /* --- MODO OSCURO (Overrides específicos para Detalle Mascota) --- */
+    body.dark-mode {
+        background-color: #121212 !important;
+    }
+    
+    body.dark-mode .detalle-card,
+    body.dark-mode .historia-card {
+        background-color: #1e1e1e !important;
+        color: #f1f1f1 !important;
+        border: 1px solid #333;
+        box-shadow: none !important;
     }
 
-    .perfil-icono i { font-size: 1.9rem; color: #8b5e3c; transition: 0.4s; }
-    .perfil-toggle:hover .perfil-icono i { transform: rotate(10deg) scale(1.15); color: #b7855e; }
-    .perfil-nombre { font-weight: 600; margin-left: 8px; animation: fadeIn 1s ease; }
-    .perfil-menu { border-radius: 15px; animation: dropdownSlide 0.35s ease; background: #e4d6c7; border: 1px solid #e7d1c4; }
-    .perfil-opcion { transition: 0.3s; }
-    .perfil-opcion:hover { background: #f4e6dd; color: #8b5e3c; }
+    body.dark-mode h1,
+    body.dark-mode .detalle-info h2,
+    body.dark-mode .historia-card h2,
+    body.dark-mode .titulo-carnet {
+        color: #3fa9f5 !important; /* AZUL */
+    }
+
+    body.dark-mode .detalle-info p {
+        color: #ccc !important;
+    }
+
+    body.dark-mode .vacuna-card {
+        background-color: #1a2e1a !important; /* Verde muy oscuro */
+        border-color: #2e4d2e !important;
+        color: #aaddaa !important;
+    }
+
+    body.dark-mode .vacuna-inner {
+        background-color: #243b24 !important;
+        color: #fff !important;
+    }
+    
+    body.dark-mode .vacuna-card h3,
+    body.dark-mode .vacuna-card i {
+        color: #5eff5e !important; /* Verde neón para resaltar en oscuro */
+    }
+
+    body.dark-mode .btn-volver, 
+    body.dark-mode .btn-adopta {
+        background-color: #3fa9f5 !important;
+        color: #fff;
+    }
+
 </style>
 
 <script src="view/js/detalleMascota.js"></script>
