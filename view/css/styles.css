@@ -667,3 +667,135 @@ body {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+:root {
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --navbar-bg: #ffffff; /* Blanco de la navbar light */
+  --link-color: #6c757d; /* text-secondary/text-dark */
+  --card-bg: #f8f9fa; /* Color de fondo claro */
+}
+
+.dark-mode {
+  --bg-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --navbar-bg: #212529; /* Gris oscuro para la navbar */
+  --link-color: #e0e0e0;
+  --card-bg: #333333;
+}
+
+/* ---------------------------------------------------- */
+/* Aplicación de Estilos Globales */
+/* ---------------------------------------------------- */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.4s ease;
+}
+
+/* Botón de Modo Oscuro */
+#toggle-dark-mode {
+    color: var(--text-color);
+    background-color: transparent;
+    transition: all 0.4s ease;
+}
+
+/* ---------------------------------------------------- */
+/* Sobrescribir Componentes de Bootstrap */
+/* ---------------------------------------------------- */
+
+/* 1. Navbar */
+.dark-mode .navbar {
+    background-color: var(--navbar-bg) !important; 
+    box-shadow: 0 0.125rem 0.25rem rgba(255, 255, 255, 0.1) !important; /* Ajustar sombra para oscuro */
+}
+
+/* 2. Enlaces del Navbar y el Brand */
+.dark-mode .navbar-brand,
+.dark-mode .nav-link,
+.dark-mode .dropdown-item,
+.dark-mode .perfil-nombre {
+    color: var(--link-color) !important; /* Fuerza el color claro para el texto */
+}
+
+/* Asegura que los enlaces de la tarjeta de iconos cambien de color */
+.dark-mode .container .col a {
+    color: var(--text-color) !important;
+}
+
+/* 3. Menú Desplegable (Dropdown) */
+.dark-mode .dropdown-menu {
+    background-color: var(--card-bg); /* Fondo oscuro del menú desplegable */
+    border-color: #444444;
+}
+
+.dark-mode .dropdown-item:hover {
+    background-color: #444444; /* Fondo oscuro al pasar el ratón */
+}
+
+/* 4. El contenedor de Iconos (debajo del carrusel) */
+.dark-mode .container.text-center {
+    background-color: var(--bg-color); /* Asegura que el fondo principal cubra esta sección */
+}
+
+/* Sobrescribe la tarjeta "Amor que sana..." */
+.dark-mode .about-container {
+    background: var(--dark-card-bg) !important; 
+    box-shadow: 0 12px 30px rgba(0,0,0,0.4) !important; /* Sombra más oscura */
+}
+
+/* Título principal "Amor que sana..." (Cambia a azul claro) */
+.dark-mode .about-title {
+    color: var(--primary-color-dark) !important; 
+}
+
+/* Subtítulo y texto principal (Cambia a gris claro) */
+.dark-mode .about-subtitle,
+.dark-mode .about-text,
+.dark-mode .about-text p {
+    color: var(--text-color) !important;
+}
+
+/* Título secundario "¿Quiénes somos?" (Cambia a azul claro) */
+.dark-mode .about-text h3 {
+    color: var(--primary-color-dark) !important;
+}
+
+/* Botón "Quiero ayudar" */
+.dark-mode .help-btn {
+    background: var(--primary-color-dark) !important;
+    box-shadow: 0px 6px 14px rgba(0,0,0,0.5) !important;
+}
+
+.dark-mode .help-btn:hover {
+    background: #60a5fa !important; /* Un azul un poco más vibrante */
+}
+
+
+
+
+
+/* Aplica color oscuro al fondo de la sección de iconos */
+.dark-mode .container.text-center {
+    background-color: var(--bg-color) !important; /* El color de fondo principal oscuro */
+}
+
+/* Cambia el color de los iconos y el texto a claro */
+.dark-mode .container.text-center a {
+    color: var(--dark-link-color) !important; 
+}
+
+/* Asegúrate de que el contenedor de los iconos (si tiene un fondo aparte) sea oscuro */
+/* ASUMIMOS que el menú de iconos está en un div con un fondo específico: */
+.dark-mode .row.row-cols-5 {
+    background-color: transparent !important; /* o el color oscuro si tiene un fondo propio */
+}
