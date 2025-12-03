@@ -20,17 +20,19 @@ class CitasModel
         }
     }
 
-    // --- ESTA ES LA VALIDACIÓN QUE CAMBIAMOS ---
+    // --- VALIDACIÓN ACTUALIZADA ---
     public static function mdlValidarCitaActiva($id_adoptantes) {
         try {
             // Buscamos citas que NO sean 'Cancelada' Y que NO sean 'Completada'.
-            // Esto contará cualquier cita 'Pendiente' o 'Confirmada'.
+            // Y ADEMÁS, que sean a futuro (fecha_cita > NOW()).
+            // Si la fecha ya pasó, no contará y devolverá 0, permitiendo agendar otra.
             $stmt = Conexion::conectar()->prepare("
                 SELECT COUNT(*) as total 
                 FROM citas 
                 WHERE id_adoptantes = :id 
                 AND estado != 'Cancelada' 
                 AND estado != 'Completada'
+                AND fecha_cita > NOW()
             ");
             $stmt->bindParam(":id", $id_adoptantes, PDO::PARAM_INT);
             $stmt->execute();
@@ -161,7 +163,6 @@ class CitasModel
         return $sql->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // HE MANTENIDO ESTA FUNCIÓN ORIGINAL SIN CAMBIOS
     static public function mdlBuscarCitaActiva($id_adoptantes) {
         $sql = "SELECT * FROM citas 
                 WHERE id_adoptantes = :id 

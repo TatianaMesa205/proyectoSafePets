@@ -32,7 +32,7 @@ class CitasController
     public function ctrRegistrarCita() {
 
         // --- VALIDACIÓN DE CITA ÚNICA ---
-        // Verificamos si el adoptante ya tiene una cita activa (Ni Cancelada, Ni Completada)
+        // Verificamos si el adoptante ya tiene una cita activa (Ni Cancelada, Ni Completada) y A FUTURO
         $validacion = CitasModel::mdlValidarCitaActiva($this->id_adoptantes);
 
         if ($validacion["total"] > 0) {
@@ -40,7 +40,7 @@ class CitasController
             header('Content-Type: application/json');
             echo json_encode([
                 "codigo" => "409", 
-                "mensaje" => "Ya tienes una solicitud de cita en proceso. Debes esperar a que sea 'Completada' o 'Cancelada' para agendar otra."
+                "mensaje" => "Ya tienes una cita programada pendiente o confirmada a futuro. Debes esperar a que pase la fecha o cancelarla para agendar otra."
             ]);
             die();
         }

@@ -25,7 +25,6 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
     
 
     <script src="https://cdn.botpress.cloud/webchat/v3.4/inject.js"></script>

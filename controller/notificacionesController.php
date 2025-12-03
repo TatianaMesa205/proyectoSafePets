@@ -1,6 +1,30 @@
 <?php
-require_once "../model/notificacionesModel.php";
-require_once "../utils/correo.php";
+
+// Validamos si el archivo del modelo está en la ruta relativa (para AJAX) o normal
+if (file_exists("../model/notificacionesModel.php")) {
+    require_once "../model/notificacionesModel.php";
+} elseif (file_exists("model/notificacionesModel.php")) {
+    require_once "model/notificacionesModel.php";
+}
+
+
+
+class NotificacionesController {
+
+
+    static public function ctrVerificarNotificacion($idUsuario, $idMascota){
+        // Llamamos al modelo que creamos anteriormente
+        $respuesta = NotificacionesModel::verificarNotificacion($idUsuario, $idMascota);
+        return $respuesta;
+    }
+
+
+    static public function ctrRegistrarNotificacion($datos){
+        $respuesta = NotificacionesModel::registrarInteres($datos);
+        return $respuesta;
+    }
+
+}
 
 if (isset($_POST["activarCampana"])) {
 
@@ -10,9 +34,7 @@ if (isset($_POST["activarCampana"])) {
         "email" => $_POST["email_usuario"]
     ];
 
-    // SOLO registrar, NO enviar correo
-    $resp = NotificacionesModel::registrarInteres($data);
+    $resp = NotificacionesController::ctrRegistrarNotificacion($data);
 
     echo json_encode(["codigo" => $resp ? "200" : "400"]);
-    
 }
