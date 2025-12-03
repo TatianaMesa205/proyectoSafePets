@@ -1,11 +1,33 @@
 $(document).ready(function() {
     
     // 1. VALIDACIÓN INICIAL: VERIFICAR SI YA TIENE CITA ACTIVA
-    // Esto evita que el usuario vea el formulario si no puede agendar.
     validarEstadoCita();
 
     // 2. Cargar mascotas en el select al iniciar la página
     cargarMascotasDelUsuario();
+
+    // 3. BLOQUEAR FECHAS PASADAS (NUEVO)
+    // Se ejecuta al cargar para bloquear fechas anteriores a la actual
+    const inputFecha = document.getElementById("txt_fecha_cita");
+    if (inputFecha) {
+        const ahora = new Date();
+        // Ajustar la zona horaria para obtener la hora local correcta
+        ahora.setMinutes(ahora.getMinutes() - ahora.getTimezoneOffset());
+        
+        // Formato ISO requerido por datetime-local: YYYY-MM-DDTHH:MM
+        const fechaMinima = ahora.toISOString().slice(0, 16);
+        
+        // Aplicar el mínimo al input
+        inputFecha.min = fechaMinima;
+
+        // Validación extra: Si el usuario intenta escribir manualmente una fecha pasada
+        inputFecha.addEventListener("change", function() {
+            if (this.value < fechaMinima) {
+                Swal.fire("Fecha inválida", "No puedes seleccionar una fecha u hora pasada.", "warning");
+                this.value = ""; // Limpiar campo
+            }
+        });
+    }
 
     // --- EVENTO: REGISTRAR CITA ---
     $("#formRegistroCitaAdp").on("submit", function(e) {
