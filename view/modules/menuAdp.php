@@ -159,7 +159,7 @@
 <style>
 /* Tus estilos del menú */
 .container.text-center.my-4 { position: sticky; top: 0; background: #f8f3ee; z-index: 1000; padding: 10px 0; }
-.navbar { animation: fadeDown 1s ease; background: #f0e4d8ff; border-bottom: 2px solid #e8d2c6; }
+.navbar { animation: fadeDown 1s ease; background: #f0e4d8ff; }
 .navbar-brand { font-size: 1.9rem; font-weight: 700; color: #8b5e3c !important; transition: 0.3s; }
 .navbar-brand:hover { transform: scale(1.08); color: #b7855e !important; }
 .perfil-icono i { font-size: 1.9rem; color: #8b5e3c; transition: 0.4s; }

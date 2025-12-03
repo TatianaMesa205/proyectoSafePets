@@ -737,7 +737,6 @@ body {
 
 /* Botón de Modo Oscuro */
 #toggle-dark-mode {
-    border: 1px solid var(--text-color);
     color: var(--text-color);
     background-color: transparent;
     transition: all 0.4s ease;
