@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg shadow-sm">
+<nav class="navbar navbar-expand-lg shadow-sm" id="toggle-dark-mode">
   <div class="container">
     <a class="navbar-brand" href="index.php?ruta=inicioAdp">𝓢𝓪𝓯𝓮 𝓟𝓮𝓽𝓼</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -118,33 +118,33 @@
   </button>
 </div>
 
-<div class="container text-center my-4 stagger-container">
+<div class="container text-center my-4 stagger-container" id="toggle-dark-mode">
   <div class="row row-cols-5 g-3">
-    <div class="col stagger-item">
+    <div class="col stagger-item" id="toggle-dark-mode">
       <a href="index.php?ruta=inicioAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-house"></i>
         <span class="small">𝐼𝓃𝒾𝒸𝒾𝑜</span>
       </a>
     </div>
-    <div class="col stagger-item">
+    <div class="col stagger-item" id="toggle-dark-mode">
       <a href="index.php?ruta=adoptaAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-paw"></i>
         <span class="small">𝑀𝒶𝓈𝒸𝑜𝓉𝒶𝓈</span>
       </a>
     </div>
-    <div class="col stagger-item">
+    <div class="col stagger-item" id="toggle-dark-mode">
       <a href="index.php?ruta=publicacionesAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-bell"></i>
         <span class="small">𝒫𝓊𝒷𝓁𝒾𝒸𝒶𝒸𝒾𝑜𝓃𝑒𝓈</span>
       </a>
     </div>
-    <div class="col stagger-item">
+    <div class="col stagger-item" id="toggle-dark-mode">
       <a href="index.php?ruta=historiasAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-book-open"></i>
         <span class="small">𝐻𝒾𝓈𝓉𝑜𝓇𝒾𝒶𝓈</span>
       </a>
     </div>
-    <div class="col stagger-item">
+    <div class="col stagger-item" id="toggle-dark-mode">
       <a href="index.php?ruta=donacionesAdp" class="text-decoration-none text-dark d-flex flex-column align-items-center">
         <i class="fa-solid fa-heart"></i>
         <span class="small">𝒟𝑜𝓃𝒶𝒸𝒾𝑜𝓃𝑒𝓈</span>

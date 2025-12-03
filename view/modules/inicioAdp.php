@@ -19,7 +19,7 @@ $historias = array_slice($historias, 0, 3); // 👈 Cambia 3 por el número que 
 
 
 <!-- SECCIÓN "SOBRE NOSOTROS" -->
-<section class="about-container reveal from-bottom">
+<section class="about-container reveal from-bottom" id="toggle-dark-mode">
   <h2 class="about-title">𝑨𝒎𝒐𝒓 𝒒𝒖𝒆 𝒔𝒂𝒏𝒂, 𝒑𝒓𝒐𝒕𝒆𝒈𝒆 𝒚 𝒕𝒓𝒂𝒏𝒔𝒇𝒐𝒓𝒎𝒂 </h2>
   <p class="about-subtitle">Trabajamos por quienes no tienen voz, pero sí un corazón inmenso.</p>
   <div class="about">
