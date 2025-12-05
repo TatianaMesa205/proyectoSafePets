@@ -18,9 +18,7 @@ class AdoptantesModel
         return $mensaje;
     }
 
-    /* ==============================================
-       MÉTODO NUEVO PARA BUSCAR POR CAMPO (Email)
-       ============================================== */
+
     public static function mdlMostrarAdoptante($item, $valor)
     {
         try {
@@ -32,6 +30,7 @@ class AdoptantesModel
             return null;
         }
     }
+
 
     public static function mdlRegistrarAdoptante($nombre, $cedula, $tel, $email, $dir)
     {
@@ -95,6 +94,7 @@ class AdoptantesModel
             return array("codigo" => "401", "mensaje" => $e->getMessage());
         }
     }
+    
     static public function mdlContarAdoptantes(){
         $stmt = Conexion::conectar()->prepare("SELECT COUNT(*) as total FROM adoptantes");
         $stmt->execute();

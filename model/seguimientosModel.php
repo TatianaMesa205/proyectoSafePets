@@ -3,7 +3,6 @@ include_once "conexion.php";
 
 class SeguimientosMascotasModel
 {
-    // 1. LISTAR SEGUIMIENTOS (Para la Tabla)
     public static function mdlListarSeguimientos()
     {
         $mensaje = array();
@@ -33,7 +32,6 @@ class SeguimientosMascotasModel
         return $mensaje;
     }
 
-    // 2. LISTAR ADOPCIONES (Para el Select del Formulario)
     public static function mdlListarAdopcionesParaSelect()
     {
         $mensaje = array();

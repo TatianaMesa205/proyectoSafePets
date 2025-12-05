@@ -1,11 +1,7 @@
 $(document).ready(function() {
-    // 1. Cargar Tabla y Selects al inicio
     listarSeguimientos();
     cargarSelectAdopciones();
 
-    // ----------------------------------------------------------------
-    // NAVEGACIÓN (Mostrar/Ocultar Formularios)
-    // ----------------------------------------------------------------
     $("#btn-AgregarSeguimiento").on("click", function() {
         $("#panelTablaSeguimientos").hide();
         $("#panelFormularioSeguimientos").show();
@@ -23,9 +19,8 @@ $(document).ready(function() {
         $("#panelTablaSeguimientos").show();
     });
 
-    // ----------------------------------------------------------------
-    // REGISTRAR NUEVO
-    // ----------------------------------------------------------------
+
+
     $("#formRegistroSeguimiento").on("submit", function(e) {
         e.preventDefault();
         
@@ -65,9 +60,8 @@ $(document).ready(function() {
         });
     });
 
-    // ----------------------------------------------------------------
-    // EDITAR (GUARDAR CAMBIOS)
-    // ----------------------------------------------------------------
+
+
     $("#formEditarSeguimiento").on("submit", function(e) {
         e.preventDefault();
         
@@ -105,9 +99,8 @@ $(document).ready(function() {
         });
     });
 
-    // ----------------------------------------------------------------
-    // ELIMINAR
-    // ----------------------------------------------------------------
+
+
     $("#tablaSeguimientos tbody").on("click", ".btnEliminar", function() {
         var data = $("#tablaSeguimientos").DataTable().row($(this).parents("tr")).data();
         var idSeguimiento = data.id_seguimientos;
@@ -147,7 +140,7 @@ $(document).ready(function() {
     });
 });
 
-// --- FUNCIONES AUXILIARES ---
+
 
 function listarSeguimientos() {
     $("#tablaSeguimientos").DataTable({
@@ -189,18 +182,15 @@ function cargarSelectAdopciones() {
         dataType: "json",
         success: function(respuesta) {
             if (respuesta.codigo == "200") {
-                // Sólo incluimos adopciones con estado "Adoptado"
                 var opciones = '<option value="">Seleccione una adopción...</option>';
                 respuesta.listaAdopciones.forEach(function(item) {
-                    // Asegurarnos del valor exacto (normalizar)
                     var estado = (item.estado || "").toString().trim().toLowerCase();
                     if (estado === "adoptado") {
-                        // guardamos también el estado como data-estado por si hace falta
                         opciones += `<option value="${item.id_adopciones}" data-estado="Adoptado">${item.nombre_mascota} - ${item.nombre_adoptante}</option>`;
                     }
                 });
 
-                // Si no hay opciones válidas mostramos mensaje y deshabilitamos el botón Guardar
+                
                 if (opciones === '<option value="">Seleccione una adopción...</option>') {
                     opciones = '<option value="">No hay adopciones en estado Adoptado</option>';
                     $("#select_adopciones").prop("disabled", true);

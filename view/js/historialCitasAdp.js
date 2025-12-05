@@ -65,7 +65,6 @@ function cargarCitas(idAdoptante) {
             else if (estado === "confirmada") estadoHTML = `<span class="estado-activa"><i class="fa-solid fa-check"></i> Confirmada</span>`;
             else estadoHTML = `<span class="estado-pendiente"><i class="fa-solid fa-hourglass-half"></i> Pendiente</span>`;
 
-            // BOTÓN CANCELAR: Solo si es pendiente
             let botonCancelar = "";
             if (estado === "pendiente") {
                 botonCancelar = `
@@ -76,7 +75,6 @@ function cargarCitas(idAdoptante) {
 
             let imagenMascota = cita.imagen ? `../../../CarpetaCompartida/Mascotas/${cita.imagen}` : "view/img/default-pet.png";
 
-            // --- AQUI SE COLOCA EL BOTÓN PRIMERO PARA QUE FLOTE ---
             targetContenedor.innerHTML += `
                 <div class="cita-card">
                     ${botonCancelar} 

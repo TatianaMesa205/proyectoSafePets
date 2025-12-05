@@ -20,12 +20,9 @@ class CitasModel
         }
     }
 
-    // --- VALIDACIÓN ACTUALIZADA ---
+    
     public static function mdlValidarCitaActiva($id_adoptantes) {
         try {
-            // Buscamos citas que NO sean 'Cancelada' Y que NO sean 'Completada'.
-            // Y ADEMÁS, que sean a futuro (fecha_cita > NOW()).
-            // Si la fecha ya pasó, no contará y devolverá 0, permitiendo agendar otra.
             $stmt = Conexion::conectar()->prepare("
                 SELECT COUNT(*) as total 
                 FROM citas 

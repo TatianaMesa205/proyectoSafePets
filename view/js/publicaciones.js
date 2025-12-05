@@ -1,5 +1,4 @@
 (function () {
-    // Verificar si la tabla existe antes de intentar listar
     if ($('#tablaPublicaciones').length > 0) {
         listarTablaPublicaciones();
     }
@@ -10,7 +9,6 @@
         objTabla.listarPublicaciones();
     }
 
-    // --- NAVEGACIÓN DE PANELES ---
     $("#btn-AgregarPublicacion").on("click", () => {
         $("#panelTablaPublicaciones").hide();
         $("#panelFormularioPublicaciones").show();
@@ -26,7 +24,8 @@
         $("#panelTablaPublicaciones").show();
     });
 
-    // --- BOTÓN ELIMINAR ---
+
+
     $("#tablaPublicaciones").on("click", "#btn-eliminarPublicacion", function () {
         Swal.fire({
             title: "¿Está seguro?",
@@ -46,12 +45,10 @@
         });
     });
 
-    // --- BOTÓN EDITAR (ABRIR MODAL) ---
     $("#tablaPublicaciones").on("click", "#btn-editarPublicacion", function () {
         $("#panelTablaPublicaciones").hide();
         $("#panelFormularioEditarPublicaciones").show();
         
-        // 1. LIMPIEZA IMPORTANTE: Reseteamos el input file para evitar errores
         $("#txt_edit_foto").val('');
 
         let id_publicaciones = $(this).attr("publicacion");
@@ -61,10 +58,8 @@
         let fecha_publicacion = $(this).attr("fecha");
         let contacto = $(this).attr("contacto");
 
-        // 2. CORRECCIÓN LINK FOTO: Usamos ruta relativa correcta + Anti-Cache
         if (foto && foto != "") {
             let antiCache = new Date().getTime();
-            // Asumiendo que index.php está en la raíz junto a CarpetaCompartida
             $("#linkFotoActual").attr("href", "../CarpetaCompartida/Publicaciones/" + foto + "?v=" + antiCache);
             $("#linkFotoActual").show();
         } else {
@@ -79,7 +74,7 @@
         $("#txt_edit_foto_actual").val(foto);
     });
 
-    // --- SUBMIT REGISTRO ---
+
     const forms = document.querySelectorAll("#formRegistroPublicacion");
     Array.from(forms).forEach(form => {
         form.addEventListener('submit', event => {
@@ -93,7 +88,6 @@
                 let fecha_publicacion = $("#txt_fecha_publicacion").val();
                 let contacto = $("#txt_contacto").val();
                 
-                // Obtener archivo del input
                 let foto = $("#txt_foto")[0].files[0];
 
                 let objData = { tipo, descripcion, fecha_publicacion, contacto, foto };
@@ -103,7 +97,7 @@
         }, false);
     });
 
-    // --- SUBMIT EDICIÓN ---
+
     const formsEditarAdoptante = document.querySelectorAll("#formEditarPublicacion");
     Array.from(formsEditarAdoptante).forEach(form => {
         form.addEventListener('submit', event => {
@@ -118,7 +112,6 @@
                 let fecha_publicacion = $("#txt_edit_fecha_publicacion").val();
                 let contacto = $("#txt_edit_contacto").val();
                 
-                // Obtener archivo nuevo (puede ser undefined) y nombre actual
                 let foto = $("#txt_edit_foto")[0].files[0];
                 let foto_actual = $("#txt_edit_foto_actual").val();
 

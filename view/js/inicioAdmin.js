@@ -16,7 +16,7 @@ function crearAdmin() {
         showCancelButton: true,
         confirmButtonText: '<i class="fas fa-save me-2"></i>Crear Admin',
         cancelButtonText: 'Cancelar',
-        confirmButtonColor: '#4b3832', // Mismo color de tu tema
+        confirmButtonColor: '#4b3832', 
         preConfirm: () => {
             const usuario = Swal.getPopup().querySelector('#new_admin_user').value;
             const email = Swal.getPopup().querySelector('#new_admin_email').value;
@@ -31,20 +31,17 @@ function crearAdmin() {
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            // Preparar datos para enviar
             const formData = new FormData();
             formData.append('accion', 'crear_admin');
             formData.append('nombre_usuario', result.value.usuario);
             formData.append('email', result.value.email);
             formData.append('contrasena', result.value.pass);
 
-            // Mostrar cargando
             Swal.fire({
                 title: 'Creando...',
                 didOpen: () => Swal.showLoading()
             });
 
-            // Enviar al controlador
             fetch('controller/loginController.php', {
                 method: 'POST',
                 body: formData

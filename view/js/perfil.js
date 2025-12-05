@@ -6,12 +6,10 @@ document.addEventListener("DOMContentLoaded", function() {
         formPerfil.addEventListener("submit", function(e) {
             e.preventDefault();
 
-            // 1. Datos básicos de Usuario
             const nombre = document.getElementById("nombre_usuario").value;
             const pass = document.getElementById("password").value;
             const confirmPass = document.getElementById("confirm_password").value;
 
-            // Validaciones básicas de usuario
             if (nombre.trim() === "") {
                 Swal.fire({ icon: "error", title: "Oops...", text: "El nombre de usuario es obligatorio" });
                 return;
@@ -27,13 +25,11 @@ document.addEventListener("DOMContentLoaded", function() {
                  return;
             }
 
-            // Preparar FormData
             const formData = new FormData();
             formData.append("accion", "actualizar_perfil");
             formData.append("nombre_usuario", nombre);
             formData.append("password", pass);
 
-            // 2. Datos de Adoptante (Si existen en el DOM)
             const isAdoptante = document.getElementById("is_adoptante");
             
             if (isAdoptante) {
@@ -42,15 +38,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 const cedula = document.getElementById("cedula").value;
                 const telefono = document.getElementById("telefono").value;
                 const direccion = document.getElementById("direccion").value;
-                const email = document.getElementById("email_adoptante").value; // Se envía aunque sea readonly
+                const email = document.getElementById("email_adoptante").value;
 
-                // Validación de campos personales
                 if (nombreCompleto.trim() === "" || cedula.trim() === "" || telefono.trim() === "" || direccion.trim() === "") {
                     Swal.fire({ icon: "warning", title: "Datos incompletos", text: "Por favor complete todos los campos personales." });
                     return;
                 }
 
-                // Agregar datos adicionales al FormData
                 formData.append("editar_adoptante", "true");
                 formData.append("id_adoptantes", idAdp);
                 formData.append("nombre_completo", nombreCompleto);
@@ -60,7 +54,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 formData.append("email_adoptante", email);
             }
 
-            // Enviar petición
             Swal.fire({
                 title: 'Guardando...',
                 text: 'Por favor espere',
@@ -82,7 +75,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         timer: 2000,
                         showConfirmButton: false
                     }).then(() => {
-                        // --- REDIRECCIÓN AL INICIO ---
                         if(data.redirect) {
                             window.location.href = data.redirect;
                         } else {
@@ -90,7 +82,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         }
                     });
                 } else {
-                    // Mostrar error que venga del servidor
                     Swal.fire("Error", data.mensaje, "error");
                 }
             })

@@ -1,52 +1,41 @@
 $(document).ready(function() {
     
-    // 1. VALIDACIÓN INICIAL: VERIFICAR SI YA TIENE CITA ACTIVA
     validarEstadoCita();
 
-    // 2. Cargar mascotas en el select al iniciar la página
     cargarMascotasDelUsuario();
 
-    // 3. BLOQUEAR FECHAS PASADAS (NUEVO)
-    // Se ejecuta al cargar para bloquear fechas anteriores a la actual
     const inputFecha = document.getElementById("txt_fecha_cita");
     if (inputFecha) {
         const ahora = new Date();
-        // Ajustar la zona horaria para obtener la hora local correcta
+
         ahora.setMinutes(ahora.getMinutes() - ahora.getTimezoneOffset());
         
-        // Formato ISO requerido por datetime-local: YYYY-MM-DDTHH:MM
         const fechaMinima = ahora.toISOString().slice(0, 16);
         
-        // Aplicar el mínimo al input
         inputFecha.min = fechaMinima;
 
-        // Validación extra: Si el usuario intenta escribir manualmente una fecha pasada
         inputFecha.addEventListener("change", function() {
             if (this.value < fechaMinima) {
                 Swal.fire("Fecha inválida", "No puedes seleccionar una fecha u hora pasada.", "warning");
-                this.value = ""; // Limpiar campo
+                this.value = "";
             }
         });
     }
 
-    // --- EVENTO: REGISTRAR CITA ---
     $("#formRegistroCitaAdp").on("submit", function(e) {
         e.preventDefault();
 
-        // Capturamos los datos
         var id_mascotas = $("#select_mascotas_adp").val();
-        var id_adoptantes = $("#id_adoptante_sesion").val(); // Viene del input oculto en PHP
+        var id_adoptantes = $("#id_adoptante_sesion").val();
         var fecha_cita = $("#txt_fecha_cita").val();
         var motivo = $("#txt_motivo").val();
         var estado = "Pendiente"; 
 
-        // Validación básica
         if (id_mascotas == "" || fecha_cita == "" || motivo == "") {
             Swal.fire("Atención", "Por favor complete todos los campos del formulario.", "warning");
             return;
         }
 
-        // Preparamos los datos para enviar
         var datos = new FormData();
         datos.append("registrarCita", "ok");
         datos.append("id_mascotas", id_mascotas);
@@ -55,7 +44,6 @@ $(document).ready(function() {
         datos.append("motivo", motivo);
         datos.append("estado", estado);
 
-        // Petición AJAX
         $.ajax({
             url: "controller/citasController.php",
             method: "POST",
@@ -75,13 +63,10 @@ $(document).ready(function() {
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $("#formRegistroCitaAdp")[0].reset();
-                            // Redirigimos al catálogo de adopción
                             window.location.href = "index.php?ruta=adoptaAdp";
                         }
                     });
                 } else if (respuesta.codigo == "409") {
-                    // --- CASO: YA TIENE CITA ACTIVA ---
-                    // Se muestra el mensaje enviado por el controlador
                     Swal.fire({
                         icon: 'warning',
                         title: 'Solicitud Activa',
@@ -90,7 +75,6 @@ $(document).ready(function() {
                         confirmButtonText: 'Entendido'
                     });
                 } else {
-                    // Error controlado desde el servidor
                     Swal.fire("Error", respuesta.mensaje || "Error desconocido", "error");
                 }
             },
@@ -103,16 +87,15 @@ $(document).ready(function() {
     });
 });
 
-// --- FUNCIONES AUXILIARES ---
+
 
 function validarEstadoCita() {
     var id_adoptantes = $("#id_adoptante_sesion").val();
     
-    // Si no hay ID (sesión no iniciada o error), no hacemos nada o dejamos que otros controles actúen
     if(!id_adoptantes) return; 
 
     var datos = new FormData();
-    datos.append("validarCita", "ok"); // Llamamos a la nueva validación en el Controller
+    datos.append("validarCita", "ok"); 
     datos.append("id_adoptantes", id_adoptantes);
 
     $.ajax({
@@ -124,7 +107,6 @@ function validarEstadoCita() {
         processData: false,
         dataType: "json",
         success: function(respuesta) {
-            // Si total > 0, significa que TIENE citas pendientes o confirmadas (no canceladas ni completadas)
             if (respuesta.total > 0) {
                 Swal.fire({
                     icon: 'info',
@@ -134,12 +116,10 @@ function validarEstadoCita() {
                     confirmButtonText: 'Ir a mis Citas'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // REDIRECCIÓN: Sacamos al usuario del formulario
                         window.location.href = "index.php?ruta=perfilAdp"; 
                     }
                 });
                 
-                // Opcional: Deshabilitar el formulario de fondo mientras el usuario lee la alerta
                 $("#formRegistroCitaAdp input, #formRegistroCitaAdp select, #formRegistroCitaAdp button").prop("disabled", true);
             }
         }

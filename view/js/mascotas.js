@@ -1,6 +1,5 @@
 (function(){
 
-  // Solo ejecutar si existe la tabla
   if($('#tablaMascotas').length > 0){
       listarTablaMascotas();
   }
@@ -11,7 +10,6 @@
       objTablaMascotas.listarMascotas();
   }
 
-  // Validaciones IF para evitar errores en otras páginas
   let btnAgregarMascotas = document.getElementById("btn-AgregarMascotas");
   if(btnAgregarMascotas){
       btnAgregarMascotas.addEventListener("click",()=>{
@@ -117,11 +115,7 @@ Array.from(formsRegistro).forEach(form => {
             let estado = $("#select_estado").val();
             let descripcion = $("#txt_descripcion").val();
             
-            // --- CORRECCIÓN AQUÍ ---
-            // ANTES (Incorrecto): let imagen = $("#txt_imagen").val(); 
-            // AHORA (Correcto): Capturamos el archivo binario, igual que en editar
             let imagen = $("#txt_imagen")[0].files[0]; 
-            // -----------------------
 
             let objData = {
                 nombre, especie, raza, edad, sexo, tamano,

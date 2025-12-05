@@ -20,7 +20,6 @@ class Publicaciones {
         .then(response => {
             if (response["codigo"] == "200") {
                 let dataSet = [];
-                // Timestamp para evitar caché de imágenes
                 let antiCache = new Date().getTime();
 
                 response["listaPublicaciones"].forEach(item => {
@@ -43,24 +42,21 @@ class Publicaciones {
                             </button>
                         </div>`;
 
-                    // --- CORRECCIÓN DE IMAGEN ---
                     let rutaBase = "../CarpetaCompartida/Publicaciones/";
                     let imgHtml = "";
 
                     if (item.foto && item.foto != "") {
                         imgHtml = `<img src="${rutaBase + item.foto}?v=${antiCache}" alt="foto" width="80" height="80" style="object-fit:cover;border-radius:3 0px;">`;
                     } else {
-                        // Imagen por defecto si no hay foto
                         imgHtml = `<img src="view/img/default/anonymous.png" alt="Sin Foto" width="80" height="80" style="object-fit:cover;border-radius:10px;">`;
                     }
-                    // ----------------------------
 
                     dataSet.push([
                         item.tipo,
                         item.descripcion,
                         item.fecha_publicacion,
                         item.contacto,
-                        imgHtml, // Usamos la variable con la ruta corregida
+                        imgHtml, 
                         objBotones
                     ]);
                 });
@@ -103,7 +99,6 @@ class Publicaciones {
     }
 
     registrarPublicacion() {
-        // Obtenemos el rol, asegurándonos de que el elemento exista
         let rolInput = document.getElementById("rol_usuario");
         let rol = rolInput ? rolInput.value : "";
 

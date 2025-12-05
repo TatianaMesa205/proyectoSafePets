@@ -1,5 +1,5 @@
 <?php
-// Usamos __DIR__ para rutas relativas seguras
+
 include_once __DIR__ . "/../model/publicacionesModel.php";
 
 class PublicacionesController

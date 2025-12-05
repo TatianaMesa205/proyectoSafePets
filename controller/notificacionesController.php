@@ -1,6 +1,5 @@
 <?php
 
-// Validamos si el archivo del modelo está en la ruta relativa (para AJAX) o normal
 if (file_exists("../model/notificacionesModel.php")) {
     require_once "../model/notificacionesModel.php";
 } elseif (file_exists("model/notificacionesModel.php")) {

@@ -3,9 +3,6 @@ require_once "conexion.php";
 
 class NotificacionesModel {
 
-    /*=============================================
-    REGISTRAR INTERÉS
-    =============================================*/
     public static function registrarInteres($data) {
 
         // Opcional: Evitar duplicados al insertar
@@ -25,9 +22,6 @@ class NotificacionesModel {
         ]);
     }
 
-    /*=============================================
-    VERIFICAR SI YA EXISTE LA NOTIFICACIÓN
-    =============================================*/
     public static function verificarNotificacion($idUsuario, $idMascota) {
         $sql = "SELECT id FROM notificaciones_interes 
                 WHERE id_usuarios = :id_usuarios 
@@ -42,9 +36,6 @@ class NotificacionesModel {
         return $stmt->fetch(); // Retorna la fila si existe, o false si no
     }
 
-    /*=============================================
-    OBTENER CORREOS DE INTERESADOS
-    =============================================*/
     public static function obtenerInteresados($idMascota) {
         $sql = "SELECT email_usuario AS email FROM notificaciones_interes WHERE id_mascotas = ?";
         $stmt = Conexion::conectar()->prepare($sql);
@@ -52,18 +43,12 @@ class NotificacionesModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    /*=============================================
-    MARCAR COMO ENVIADA (Individual)
-    =============================================*/
     public static function marcarEnviadas($id) {
         $sql = "UPDATE notificaciones_interes SET notificar = 0 WHERE id = :id";
         $stmt = Conexion::conectar()->prepare($sql);
         return $stmt->execute([":id" => $id]);
     }
 
-    /*=============================================
-    LISTAR USUARIOS INTERESADOS (Para Admin/Panel)
-    =============================================*/
     public static function usuariosInteresados($idMascota) {
         $sql = "SELECT 
                     n.id AS id,

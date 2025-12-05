@@ -35,13 +35,20 @@ class Mascotas {
                     let rutaBase = "../CarpetaCompartida/Mascotas/";
                     let imgHtml = "";
 
-                    // Si hay imagen, concatenamos. Si no, mostramos una por defecto.
                     if (item.imagen && item.imagen != "") {
                         imgHtml = `<img src="${rutaBase + item.imagen}" alt="Foto" width="80" height="80" style="object-fit:cover;border-radius:30px;">`;
                     } else {
                         imgHtml = `<img src="view/img/default/anonymous.png" alt="Sin Foto" width="80" height="80" style="object-fit:cover;border-radius:10px;">`;
                     }
-                    // ----------------------------
+                    
+                    const LIMITE_CARACTERES = 80;
+                    let descripcionCorta = item.descripcion;
+
+                    if (item.descripcion && item.descripcion.length > LIMITE_CARACTERES) {
+                        descripcionCorta = item.descripcion.substring(0, LIMITE_CARACTERES) + '...';
+                        
+                        descripcionCorta = `<span title="${item.descripcion.replace(/"/g, '&quot;')}">${descripcionCorta}</span>`;
+                    }
 
                     dataSet.push([ 
                         item.nombre,
@@ -53,8 +60,8 @@ class Mascotas {
                         item.fecha_ingreso,
                         item.estado_salud,
                         item.estado,
-                        item.descripcion,
-                        imgHtml, // Aquí va la imagen corregida
+                        descripcionCorta,
+                        imgHtml,
                         objBotones
                     ]);
                 });

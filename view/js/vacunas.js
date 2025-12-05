@@ -1,6 +1,5 @@
 (function(){
 
-    // Solo cargamos la tabla si existe el contenedor
     if($('#tablaVacunas').length > 0){
         listarTablaVacunas();
     }
@@ -11,7 +10,6 @@
         objTablaVacunas.listarVacunas();
     }
 
-    // --- VALIDACIÓN DE EXISTENCIA DE ELEMENTOS ---
 
     let btnAgregarVacuna = document.getElementById("btn-AgregarVacuna");
     if (btnAgregarVacuna) {
@@ -37,7 +35,6 @@
         });
     }
 
-    // Eventos delegados (estos no suelen fallar porque están atados al document o tabla existente)
     $("#tablaVacunas").on("click","#btn-eliminarVacuna",function(){
         Swal.fire({
             title: "¿Está seguro?",

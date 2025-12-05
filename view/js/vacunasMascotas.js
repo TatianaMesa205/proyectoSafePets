@@ -1,6 +1,5 @@
 (function() {
 
-    // Solo cargamos la tabla si existe
     if($('#tablaVacunasMascotas').length > 0){
         listarTablaVacunasMascotas();
     }
@@ -11,7 +10,6 @@
         objTabla.listarVacunasMascotas();
     }
 
-    // --- VALIDACIÓN DE EXISTENCIA DE ELEMENTOS ---
 
     let btnAgregar = document.getElementById("btn-AgregarVacunaMascota");
     if (btnAgregar) {
