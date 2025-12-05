@@ -52,8 +52,11 @@ function cargarCitas(idAdoptante) {
 
         res.listaCitas.forEach(cita => {
             let fechaCita = cita.fecha_cita;
-            let targetContenedor = (fechaCita < hoy) ? contPasadas : contPresente;
             let estado = cita.estado ? cita.estado.toLowerCase().trim() : "";
+ 
+            let esCitaPasada = (fechaCita < hoy) || (estado === "cancelada");
+            let targetContenedor = esCitaPasada ? contPasadas : contPresente;
+
             let estadoHTML = "";
 
             if (estado === "cancelada") estadoHTML = `<span class="estado-cancelada"><i class="fa-solid fa-ban"></i> Cancelada</span>`;
