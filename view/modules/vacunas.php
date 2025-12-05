@@ -29,11 +29,11 @@
     <h4 class="mb-3 text-center text-dark fw-semibold">Registrar Vacuna</h4>
     <form id="formRegistroVacuna" novalidate>
       <div class="row g-3">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <label>Nombre Vacuna</label>
           <input type="text" id="txt_nombre_vacuna" class="form-control rounded-3" required>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
           <label>Tiempo de la aplicación</label>
           <input type="text" id="txt_tiempo_aplicacion" class="form-control rounded-3" required>
         </div>
@@ -50,11 +50,11 @@
     <h4 class="mb-3 text-center text-dark fw-semibold">Editar Vacuna</h4>
     <form id="formEditarVacuna" novalidate>
       <div class="row g-3">
-        <div class="col-md-6">
+        <div class="col-md-12">
           <label>Nombre Vacuna</label>
           <input type="text" id="txt_edit_nombre_vacuna" class="form-control rounded-3" required>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
           <label>Tiempo de la aplicación</label>
           <input type="text" id="txt_edit_tiempo_aplicacion" class="form-control rounded-3" required>
         </div>

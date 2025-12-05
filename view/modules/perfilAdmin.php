@@ -61,6 +61,6 @@
         </form>
 
     </div>
-</div>
+</div><br>
 <script src="view/js/perfil.js"></script>
 <?php include("cabecera.php"); ?>
