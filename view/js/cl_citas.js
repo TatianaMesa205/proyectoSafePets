@@ -19,7 +19,7 @@ class Citas {
             if (response["codigo"] == "200"){
                 let dataSet = [];
 
-               response["listaCitas"].forEach(item => {
+                response["listaCitas"].forEach(item => {
                     
                     // --- INICIO MEJORA VISUAL DE ESTADO ---
                     let estadoBadge = item.estado;
@@ -38,19 +38,17 @@ class Citas {
                             estadoBadge = '<span class="badge bg-danger">Cancelada</span>';
                             break;
                     }
-                    // --- FIN MEJORA VISUAL ---
 
                     let objBotones = '<div class="btn-group" role="group" aria-label="Basic example">';
                     objBotones += `
-                    <button id="btn-editarCita" type="button"
-                        class="btn"
+                    <button class="btn-editarCita-tabla" type="button"
                         style="background-color:rgba(223, 179, 147, 1); border-color:pink; color:white"
-                        citas="${item.id_citas}"
-                        mascotas="${item.id_mascotas}"
-                        adoptantes="${item.id_adoptantes}"
-                        fecha_cita="${item.fecha_cita}"
-                        estado="${item.estado}"
-                        motivo="${item.motivo}">
+                        data-id-citas="${item.id_citas}"
+                        data-id-adoptantes="${item.id_adoptantes}"
+                        data-id-mascotas="${item.id_mascotas}"
+                        data-fecha-cita="${item.fecha_cita}"
+                        data-estado="${item.estado}"
+                        data-motivo="${item.motivo}">
                         <i class="bi bi-pencil"></i>
                     </button>`;
                     objBotones += '<button id="btn-eliminarCita" type="button" style="background-color:rgba(112, 110, 120, 1); color:white" class="btn" citas="'+item.id_citas+'"><i class="bi bi-trash"></i></button>';
@@ -72,6 +70,8 @@ class Citas {
                     destroy:true,
                     data:dataSet
                 });
+                
+                inicializarEventosEdicion(); 
             }else{
                 console.log("error");
             }

@@ -97,8 +97,18 @@ function cargarCitas(idAdoptante) {
 }
 
 function confirmarCancelacion(id_cita, fecha_cita) {
-    let fechaCitaMs = new Date(fecha_cita).getTime();
-    let ahoraMs = new Date().getTime();
+    let fechaCita = new Date(fecha_cita);
+    let ahora = new Date();
+
+    let hoySoloFecha = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate());
+
+    if (fechaCita < hoySoloFecha) {
+        Swal.fire("No permitido", "La fecha de la cita ya caducó.", "warning");
+        return;
+    }
+
+    let fechaCitaMs = fechaCita.getTime();
+    let ahoraMs = ahora.getTime();
     let horasDiferencia = (fechaCitaMs - ahoraMs) / 1000 / 3600;
 
     if (horasDiferencia < 48) {

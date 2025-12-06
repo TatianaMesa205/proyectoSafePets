@@ -88,7 +88,6 @@
           <select id="select_estado" class="form-select rounded-3" required>
             <option value="">Seleccione</option>
             <option value="Disponible">Disponible</option>
-            <option value="Adoptado">Adoptado</option>
             <option value="En Tratamiento">En tratamiento</option>
           </select>
         </div>
@@ -160,7 +159,6 @@
           <select id="select_edit_estado" class="form-select rounded-3" required style="margin-top:10px;">
             <option value="">Seleccione</option>
             <option value="Disponible">Disponible</option>
-            <option value="Adoptado">Adoptado</option>
             <option value="En Tratamiento">En tratamiento</option>
           </select>
         </div>

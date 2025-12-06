@@ -59,6 +59,24 @@
         return true;
     }
 
+
+    function validarFechaCitaParaEdicion(fecha_cita_str) {
+        let fechaCita = new Date(fecha_cita_str.split(' ')[0]); 
+
+        let ahora = new Date();
+        let hoySoloFecha = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate());
+
+        if (fechaCita < hoySoloFecha) {
+            Swal.fire("No permitido", "La fecha de la cita ya caducó, no es posible editarla.", "error");
+            return false;
+        }
+        
+        return true;
+    }
+
+    // *** SE ELIMINÓ LA FUNCIÓN inicializarEventosEdicion() Y SU LÓGICA REDUNDANTE ***
+
+
     let inputFechaRegistro = document.getElementById('txt_fecha_cita');
     let inputFechaEditar = document.getElementById('txt_edit_fecha_cita');
 
@@ -120,20 +138,24 @@
             });
     });
 
+    $("#tablaCitas").on("click", ".btn-editarCita-tabla", function () { 
 
-
-    $("#tablaCitas").on("click", "#btn-editarCita", function () {
+        let fechaCita = $(this).data("fecha-cita");
+        
+        if (!validarFechaCitaParaEdicion(fechaCita)) {
+            return;
+        }
+        
         $("#panelTablaCitas").hide();
         $("#panelFormularioEditarCitas").show();
         cargarFechasOcupadas(); 
 
-        let id_citas = $(this).attr("citas");
-        let id_adoptantes = $(this).attr("adoptantes");
-        let id_mascotas = $(this).attr("mascotas");
-        let estado = $(this).attr("estado");
-        let motivo = $(this).attr("motivo");
-        let fechaCita = $(this).attr("fecha_cita"); 
-        
+        let id_citas = $(this).data("id-citas"); 
+        let id_adoptantes = $(this).data("id-adoptantes");
+        let id_mascotas = $(this).data("id-mascotas");
+        let estado = $(this).data("estado");
+        let motivo = $(this).data("motivo");
+
         fechaOriginalEdicion = fechaCita; 
         
         let fechaLocal = (fechaCita) ? fechaCita.replace(" ", "T").slice(0, 16) : "";
@@ -141,7 +163,7 @@
         $("#txt_edit_fecha_cita").val(fechaLocal);
         $("#select_edit_estado").val(estado);
         $("#txt_edit_motivo").val(motivo);
-        $("#btnEditarCita").attr("citas", id_citas);
+        $("#btnEditarCita").attr("citas", id_citas); 
 
         let objCita = new Citas({});
         objCita.cargarSelectsEditar(id_adoptantes, id_mascotas);

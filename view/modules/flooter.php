@@ -22,9 +22,9 @@
     <div class="footer-social">
       <h5>Síguenos</h5>
       <div class="social-icons">
-        <a href="#" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="https://wa.me/qr/AZL223OWSYPNA1" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
         <a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://www.instagram.com/kayasisushi/?hl=es" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
         <a href="#" aria-label="TikTok"><i class="fa-brands fa-tiktok"></i></a>
         <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
       </div>
