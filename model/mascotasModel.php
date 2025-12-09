@@ -116,5 +116,27 @@ class MascotasModel
         }
     }
 
+    public static function mdlActualizarEstadoMascota($id_mascotas, $nuevo_estado)
+    {
+        try {
+            $con = Conexion::conectar();
+            
+            $sql = "UPDATE mascotas SET estado = :estado WHERE id_mascotas = :id";
+            
+            $stmt = $con->prepare($sql);
+            $stmt->bindParam(":estado", $nuevo_estado, PDO::PARAM_STR);
+            $stmt->bindParam(":id", $id_mascotas, PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return ["codigo" => "200", "mensaje" => "Estado de mascota actualizado."];
+            } else {
+                return ["codigo" => "500", "mensaje" => "Error al actualizar el estado de la mascota."];
+            }
+        } catch (Exception $e) {
+            return ["codigo" => "500", "mensaje" => $e->getMessage()];
+        }
+    }
+
+
 }
 ?>

@@ -1,5 +1,6 @@
 <?php
 include_once "../model/adopcionesModel.php";
+include_once "../model/mascotasModel.php";
 
 class AdopcionesController
 {
@@ -51,6 +52,21 @@ class AdopcionesController
             $this->observaciones,
             $this->contrato
         );
+
+        if ($objRespuesta['codigo'] === "200" && $this->estado === "Adoptado") {
+        
+            // Llama a la función del modelo de mascotas para cambiar el estado
+            $mascotaUpdate = MascotasModel::mdlActualizarEstadoMascota(
+                $this->mascotas_id,
+                "Adoptado"
+            );
+            
+            // Opcional: Si el estado de la mascota no se pudo actualizar, 
+            // puedes añadir una advertencia al mensaje de respuesta.
+            if ($mascotaUpdate['codigo'] !== "200") {
+                $objRespuesta['mensaje'] .= " Pero hubo un problema al actualizar el estado de la mascota: " . $mascotaUpdate['mensaje'];
+            }
+        }
 
         echo json_encode($objRespuesta);
     }
