@@ -5,6 +5,7 @@ if (!file_exists($modelPath)) {
     throw new Exception("Modelo adoptantesModel.php no encontrado en: $modelPath");
 }
 require_once $modelPath;
+require_once __DIR__ . '/../model/loginModel.php';
 
 class AdoptantesController
 {
@@ -50,8 +51,6 @@ class AdoptantesController
         }
     }
 
-
-
     public function ctrListarAdoptantes()
     {
         $objRespuesta = AdoptantesModel::mdlListarAdoptantes();
@@ -87,6 +86,24 @@ class AdoptantesController
             $this->direccion
         );
         echo json_encode($objRespuesta);
+    }
+
+    public function ctrEliminarAdoptanteYUsuario() {
+        if (!isset($_POST['id_adoptantes'], $_POST['email_usuario'])) {
+            echo json_encode(["codigo" => "400", "mensaje" => "Faltan datos para la eliminación."]);
+            return;
+        }
+
+        // Llamar al modelo unificado. 
+        // Usaremos el email (clave lógica) y el id del adoptante.
+        $idAdp = $_POST['id_adoptantes'];
+        $email = $_POST['email_usuario'];
+        
+        // Asumimos que la función de eliminación unificada está en AdoptantesModel o LoginModel.
+        // Si pones la función en LoginModel:
+        $res = LoginModelo::mdlEliminarAdoptanteYUsuario($idAdp, $email);
+        
+        echo json_encode($res);
     }
 
 }
@@ -130,5 +147,18 @@ if (isset($_POST["editarAdoptante"]) == "ok") {
     $objAdoptantes->direccion = $_POST["direccion"];
     $objAdoptantes->id_adoptantes = $_POST["id_adoptantes"];
     $objAdoptantes->ctrEditarAdoptante();
+}
+
+if (isset($_POST['accion'])) {
+    $adoptantes = new AdoptantesController();
+    switch ($_POST['accion']) {
+        // ... otros casos (listar, editar, etc.)
+        
+        case 'eliminarAdoptanteYUsuario': 
+            $adoptantes->ctrEliminarAdoptanteYUsuario(); 
+            break;
+        default:
+            // ...
+    }
 }
 ?>

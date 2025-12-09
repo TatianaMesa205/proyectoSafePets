@@ -218,5 +218,40 @@ class LoginModelo {
             return ["codigo" => "500", "mensaje" => "Error: " . $e->getMessage()];
         }
     }
+
+    public static function mdlEliminarAdoptanteYUsuario($idAdoptante, $emailUsuario) {
+        $con = Conexion::conectar();
+        
+        try {
+            // Iniciar transacción (Todo o nada)
+            $con->beginTransaction();
+
+            // 1. ELIMINAR DE LA TABLA ADOPTANTES (Usando el ID)
+            $stmtAdp = $con->prepare("DELETE FROM adoptantes WHERE id_adoptantes = :id");
+            $stmtAdp->bindParam(":id", $idAdoptante, PDO::PARAM_INT);
+            if (!$stmtAdp->execute()) {
+                throw new Exception("Error al eliminar el perfil de adoptante.");
+            }
+            
+            // 2. ELIMINAR DE LA TABLA USUARIOS (Usando el email, que es el campo de vinculación lógica)
+            $stmtUser = $con->prepare("DELETE FROM usuarios WHERE email = :email AND id_roles = 2"); // id_roles=2 es Adoptante
+            $stmtUser->bindParam(":email", $emailUsuario, PDO::PARAM_STR);
+
+            if (!$stmtUser->execute()) {
+                throw new Exception("Error al eliminar el usuario.");
+            }
+
+            // Si todo salió bien, confirmamos los cambios
+            $con->commit();
+            return ["codigo" => "200", "mensaje" => "Adoptante y usuario eliminados exitosamente."];
+
+        } catch (Exception $e) {
+            // Si algo falla, revertimos todos los cambios
+            if ($con->inTransaction()) {
+                $con->rollBack();
+            }
+            return ["codigo" => "500", "mensaje" => "Error interno en la eliminación: " . $e->getMessage()];
+        }
+    }
 }
 ?>

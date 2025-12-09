@@ -2,6 +2,12 @@ class Adoptantes {
     constructor(objData){
         this._objData = objData;
     }
+
+    recargarTabla() {
+        let obj = new Adoptantes({ listarAdoptantes: "ok" });
+        obj.listarAdoptantes();
+    }
+
     listarAdoptantes(){
         let objData = new FormData();
         objData.append("listarAdoptantes",this._objData.listarAdoptantes);
@@ -22,7 +28,9 @@ class Adoptantes {
                 response["listaAdoptantes"].forEach(item => {
                     let objBotones = '<div class="btn-group" role="group" aria-label="Basic example">';
                     objBotones += '<button id="btn-editarAdoptante" type="button" style="background-color:rgba(223, 179, 147, 1); border-color:pink; color:white" class="btn" adoptantes="'+item.id_adoptantes+'" nombre_completo="'+item.nombre_completo+'" cedula="'+item.cedula+'" telefono="'+item.telefono+'" email="'+item.email+'" direccion="'+item.direccion+'"><i class="bi bi-pencil"></i></button>';
-                    objBotones += '<button id="btn-eliminarAdoptante" type="button" style="background-color:rgba(112, 110, 120, 1); color:white" class="btn" adoptantes="'+item.id_adoptantes+'"><i class="bi bi-trash"></i></button>';
+                    
+                    // CAMBIO AQUÍ: Enviamos el email y el nombre_usuario para la eliminación unificada
+                    objBotones += '<button id="btn-eliminarAdoptante" type="button" style="background-color:rgba(112, 110, 120, 1); color:white" class="btn btn-eliminar-unificado" data-id-adoptantes="'+item.id_adoptantes+'" data-email-usuario="'+item.email+'" data-nombre-usuario="'+item.nombre_usuario+'"><i class="bi bi-trash"></i></button>';
                     objBotones += '</div>';
 
                     dataSet.push([
@@ -31,10 +39,12 @@ class Adoptantes {
                         item.telefono,
                         item.email,
                         item.direccion,
+                        item.nombre_usuario, 
                         objBotones
                     ]);
                 });
 
+                // Inicializar DataTable (Asegúrate de que las columnas de tu HTML/datatable coincidan con estas 2 columnas)
                 $("#tablaAdoptantes").DataTable({
                     dom: "Bfrtip",
                     responsive: true,
@@ -62,7 +72,7 @@ class Adoptantes {
         })
         .then(response =>{
             if (response["codigo"] == "200"){
-                this.listarAdoptantes();
+                this.recargarTabla();
                 Swal.fire({
                     title: "Adoptante eliminada correctamente :(",
                     width: 600,
@@ -108,7 +118,7 @@ class Adoptantes {
                 formulario.reset();
                 $("#panelFormularioAdoptantes").hide();
                 $("#panelTablaAdoptantes").show();
-                this.listarAdoptantes();
+                this.recargarTabla();
 
                     Swal.fire({
                     title: "Adoptante registrado correctamente :D",
@@ -156,7 +166,7 @@ class Adoptantes {
                 formulario.reset();
                 $("#panelFormularioEditarAdoptantes").hide();
                 $("#panelTablaAdoptantes").show();
-                this.listarAdoptantes();
+                this.recargarTabla();
 
                     Swal.fire({
                     title: "Adoptante editado correctamente :D",
@@ -200,7 +210,7 @@ class Adoptantes {
                 formulario.reset();
                 $("#panelFormularioAdoptantes").hide();
                 $("#panelTablaAdoptantes").show();
-                this.listarAdoptantes();
+                this.recargarTabla();
 
                 // MENSAJE INFORMATIVO PARA EL ADMIN
                 Swal.fire({
@@ -222,3 +232,49 @@ class Adoptantes {
         });
     }
 }   
+
+
+$(document).on("click", ".btn-eliminar-unificado", function(){
+    let idAdoptantes = $(this).attr("data-id-adoptantes");
+    let emailUsuario = $(this).attr("data-email-usuario");
+    let nombreUsuario = $(this).attr("data-nombre-usuario");
+    
+    Swal.fire({
+        title: '¿Estás seguro de eliminar a ' + nombreUsuario + '?',
+        text: "¡Esta acción es irreversible y eliminará el usuario y su perfil de adoptante!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#dc3545',
+        cancelButtonColor: '#6c757d',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            let objData = new FormData();
+            // Nueva acción para eliminar
+            objData.append("accion", "eliminarAdoptanteYUsuario"); 
+            objData.append("id_adoptantes", idAdoptantes);
+            objData.append("email_usuario", emailUsuario);
+
+            fetch("controller/adoptantesController.php", {
+                method: 'POST',
+                body: objData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.codigo === "200") {
+                    Swal.fire('¡Eliminado!', 'El adoptante y su usuario han sido eliminados.', 'success')
+                    .then(() => {
+                        new Adoptantes({}).recargarTabla(); 
+                    });
+                } else {
+                    Swal.fire('Error', data.mensaje || 'No se pudo eliminar el registro.', 'error');
+                }
+            })
+            .catch(error => {
+                console.error("Fetch Error:", error);
+                Swal.fire('Error', 'Hubo un problema de conexión al intentar eliminar.', 'error');
+            });
+        }
+    })
+});

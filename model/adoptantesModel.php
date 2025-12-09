@@ -8,10 +8,23 @@ class AdoptantesModel
     {
         $mensaje = array();
         try {
-            $stmt = Conexion::conectar()->prepare("SELECT * FROM adoptantes");
+            // Usamos INNER JOIN para combinar 'adoptantes' y 'usuarios' usando el campo 'email'
+            $sql = "SELECT 
+                        a.*, 
+                        u.nombre_usuario,
+                        u.email AS email_usuario  /* Se mantiene 'email' de adoptantes y se añade alias para el de usuario por si acaso */
+                    FROM adoptantes a
+                    INNER JOIN usuarios u 
+                        ON a.email = u.email
+                    WHERE u.id_roles = 2  /* Asumimos que el rol 2 es Adoptante */
+                    ORDER BY a.nombre_completo ASC";
+
+            $stmt = Conexion::conectar()->prepare($sql);
             $stmt->execute();
+            
             $lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $mensaje = array("codigo" => "200", "listaAdoptantes" => $lista);
+            
         } catch (Exception $e) {
             $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
         }

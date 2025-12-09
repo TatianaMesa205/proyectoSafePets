@@ -8,6 +8,36 @@
         cargarFechasOcupadas(); 
     }
 
+    // --- FUNCIÓN PARA OBTENER LA FECHA Y HORA MÍNIMA ---
+    function getMinDateTime() {
+        const now = new Date();
+        
+        // Función auxiliar para añadir un cero inicial si es necesario
+        const pad = (num) => String(num).padStart(2, '0');
+
+        const year = now.getFullYear();
+        const month = pad(now.getMonth() + 1);
+        const day = pad(now.getDate());
+        const hours = pad(now.getHours());
+        const minutes = pad(now.getMinutes());
+
+        // Formato requerido por input type="datetime-local": YYYY-MM-DDTHH:MM
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+
+    function aplicarMinimoFecha() {
+        const minDateTime = getMinDateTime(); 
+        
+        if (inputFechaRegistro) {
+            // Establece la fecha y hora mínima al momento actual
+            inputFechaRegistro.setAttribute('min', minDateTime);
+        }
+        if (inputFechaEditar) {
+            // Establece la fecha y hora mínima al momento actual
+            inputFechaEditar.setAttribute('min', minDateTime);
+        }
+    }
+
     function listarTablaCitas() {
         let objData = { "listarCitas": "ok" };
         let objTablaCitas = new Citas(objData);
@@ -79,6 +109,8 @@
 
     let inputFechaRegistro = document.getElementById('txt_fecha_cita');
     let inputFechaEditar = document.getElementById('txt_edit_fecha_cita');
+
+    aplicarMinimoFecha();
 
     if(inputFechaRegistro) {
         inputFechaRegistro.addEventListener('change', function() { validarFechaDisponible(this); });
