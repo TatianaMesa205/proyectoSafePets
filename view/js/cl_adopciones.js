@@ -219,7 +219,7 @@ class Adopciones {
 
                 // 🛑 FILTRO DE ESTADO APLICADO: Solo mascotas con estado "Adoptado" para el registro
                 response["listaMascotas"].forEach(mascota => {
-                    if (mascota.estado === "Adoptado") {
+                    if (mascota.estado === "Disponible") {
                         select.innerHTML += `<option value="${mascota.id_mascotas}">
                             ${mascota.nombre} - ${mascota.especie}
                         </option>`;
@@ -271,7 +271,7 @@ class Adopciones {
 
             // 🛑 FILTRO DE ESTADO APLICADO: Solo mascotas con estado "Adoptado" O la mascota seleccionada
             response["listaMascotas"].forEach(m => {
-                if (m.estado === "Adoptado" || m.id_mascotas == mascotaSel) {
+                if (m.estado === "Disponible" || m.id_mascotas == mascotaSel) {
                     select.innerHTML += `
                         <option value="${m.id_mascotas}" ${m.id_mascotas == mascotaSel ? "selected" : ""}>
                             ${m.nombre} - ${m.especie}
