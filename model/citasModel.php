@@ -75,13 +75,6 @@ class CitasModel
         return $stmt->fetch();
     }
 
-    public static function mdlObtenerFechasOcupadas() {
-        try {
-            $stmt = Conexion::conectar()->prepare("SELECT fecha_cita FROM citas");
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_COLUMN);
-        } catch (Exception $e) { return []; }
-    }
 
     static public function mdlObtenerCita($id_citas)
     {

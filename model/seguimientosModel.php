@@ -40,6 +40,7 @@ class SeguimientosMascotasModel
                 SELECT 
                     a.id_adopciones,
                     a.estado,
+                    a.fecha_adopcion, 
                     m.nombre AS nombre_mascota,
                     ad.nombre_completo AS nombre_adoptante
                 FROM adopciones a

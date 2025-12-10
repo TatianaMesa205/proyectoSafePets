@@ -154,15 +154,11 @@ class CitasController
         die();
     }
 
-    public function ctrTraerFechas() {
-        $fechas = CitasModel::mdlObtenerFechasOcupadas();
-        ob_clean(); header('Content-Type: application/json'); echo json_encode($fechas); die();
-    }
+    
 }
 
 // --- MANEJO DE PETICIONES ---
 
-if (isset($_POST["traerFechas"]) == "ok") { $obj = new CitasController(); $obj->ctrTraerFechas(); }
 if (isset($_POST["listarCitas"]) && $_POST["listarCitas"] == "ok") { $obj = new CitasController(); $obj->ctrListarCitas(); }
 if (isset($_POST["eliminarCita"]) == "ok") { $obj = new CitasController(); $obj->id_citas = $_POST["id_citas"]; $obj->ctrEliminarCita(); }
 
