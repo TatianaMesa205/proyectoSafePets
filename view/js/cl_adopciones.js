@@ -26,33 +26,32 @@ class Adopciones {
                 let dataSet = [];
 
                 response["listaAdopciones"].forEach(item=>{
-                    let botones = `
-                        <div class="btn-group">
-                          <button id="btn-editarAdopcion" class="btn" style="background-color:rgba(223, 179, 147, 1); border-color:pink;color:white"
-                            adopcion="${item.id_adopciones}"
-                            mascota="${item.id_mascotas}"
-                            adoptante="${item.id_adoptantes}"
-                            fecha="${item.fecha_adopcion}"
-                            estado="${item.estado}"
-                            observaciones="${item.observaciones}"
-                            contrato="${item.contrato}">
-                            <i class="bi bi-pencil"></i>
-                          </button>
-                          <button id="btn-eliminarAdopcion" class="btn" style="background-color:rgba(112, 110, 120, 1); color:white"
-                            adopcion="${item.id_adopciones}">
-                            <i class="bi bi-trash"></i>
-                          </button>
-                        </div>`;
-                    dataSet.push([
-                        item.nombre_mascota,    
-                        item.nombre_adoptante,  
-                        item.fecha_adopcion,
-                        item.estado,
-                        item.observaciones,
-                        item.contrato ? `<a href="../../../CarpetaCompartida/Contratos/${item.contrato}" target="_blank">Ver contrato</a>`: '—',
-                        botones
-                    ]);
-
+                        let botones = `
+                            <div class="btn-group">
+                              <button id="btn-editarAdopcion" class="btn" style="background-color:rgba(223, 179, 147, 1); border-color:pink;color:white"
+                                adopcion="${item.id_adopciones}"
+                                mascota="${item.id_mascotas}"
+                                adoptante="${item.id_adoptantes}"
+                                fecha="${item.fecha_adopcion}"
+                                estado="${item.estado}"
+                                observaciones="${item.observaciones}"
+                                contrato="${item.contrato}">
+                                <i class="bi bi-pencil"></i>
+                              </button>
+                              <button id="btn-eliminarAdopcion" class="btn" style="background-color:rgba(112, 110, 120, 1); color:white"
+                                adopcion="${item.id_adopciones}">
+                                <i class="bi bi-trash"></i>
+                              </button>
+                            </div>`;
+                        dataSet.push([
+                            item.nombre_mascota,    
+                            item.nombre_adoptante,  
+                            item.fecha_adopcion,
+                            item.estado,
+                            item.observaciones,
+                            item.contrato ? `<a href="../../../CarpetaCompartida/Contratos/${item.contrato}" target="_blank">Ver contrato</a>`: '—',
+                            botones
+                        ]);
                 });
                 $("#tablaAdopciones").DataTable({
                     dom: "Bfrtip",
@@ -126,7 +125,7 @@ class Adopciones {
         if (archivoNuevo) {
             objData.append("contrato", archivoNuevo);
         }
- 
+    
         objData.append("contrato_actual", this._objData.contrato);
 
         fetch("controller/adopcionesController.php", {
@@ -204,8 +203,6 @@ class Adopciones {
         this.cargarAdoptantes();
     }
 
-    // Dentro de la clase Adopciones:
-
     cargarMascotas() {
         let objData = new FormData();
         objData.append("listarMascotas", "ok");
@@ -220,15 +217,15 @@ class Adopciones {
                 let select = document.getElementById("select_mascotas");
                 select.innerHTML = '<option value="">Seleccione una mascota</option>';
 
-                // 🛑 MODIFICACIÓN AQUÍ: Filtramos las mascotas por estado "Adoptado"
+                // 🛑 FILTRO DE ESTADO APLICADO: Solo mascotas con estado "Adoptado" para el registro
                 response["listaMascotas"].forEach(mascota => {
-                    if (mascota.estado === "Disponible") { // Solo si el estado es 'Adoptado'
+                    if (mascota.estado === "Adoptado") {
                         select.innerHTML += `<option value="${mascota.id_mascotas}">
                             ${mascota.nombre} - ${mascota.especie}
                         </option>`;
                     }
                 });
-                // 🛑 FIN MODIFICACIÓN
+                // 🛑 FIN FILTRO DE ESTADO APLICADO
             }
         });
     }
@@ -257,8 +254,6 @@ class Adopciones {
         });
     }
 
-    // Dentro de la clase Adopciones:
-
     cargarSelectsEditar(mascotaSel, adoptanteSel) {
 
         let objMascotas = new FormData();
@@ -274,25 +269,38 @@ class Adopciones {
             let select = document.getElementById("select_edit_mascotas");
             select.innerHTML = '<option value="">Seleccione una mascota</option>';
 
-            // 🛑 MODIFICACIÓN AQUÍ: Filtramos las mascotas por estado "Adoptado"
+            // 🛑 FILTRO DE ESTADO APLICADO: Solo mascotas con estado "Adoptado" O la mascota seleccionada
             response["listaMascotas"].forEach(m => {
-                // Aseguramos que la mascota esté adoptada O que sea la mascota seleccionada originalmente
-                // (para que no desaparezca del select si su estado cambió después)
-                if (m.estado === "Disponible" || m.id_mascotas == mascotaSel) { 
-                    let selected = m.id_mascotas == mascotaSel ? "selected" : "";
+                if (m.estado === "Adoptado" || m.id_mascotas == mascotaSel) {
                     select.innerHTML += `
-                        <option value="${m.id_mascotas}" ${selected}>
+                        <option value="${m.id_mascotas}" ${m.id_mascotas == mascotaSel ? "selected" : ""}>
                             ${m.nombre} - ${m.especie}
                         </option>`;
                 }
             });
-            // 🛑 FIN MODIFICACIÓN
+            // 🛑 FIN FILTRO DE ESTADO APLICADO
         });
 
-        // ... (El resto del código para cargar Adoptantes permanece igual)
-        // ...
-        // ...
+        let objAdopt = new FormData();
+        objAdopt.append("listarAdoptantes", "ok");
+
+        fetch("controller/adoptantesController.php", {
+            method: "POST",
+            body: objAdopt
+        })
+        .then(r => r.json())
+        .then(response => {
+            let select = document.getElementById("select_edit_adoptantes");
+
+            select.innerHTML = '<option value="">Seleccione un adoptante</option>';
+
+            response["listaAdoptantes"].forEach(a => {
+                select.innerHTML += `
+                    <option value="${a.id_adoptantes}" ${a.id_adoptantes == adoptanteSel ? "selected" : ""}>
+                        ${a.nombre_completo}
+                    </option>`;
+            });
+        });
+
     }
 }
-
-

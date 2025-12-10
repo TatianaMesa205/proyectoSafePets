@@ -102,8 +102,27 @@ class AdopcionesController
             $this->contrato 
         );
 
+        if ($objRespuesta['codigo'] === "200" && $this->estado === "Adoptado") {
+        
+            // 2. Llamamos a la función del modelo de mascotas para cambiar el estado
+            // (Asumiendo que 'MascotasModel::mdlActualizarEstadoMascota' ya existe)
+            $mascotaUpdate = MascotasModel::mdlActualizarEstadoMascota(
+                $this->mascotas_id, // Usamos la ID de la mascota asociada
+                "Adoptado"          // Nuevo estado fijo
+            );
+            
+            // 3. Opcional: Si el estado de la mascota no se pudo actualizar, 
+            // notificamos al usuario en el mensaje de respuesta.
+            if ($mascotaUpdate['codigo'] !== "200") {
+                $objRespuesta['mensaje'] .= " Advertencia: La adopción fue editada, pero hubo un problema al actualizar el estado de la mascota: " . $mascotaUpdate['mensaje'];
+            }
+        }
+
         echo json_encode($objRespuesta);
     }
+
+
+
     static public function ctrContarAdopciones(){
         // Verifica que la clase AdopcionesModel tenga el método creado
         $respuesta = AdopcionesModel::mdlContarAdopciones();

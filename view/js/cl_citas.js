@@ -246,7 +246,9 @@ class Citas {
                 select.innerHTML = '<option value="">Seleccione una mascota</option>';
                 
                 response["listaMascotas"].forEach(mascota => {
-                    select.innerHTML += `<option value="${mascota.id_mascotas}">${mascota.nombre} - ${mascota.especie}</option>`;
+                    if (mascota.estado === "Disponible") {
+                        select.innerHTML += `<option value="${mascota.id_mascotas}">${mascota.nombre} - ${mascota.especie}</option>`;
+                    }
                 });
             }
         })
