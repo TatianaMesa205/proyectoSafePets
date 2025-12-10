@@ -19,6 +19,49 @@ $(document).ready(function() {
         $("#panelTablaSeguimientos").show();
     });
 
+    // ----------------------------------------------------
+    // INICIO: VALIDACIÓN DE FECHA vs ADOPCIÓN
+    // ----------------------------------------------------
+    function validarFechaSeguimiento(selectId, dateInputId) {
+        var opcionSeleccionada = $(selectId).find(':selected');
+        var fechaAdopcion = opcionSeleccionada.attr('data-fecha'); // Obtenemos la fecha del atributo data
+        var fechaVisita = $(dateInputId).val();
+
+        if (fechaAdopcion && fechaVisita) {
+            // Convertimos a objetos Date para comparar correctamente
+            // Nota: Agregamos "T00:00:00" o ajustamos horas para evitar problemas de zona horaria si es necesario.
+            // Una forma simple es comparar timestamps de fecha pura.
+            var dateAdopcion = new Date(fechaAdopcion);
+            var dateVisita = new Date(fechaVisita);
+            
+            // Ajustamos horas a 0 para comparar solo el día calendario
+            dateAdopcion.setHours(0,0,0,0);
+            dateVisita.setHours(0,0,0,0);
+
+            if (dateVisita < dateAdopcion) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Fecha inválida',
+                    text: `La visita no puede ser anterior a la fecha de adopción (${fechaAdopcion}).`,
+                    confirmButtonColor: '#8b5e3c'
+                });
+                $(dateInputId).val(""); // Limpiamos la fecha incorrecta
+            }
+        }
+    }
+
+    // Eventos para el formulario de REGISTRO
+    $("#select_adopciones, #txt_fecha_visita").on("change", function() {
+        validarFechaSeguimiento("#select_adopciones", "#txt_fecha_visita");
+    });
+
+    // Eventos para el formulario de EDICIÓN
+    $("#select_edit_adopciones, #txt_edit_fecha_visita").on("change", function() {
+        validarFechaSeguimiento("#select_edit_adopciones", "#txt_edit_fecha_visita");
+    });
+    // ----------------------------------------------------
+    // FIN: VALIDACIÓN DE FECHA
+    // ----------------------------------------------------
 
 
     $("#formRegistroSeguimiento").on("submit", function(e) {
@@ -60,8 +103,6 @@ $(document).ready(function() {
         });
     });
 
-
-
     $("#formEditarSeguimiento").on("submit", function(e) {
         e.preventDefault();
         
@@ -98,8 +139,6 @@ $(document).ready(function() {
             }
         });
     });
-
-
 
     $("#tablaSeguimientos tbody").on("click", ".btnEliminar", function() {
         var data = $("#tablaSeguimientos").DataTable().row($(this).parents("tr")).data();
@@ -139,8 +178,6 @@ $(document).ready(function() {
         });
     });
 });
-
-
 
 function listarSeguimientos() {
     $("#tablaSeguimientos").DataTable({
@@ -186,10 +223,14 @@ function cargarSelectAdopciones() {
                 respuesta.listaAdopciones.forEach(function(item) {
                     var estado = (item.estado || "").toString().trim().toLowerCase();
                     if (estado === "adoptado") {
-                        opciones += `<option value="${item.id_adopciones}" data-estado="Adoptado">${item.nombre_mascota} - ${item.nombre_adoptante}</option>`;
+                        // AQUÍ AGREGAMOS EL ATRIBUTO DATA-FECHA
+                        opciones += `<option value="${item.id_adopciones}" 
+                                             data-estado="Adoptado"
+                                             data-fecha="${item.fecha_adopcion}">
+                                        ${item.nombre_mascota} - ${item.nombre_adoptante}
+                                     </option>`;
                     }
                 });
-
                 
                 if (opciones === '<option value="">Seleccione una adopción...</option>') {
                     opciones = '<option value="">No hay adopciones en estado Adoptado</option>';

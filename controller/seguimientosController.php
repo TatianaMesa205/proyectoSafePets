@@ -8,19 +8,22 @@ class SeguimientosMascotasController
     public $fecha_visita;
     public $observacion;
 
+    // 1. LISTAR SEGUIMIENTOS (Tabla principal)
     public function ctrListarSeguimientos()
     {
         $objRespuesta = SeguimientosMascotasModel::mdlListarSeguimientos();
         echo json_encode($objRespuesta);
     }
 
-    // NUEVO: Para llenar el select
+    // 2. LISTAR ADOPCIONES (Para el Select)
+    // Este método llamará al Modelo que ahora incluye la "fecha_adopcion"
     public function ctrListarAdopcionesSelect()
     {
         $objRespuesta = SeguimientosMascotasModel::mdlListarAdopcionesParaSelect();
         echo json_encode($objRespuesta);
     }
 
+    // 3. REGISTRAR
     public function ctrRegistrarSeguimiento()
     {
         $objRespuesta = SeguimientosMascotasModel::mdlRegistrarSeguimiento(
@@ -31,6 +34,7 @@ class SeguimientosMascotasController
         echo json_encode($objRespuesta);
     }
 
+    // 4. EDITAR
     public function ctrEditarSeguimiento()
     {
         $objRespuesta = SeguimientosMascotasModel::mdlEditarSeguimiento(
@@ -42,6 +46,7 @@ class SeguimientosMascotasController
         echo json_encode($objRespuesta);
     }
 
+    // 5. ELIMINAR
     public function ctrEliminarSeguimiento()
     {
         $objRespuesta = SeguimientosMascotasModel::mdlEliminarSeguimiento($this->id_seguimientos);
@@ -61,7 +66,7 @@ if (isset($_POST["listarAdopcionesSelect"]) && $_POST["listarAdopcionesSelect"] 
     $obj->ctrListarAdopcionesSelect();
 }
 
-if (isset($_POST["registrarSeguimiento"]) == "ok") {
+if (isset($_POST["registrarSeguimiento"]) && $_POST["registrarSeguimiento"] == "ok") {
     $obj = new SeguimientosMascotasController();
     $obj->id_adopciones = $_POST["id_adopciones"];
     $obj->fecha_visita = $_POST["fecha_visita"];
@@ -69,7 +74,7 @@ if (isset($_POST["registrarSeguimiento"]) == "ok") {
     $obj->ctrRegistrarSeguimiento();
 }
 
-if (isset($_POST["editarSeguimiento"]) == "ok") {
+if (isset($_POST["editarSeguimiento"]) && $_POST["editarSeguimiento"] == "ok") {
     $obj = new SeguimientosMascotasController();
     $obj->id_seguimientos = $_POST["id_seguimientos"];
     $obj->id_adopciones = $_POST["id_adopciones"];
@@ -78,7 +83,7 @@ if (isset($_POST["editarSeguimiento"]) == "ok") {
     $obj->ctrEditarSeguimiento();
 }
 
-if (isset($_POST["eliminarSeguimiento"]) == "ok") {
+if (isset($_POST["eliminarSeguimiento"]) && $_POST["eliminarSeguimiento"] == "ok") {
     $obj = new SeguimientosMascotasController();
     $obj->id_seguimientos = $_POST["id_seguimientos"];
     $obj->ctrEliminarSeguimiento();
