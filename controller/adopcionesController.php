@@ -1,6 +1,7 @@
 <?php
 include_once "../model/adopcionesModel.php";
 include_once "../model/mascotasModel.php";
+include_once "../model/adoptantesModel.php"; // Agregado para acceder al filtro de adoptantes
 
 class AdopcionesController
 {
@@ -15,6 +16,13 @@ class AdopcionesController
     public function ctrListarAdopciones()
     {
         $objRespuesta = AdopcionesModel::mdlListarAdopciones();
+        echo json_encode($objRespuesta);
+    }
+    
+    // Nueva función para listar solo adoptantes disponibles (no en proceso)
+    public function ctrListarAdoptantesDisponibles()
+    {
+        $objRespuesta = AdoptantesModel::mdlListarAdoptantesDisponibles();
         echo json_encode($objRespuesta);
     }
 
@@ -137,6 +145,12 @@ if (isset($_POST["listarAdopciones"]) && $_POST["listarAdopciones"] == "ok") {
     $obj->ctrListarAdopciones();
 }
 
+// Nueva validación POST para listar adoptantes disponibles
+if (isset($_POST["listarAdoptantesDisponibles"]) && $_POST["listarAdoptantesDisponibles"] == "ok") {
+    $obj = new AdopcionesController();
+    $obj->ctrListarAdoptantesDisponibles();
+}
+
 if (isset($_POST["eliminarAdopcion"]) && $_POST["eliminarAdopcion"] == "ok") {
     $obj = new AdopcionesController();
     $obj->id_adopciones = $_POST["id_adopciones"];
@@ -163,4 +177,4 @@ if (isset($_POST["editarAdopcion"]) && $_POST["editarAdopcion"] == "ok") {
     $obj->observaciones = $_POST["observaciones"] ?? "";
     $obj->ctrEditarAdopcion();
 }
-
+?>

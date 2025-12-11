@@ -38,10 +38,7 @@ class Adopciones {
                                 contrato="${item.contrato}">
                                 <i class="bi bi-pencil"></i>
                               </button>
-                              <button id="btn-eliminarAdopcion" class="btn" style="background-color:rgba(112, 110, 120, 1); color:white"
-                                adopcion="${item.id_adopciones}">
-                                <i class="bi bi-trash"></i>
-                              </button>
+                             
                             </div>`;
                         dataSet.push([
                             item.nombre_mascota,    
@@ -231,10 +228,12 @@ class Adopciones {
     }
 
     cargarAdoptantes() {
+        // MODIFICADO: Solicitamos 'listarAdoptantesDisponibles' a adopcionesController
         let objData = new FormData();
-        objData.append("listarAdoptantes", "ok");
+        objData.append("listarAdoptantesDisponibles", "ok");
 
-        fetch("controller/adoptantesController.php", {
+        // Nota: Cambiamos la ruta a adopcionesController.php porque ahí agregamos la lógica del filtro
+        fetch("controller/adopcionesController.php", {
             method: "POST",
             body: objData
         })

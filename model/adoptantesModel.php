@@ -31,6 +31,37 @@ class AdoptantesModel
         return $mensaje;
     }
 
+    public static function mdlListarAdoptantesDisponibles()
+    {
+        $mensaje = array();
+        try {
+            $sql = "SELECT 
+                        a.*, 
+                        u.nombre_usuario,
+                        u.email AS email_usuario
+                    FROM adoptantes a
+                    INNER JOIN usuarios u 
+                        ON a.email = u.email
+                    WHERE u.id_roles = 2
+                    AND a.id_adoptantes NOT IN (
+                        SELECT id_adoptantes 
+                        FROM adopciones 
+                        WHERE estado = 'En proceso'
+                    )
+                    ORDER BY a.nombre_completo ASC";
+
+            $stmt = Conexion::conectar()->prepare($sql);
+            $stmt->execute();
+            
+            $lista = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $mensaje = array("codigo" => "200", "listaAdoptantes" => $lista);
+            
+        } catch (Exception $e) {
+            $mensaje = array("codigo" => "401", "mensaje" => $e->getMessage());
+        }
+        return $mensaje;
+    }
+
 
     public static function mdlMostrarAdoptante($item, $valor)
     {
