@@ -100,7 +100,7 @@ class Citas {
                     background: "#fff url(/images/trees.png)",
                     backdrop: `
                         rgba(0,0,123,0.4)
-                        url("https://i.pinimg.com/originals/ba/c1/cd/bac1cdc1522ec6e9305e9e9b38b20bfd.gif")
+                        url("")
                         left top
                         no-repeat
                     `,timer: 6000
@@ -148,7 +148,7 @@ class Citas {
                     background: "#fff url(/images/trees.png)",
                     backdrop: `
                         rgba(0,0,123,0.4)
-                        url("https://i.pinimg.com/originals/3a/fb/fa/3afbfa4d4048a3dbbd56fac372de781f.gif")
+                        url("")
                         left top
                         no-repeat
                     `,timer: 1600

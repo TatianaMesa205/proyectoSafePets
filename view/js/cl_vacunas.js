@@ -69,7 +69,7 @@ class Vacunas {
                     background: "#fff",
                     backdrop: `
                         rgba(0,0,123,0.4)
-                        url("https://i.pinimg.com/originals/ba/c1/cd/bac1cdc1522ec6e9305e9e9b38b20bfd.gif")
+                        url("")
                         left top
                         no-repeat
                     `,
