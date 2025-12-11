@@ -61,6 +61,39 @@
             box-shadow: 0 0 0 0.2rem rgba(196, 164, 132, 0.25);
             background-color: #ffffff;
         }
+        
+        /* === INICIO DE AJUSTES SOLICITADOS === */
+        /* Asegura que el input de contraseña tenga el mismo radio izquierdo y sin radio derecho */
+        #contrasena {
+            border-radius: 10px 0 0 10px !important;
+        }
+        /* Ajusta el radio de borde del botón para completar el redondeo a la derecha */
+        #togglePassword {
+            /* Mismo estilo que antes, pero forzando el border-radius para el input-group */
+            background-color: #e6d7c5; /* beige suave */
+            border: 2px solid #d5c4b3;
+            color: #7a6f67;
+            border-radius: 0 10px 10px 0 !important; /* Bordes solo a la derecha */
+            transition: all 0.3s ease;
+            
+            /* Ajuste de alineación para que el borde del input y el botón se vean mejor */
+            border-left: none; /* Eliminar el borde vertical entre el input y el botón */
+            padding-right: 15px; /* Pequeño ajuste en el padding derecho para el ojo */
+        }
+        /* El tamaño de la fuente del icono */
+        #eyeIcon {
+            color: #7a6f67; 
+            font-size: 1.2rem;
+        }
+        
+        #togglePassword:hover {
+            background-color: #d9c7b4; 
+            border-color: #c7b29f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        /* === FIN DE AJUSTES SOLICITADOS === */
+
 
         .btn-primary {
             background: linear-gradient(to right, #d6baa5, #c4a484);
@@ -171,13 +204,22 @@
                                 <label for="contrasena" class="form-label">
                                     <i class="fas fa-lock me-2"></i>Contraseña
                                 </label>
-                                <input type="password" 
-                                       class="form-control form-control-lg" 
-                                       id="contrasena" 
-                                       name="contrasena" 
-                                       placeholder="Ingrese su contraseña"
-                                       required
-                                       minlength="6">
+                                
+                                <div class="input-group input-group-lg"> 
+                                    <input type="password" 
+                                        class="form-control form-control-lg"    
+                                        id="contrasena" 
+                                        name="contrasena" 
+                                        placeholder="Ingrese su contraseña"
+                                        required
+                                        minlength="6">
+                                        
+                                    <button class="btn btn-outline-secondary btn-lg" type="button" id="togglePassword">
+                                        <i class="fas fa-eye-slash" id="eyeIcon"></i>
+                                    </button>
+                                </div>
+
+                                
                                 <div class="invalid-feedback">
                                     Por favor ingrese su contraseña.
                                 </div>
@@ -194,19 +236,46 @@
                                 </p>
                                 <p class="text-muted mb-0">
                                     ¿No estás registrado? <a href="index.php?ruta=registro" class="text-primary">Crear cuenta</a>
-                
+                                </p>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
 
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="view/js/login.js"></script>
+
+    <script>
+        // Obtener los elementos por sus IDs
+        const togglePassword = document.getElementById('togglePassword');
+        const contrasenaInput = document.getElementById('contrasena');
+        const eyeIcon = document.getElementById('eyeIcon');
+
+        if (togglePassword && contrasenaInput && eyeIcon) {
+            togglePassword.addEventListener('click', function () {
+                // Determinar si el tipo actual es 'password' o 'text'
+                const type = contrasenaInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                
+                // 1. Cambiar el tipo del campo de entrada
+                contrasenaInput.setAttribute('type', type);
+                
+                // 2. Cambiar el icono del ojo
+                if (type === 'text') {
+                    // Si la contraseña se está mostrando, poner el icono de ojo abierto
+                    eyeIcon.classList.remove('fa-eye-slash');
+                    eyeIcon.classList.add('fa-eye');
+                } else {
+                    // Si la contraseña está oculta, poner el icono de ojo cerrado
+                    eyeIcon.classList.remove('fa-eye');
+                    eyeIcon.classList.add('fa-eye-slash');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
