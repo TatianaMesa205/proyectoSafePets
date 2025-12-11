@@ -68,9 +68,13 @@
           <label>Observaciones</label>
           <textarea id="txt_observaciones" class="form-control rounded-3" rows="3"></textarea>
         </div>
+        <!-- CHANGE: Contrato ahora es obligatorio con required -->
         <div class="col-md-12">
-          <label>Contrato (PDF o imagen)</label>
-          <input type="file" id="file_contrato" class="form-control rounded-3" accept=".pdf,.jpg,.jpeg,.png">
+          <label>Contrato (PDF o imagen) <span class="text-danger">*</span></label>
+          <input type="file" id="file_contrato" class="form-control rounded-3" accept=".pdf,.jpg,.jpeg,.png" required>
+          <div class="invalid-feedback">
+              El contrato es obligatorio.
+          </div>
         </div>
       </div>
       <div class="d-flex gap-2 mt-4 justify-content-center">
@@ -122,7 +126,6 @@
         <div class="col-md-12">
             <label>Contrato (PDF o imagen)</label>
 
-            <!-- 🔥 ESTE ES EL LINK QUE FALTABA -->
             <a id="linkContratoActual" 
               href="#" 
               target="_blank" 
