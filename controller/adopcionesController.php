@@ -1,7 +1,7 @@
 <?php
 include_once "../model/adopcionesModel.php";
 include_once "../model/mascotasModel.php";
-include_once "../model/adoptantesModel.php"; // Agregado para acceder al filtro de adoptantes
+include_once "../model/adoptantesModel.php"; 
 
 class AdopcionesController
 {

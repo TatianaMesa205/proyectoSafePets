@@ -26,9 +26,7 @@ if (file_exists($adpModelPath)) {
 
 class LoginControlador {
 
-    /* ==============================================
-       LOGIN
-    ============================================== */
+   
     public function ctrLogin() {
         try {
             if (!isset($_POST['nombre_usuario'], $_POST['contrasena'])) {
@@ -62,9 +60,7 @@ class LoginControlador {
         }
     }
 
-    /* ==============================================
-       REGISTRO UNIFICADO (Usuario + Adoptante)
-    ============================================== */
+   
     public function ctrRegistro() {
         try {
             // Recoger todos los datos del formulario unificado
@@ -94,9 +90,7 @@ class LoginControlador {
         }
     }
     
-    /* ==============================================
-       CREAR ADMIN
-    ============================================== */
+   
     public function ctrCrearAdmin() {
         if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') {
              $nombre = $_POST['nombre_usuario'] ?? '';
@@ -110,9 +104,7 @@ class LoginControlador {
         }
     }
 
-    /* ==============================================
-       ACTUALIZAR PERFIL
-    ============================================== */
+ 
     public function ctrActualizarPerfil() {
         try {
             if (!isset($_SESSION['iniciarSesion']) || !isset($_SESSION['id'])) {
@@ -173,9 +165,7 @@ class LoginControlador {
         }
     }
 
-    /* ==============================================
-       LOGOUT
-    ============================================== */
+    
     public function ctrLogout() {
         session_unset();
         session_destroy();
